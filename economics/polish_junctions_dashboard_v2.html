@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Polish Railway Junctions — junction stations dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:        #f4ecd8;
+    --paper-dark:   #e8dcb8;
+    --paper-edge:   #c9b88a;
+    --ink:          #1a2742;
+    --ink-soft:     #3a4a6f;
+    --rail-red:     #a8201a;
+    --rail-rust:    #8b3a1a;
+    --rail-gold:    #c9a449;
+    --rail-line:    #2c3a5a;
+    --signal-green: #3d6b3d;
+    --shadow:       0 2px 0 rgba(26, 39, 66, 0.08);
+
+    /* Trend palette */
+    --trend-red:    #b03a2e;
+    --trend-yellow: #c89e2a;
+    --trend-green:  #4a7a3e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Paper texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(139, 90, 43, 0.04) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(139, 90, 43, 0.03) 0%, transparent 50%),
+      repeating-linear-gradient(
+        90deg,
+        transparent 0,
+        transparent 2px,
+        rgba(26, 39, 66, 0.005) 2px,
+        rgba(26, 39, 66, 0.005) 4px
+      );
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 40px 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* HEADER — masthead like an old timetable cover */
+  .masthead {
+    border-top: 4px double var(--ink);
+    border-bottom: 4px double var(--ink);
+    padding: 24px 0;
+    margin-bottom: 8px;
+    text-align: center;
+    position: relative;
+  }
+  .masthead::before, .masthead::after {
+    content: '◆';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--rail-red);
+    font-size: 14px;
+  }
+  .masthead::before { left: 16px; }
+  .masthead::after  { right: 16px; }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(38px, 5.5vw, 62px);
+    line-height: 0.95;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .title em {
+    font-style: italic;
+    color: var(--rail-red);
+  }
+  .subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-top: 14px;
+  }
+  .subtitle span { color: var(--ink); font-weight: 700; }
+
+  /* meta strip */
+  .meta-strip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--paper-edge);
+    margin-bottom: 24px;
+  }
+  .meta-strip .left,
+  .meta-strip .right {
+    display: flex;
+    gap: 24px;
+  }
+  .meta-strip strong {
+    color: var(--ink);
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    border-bottom: 2px solid var(--ink);
+  }
+  .tab {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 16px 28px 14px;
+    position: relative;
+    transition: color 0.2s;
+    border-right: 1px solid var(--paper-edge);
+  }
+  .tab:hover { color: var(--ink); }
+  .tab.active {
+    color: var(--ink);
+    background: var(--paper-dark);
+  }
+  .tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--rail-red);
+  }
+  .tab .num {
+    color: var(--rail-red);
+    font-weight: 700;
+    margin-right: 8px;
+  }
+
+  /* PANELS */
+  .panel {
+    display: none;
+    padding: 32px 0;
+    animation: fadeIn 0.35s ease;
+  }
+  .panel.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== MAP PANEL ===== */
+  .map-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 32px;
+  }
+  .map-container {
+    position: relative;
+    background: #1a2742;
+    border: 2px solid var(--ink);
+    box-shadow: 6px 6px 0 var(--paper-edge);
+    overflow: hidden;
+  }
+  .map-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .map-corner-mark {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: rgba(244, 236, 216, 0.5);
+    text-transform: uppercase;
+  }
+  .map-scale-mark {
+    position: absolute;
+    bottom: 12px;
+    right: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: rgba(244, 236, 216, 0.5);
+    text-transform: uppercase;
+  }
+
+  /* Station markers */
+  .station-group { cursor: pointer; }
+  .station-dot {
+    fill: var(--rail-red);
+    stroke: #f4ecd8;
+    stroke-width: 1.5;
+    transition: all 0.2s;
+  }
+  .station-halo {
+    fill: var(--rail-red);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .station-group:hover .station-halo { opacity: 0.35; }
+  .station-group:hover .station-dot { stroke: var(--rail-gold); stroke-width: 2.5; r: 6.5; }
+  .station-group.selected .station-dot { stroke: var(--rail-gold); stroke-width: 3; r: 7; }
+  .station-group.selected .station-halo { opacity: 0.5; }
+
+  .station-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    fill: rgba(244, 236, 216, 0.85);
+    pointer-events: none;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .station-group:hover .station-label,
+  .station-group.selected .station-label {
+    fill: var(--rail-gold);
+    font-weight: 700;
+  }
+
+  /* Trend-colored station dots */
+  .station-dot.trend-red    { fill: var(--trend-red); }
+  .station-dot.trend-yellow { fill: var(--trend-yellow); }
+  .station-dot.trend-green  { fill: var(--trend-green); }
+  .station-halo.trend-red    { fill: var(--trend-red); }
+  .station-halo.trend-yellow { fill: var(--trend-yellow); }
+  .station-halo.trend-green  { fill: var(--trend-green); }
+
+  /* Map legend (overlay bottom-left of map) */
+  .map-legend {
+    position: absolute;
+    bottom: 12px;
+    left: 14px;
+    background: rgba(26, 39, 66, 0.85);
+    border: 1px solid rgba(244, 236, 216, 0.4);
+    padding: 10px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(244, 236, 216, 0.9);
+    line-height: 1.6;
+  }
+  .map-legend-title {
+    font-size: 8px;
+    color: rgba(244, 236, 216, 0.55);
+    margin-bottom: 6px;
+    letter-spacing: 0.2em;
+  }
+  .map-legend-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 3px;
+  }
+  .map-legend-row:last-child { margin-bottom: 0; }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid rgba(244, 236, 216, 0.7);
+    flex-shrink: 0;
+  }
+  .legend-dot.trend-red    { background: var(--trend-red); }
+  .legend-dot.trend-yellow { background: var(--trend-yellow); }
+  .legend-dot.trend-green  { background: var(--trend-green); }
+
+  /* Demographics block in info panel */
+  .demo-block {
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: var(--paper);
+    border-left: 4px solid var(--ink);
+  }
+  .demo-block.trend-red    { border-left-color: var(--trend-red); }
+  .demo-block.trend-yellow { border-left-color: var(--trend-yellow); }
+  .demo-block.trend-green  { border-left-color: var(--trend-green); }
+  .demo-block-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .demo-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    padding: 4px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+  .demo-row-label {
+    color: var(--ink-soft);
+    letter-spacing: 0.05em;
+  }
+  .demo-row-value {
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .demo-change {
+    margin-top: 8px;
+    padding: 6px 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.1em;
+  }
+  .demo-change.trend-red    { background: var(--trend-red); color: var(--paper); }
+  .demo-change.trend-yellow { background: var(--trend-yellow); color: var(--ink); }
+  .demo-change.trend-green  { background: var(--trend-green); color: var(--paper); }
+
+  /* City card trend accent */
+  .city-card.trend-red    { border-left: 6px solid var(--trend-red); }
+  .city-card.trend-yellow { border-left: 6px solid var(--trend-yellow); }
+  .city-card.trend-green  { border-left: 6px solid var(--trend-green); }
+
+  .city-card-trends {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 14px;
+    padding: 12px;
+    background: var(--paper);
+    border: 1px dashed var(--paper-edge);
+  }
+  .trend-cell {
+    text-align: left;
+  }
+  .trend-cell-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+  }
+  .trend-cell-vals {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .trend-cell-vals .arrow {
+    color: var(--ink-soft);
+    margin: 0 4px;
+  }
+  .trend-cell-change {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 1px 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .trend-cell-change.trend-red    { background: var(--trend-red); color: var(--paper); }
+  .trend-cell-change.trend-yellow { background: var(--trend-yellow); color: var(--ink); }
+  .trend-cell-change.trend-green  { background: var(--trend-green); color: var(--paper); }
+  .trend-cell-change.price-up     { background: var(--ink); color: var(--paper); }
+
+  .city-ref-dot {
+    fill: rgba(244, 236, 216, 0.25);
+    stroke: rgba(244, 236, 216, 0.4);
+    stroke-width: 1;
+  }
+  .city-ref-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 8px;
+    fill: rgba(244, 236, 216, 0.45);
+    pointer-events: none;
+    font-style: italic;
+  }
+
+  .border-path {
+    fill: none;
+    stroke: rgba(244, 236, 216, 0.2);
+    stroke-width: 1;
+    stroke-dasharray: 2 3;
+  }
+  .country-shape {
+    fill: rgba(58, 74, 111, 0.4);
+    stroke: rgba(244, 236, 216, 0.35);
+    stroke-width: 1.2;
+  }
+
+  /* Hover panel */
+  .info-panel {
+    background: var(--paper-dark);
+    border: 2px solid var(--ink);
+    padding: 24px;
+    min-height: 500px;
+    box-shadow: 6px 6px 0 var(--paper-edge);
+    position: relative;
+  }
+  .info-panel-empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    color: var(--ink-soft);
+  }
+  .info-panel-empty .arrow {
+    font-size: 40px;
+    color: var(--rail-red);
+    margin-bottom: 16px;
+    animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(-8px); }
+  }
+  .info-panel-empty p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+
+  .info-rank {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--rail-red);
+    margin-bottom: 6px;
+  }
+  .info-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .info-city {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+  }
+  .info-divider {
+    height: 1px;
+    background: var(--ink);
+    margin: 16px 0;
+    position: relative;
+  }
+  .info-divider::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -3px;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    background: var(--paper-dark);
+    border: 1px solid var(--ink);
+    transform: translateX(-50%) rotate(45deg);
+  }
+  .info-stat {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px dotted var(--paper-edge);
+  }
+  .info-stat:last-child { border-bottom: none; }
+  .info-stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .info-stat-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    text-align: right;
+  }
+  .info-stat-value .unit {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-left: 4px;
+  }
+  .info-lines {
+    margin-top: 16px;
+    padding: 14px;
+    background: var(--paper);
+    border-left: 4px solid var(--rail-red);
+  }
+  .info-lines-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .info-lines-value {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .info-notes {
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 1.6;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  /* ===== TABLE PANEL ===== */
+  .table-wrap {
+    overflow-x: auto;
+    border: 2px solid var(--ink);
+    background: var(--paper-dark);
+    box-shadow: 6px 6px 0 var(--paper-edge);
+  }
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  table.data-table thead th {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 14px 12px;
+    text-align: left;
+    border-right: 1px solid rgba(244, 236, 216, 0.2);
+    white-space: nowrap;
+  }
+  table.data-table thead th:last-child { border-right: none; }
+  table.data-table tbody td {
+    padding: 12px 12px;
+    border-bottom: 1px dotted var(--paper-edge);
+    border-right: 1px dotted var(--paper-edge);
+    vertical-align: top;
+  }
+  table.data-table tbody td:last-child { border-right: none; }
+  table.data-table tbody tr:hover { background: rgba(168, 32, 26, 0.06); }
+  table.data-table tbody tr:nth-child(even) { background: rgba(26, 39, 66, 0.02); }
+  table.data-table tbody tr:nth-child(even):hover { background: rgba(168, 32, 26, 0.08); }
+  .station-cell {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .num-cell {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .pop-cell {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .voiv-cell {
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-transform: lowercase;
+    font-style: italic;
+    letter-spacing: 0.05em;
+  }
+  .lines-cell {
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+    max-width: 240px;
+  }
+  .notes-cell {
+    font-size: 11px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+    font-style: italic;
+    max-width: 220px;
+  }
+
+  /* ===== ROUTES PANEL ===== */
+  .routes-intro {
+    background: var(--paper-dark);
+    border: 2px solid var(--ink);
+    padding: 20px 28px;
+    margin-bottom: 24px;
+    box-shadow: 6px 6px 0 var(--paper-edge);
+  }
+  .routes-intro h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+  .routes-intro p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .routes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 20px;
+  }
+  .city-card {
+    background: var(--paper-dark);
+    border: 2px solid var(--ink);
+    padding: 20px 24px;
+    position: relative;
+    box-shadow: 4px 4px 0 var(--paper-edge);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .city-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--paper-edge);
+  }
+  .city-card-rank {
+    position: absolute;
+    top: -12px;
+    left: 16px;
+    background: var(--rail-red);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    padding: 4px 8px;
+  }
+  .city-card-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    line-height: 1;
+    margin-bottom: 4px;
+    margin-top: 4px;
+  }
+  .city-card-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+    letter-spacing: 0.05em;
+  }
+  .city-card-meta .pop {
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .city-card-section {
+    margin-top: 12px;
+  }
+  .city-card-section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rail-red);
+    margin-bottom: 6px;
+  }
+  .city-card-section-text {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .route-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2px 7px;
+    margin: 2px 4px 2px 0;
+    letter-spacing: 0.05em;
+  }
+  .route-tag.intl { background: var(--rail-red); }
+  .route-tag.cmk { background: var(--rail-gold); color: var(--ink); }
+
+  /* footer */
+  .footer-note {
+    margin-top: 60px;
+    padding-top: 24px;
+    border-top: 1px solid var(--paper-edge);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  /* Responsive */
+  @media (max-width: 1100px) {
+    .map-wrapper {
+      grid-template-columns: 1fr;
+    }
+    .info-panel {
+      min-height: auto;
+    }
+  }
+  @media (max-width: 700px) {
+    .container { padding: 20px 18px 40px; }
+    .tabs { overflow-x: auto; }
+    .tab { padding: 14px 18px 12px; font-size: 11px; }
+    .meta-strip { flex-direction: column; gap: 8px; align-items: flex-start; }
+    .meta-strip .left, .meta-strip .right { gap: 14px; flex-wrap: wrap; }
+    .routes-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div class="eyebrow">Office of Rail Transport (UTK) · 2024 · Estimates</div>
+    <h1 class="title">Polish Railway <em>Junctions</em></h1>
+    <div class="subtitle">Junction stations <span>·</span> mid-sized cities <span>·</span> >5 trains/hour</div>
+  </div>
+
+  <div class="meta-strip">
+    <div class="left">
+      <span><strong>17</strong> stations</span>
+      <span><strong>17/17</strong> pop falling</span>
+      <span><strong>17/17</strong> prices rising</span>
+      <span><strong>~120-300</strong> trains/day</span>
+    </div>
+    <div class="right">
+      <span>data ed. <strong>2024 / Q3 2025</strong></span>
+      <span>compiled <strong>2026-04</strong></span>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-tab="map" role="tab"><span class="num">01</span>Map</button>
+    <button class="tab" data-tab="table" role="tab"><span class="num">02</span>Table</button>
+    <button class="tab" data-tab="routes" role="tab"><span class="num">03</span>Routes & cities</button>
+  </div>
+
+  <!-- ====== MAP PANEL ====== -->
+  <div class="panel active" data-panel="map">
+    <div class="map-wrapper">
+      <div class="map-container">
+        <div class="map-corner-mark">14°E — 24°E · 49°N — 55°N</div>
+        <div class="map-scale-mark">scale ≈ 1:5,000,000</div>
+        <div class="map-legend">
+          <div class="map-legend-title">Population trend 2020-24</div>
+          <div class="map-legend-row"><span class="legend-dot trend-red"></span>Sharp fall ≤ -5%</div>
+          <div class="map-legend-row"><span class="legend-dot trend-yellow"></span>Mild fall -2 to -5%</div>
+          <div class="map-legend-row"><span class="legend-dot trend-green"></span>Near-flat &gt; -2%</div>
+        </div>
+        <svg class="map-svg" viewBox="0 0 700 600" xmlns="http://www.w3.org/2000/svg">
+          <!-- Poland border (simplified polygon) -->
+          <path class="country-shape" d="
+            M 152 218
+            L 168 188
+            L 195 162
+            L 235 144
+            L 268 138
+            L 305 130
+            L 340 122
+            L 378 126
+            L 410 138
+            L 440 145
+            L 472 158
+            L 498 172
+            L 525 192
+            L 548 220
+            L 562 256
+            L 568 295
+            L 562 330
+            L 555 365
+            L 548 395
+            L 540 425
+            L 528 452
+            L 510 472
+            L 482 488
+            L 450 498
+            L 415 502
+            L 380 502
+            L 345 498
+            L 312 490
+            L 282 478
+            L 255 462
+            L 228 442
+            L 205 418
+            L 188 392
+            L 175 365
+            L 165 335
+            L 158 302
+            L 152 268
+            Z" />
+
+          <!-- Major rail lines (schematic) - drawn before stations so dots overlay -->
+          <!-- E65: Warsaw - Gdańsk via Kutno-Iława-Tczew-Malbork -->
+          <g stroke="rgba(201, 164, 73, 0.6)" stroke-width="2.5" fill="none" stroke-linecap="round">
+            <!-- E65 spine -->
+            <path d="M 410 425 L 405 380 L 400 340 L 395 295 L 388 255 L 378 215 L 365 178 L 355 155" />
+            <!-- E20 Warsaw-Berlin via Kutno-Konin -->
+            <path d="M 200 320 L 240 320 L 285 318 L 330 318 L 380 320 L 425 322" />
+            <!-- E30 Wrocław-Berlin-Kraków -->
+            <path d="M 165 380 L 220 392 L 280 408 L 340 425 L 410 440 L 470 448 L 520 452" />
+            <!-- E59 Wrocław-Poznań via Leszno -->
+            <path d="M 245 305 L 250 345 L 252 392" />
+            <!-- Silesian crossroads -->
+            <path d="M 380 470 L 400 478 L 420 472 L 445 462" />
+          </g>
+
+          <!-- Reference cities (light) -->
+          <g class="ref-cities">
+            <!-- Warszawa -->
+            <circle class="city-ref-dot" cx="425" cy="322" r="4"/>
+            <text class="city-ref-label" x="432" y="318">Warszawa</text>
+            <!-- Kraków -->
+            <circle class="city-ref-dot" cx="425" cy="450" r="4"/>
+            <text class="city-ref-label" x="432" y="446">Kraków</text>
+            <!-- Wrocław -->
+            <circle class="city-ref-dot" cx="225" cy="392" r="4"/>
+            <text class="city-ref-label" x="180" y="408">Wrocław</text>
+            <!-- Poznań -->
+            <circle class="city-ref-dot" cx="252" cy="295" r="4"/>
+            <text class="city-ref-label" x="220" y="285">Poznań</text>
+            <!-- Gdańsk -->
+            <circle class="city-ref-dot" cx="350" cy="148" r="4"/>
+            <text class="city-ref-label" x="358" y="145">Gdańsk</text>
+            <!-- Łódź -->
+            <circle class="city-ref-dot" cx="338" cy="370" r="4"/>
+            <text class="city-ref-label" x="345" y="367">Łódź</text>
+            <!-- Szczecin -->
+            <circle class="city-ref-dot" cx="172" cy="208" r="4"/>
+            <text class="city-ref-label" x="155" y="200">Szczecin</text>
+            <!-- Lublin -->
+            <circle class="city-ref-dot" cx="528" cy="395" r="4"/>
+            <text class="city-ref-label" x="535" y="392">Lublin</text>
+            <!-- Katowice -->
+            <circle class="city-ref-dot" cx="370" cy="468" r="4"/>
+            <text class="city-ref-label" x="318" y="480">Katowice</text>
+            <!-- Białystok -->
+            <circle class="city-ref-dot" cx="525" cy="265" r="4"/>
+            <text class="city-ref-label" x="532" y="262">Białystok</text>
+            <!-- Olsztyn -->
+            <circle class="city-ref-dot" cx="430" cy="200" r="4"/>
+            <text class="city-ref-label" x="438" y="197">Olsztyn</text>
+            <!-- Rzeszów -->
+            <circle class="city-ref-dot" cx="510" cy="465" r="4"/>
+            <text class="city-ref-label" x="518" y="462">Rzeszów</text>
+            <!-- Bydgoszcz -->
+            <circle class="city-ref-dot" cx="290" cy="240" r="4"/>
+            <text class="city-ref-label" x="262" y="232">Bydgoszcz</text>
+          </g>
+
+          <!-- ===== STATION GROUPS — drawn dynamically by JS ===== -->
+          <g id="stations"></g>
+        </svg>
+      </div>
+
+      <div class="info-panel" id="info-panel">
+        <div class="info-panel-empty" id="info-empty">
+          <div class="arrow">←</div>
+          <p>Hover or<br>click a station<br>on the map</p>
+        </div>
+        <div id="info-content" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== TABLE PANEL ====== -->
+  <div class="panel" data-panel="table">
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Station</th>
+            <th>Pop. (k)</th>
+            <th>Voivodeship</th>
+            <th>Lines crossing</th>
+            <th>Trains/day</th>
+            <th>Trains/h</th>
+            <th>Pass. 2024 (mln)</th>
+            <th>Pop trend</th>
+            <th>Price PLN/m²</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ====== ROUTES PANEL ====== -->
+  <div class="panel" data-panel="routes">
+    <div class="routes-intro">
+      <h2>How these stations fit into Poland's rail network — plus city demographics &amp; price trends</h2>
+      <p>Each card shows the city's position on European corridors and Polish national lines, along with population change 2020-2024 (color-coded: <span style="color: var(--trend-red); font-weight: 700;">red = sharp fall ≤ -5%</span>, <span style="color: var(--trend-yellow); font-weight: 700;">yellow = mild -2 to -5%</span>, <span style="color: var(--trend-green); font-weight: 700;">green = near-flat &gt; -2%</span>) and apartment price change. Tags mark corridors - <strong>E20/E30/E59/E65</strong> are pan-European, <strong>CMK</strong> is the Central Trunk Line (Centralna Magistrala Kolejowa), numbered lines (e.g., 131, 353) are PKP PLK identifiers.</p>
+    </div>
+    <div class="routes-grid" id="routes-grid"></div>
+  </div>
+
+  <div class="footer-note">
+    Rail data · UTK "Wymiana pasażerska w 2024 r." [Passenger exchange 2024] (July 2025) <br>
+    Population · GUS BDL + Polska w liczbach (95% conf. on direction, 85% on exact 2024 figures) · Apartment prices · SonarHome / Tabelaofert / Cenogram aggregators (75% conf. on 2024-25, 55% on 2020 baselines for cities &lt;50k)<br>
+    Train counts and passenger numbers below the top-15 stations are estimates · Voivodeship capitals, Tri-City, Warsaw &amp; Łódź agglomerations excluded by design
+  </div>
+
+</div>
+
+<script>
+// Trend tier: "red" = sharp pop decline (≤-5%), "yellow" = mild (-2 to -5%), "green" = near-flat (>-2%)
+const stations = [
+  {
+    name: "Tczew", x: 348, y: 165,
+    pop: 59, voiv: "pomorskie",
+    trainsDay: "250-300", trainsHour: "11-13", pass: "4-5",
+    lines: "E65 (Warsaw-Gdańsk) + 131/203 (Bydgoszcz, Kościerzyna)",
+    notes: "Major split point before Tri-City; all IC + regional",
+    role: "Last junction before the Tri-City. Trains heading north on E65 from Warsaw split here: most continue to Gdańsk, others branch west toward Bydgoszcz via line 131. Heavy commuter, IC, and regional traffic combined.",
+    corridors: ["E65", "131", "203"],
+    pop2020: "59,430", pop2024: "58,000", popChange: "-2.4%", popTrend: "yellow",
+    price2020: "~5,000", price2024: "8,100", priceChange: "+62%"
+  },
+  {
+    name: "Malbork", x: 358, y: 173,
+    pop: 38, voiv: "pomorskie",
+    trainsDay: "220-260", trainsHour: "9-11", pass: "3-4",
+    lines: "E65 + 207 (Braniewo) + 204 (Elbląg-Olsztyn)",
+    notes: "All EIC/Pendolino Warszawa-Gdańsk stop here",
+    role: "Every Pendolino (EIP) and Intercity train on the Warsaw-Gdańsk axis stops at Malbork. Branch lines fan east toward Elbląg/Olsztyn and north toward Braniewo (Russian border).",
+    corridors: ["E65", "204", "207"],
+    pop2020: "~38,000", pop2024: "36,709", popChange: "-3.4%", popTrend: "yellow",
+    price2020: "~5,250", price2024: "6,800", priceChange: "+30%"
+  },
+  {
+    name: "Kutno", x: 354, y: 318,
+    pop: 43, voiv: "łódzkie",
+    trainsDay: "200-250", trainsHour: "8-10", pass: "2-3",
+    lines: "E20 (Warsaw-Berlin) + 16 (Łódź-Toruń) + 33 (Płock)",
+    notes: "Major Mazovian-Łódź junction; full IC service",
+    role: "One of Poland's classic four-way junctions: east-west E20 corridor (Warsaw-Berlin) crosses the Łódź-Toruń line 16. Almost all IC traffic between Warsaw and Berlin/Poznań passes through here.",
+    corridors: ["E20", "16", "33"],
+    pop2020: "42,704", pop2024: "~40,500", popChange: "-5.2%", popTrend: "red",
+    price2020: "~3,750", price2024: "6,150", priceChange: "+64%"
+  },
+  {
+    name: "Iława Główna", x: 388, y: 195,
+    pop: 30, voiv: "warmińsko-maz.",
+    trainsDay: "180-220", trainsHour: "7-9", pass: "2-3",
+    lines: "E65 + 353 (Olsztyn-Poznań/Toruń)",
+    notes: "~85 IC/distance + regional trains",
+    role: "Historic Prussian junction (1872). Sits where the E65 north-south corridor crosses line 353 (the Poznań/Toruń-Olsztyn east-west line). All Pendolinos Warsaw-Gdynia stop here, plus IC from Kraków, Bielsko-Biała, Wrocław, Szczecin.",
+    corridors: ["E65", "353"],
+    pop2020: "~32,000", pop2024: "30,554", popChange: "-4.5%", popTrend: "yellow",
+    price2020: "~4,750", price2024: "7,360", priceChange: "+55%"
+  },
+  {
+    name: "Inowrocław", x: 297, y: 250,
+    pop: 71, voiv: "kujawsko-pom.",
+    trainsDay: "180-220", trainsHour: "7-9", pass: "2-3",
+    lines: "131 (Tczew-Bydgoszcz-Katowice) + 353 (Poznań-Olsztyn) + 281",
+    notes: "Multi-line junction",
+    role: "Massive triangular junction. Line 131 (Magistrala Węglowa - the historic coal main from Silesia to the Baltic) meets line 353 east-west and line 281 toward Poznań. Heavy mixed traffic.",
+    corridors: ["131", "353", "281"],
+    pop2020: "71,674", pop2024: "~66,500", popChange: "-7.2%", popTrend: "red",
+    price2020: "~3,750", price2024: "5,650", priceChange: "+51%"
+  },
+  {
+    name: "Tarnów", x: 458, y: 460,
+    pop: 105, voiv: "małopolskie",
+    trainsDay: "160-200", trainsHour: "7-8", pass: "2-3",
+    lines: "E30 (Kraków-Rzeszów-Lwów) + 96 (Leluchów)",
+    notes: "Population just above 100k but not voivodeship capital",
+    role: "On the E30 corridor (Wrocław-Kraków-Rzeszów-Ukraine). Branches south toward the Slovakian/Ukrainian border via Leluchów. All eastbound Kraków-Rzeszów traffic passes through.",
+    corridors: ["E30", "96"],
+    pop2020: "~108,000", pop2024: "102,123", popChange: "-5.4%", popTrend: "red",
+    price2020: "~4,250", price2024: "7,460", priceChange: "+76%"
+  },
+  {
+    name: "Legnica", x: 195 , y: 400,
+    pop: 96, voiv: "dolnośląskie",
+    trainsDay: "160-200", trainsHour: "6-8", pass: "2-3",
+    lines: "E30 (Wrocław-Berlin) + 137 (Katowice-Görlitz)",
+    notes: "All Berlin-Wrocław IC stop",
+    role: "On the western leg of E30 between Wrocław and the German border. Line 137 crosses here heading toward Górlitz (DE) and Katowice. Every EuroCity Wrocław-Berlin stops.",
+    corridors: ["E30", "137"],
+    pop2020: "~98,000", pop2024: "91,335", popChange: "-6.8%", popTrend: "red",
+    price2020: "~4,750", price2024: "6,600", priceChange: "+39%"
+  },
+  {
+    name: "Działdowo", x: 410, y: 215,
+    pop: 21, voiv: "warmińsko-maz.",
+    trainsDay: "150-190", trainsHour: "6-8", pass: "1.5-2",
+    lines: "E65 + 9 (Olsztyn)",
+    notes: "All E65 IC + Olsztyn regionals",
+    role: "Smallest town on this list (21k) but punches well above its weight. On E65 between Warsaw and Iława, with branch line 9 splitting off to Olsztyn. All IC trains plus dense Olsztyn-bound regionals.",
+    corridors: ["E65", "9"],
+    pop2020: "~21,000", pop2024: "~20,000", popChange: "-4.8%", popTrend: "yellow",
+    price2020: "n/a", price2024: "~7,725 (voiv. proxy)", priceChange: "↑ regional"
+  },
+  {
+    name: "Konin", x: 297, y: 322,
+    pop: 70, voiv: "wielkopolskie",
+    trainsDay: "150-180", trainsHour: "6-7", pass: "1.5-2",
+    lines: "E20 (Warsaw-Poznań-Berlin)",
+    notes: "All Warsaw-Poznań IC + regionals",
+    role: "Linear high-frequency stop on E20 between Warsaw and Poznań. Not a junction strictly speaking, but every train on this corridor stops, plus regional Wielkopolska traffic.",
+    corridors: ["E20"],
+    pop2020: "71,427", pop2024: "66,606", popChange: "-6.7%", popTrend: "red",
+    price2020: "~5,150", price2024: "8,600", priceChange: "+67%"
+  },
+  {
+    name: "Leszno", x: 252, y: 350,
+    pop: 60, voiv: "wielkopolskie",
+    trainsDay: "140-180", trainsHour: "6-7", pass: "2-3",
+    lines: "E59 (Wrocław-Poznań) + 14 (Głogów)",
+    notes: "Major Wrocław-Poznań junction",
+    role: "Junction on E59 (Wrocław-Poznań-Gdańsk corridor) with line 14 branching to Głogów. Heavy IC and regional traffic between Wielkopolska and Lower Silesia.",
+    corridors: ["E59", "14"],
+    pop2020: "~63,000", pop2024: "59,840", popChange: "-5.0%", popTrend: "red",
+    price2020: "~4,500", price2024: "7,240", priceChange: "+61%"
+  },
+  {
+    name: "Ostrów Wielkopolski", x: 290, y: 388,
+    pop: 71, voiv: "wielkopolskie",
+    trainsDay: "140-180", trainsHour: "6-7", pass: "1.5-2",
+    lines: "14 (Wrocław-Łódź) + 272 (Poznań-Katowice)",
+    notes: "Significant Wielkopolska/Lower Silesia junction",
+    role: "Cross junction in southern Wielkopolska. Line 272 (Poznań-Katowice) and line 14 (Wrocław-Łódź) meet. Important for Silesia-Wielkopolska freight + IC; handles Wrocław-Poznań alternative routing.",
+    corridors: ["14", "272"],
+    pop2020: "~73,000", pop2024: "69,260", popChange: "-5.1%", popTrend: "red",
+    price2020: "~4,500", price2024: "7,880", priceChange: "+75%"
+  },
+  {
+    name: "Tarnowskie Góry", x: 388, y: 462,
+    pop: 60, voiv: "śląskie",
+    trainsDay: "140-180", trainsHour: "6-7", pass: "1.5-2",
+    lines: "131 + 144 + 182 (multiple Silesian lines)",
+    notes: "Very high Silesian junction",
+    role: "Northern Silesian junction. Line 131 (Magistrala Węglowa) splits here, with lines 144 and 182 branching toward Opole and Częstochowa areas. One of Poland's largest freight junctions; significant passenger traffic too.",
+    corridors: ["131", "144", "182"],
+    pop2020: "~62,000", pop2024: "61,240", popChange: "-1.2%", popTrend: "green",
+    price2020: "~4,750", price2024: "7,250", priceChange: "+53%"
+  },
+  {
+    name: "Włocławek", x: 358, y: 282,
+    pop: 105, voiv: "kujawsko-pom.",
+    trainsDay: "130-160", trainsHour: "5-7", pass: "1.5-2",
+    lines: "18 (Kutno-Toruń) + 27 (Brześć Kujawski)",
+    notes: "Population just above 100k but not voivodeship capital",
+    role: "On line 18 between Kutno and Toruń (the main Warsaw-Bydgoszcz route). Branch line 27 fans south. Essential for Toruń-Warsaw IC traffic.",
+    corridors: ["18", "27"],
+    pop2020: "100,867", pop2024: "93,451", popChange: "-7.4%", popTrend: "red",
+    price2020: "~4,500", price2024: "5,790", priceChange: "+29%"
+  },
+  {
+    name: "Skarżysko-Kamienna", x: 442, y: 408,
+    pop: 44, voiv: "świętokrzyskie",
+    trainsDay: "130-170", trainsHour: "5-7", pass: "1-1.5",
+    lines: "8 (Warsaw-Kraków) + 25 (Łódź-Lublin)",
+    notes: "Classic junction; named in UTK 2023 report",
+    role: "Historic junction in central Poland. Line 8 (Warsaw-Kielce-Kraków traditional route) crosses line 25 (Łódź-Skarżysko-Lublin). One of only 4 stations in Świętokrzyskie with >1000 daily passengers (per UTK 2023).",
+    corridors: ["8", "25"],
+    pop2020: "~42,000", pop2024: "40,400", popChange: "-3.8%", popTrend: "yellow",
+    price2020: "~3,500", price2024: "6,560", priceChange: "+87%"
+  },
+  {
+    name: "Ciechanów", x: 432, y: 252,
+    pop: 43, voiv: "mazowieckie",
+    trainsDay: "130-160", trainsHour: "5-7", pass: "1-1.5",
+    lines: "E65 (Warsaw-Gdańsk)",
+    notes: "Linear high-frequency, not strict junction",
+    role: "Linear stop on E65 between Warsaw and Działdowo. Not a true junction but high frequency thanks to dense Mazovian regional service plus all IC/Pendolino calls.",
+    corridors: ["E65"],
+    pop2020: "42,835", pop2024: "41,634", popChange: "-2.8%", popTrend: "yellow",
+    price2020: "~4,250", price2024: "6,820", priceChange: "+60%"
+  },
+  {
+    name: "Jaworzno Szczakowa", x: 405, y: 470,
+    pop: 91, voiv: "śląskie",
+    trainsDay: "130-170", trainsHour: "5-7", pass: "1-1.5",
+    lines: "133 (CMK access) + 134 + 137",
+    notes: "Major freight + IC junction",
+    role: "Eastern Silesian junction where line 133 (the southern access to CMK - the Central Trunk Line for Pendolinos) meets lines 134 and 137. Crucial node for Kraków-Katowice IC traffic.",
+    corridors: ["133", "CMK", "134", "137"],
+    pop2020: "90,368", pop2024: "81,885", popChange: "-9.4%", popTrend: "red",
+    price2020: "~5,000", price2024: "7,034", priceChange: "+41%"
+  },
+  {
+    name: "Lubliniec", x: 360, y: 445,
+    pop: 23, voiv: "śląskie",
+    trainsDay: "120-150", trainsHour: "5-6", pass: "0.8-1.2",
+    lines: "61 + 143 (Katowice-Kępno)",
+    notes: "Smaller but real junction",
+    role: "Smaller town with a real junction role: line 61 (Kielce-Kalety) crosses line 143 (Katowice-Kępno). Significant for Silesia-Łódź regional and freight flows.",
+    corridors: ["61", "143"],
+    pop2020: "~23,400", pop2024: "22,800", popChange: "-2.6%", popTrend: "yellow",
+    price2020: "~4,000", price2024: "6,012", priceChange: "+50%"
+  }
+];
+
+// ===== Build map markers =====
+const stationsGroup = document.getElementById('stations');
+stations.forEach((s, i) => {
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  g.setAttribute('class', 'station-group');
+  g.setAttribute('data-idx', i);
+
+  const halo = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  halo.setAttribute('class', 'station-halo trend-' + s.popTrend);
+  halo.setAttribute('cx', s.x);
+  halo.setAttribute('cy', s.y);
+  halo.setAttribute('r', 14);
+
+  const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  dot.setAttribute('class', 'station-dot trend-' + s.popTrend);
+  dot.setAttribute('cx', s.x);
+  dot.setAttribute('cy', s.y);
+  dot.setAttribute('r', 5);
+
+  const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  label.setAttribute('class', 'station-label');
+  // smart label placement
+  const placement = labelPlacement(s.x, s.y, s.name);
+  label.setAttribute('x', placement.x);
+  label.setAttribute('y', placement.y);
+  label.setAttribute('text-anchor', placement.anchor);
+  label.textContent = s.name;
+
+  g.appendChild(halo);
+  g.appendChild(dot);
+  g.appendChild(label);
+  stationsGroup.appendChild(g);
+
+  g.addEventListener('mouseenter', () => showInfo(i));
+  g.addEventListener('click', () => selectStation(i));
+});
+
+function labelPlacement(x, y, name) {
+  // hand-tuned to reduce overlap
+  const overrides = {
+    "Tczew":               { dx: 8, dy: -2, anchor: "start" },
+    "Malbork":             { dx: 8, dy: 12, anchor: "start" },
+    "Kutno":               { dx: 8, dy: -4, anchor: "start" },
+    "Iława Główna":        { dx: -8, dy: -2, anchor: "end" },
+    "Inowrocław":          { dx: -8, dy: -4, anchor: "end" },
+    "Tarnów":              { dx: 8, dy: 4, anchor: "start" },
+    "Legnica":             { dx: -8, dy: -2, anchor: "end" },
+    "Działdowo":           { dx: 8, dy: -4, anchor: "start" },
+    "Konin":               { dx: 8, dy: -4, anchor: "start" },
+    "Leszno":              { dx: -8, dy: -4, anchor: "end" },
+    "Ostrów Wielkopolski": { dx: -8, dy: -4, anchor: "end" },
+    "Tarnowskie Góry":     { dx: 8, dy: -4, anchor: "start" },
+    "Włocławek":           { dx: 8, dy: 4, anchor: "start" },
+    "Skarżysko-Kamienna":  { dx: 8, dy: -4, anchor: "start" },
+    "Ciechanów":           { dx: 8, dy: -4, anchor: "start" },
+    "Jaworzno Szczakowa":  { dx: 8, dy: 12, anchor: "start" },
+    "Lubliniec":           { dx: -8, dy: -4, anchor: "end" }
+  };
+  const o = overrides[name] || { dx: 8, dy: -4, anchor: "start" };
+  return { x: x + o.dx, y: y + o.dy, anchor: o.anchor };
+}
+
+let selectedIdx = null;
+function selectStation(i) {
+  selectedIdx = i;
+  document.querySelectorAll('.station-group').forEach((g, idx) => {
+    g.classList.toggle('selected', idx === i);
+  });
+  showInfo(i);
+}
+
+function showInfo(i) {
+  const s = stations[i];
+  document.getElementById('info-empty').style.display = 'none';
+  const c = document.getElementById('info-content');
+  c.style.display = 'block';
+  c.innerHTML = `
+    <div class="info-rank">№ ${String(i+1).padStart(2,'0')} / 17 · ${s.voiv}</div>
+    <div class="info-name">${s.name}</div>
+    <div class="info-city">city pop. ${s.pop}k · ${s.voiv}</div>
+
+    <div class="info-divider"></div>
+
+    <div class="info-stat">
+      <div class="info-stat-label">Trains / day</div>
+      <div class="info-stat-value">${s.trainsDay}</div>
+    </div>
+    <div class="info-stat">
+      <div class="info-stat-label">Trains / hour</div>
+      <div class="info-stat-value">${s.trainsHour}</div>
+    </div>
+    <div class="info-stat">
+      <div class="info-stat-label">Passengers 2024</div>
+      <div class="info-stat-value">${s.pass}<span class="unit">mln/yr</span></div>
+    </div>
+
+    <div class="info-lines">
+      <div class="info-lines-label">Lines crossing</div>
+      <div class="info-lines-value">${s.lines}</div>
+    </div>
+
+    <div class="demo-block trend-${s.popTrend}">
+      <div class="demo-block-title">Population · 2020 → 2024</div>
+      <div class="demo-row">
+        <div class="demo-row-label">2020</div>
+        <div class="demo-row-value">${s.pop2020}</div>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row-label">2024</div>
+        <div class="demo-row-value">${s.pop2024}</div>
+      </div>
+      <div class="demo-change trend-${s.popTrend}">${s.popChange} ↘</div>
+    </div>
+
+    <div class="demo-block">
+      <div class="demo-block-title">Apartment price PLN/m² · 2020 → 2024-25</div>
+      <div class="demo-row">
+        <div class="demo-row-label">2020</div>
+        <div class="demo-row-value">${s.price2020}</div>
+      </div>
+      <div class="demo-row">
+        <div class="demo-row-label">2024-25</div>
+        <div class="demo-row-value">${s.price2024}</div>
+      </div>
+      <div class="demo-change" style="background: var(--ink); color: var(--paper);">${s.priceChange} ↗</div>
+    </div>
+
+    <div class="info-notes">${s.notes}</div>
+  `;
+}
+
+// ===== Build table =====
+const tbody = document.getElementById('table-body');
+stations.forEach((s, i) => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="station-cell">${s.name}</td>
+    <td class="pop-cell">${s.pop}</td>
+    <td class="voiv-cell">${s.voiv}</td>
+    <td class="lines-cell">${s.lines}</td>
+    <td class="num-cell">${s.trainsDay}</td>
+    <td class="num-cell">${s.trainsHour}</td>
+    <td class="num-cell">${s.pass}</td>
+    <td class="num-cell"><span class="trend-cell-change trend-${s.popTrend}">${s.popChange}</span></td>
+    <td class="num-cell">${s.price2024} <span class="trend-cell-change price-up">${s.priceChange}</span></td>
+    <td class="notes-cell">${s.notes}</td>
+  `;
+  tbody.appendChild(tr);
+});
+
+// ===== Build routes panel =====
+const routesGrid = document.getElementById('routes-grid');
+stations.forEach((s, i) => {
+  const card = document.createElement('div');
+  card.className = 'city-card trend-' + s.popTrend;
+  const tagsHtml = s.corridors.map(c => {
+    let cls = 'route-tag';
+    if (/^E\d+$/.test(c)) cls += ' intl';
+    else if (c === 'CMK') cls += ' cmk';
+    return `<span class="${cls}">${c}</span>`;
+  }).join('');
+
+  card.innerHTML = `
+    <div class="city-card-rank">№ ${String(i+1).padStart(2,'0')}</div>
+    <div class="city-card-name">${s.name}</div>
+    <div class="city-card-meta">
+      pop. <span class="pop">${s.pop}k</span> · ${s.voiv} · <span class="pop">${s.trainsDay}</span> trains/day
+    </div>
+
+    <div class="city-card-trends">
+      <div class="trend-cell">
+        <div class="trend-cell-label">Population</div>
+        <div class="trend-cell-vals">${s.pop2020} <span class="arrow">→</span> ${s.pop2024}</div>
+        <div class="trend-cell-change trend-${s.popTrend}">${s.popChange}</div>
+      </div>
+      <div class="trend-cell">
+        <div class="trend-cell-label">Price PLN/m²</div>
+        <div class="trend-cell-vals">${s.price2020} <span class="arrow">→</span> ${s.price2024}</div>
+        <div class="trend-cell-change price-up">${s.priceChange}</div>
+      </div>
+    </div>
+
+    <div class="city-card-section">
+      <div class="city-card-section-label">Corridors</div>
+      <div class="city-card-section-text">${tagsHtml}</div>
+    </div>
+
+    <div class="city-card-section">
+      <div class="city-card-section-label">Network role</div>
+      <div class="city-card-section-text">${s.role}</div>
+    </div>
+  `;
+  routesGrid.appendChild(card);
+});
+
+// ===== Tab switching =====
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const tab = t.getAttribute('data-tab');
+    document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === t));
+    document.querySelectorAll('.panel').forEach(p => {
+      p.classList.toggle('active', p.getAttribute('data-panel') === tab);
+    });
+  });
+});
+</script>
+</body>
+</html>
