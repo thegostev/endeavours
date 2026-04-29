@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Five Lines, One Bay — Tri-City Rail's Improbable Decade, 2026–2036</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f4ece0;
+  --paper-2:#ede2d0;
+  --ink:#1a1410;
+  --ink-2:#3a2e22;
+  --rule:#1a1410;
+  --accent:#a52818;          /* signal red */
+  --accent-2:#c8531e;        /* burnt orange */
+  --accent-3:#1d4d3a;        /* deep green */
+  --accent-4:#1a3a6c;        /* signal blue */
+  --muted:#6b5a48;
+  --gold:#9a7b1f;
+  --line-1:#1a3a6c;          /* SKM 1 - blue */
+  --line-2:#d6a82c;          /* SKM 2 - amber/yellow */
+  --line-3:#a52818;          /* SKM 3 - red */
+  --line-4:#7a3a8c;          /* SKM 4 - purple */
+  --line-5:#1d4d3a;          /* SKM 5 - green */
+  --shadow:0 1px 0 rgba(26,20,16,.08), 0 12px 40px -20px rgba(26,20,16,.25);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--paper);color:var(--ink);font-family:"Fraunces",Georgia,serif;font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{
+  background-image:
+    radial-gradient(rgba(26,20,16,.04) 1px, transparent 1px),
+    radial-gradient(rgba(26,20,16,.03) 1px, transparent 1px);
+  background-size:32px 32px, 16px 16px;
+  background-position: 0 0, 8px 8px;
+}
+a{color:inherit}
+img{max-width:100%;display:block}
+
+/* ============ MASTHEAD ============ */
+.masthead{
+  border-bottom:3px double var(--ink);
+  padding:18px 32px 14px;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:24px;
+  background:var(--paper);
+  position:sticky;top:0;z-index:50;
+}
+.masthead::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:1px;background:var(--ink)}
+.brand{
+  font-family:"Fraunces",serif;
+  font-weight:800;
+  font-style:italic;
+  font-size:34px;
+  letter-spacing:-.02em;
+  line-height:1;
+}
+.brand span{color:var(--accent)}
+.masthead-meta{
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--muted);
+  text-align:right;
+}
+.masthead-meta b{color:var(--ink);font-weight:700}
+
+/* ============ TABS ============ */
+.tabs{
+  border-bottom:1px solid var(--ink);
+  padding:0 32px;
+  display:flex;gap:0;
+  background:var(--paper);
+  position:sticky;top:73px;z-index:49;
+  overflow-x:auto;
+}
+.tab{
+  border:none;background:none;cursor:pointer;
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;font-weight:500;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);
+  padding:16px 22px 14px;
+  border-bottom:3px solid transparent;
+  white-space:nowrap;
+  transition:color .2s, border-color .2s;
+  position:relative;
+}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--ink);border-bottom-color:var(--accent)}
+.tab-num{
+  display:inline-block;
+  font-size:9px;
+  color:var(--accent);
+  margin-right:8px;
+  font-weight:700;
+}
+
+/* ============ PANELS ============ */
+.panel{display:none;padding:0;animation:fadein .4s ease-out}
+.panel.active{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ============ STORY PANEL ============ */
+.hero{
+  padding:80px 32px 60px;
+  border-bottom:1px solid var(--ink);
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  top:40px;right:32px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  letter-spacing:.2em;
+  color:var(--muted);
+}
+.kicker{
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:24px;
+  display:flex;align-items:center;gap:14px;
+}
+.kicker::before{content:"";width:32px;height:2px;background:var(--accent)}
+.headline{
+  font-family:"Fraunces",serif;
+  font-weight:300;
+  font-size:clamp(48px,7vw,96px);
+  line-height:.95;
+  letter-spacing:-.035em;
+  margin-bottom:24px;
+  max-width:1100px;
+}
+.headline em{font-style:italic;font-weight:400;color:var(--accent)}
+.dek{
+  font-family:"Fraunces",serif;
+  font-weight:300;
+  font-size:clamp(20px,2vw,26px);
+  line-height:1.4;
+  color:var(--ink-2);
+  max-width:780px;
+  margin-bottom:36px;
+}
+.byline{
+  display:flex;flex-wrap:wrap;gap:32px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding-top:20px;
+  border-top:1px solid var(--ink);
+  max-width:780px;
+}
+.byline div b{color:var(--ink);font-weight:700;display:block;margin-bottom:4px}
+
+/* opening paragraph */
+.opener{
+  padding:60px 32px;
+  display:grid;
+  grid-template-columns:1fr 2fr;
+  gap:48px;
+  border-bottom:1px solid var(--ink);
+  background:var(--paper-2);
+}
+.opener-tag{
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  color:var(--accent);
+}
+.opener-text p{
+  font-size:22px;line-height:1.5;margin-bottom:18px;
+}
+.opener-text p:first-child::first-letter{
+  font-family:"Fraunces",serif;
+  font-weight:300;
+  font-size:88px;
+  float:left;
+  line-height:.85;
+  margin:6px 12px 0 0;
+  color:var(--accent);
+}
+
+/* article body */
+.article{
+  max-width:780px;
+  margin:0 auto;
+  padding:80px 32px 120px;
+}
+.article h2{
+  font-family:"Fraunces",serif;
+  font-weight:600;
+  font-size:38px;
+  line-height:1.1;
+  letter-spacing:-.02em;
+  margin:72px 0 8px;
+  color:var(--ink);
+}
+.article h2 .num{
+  display:block;
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  letter-spacing:.25em;
+  color:var(--accent);
+  margin-bottom:14px;
+  font-weight:500;
+}
+.article h3{
+  font-family:"Fraunces",serif;
+  font-weight:600;
+  font-style:italic;
+  font-size:24px;
+  margin:36px 0 12px;
+  color:var(--ink);
+}
+.article p{margin-bottom:20px}
+.article p strong{font-weight:600;color:var(--ink)}
+.article p em{font-style:italic}
+.lede{
+  font-size:22px;
+  line-height:1.5;
+  margin-bottom:32px;
+  color:var(--ink-2);
+}
+
+.pullquote{
+  border-left:3px solid var(--accent);
+  margin:48px -40px;
+  padding:8px 32px;
+  font-family:"Fraunces",serif;
+  font-style:italic;
+  font-weight:400;
+  font-size:30px;
+  line-height:1.25;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+.pullquote::before{
+  content:"❝";
+  display:block;
+  font-style:normal;
+  color:var(--accent);
+  font-size:48px;
+  line-height:.5;
+  margin-bottom:18px;
+}
+
+.callout{
+  background:var(--paper-2);
+  border-top:2px solid var(--ink);
+  border-bottom:2px solid var(--ink);
+  margin:40px -40px;
+  padding:32px 36px;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:24px;
+  align-items:start;
+}
+.callout-num{
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  letter-spacing:.2em;
+  color:var(--accent);
+  white-space:nowrap;
+  padding-top:4px;
+}
+.callout-body{
+  font-family:"Fraunces",serif;
+  font-size:20px;
+  line-height:1.45;
+  color:var(--ink);
+}
+.callout-body strong{font-weight:600;color:var(--accent)}
+
+.stat-row{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  margin:48px -40px;
+  border-top:1px solid var(--ink);
+  border-bottom:1px solid var(--ink);
+}
+.stat-cell{
+  padding:24px 20px;
+  border-right:1px solid var(--ink);
+}
+.stat-cell:last-child{border-right:none}
+.stat-num{
+  font-family:"Fraunces",serif;
+  font-weight:300;
+  font-size:48px;
+  line-height:1;
+  letter-spacing:-.03em;
+  color:var(--accent);
+  margin-bottom:6px;
+}
+.stat-label{
+  font-family:"JetBrains Mono",monospace;
+  font-size:9px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--muted);
+  line-height:1.3;
+}
+
+/* ============ TIMELINE PANEL ============ */
+.timeline-wrap{padding:60px 32px 120px;max-width:1200px;margin:0 auto}
+.timeline-head{
+  text-align:center;margin-bottom:80px;
+  border-bottom:1px solid var(--ink);
+  padding-bottom:40px;
+}
+.timeline-head h2{
+  font-family:"Fraunces",serif;font-weight:300;
+  font-size:64px;letter-spacing:-.03em;line-height:1;
+  margin-bottom:14px;
+}
+.timeline-head .dek{
+  font-size:18px;color:var(--muted);max-width:600px;margin:0 auto;
+}
+.timeline-track{
+  position:relative;
+  padding-left:80px;
+}
+.timeline-track::before{
+  content:"";position:absolute;
+  left:50px;top:0;bottom:0;
+  width:2px;background:var(--ink);
+}
+.tl-event{
+  position:relative;
+  margin-bottom:64px;
+  padding-left:32px;
+}
+.tl-year{
+  position:absolute;
+  left:-80px;top:-4px;
+  font-family:"Fraunces",serif;
+  font-weight:300;
+  font-size:42px;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  line-height:1;
+}
+.tl-event::before{
+  content:"";position:absolute;
+  left:-32px;top:14px;
+  width:14px;height:14px;
+  background:var(--paper);
+  border:3px solid var(--accent);
+  border-radius:50%;
+  box-shadow:0 0 0 6px var(--paper);
+}
+.tl-event.major::before{background:var(--accent);transform:scale(1.3)}
+.tl-card{
+  background:var(--paper-2);
+  border-left:4px solid var(--accent);
+  padding:24px 28px;
+}
+.tl-tag{
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:8px;
+}
+.tl-title{
+  font-family:"Fraunces",serif;
+  font-weight:600;
+  font-size:24px;
+  line-height:1.2;
+  margin-bottom:10px;
+  color:var(--ink);
+}
+.tl-text{
+  font-size:16px;line-height:1.55;color:var(--ink-2);
+}
+.tl-meta{
+  display:flex;gap:18px;flex-wrap:wrap;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid rgba(26,20,16,.15);
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);
+}
+.tl-meta b{color:var(--accent);font-weight:600}
+
+/* ============ REASONING PANEL ============ */
+.reasoning-wrap{padding:60px 32px 120px;max-width:1200px;margin:0 auto}
+.reasoning-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(380px,1fr));
+  gap:24px;margin-top:40px;
+}
+.r-card{
+  background:var(--paper-2);
+  border-top:3px solid var(--accent);
+  padding:32px 28px;
+  position:relative;
+  display:flex;flex-direction:column;
+}
+.r-card .r-num{
+  position:absolute;top:-3px;right:0;
+  background:var(--ink);color:var(--paper);
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;letter-spacing:.2em;
+  padding:6px 12px;
+}
+.r-question{
+  font-family:"Fraunces",serif;
+  font-style:italic;
+  font-weight:400;
+  font-size:22px;
+  line-height:1.3;
+  color:var(--ink);
+  margin-bottom:18px;
+  padding-bottom:18px;
+  border-bottom:1px solid rgba(26,20,16,.2);
+}
+.r-answer{
+  font-size:16px;line-height:1.6;color:var(--ink-2);
+  flex-grow:1;
+}
+.r-answer strong{color:var(--accent);font-weight:600}
+.r-tag{
+  display:inline-block;
+  margin-top:18px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);
+  padding-top:14px;
+  border-top:1px solid rgba(26,20,16,.15);
+}
+
+/* iterations strip */
+.iter-strip{
+  margin-top:80px;padding-top:60px;
+  border-top:1px solid var(--ink);
+}
+.iter-strip h3{
+  font-family:"Fraunces",serif;font-weight:300;font-size:36px;
+  margin-bottom:8px;letter-spacing:-.02em;
+}
+.iter-strip > p{font-size:17px;color:var(--muted);max-width:680px;margin-bottom:40px}
+.iter-row{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--ink);
+  border:1px solid var(--ink);
+}
+.iter-cell{
+  background:var(--paper-2);
+  padding:24px 22px;
+  display:flex;flex-direction:column;
+}
+.iter-num{
+  font-family:"Fraunces",serif;font-weight:300;
+  font-size:64px;line-height:1;
+  color:var(--accent);
+  letter-spacing:-.03em;
+  margin-bottom:14px;
+}
+.iter-label{
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink);
+  margin-bottom:14px;
+  font-weight:600;
+}
+.iter-body{font-size:14px;line-height:1.5;color:var(--ink-2)}
+
+/* ============ MAP PANEL ============ */
+.map-wrap{padding:40px 32px 80px;max-width:1400px;margin:0 auto}
+.map-controls{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;
+  padding:20px 24px;
+  background:var(--paper-2);
+  border:1px solid var(--ink);
+  margin-bottom:24px;
+}
+.year-display{
+  font-family:"Fraunces",serif;
+  font-weight:300;
+  font-size:88px;
+  line-height:1;
+  letter-spacing:-.04em;
+  color:var(--accent);
+  min-width:200px;
+}
+.year-display .y-label{
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;letter-spacing:.25em;color:var(--muted);
+  display:block;margin-bottom:4px;
+}
+.play-controls{display:flex;align-items:center;gap:14px;flex:1;max-width:600px}
+.play-btn{
+  background:var(--ink);color:var(--paper);
+  border:none;cursor:pointer;
+  width:48px;height:48px;border-radius:50%;
+  font-size:18px;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .15s;
+}
+.play-btn:hover{transform:scale(1.05);background:var(--accent)}
+.year-slider{
+  flex:1;
+  -webkit-appearance:none;appearance:none;
+  height:4px;background:var(--ink);
+  border-radius:0;outline:none;
+  cursor:pointer;
+}
+.year-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--accent);
+  border:3px solid var(--paper);
+  cursor:pointer;
+  box-shadow:0 0 0 1px var(--ink);
+}
+.year-slider::-moz-range-thumb{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--accent);
+  border:3px solid var(--paper);
+  cursor:pointer;
+}
+.year-ticks{
+  display:flex;justify-content:space-between;
+  font-family:"JetBrains Mono",monospace;
+  font-size:9px;color:var(--muted);
+  letter-spacing:.1em;
+  margin-top:6px;
+}
+
+.map-stats{
+  display:flex;gap:18px;flex-wrap:wrap;
+}
+.map-stat{
+  text-align:right;
+}
+.map-stat .v{
+  font-family:"Fraunces",serif;font-weight:600;
+  font-size:24px;color:var(--accent);
+  line-height:1;
+}
+.map-stat .l{
+  font-family:"JetBrains Mono",monospace;
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+}
+
+.map-canvas{
+  background:var(--paper-2);
+  border:1px solid var(--ink);
+  position:relative;
+  overflow:hidden;
+}
+#mapSvg{display:block;width:100%;height:auto;max-height:680px}
+
+/* line legend */
+.line-legend{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;
+  border:1px solid var(--ink);
+  margin-top:24px;
+}
+.legend-item{
+  padding:18px 20px;
+  border-right:1px solid var(--ink);
+  background:var(--paper-2);
+  position:relative;
+  transition:background .2s;
+}
+.legend-item:last-child{border-right:none}
+.legend-item.dim{opacity:.35}
+.legend-item.upcoming::after{
+  content:"PLANNED";
+  position:absolute;top:8px;right:10px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:8px;letter-spacing:.2em;
+  color:var(--muted);
+}
+.legend-bar{
+  height:6px;width:48px;margin-bottom:10px;
+}
+.legend-name{
+  font-family:"JetBrains Mono",monospace;
+  font-weight:700;font-size:13px;letter-spacing:.1em;
+  margin-bottom:4px;
+}
+.legend-route{
+  font-family:"Fraunces",serif;font-style:italic;
+  font-size:13px;color:var(--ink-2);line-height:1.3;
+}
+.legend-since{
+  font-family:"JetBrains Mono",monospace;
+  font-size:9px;color:var(--muted);
+  letter-spacing:.15em;text-transform:uppercase;
+  margin-top:8px;
+}
+
+/* map year captions */
+.map-caption{
+  margin-top:24px;
+  padding:24px 28px;
+  background:var(--paper-2);
+  border-left:4px solid var(--accent);
+}
+.mc-year{
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;letter-spacing:.25em;color:var(--accent);
+  margin-bottom:8px;
+}
+.mc-event{
+  font-family:"Fraunces",serif;
+  font-weight:600;font-style:italic;
+  font-size:22px;
+  line-height:1.3;
+  color:var(--ink);
+}
+
+/* ============ LEARNING PANEL ============ */
+.learn-wrap{padding:60px 32px 120px;max-width:1100px;margin:0 auto}
+.lesson{
+  display:grid;
+  grid-template-columns:120px 1fr;
+  gap:40px;
+  padding:48px 0;
+  border-bottom:1px solid var(--ink);
+}
+.lesson:first-of-type{border-top:1px solid var(--ink)}
+.lesson-num{
+  font-family:"Fraunces",serif;font-weight:300;
+  font-size:96px;line-height:.85;
+  color:var(--accent);
+  letter-spacing:-.04em;
+}
+.lesson-num small{
+  display:block;
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;letter-spacing:.25em;
+  color:var(--muted);
+  margin-top:8px;
+}
+.lesson-title{
+  font-family:"Fraunces",serif;
+  font-weight:300;
+  font-size:38px;
+  line-height:1.1;
+  letter-spacing:-.02em;
+  margin-bottom:20px;
+}
+.lesson-title em{font-style:italic;color:var(--accent)}
+.lesson-body{font-size:17px;line-height:1.65;color:var(--ink-2)}
+.lesson-body p{margin-bottom:14px}
+.lesson-body strong{color:var(--ink);font-weight:600}
+
+.takeaway{
+  margin-top:24px;
+  padding:18px 22px;
+  background:var(--paper-2);
+  border-left:3px solid var(--accent);
+  font-family:"Fraunces",serif;
+  font-style:italic;
+  font-size:18px;
+  line-height:1.4;
+}
+.takeaway::before{
+  content:"TAKEAWAY";
+  display:block;
+  font-family:"JetBrains Mono",monospace;
+  font-style:normal;
+  font-size:10px;
+  letter-spacing:.25em;
+  color:var(--accent);
+  margin-bottom:6px;
+}
+
+/* glossary */
+.glossary{
+  margin-top:80px;padding-top:60px;
+  border-top:1px solid var(--ink);
+}
+.glossary h3{
+  font-family:"Fraunces",serif;font-weight:300;
+  font-size:38px;letter-spacing:-.02em;
+  margin-bottom:32px;
+}
+.gloss-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:24px;
+}
+.gloss-item{
+  padding:20px 0;
+  border-top:1px solid var(--ink);
+}
+.gloss-term{
+  font-family:"JetBrains Mono",monospace;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:.1em;
+  color:var(--accent);
+  margin-bottom:6px;
+}
+.gloss-def{font-size:15px;line-height:1.5;color:var(--ink-2)}
+
+/* funding chart */
+.fund-chart{
+  margin:60px 0 0;
+  background:var(--paper-2);
+  border:1px solid var(--ink);
+  padding:32px;
+}
+.fund-chart h4{
+  font-family:"Fraunces",serif;font-weight:600;
+  font-size:24px;margin-bottom:6px;
+}
+.fund-chart > p{font-size:14px;color:var(--muted);margin-bottom:24px}
+.fund-bars{
+  display:flex;flex-direction:column;gap:14px;
+}
+.fund-bar{
+  display:grid;
+  grid-template-columns:140px 1fr 60px;
+  align-items:center;gap:16px;
+  font-family:"JetBrains Mono",monospace;
+  font-size:11px;
+  letter-spacing:.1em;
+}
+.fund-label{font-weight:700;color:var(--ink);text-transform:uppercase}
+.fund-track{
+  height:24px;background:var(--paper);
+  border:1px solid var(--ink);
+  position:relative;
+}
+.fund-fill{
+  height:100%;
+  background:var(--accent);
+  display:flex;align-items:center;
+  transition:width 1.2s cubic-bezier(.16,1,.3,1);
+}
+.fund-fill.f2{background:var(--accent-4)}
+.fund-fill.f3{background:var(--accent-3)}
+.fund-fill.f4{background:var(--gold)}
+.fund-fill.f5{background:var(--ink)}
+.fund-pct{
+  text-align:right;color:var(--accent);font-weight:700;
+}
+
+/* footer */
+footer{
+  border-top:3px double var(--ink);
+  padding:32px;
+  text-align:center;
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);
+  background:var(--paper);
+}
+footer b{color:var(--ink)}
+
+/* responsive */
+@media (max-width:900px){
+  .opener{grid-template-columns:1fr;gap:20px}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .stat-cell:nth-child(2){border-right:none}
+  .stat-cell:nth-child(1),.stat-cell:nth-child(2){border-bottom:1px solid var(--ink)}
+  .iter-row{grid-template-columns:1fr 1fr}
+  .lesson{grid-template-columns:1fr;gap:16px}
+  .lesson-num{font-size:64px}
+  .pullquote,.callout,.stat-row{margin-left:-20px;margin-right:-20px}
+  .article{padding:60px 20px 80px}
+  .map-controls{flex-direction:column;align-items:stretch}
+  .year-display{font-size:64px}
+  .map-stats{justify-content:flex-start}
+  .map-stat{text-align:left}
+  .masthead{padding:14px 20px 12px}
+  .brand{font-size:24px}
+  .tabs{padding:0 20px}
+  .tab{padding:14px 14px 12px;font-size:10px}
+  .headline{font-size:42px}
+  .pullquote{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="brand">The Pomeranian <span>Quarterly</span></div>
+  <div class="masthead-meta">
+    <b>Vol. XII, Issue 04</b><br>
+    A speculative dispatch · December 2036
+  </div>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab active" data-tab="story" role="tab"><span class="tab-num">01</span>Full story</button>
+  <button class="tab" data-tab="timeline" role="tab"><span class="tab-num">02</span>Timeline</button>
+  <button class="tab" data-tab="reasoning" role="tab"><span class="tab-num">03</span>Reasoning</button>
+  <button class="tab" data-tab="map" role="tab"><span class="tab-num">04</span>Network map</button>
+  <button class="tab" data-tab="learn" role="tab"><span class="tab-num">05</span>Learning materials</button>
+</nav>
+
+<!-- ============================================================ STORY ============================================================ -->
+<section class="panel active" id="panel-story">
+
+  <div class="hero">
+    <div class="kicker">Tri-City rail · 2026 → 2036 · A speculative dispatch</div>
+    <h1 class="headline">Five lines, one bay. <em>How Trójmiasto built a metro</em> from a railway.</h1>
+    <p class="dek">In December 2036, a Newag Impulse 3 will roll out of Wrzeszcz wearing the badge <strong>S5</strong>. It will mark the fifth line in a network that ten years earlier ran, in essence, as one. This is how that happened — year by year, contract by contract.</p>
+    <div class="byline">
+      <div><b>Length</b> ~5,400 words</div>
+      <div><b>Method</b> Five iterations of reasoning</div>
+      <div><b>Anchor</b> Pakt Kolejowy 2024 · FEnIKS 2021–27 · KPK 2030</div>
+      <div><b>Genre</b> Aspirational economic narrative</div>
+    </div>
+  </div>
+
+  <div class="opener">
+    <div>
+      <div class="opener-tag">2026 · The starting line</div>
+    </div>
+    <div class="opener-text">
+      <p>Pomerania enters 2026 with the strongest commuter rail system in Poland and a network on the brink of becoming something else. SKM Trójmiasto carries 50.36 million passengers in 2025, an 11.47% national market share, and the region holds the country's record for rail intensity at 33.24 train trips per resident per year — roughly four times the EU average.</p>
+      <p>What is brittle is everything around the spine. Line 202 is half-modernized and half-construction site. Line 201 has been closed to passengers since June 2025 while Budimex rebuilds the alignment toward Kościerzyna. PKM Południe has a designer but no construction money. The Pakt Kolejowy of October 2024 is still a letter of intent.</p>
+      <p>The decade between 2026 and 2036 will turn out to be the most consequential in Tri-City rail since the original SKM was electrified in 1951. It is not the result of a single grand plan.</p>
+    </div>
+  </div>
+
+  <article class="article">
+
+    <p class="lede">This narrative traces that decade year by year, ending with the five-line network and a ledger of what it cost. The speculation is anchored in contracts already signed by early 2026, demographic vectors visible in mobile-phone studies, and the funding instruments confirmed under FEnIKS 2021–2027, FEP Pomorze, KPK 2030, and the Pakt Kolejowy dla Pomorza.</p>
+
+    <h2><span class="num">§ 01 — The inheritance</span>What Tri-City has at the start of 2026</h2>
+
+    <p>The starting position is paradoxically strong and brittle. SKM Trójmiasto's 50.36 million passengers in 2025 make it Poland's fourth-largest carrier. PKM, the regional government's audacious 880-million-złoty experiment opened in September 2015, has carried more than 36 million passengers in its first decade. Bilet Metropolitalny and the FALA payment system give the metropolis a single ticket across SKM, Polregio, ZTM Gdańsk, ZKM Gdynia and MZK Wejherowo.</p>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="stat-num">50.4M</div>
+        <div class="stat-label">SKM passengers · 2025</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">33.2</div>
+        <div class="stat-label">Train trips per resident · pomorskie</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">880M zł</div>
+        <div class="stat-label">PKM original investment · 2015</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">2.6B zł</div>
+        <div class="stat-label">Line 202 contract · Dec 2025</div>
+      </div>
+    </div>
+
+    <p>What is brittle is everything around the spine. <strong>Line 202 Gdynia–Słupsk is half-modernized and half-construction site.</strong> The Lębork–Słupsk segment, originally promised for November 2026, has slipped to September 2027. The Gdynia Chylonia–Lębork contract — at 2.6 billion złoty net the most expensive single rail contract Pomorskie has ever managed — was signed only in December 2025; ZUE SA has 48 months to deliver four tracks between Gdynia and Wejherowo.</p>
+
+    <p>The crucial demographic fact sitting underneath all of this: Tri-City's <em>de facto</em> population, measured by mobile-phone density rather than registered residence, is roughly 1.1 million in the core and 1.6–1.7 million in OMGGS, the metropolitan association of 59 municipalities. Suburbanization is concentrated in a ring — Banino, Chwaszczyno, Borkowo, Straszyn, Rotmanka, Kowale, Łostowice — and the official register undercounts the real population of those communes by 10–15%.</p>
+
+    <div class="pullquote">The trains exist where the population was in 1990. The new population is where there are no trains. This gap is the single most powerful argument that drives every project that follows.</div>
+
+    <h2><span class="num">§ 02 — 2026–2028</span>The ribbon-tearing years</h2>
+
+    <p>The first phase of the decade is dominated not by openings but by closures. SKM ridership in 2026 grows roughly 4% to about 52 million as the last Impulse 2 sets enter service and the new signalling system cuts headway on the spine from 7.5 to under 5 minutes during peaks. <strong>But beyond the spine, the network is shrinking before it grows.</strong> Line 201 stays closed. Line 202 is a moving construction site.</p>
+
+    <p>In autumn 2026, Marshal Mieczysław Struk's office faces its first political test. The KPO-funded Polregio rolling stock order has collapsed because no manufacturer can deliver by the 30 June 2026 deadline. Pomerania's share — about 248 million złoty — must be re-engineered using the EU Modernization Fund and Social Climate Fund. The Marshal negotiates a tripartite arrangement with Newag and Stadler, splitting the order. The decision matters because it locks in <strong>dual-mode capability</strong> for parts of the network that will never be electrified.</p>
+
+    <h3>The 2027 opening: Słupsk gets closer</h3>
+    <p>In September 2027, after a delay even longer than the announced one, line 202 between Lębork and Słupsk is delivered with two tracks, ETCS-ready signalling, and new stops at Łebień, Runowo, and Siemianice. <strong>Travel time from Gdynia to Słupsk drops by 17 minutes.</strong> Polregio's regio service to Słupsk becomes hourly. SKM does not yet extend; the Wejherowo–Lębork section is still single-track.</p>
+
+    <h3>The 2028 pivot: PKM Południe gets funded</h3>
+    <p>In November 2027, Infra-Centrum Doradztwa delivers PKM Południe documentation three months ahead of schedule. The environmental decision from March 2025 holds. PKM SA submits the construction tender in February 2028.</p>
+
+    <p>The PKM Południe tender is the political pivot of the decade. <strong>The cost has crept from 2.0 to roughly 2.7 billion złoty</strong> between feasibility study and final design, driven by inflation in tunnel boring, by the deeper alignment under Trakt św. Wojciecha, and by the 2,100-space park-and-ride at Kowale. After months of negotiation, the EU Commission approves an out-of-cycle FEnIKS amendment bringing the EU contribution to 1.85 billion złoty — 68% of construction cost.</p>
+
+    <div class="callout">
+      <div class="callout-num">DEC<br>2028</div>
+      <div class="callout-body">After eighteen months of negotiations, the four cities (Gdańsk, Gdynia, Sopot, Pruszcz Gdański) and Pomorskie Voivodeship buy out PKP's 65.98% stake in SKM. <strong>Cost: 280 million złoty, financed by the EIB.</strong> SKM is consolidated into the same governance structure as PKM SA. The legal merger takes another two years. The operational integration begins immediately.</div>
+    </div>
+
+    <h2><span class="num">§ 03 — 2028–2030</span>The skeleton emerges</h2>
+
+    <p>By the close of 2028, line 201 sections A and B are formally completed: 27 km between Kościerzyna and Somonino, plus the 8 km LK214 spur to Kartuzy, plus 25 km Somonino–Gdańsk Osowa, all electrified, all upgraded for 160 km/h passenger and 120 km/h freight. <strong>The Kashubian core suddenly has rail again after 25 years.</strong></p>
+
+    <p>The opening of section A and B without section C creates an awkward year in 2029 when Kościerzyna trains terminate at Gdańsk Osowa and passengers must change to PKM. Pomorskie's organizational reflex is to lean into the inconvenience: it brands the temporary service as "PKM Kaszuby" and prices it identically to the rest of the metropolitan ticket. Ridership on the corridor — under 200,000 passengers a year before the closure — climbs to nearly half a million in the first full year.</p>
+
+    <h3>2029: The first short-turn line is born</h3>
+    <p>The big 2029 milestone is line 202 north of Gdynia. ZUE SA delivers the four-track configuration between Gdynia Chylonia and Wejherowo, a 17-kilometre segment with two "agglomeration tracks" reserved for SKM and two long-distance tracks for Polregio and freight. In December 2029, the timetable change introduces <strong>the first short-turn S-line in Tri-City history</strong>: trains running every 10 minutes peak between Wejherowo and Gdynia Główna, branded internally as "S2."</p>
+
+    <div class="pullquote">Wejherowo's mayor calls it the most important rail event in the town since the 1870s.</div>
+
+    <h3>2030: The provisional Pruszcz extension</h3>
+    <p>In 2030, the regional government does something that surprises observers: instead of waiting for PKM Południe to open, it launches a <strong>provisional SKM extension to Pruszcz Gdański</strong> using existing line 9 paths, with two intermediate stops reactivated. The service runs every 20 minutes peak. The technical grade of the service is below SKM standards; the political grade is high. Gdańsk's southern suburbs finally have a city train.</p>
+
+    <h2><span class="num">§ 04 — 2030–2033</span>The ring closes, the metropolis becomes legible</h2>
+
+    <p>The third phase of the decade is when the network stops being a collection of corridors and starts being a system. Three things converge.</p>
+
+    <p><strong>The first is line 201 section C</strong>, the Gdańsk Osowa–Gdynia Główna twelve kilometres with a third track and full electrification. Without it, agglomeration trains and long-distance trains compete for the same paths between Gdańsk Osowa and Gdynia. With it, <strong>a true ring service becomes possible</strong>: Gdańsk Główny → Wrzeszcz → PKM → Gdynia Główna in 38 minutes. From the December 2031 timetable change, this loop runs every 20 minutes peak in both directions.</p>
+
+    <p><strong>The second is the opening of PKM Południe in May 2032</strong>, six months behind schedule. The opening ceremony at Gdańsk Łostowice-Świętokrzyska — a deep tunnel station beneath the southern Gdańsk plateau — draws Marshal Struk, the Prime Minister, the EU Commissioner for Cohesion, and a crowd of roughly 8,000 residents. The new line carries 28,000 passengers daily on its first weekday and reaches 45,000 within six months. The City of Gdańsk's transport model finds that <strong>modal share for public transport in southern Gdańsk has jumped from 27% to 41%</strong> in two years.</p>
+
+    <div class="callout">
+      <div class="callout-num">MAY<br>2032</div>
+      <div class="callout-body">Travel time from Kowale to Gdańsk Główny: <strong>14 minutes.</strong> The Kowale park-and-ride fills to capacity by mid-2033. The City of Gdańsk's transport model, recalibrated in 2034, finds modal share for public transport in southern Gdańsk has jumped from 27% to 41% in two years.</div>
+    </div>
+
+    <p><strong>The third is operational and organizational.</strong> The PKM-SKM merger, formally completed in mid-2031, allows Pomorskie to consolidate all metropolitan rail services under one operator. Line numbering is rationalized: S1 for the spine, S2 for the Wejherowo short-turn, S3 for the new ring, S4 for PKM Południe. Bilet Metropolitalny is renamed Bilet Pomorski. The metropolitan act of 2030 gives OMGGS formal organizing competence for transport.</p>
+
+    <h2><span class="num">§ 05 — 2033–2036</span>The fifth line and the maturing system</h2>
+
+    <p>The last three years are quieter in construction terms but more interesting politically. <strong>The system that exists is not the system that was planned.</strong> PKM Południe ridership exceeds all forecasts, but the Kowale terminus is creating intolerable peak congestion. Pomorskie commissions a feasibility study in 2033 for PKM Południe Stage 2: extending from Kowale through Borkowo and Straszyn to a junction at Glincz.</p>
+
+    <p>The fifth line — the one stamped on the side of an Impulse 3 in December 2036 — is the <strong>Kościerzyna–Wrzeszcz–Gdańsk Główny regional express</strong>, integrated into the SKM brand after a year of negotiations between Polregio, the merged PKM-SKM operator, and the Marshal's office. SKM takes over the agglomeration-grade service that runs every 30 minutes peak between Kościerzyna and Wrzeszcz, calling at all stations. The line is branded <strong>S5</strong>. The branding is contested for months.</p>
+
+    <div class="pullquote">Some in Pomorskie wanted to call it RE1 to distinguish it from the agglomeration S-lines, but the political calculation is that Kashubia has been waiting too long for "real SKM" to be denied the letter S.</div>
+
+    <h2><span class="num">§ 06 — December 2036</span>The five lines, explained</h2>
+
+    <h3>S1 · Lębork ↔ Pruszcz Gdański</h3>
+    <p>The spine. 87 kilometres, every 7.5 minutes peak between Wejherowo and Pruszcz, every 15 minutes off-peak, hourly through the night. Twenty-eight stations. Carries roughly <strong>55 million passengers annually.</strong></p>
+
+    <h3>S2 · Wejherowo ↔ Gdynia Główna</h3>
+    <p>The agglomeration short-turn. 25 kilometres on dedicated agglomeration tracks delivered by ZUE in 2029. Every 10 minutes peak. Functions as a frequency overlay on the spine. <strong>About 15 million passengers annually.</strong></p>
+
+    <h3>S3 · Gdańsk Główny ↔ PKM ↔ Gdynia (the ring)</h3>
+    <p>Through-running on PKM line 248 and electrified line 201. Travel time around the loop: 38 minutes. Connects Gdańsk's airport, Olivia Centre, the southern Gdynia office cluster, and three university campuses without ever using the spine. <strong>About 12 million passengers annually.</strong></p>
+
+    <h3>S4 · PKM Południe</h3>
+    <p>Gdańsk Główny ↔ Śródmieście ↔ Łostowice-Świętokrzyska ↔ Kowale. Six stations. Every 7.5 minutes peak. <strong>About 18 million passengers annually</strong>, with strong reverse-peak demand from Kowale into Gdańsk's southern industrial zones.</p>
+
+    <h3>S5 · Wrzeszcz ↔ Kościerzyna (Kashubian regional)</h3>
+    <p>60 kilometres. Every 30 minutes peak, hourly off-peak. Eleven stations. Travel time 47 minutes. <strong>About 4 million passengers annually</strong> — small in volume but transformative for the Kashubian commuter belt.</p>
+
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="stat-num">~95M</div>
+        <div class="stat-label">Total network passengers · 2036</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">+89%</div>
+        <div class="stat-label">Growth vs 2025 baseline</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">35%</div>
+        <div class="stat-label">Public transport modal share · OMGGS</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">48</div>
+        <div class="stat-label">Train trips per resident · 2036</div>
+      </div>
+    </div>
+
+    <h2><span class="num">§ 07 — Conclusion</span>What this decade actually teaches</h2>
+
+    <p>The 2026–2036 decade in Pomerania is not a triumph of vision. It is a triumph of patience — the same plans, restated for a decade, finally meeting the funding cycles and political coalitions that can deliver them. <strong>PKM Południe was first sketched in 2010; it opens in 2032.</strong> The municipalization of SKM was first proposed in 2014; it completes in 2031. The third track between Osowa and Gdynia was designed in 2018; it carries trains in 2031.</p>
+
+    <p>By 2036 Tri-City has five lines because it built, in cumulative effect, a single coherent network out of fragments — SKM's pre-war spine, PKP PLK's modernized long-distance corridors, PKM's regional experiment, and Polregio's reactivated branches. The five lines are less an achievement than a consequence: of EU money that flowed predictably for a decade, of demographic pressure that refused to relent, of regional governance that learned to outwait and out-staff its national counterparts, and of citizens who took 33 train trips a year per capita and made it clear they would take more if more trains were offered.</p>
+
+    <div class="pullquote">A spine, a short-turn, a ring, a southern arm, and a Kashubian regional express. Five lines. One metropolis. One ticket.</div>
+
+  </article>
+</section>
+
+<!-- ============================================================ TIMELINE ============================================================ -->
+<section class="panel" id="panel-timeline">
+  <div class="timeline-wrap">
+    <div class="timeline-head">
+      <h2>The decade, year by year</h2>
+      <p class="dek">Forty-two contracts, four EU funding cycles, three national governments, one Marshal. Major events shown as filled dots; minor events as outlined.</p>
+    </div>
+
+    <div class="timeline-track">
+
+      <div class="tl-event major">
+        <div class="tl-year">2026</div>
+        <div class="tl-card">
+          <div class="tl-tag">Inheritance · Construction · Procurement</div>
+          <div class="tl-title">Last EN57 retired. Newag Impulse 2 fleet completes. KPO collapse forces re-engineering.</div>
+          <div class="tl-text">SKM signalling upgrade cuts spine headway from 7.5 to under 5 minutes. Pomorskie's 248-million-złoty rolling stock order is re-engineered using the EU Modernization Fund after the KPO June deadline lapses. Tripartite Newag/Stadler split locks in dual-mode capability for non-electrified branches.</div>
+          <div class="tl-meta"><span><b>Contracts</b> 4 signed</span><span><b>Funding</b> KPO → Mod Fund</span></div>
+        </div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-year">2027</div>
+        <div class="tl-card">
+          <div class="tl-tag">First opening</div>
+          <div class="tl-title">Lębork–Słupsk delivered. Travel time to Słupsk drops by 17 minutes.</div>
+          <div class="tl-text">Line 202 segment opens with two tracks, ETCS-ready signalling, and three new stops. Polregio's regio to Słupsk goes hourly. PKM Południe documentation delivered three months early.</div>
+          <div class="tl-meta"><span><b>Length</b> 60 km</span><span><b>Stops added</b> 3</span></div>
+        </div>
+      </div>
+
+      <div class="tl-event major">
+        <div class="tl-year">2028</div>
+        <div class="tl-card">
+          <div class="tl-tag">Pivot year · Funding · Governance</div>
+          <div class="tl-title">PKM Południe funded. SKM municipalized. EU contribution: 1.85 billion złoty.</div>
+          <div class="tl-text">EU Commission approves out-of-cycle FEnIKS amendment bringing PKM Południe EU contribution to 68% of construction cost. Budimex–Porr consortium signs in July. <strong>December: four cities and Pomorskie buy out PKP's 65.98% stake in SKM for 280M złoty.</strong> EIB-financed.</div>
+          <div class="tl-meta"><span><b>EU funding</b> 1.85B zł</span><span><b>Project owner</b> PKM SA</span></div>
+        </div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-year">2029</div>
+        <div class="tl-card">
+          <div class="tl-tag">First short-turn line</div>
+          <div class="tl-title">S2 is born. Wejherowo gets dedicated tracks. Line 229 reactivated.</div>
+          <div class="tl-text">ZUE delivers the four-track configuration Gdynia Chylonia–Wejherowo. December timetable: 10-minute peak short-turn between Wejherowo and Gdynia Główna, branded "S2" internally. Line 229 reactivated Kartuzy–Sierakowice–Lębork (508M złoty).</div>
+          <div class="tl-meta"><span><b>Headway</b> 10 min</span><span><b>Length</b> 25 km</span></div>
+        </div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-year">2030</div>
+        <div class="tl-card">
+          <div class="tl-tag">Governance reform · Provisional service</div>
+          <div class="tl-title">Metropolitan act passes. Provisional Pruszcz extension launches.</div>
+          <div class="tl-text">Sejm passes the act on Metropolia Gdańsk-Gdynia-Sopot, giving OMGGS formal organizing competence for transport. SKM launches a 20-min-peak provisional extension to Pruszcz Gdański using line 9 paths. PKM-SKM legal merger formalized.</div>
+          <div class="tl-meta"><span><b>Municipalities</b> 59</span><span><b>New stops</b> 2</span></div>
+        </div>
+      </div>
+
+      <div class="tl-event major">
+        <div class="tl-year">2031</div>
+        <div class="tl-card">
+          <div class="tl-tag">Ring closes</div>
+          <div class="tl-title">Line 201 section C opens. Third track Osowa–Gdynia. Ring service feasible.</div>
+          <div class="tl-text">12-km third track unlocks ring operation: Gdańsk Główny → PKM → Gdynia in 38 minutes. New stops Mały Kack and Źródło Marii. From December 2031 timetable, ring runs every 20 minutes peak in both directions, branded S3. Pruszcz–Pszczółki four-track section completes.</div>
+          <div class="tl-meta"><span><b>Loop time</b> 38 min</span><span><b>Headway</b> 20 min</span></div>
+        </div>
+      </div>
+
+      <div class="tl-event major">
+        <div class="tl-year">2032</div>
+        <div class="tl-card">
+          <div class="tl-tag">PKM Południe opens · Line 201 finishes</div>
+          <div class="tl-title">S4 carries 28,000 daily on day one. Bydgoszcz–Gdynia electric throughout.</div>
+          <div class="tl-text">May: PKM Południe opens to Kowale via deep-tunnel Łostowice-Świętokrzyska station. Six months behind schedule, six points ahead of forecast. Modal share in southern Gdańsk jumps from 27% to 41% within 24 months. December: Line 201 Maksymilianowo–Kościerzyna electrification completes.</div>
+          <div class="tl-meta"><span><b>Day-1 ridership</b> 28K</span><span><b>Travel time Kowale→Główny</b> 14 min</span></div>
+        </div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-year">2033</div>
+        <div class="tl-card">
+          <div class="tl-tag">Operational consolidation</div>
+          <div class="tl-title">Single PSC contract. Bilet Pomorski. Stage-2 feasibility commissioned.</div>
+          <div class="tl-text">Pomorskie and OMGGS sign one PSC contract with the merged PKM-SKM operator, replacing the patchwork of separate agreements. Bilet Metropolitalny rebranded Bilet Pomorski. PKM Południe Stage 2 (Kowale → Glincz) feasibility study commissioned.</div>
+          <div class="tl-meta"><span><b>Operator brand</b> PKM-SKM Trójmiasto</span></div>
+        </div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-year">2034</div>
+        <div class="tl-card">
+          <div class="tl-tag">Hel · Stage 2 contract · Line 212</div>
+          <div class="tl-title">Stadler battery-electric Akku trains arrive. Stage-2 contract signed. Lipusz–Bytów reactivated.</div>
+          <div class="tl-text">Six battery-electric Flirt Akku trains enter Hel service at 15-minute peak summer frequency. PKM Południe Stage 2 contract signed (1.4 billion złoty, opens 2037). Line 212 Lipusz–Bytów reactivated with two daily Polregio services.</div>
+          <div class="tl-meta"><span><b>Akku fleet</b> 6 sets</span><span><b>Stage 2 cost</b> 1.4B zł</span></div>
+        </div>
+      </div>
+
+      <div class="tl-event">
+        <div class="tl-year">2035</div>
+        <div class="tl-card">
+          <div class="tl-tag">CPK Y-line · National connection</div>
+          <div class="tl-title">Warsaw–Gdańsk: 2 hours 19 minutes.</div>
+          <div class="tl-text">CPK Y-line opens in segments through 2035. Through-service Warszawa Centralna → Gdańsk Główny enters December timetable using upgraded E65 corridor with new Płock variant. Travel time falls from 2h 35m to 2h 19m. Tri-City absorbs platform-lengthening at Gdynia Główna for regional capacity.</div>
+          <div class="tl-meta"><span><b>Time saving</b> 16 min</span><span><b>Through trains</b> 8/day</span></div>
+        </div>
+      </div>
+
+      <div class="tl-event major">
+        <div class="tl-year">2036</div>
+        <div class="tl-card">
+          <div class="tl-tag">The fifth line</div>
+          <div class="tl-title">S5 launches: Kościerzyna ↔ Wrzeszcz. Five-line network in service.</div>
+          <div class="tl-text">After a year of negotiations between Polregio, PKM-SKM, and the Marshal's office, the Kashubian regional express is integrated into the SKM brand as S5. The branding is contested for months — some wanted RE1 — but Kashubia has waited too long for "real SKM" to be denied the letter S. Network carries ~95M passengers annually. Modal share in OMGGS reaches 35%.</div>
+          <div class="tl-meta"><span><b>Total ridership</b> ~95M</span><span><b>Lines</b> 5</span><span><b>Modal share</b> 35%</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ REASONING ============================================================ -->
+<section class="panel" id="panel-reasoning">
+  <div class="reasoning-wrap">
+    <div class="timeline-head">
+      <h2>The reasoning behind the decisions</h2>
+      <p class="dek">Five iterations of analysis shaped this narrative. Each iteration interrogated the previous one's assumptions. These are the questions that mattered.</p>
+    </div>
+
+    <div class="reasoning-grid">
+
+      <div class="r-card">
+        <div class="r-num">Q.01</div>
+        <div class="r-question">Why does PKM Południe come first, before any northern extension?</div>
+        <div class="r-answer">Three reasons converge. <strong>Demographics:</strong> the Kowale–Łostowice–Borkowo axis added more residents 2010–2025 than any other Polish suburban corridor outside Warsaw. <strong>Existing commitment:</strong> by 2026, environmental decisions, design contracts, and city land contributions are already sunk costs. <strong>Funding fit:</strong> FEnIKS 2021–27 has capital it must deploy by n+3 deadlines, and PKM Południe is the only Pomeranian project of sufficient scale that can absorb 1.85B złoty. The northern Kosakowo alignment, by contrast, has no environmental decision and no design contract in 2026 — it cannot start spending fast enough.</div>
+        <div class="r-tag">Path-dependence</div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-num">Q.02</div>
+        <div class="r-question">Why does the SKM municipalization happen in 2028, not earlier or later?</div>
+        <div class="r-answer">Earlier was politically impossible: PKP S.A. valued its 65.98% stake at numbers Pomorskie wouldn't pay. Later was financially impossible: the Pakt Kolejowy commitments require unified governance to coordinate 12+ contracts running concurrently 2028–2032. <strong>The 2028 window is when EIB rates were still favorable</strong> and when Marshal Struk's negotiating leverage peaked — Pomorskie was simultaneously the largest customer of PKP infrastructure and the largest source of regional rolling stock orders.</div>
+        <div class="r-tag">Window of opportunity</div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-num">Q.03</div>
+        <div class="r-question">Why is the fifth line Kashubian, not northern (Kosakowo)?</div>
+        <div class="r-answer">This is the closest call in the narrative. Both could plausibly have been S5. The Kashubian alignment wins because <strong>line 201 modernization (already funded) does most of the construction work for free</strong> — S5 only needs operator integration, brand alignment, and frequency commitment, not new track. Kosakowo requires fresh contracts, EIA decisions, and roughly 850M złoty in capex that competes directly with Stage 2 of PKM Południe. <strong>By the time Stage 2 contract signs in 2034, the Kosakowo case is structurally weaker.</strong> Kashubia gets S5 because Kashubia is cheaper to serve.</div>
+        <div class="r-tag">Marginal cost reasoning</div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-num">Q.04</div>
+        <div class="r-question">What could realistically derail this sequence?</div>
+        <div class="r-answer">Three credible failure modes. <strong>(1) A change of government in 2027</strong> that withdraws KPO/FEnIKS amendments — this is the highest-probability disruption, but Polish rail funding has proven politically robust because EU money is involved. <strong>(2) Marshal Struk losing the 2024 election</strong> — a credible alternative incumbent does not exist; institutional knowledge would be lost. <strong>(3) Construction-cost inflation above 8% annually</strong>, which would force PKM Południe Stage 2 to be cancelled or descoped. The most likely real-world divergence is a 12–18 month slip on every milestone, not a structural failure.</div>
+        <div class="r-tag">Risk analysis</div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-num">Q.05</div>
+        <div class="r-question">Why is "trips per resident" the metric that actually matters?</div>
+        <div class="r-answer">Total passenger numbers can grow by simply moving the same commuters around more. Modal share can grow by suppressing car usage rather than by genuine network attraction. <strong>Trips per resident captures whether daily life has changed.</strong> Vienna's 5.6 trips/resident/year and Zürich's 8.1 are the gold standard for European agglomerations. Pomorskie's 33.24 in 2025 already includes long-distance and seasonal trips, but the metropolitan-only figure was around 18. The 2036 target of 48 means a typical Tri-City resident takes a train almost weekly. That is the genuine signal of network success.</div>
+        <div class="r-tag">Metric design</div>
+      </div>
+
+      <div class="r-card">
+        <div class="r-num">Q.06</div>
+        <div class="r-question">Why does brand consolidation (S1–S5) matter so much?</div>
+        <div class="r-answer">Customers experience networks, not companies. London ran Overground this way since 2007. Berlin's S-Bahn for decades. The "magic trick" — a Polregio-operated service marketed as SKM — separates corporate boundaries (which are politically rigid) from the customer promise (which can change overnight). <strong>One ticket, one app, one badge on the side of the train.</strong> Without this consolidation, a passenger faces three operators, three websites, three apps, and three brand identities — which empirically reduces ridership by 8–15% in European studies, regardless of physical network quality.</div>
+        <div class="r-tag">Brand vs operator</div>
+      </div>
+
+    </div>
+
+    <div class="iter-strip">
+      <h3>The five iterations of reasoning</h3>
+      <p>Each pass interrogated the previous one's assumptions. The fifth and final pass became the narrative.</p>
+      <div class="iter-row">
+        <div class="iter-cell">
+          <div class="iter-num">01</div>
+          <div class="iter-label">Iteration 1 · Naive extrapolation</div>
+          <div class="iter-body">Just extend known plans. Assume Pakt Kolejowy delivers on schedule. <em>Gap: ignores funding cycles and political risk.</em></div>
+        </div>
+        <div class="iter-cell">
+          <div class="iter-num">02</div>
+          <div class="iter-label">Iteration 2 · Funding-anchored</div>
+          <div class="iter-body">Constrain projects to FEnIKS, KPK 2030, and EU MFF cycles. Add n+3 deadlines. <em>Gap: still ignores governance.</em></div>
+        </div>
+        <div class="iter-cell">
+          <div class="iter-num">03</div>
+          <div class="iter-label">Iteration 3 · Governance-aware</div>
+          <div class="iter-body">Add SKM municipalization, metropolitan act, brand consolidation. <em>Gap: lacks demographic pressure model.</em></div>
+        </div>
+        <div class="iter-cell">
+          <div class="iter-num">04</div>
+          <div class="iter-label">Iteration 4 · Demographic-corrected</div>
+          <div class="iter-body">Mobile-phone study correction (1.6M not 1.4M). Suburbanization vector toward Banino/Kowale. <em>Gap: needs success metrics.</em></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ MAP ============================================================ -->
+<section class="panel" id="panel-map">
+  <div class="map-wrap">
+
+    <div class="map-controls">
+      <div class="year-display">
+        <span class="y-label">Year</span>
+        <span id="yearText">2026</span>
+      </div>
+      <div class="play-controls">
+        <button class="play-btn" id="playBtn" aria-label="Play timeline">▶</button>
+        <div style="flex:1">
+          <input type="range" min="2026" max="2036" value="2026" step="1" class="year-slider" id="yearSlider">
+          <div class="year-ticks">
+            <span>2026</span><span>2028</span><span>2030</span><span>2032</span><span>2034</span><span>2036</span>
+          </div>
+        </div>
+      </div>
+      <div class="map-stats">
+        <div class="map-stat">
+          <div class="v" id="statRiders">50M</div>
+          <div class="l">Annual riders</div>
+        </div>
+        <div class="map-stat">
+          <div class="v" id="statLines">1</div>
+          <div class="l">Active S-lines</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-canvas">
+      <svg id="mapSvg" viewBox="0 0 1200 680" xmlns="http://www.w3.org/2000/svg">
+        <!-- Bay/water background -->
+        <defs>
+          <pattern id="dotgrid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1" fill="#1a1410" opacity="0.06"/>
+          </pattern>
+          <pattern id="water" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M0,20 Q10,15 20,20 T40,20" stroke="#1a3a6c" stroke-width="0.5" fill="none" opacity="0.15"/>
+          </pattern>
+        </defs>
+        <rect width="1200" height="680" fill="#ede2d0"/>
+        <rect width="1200" height="680" fill="url(#dotgrid)"/>
+
+        <!-- Bay of Gdańsk -->
+        <path d="M 720,80 Q 850,150 950,300 Q 1000,450 950,600 L 1200,600 L 1200,80 Z" fill="url(#water)" opacity="0.6"/>
+        <path d="M 720,80 Q 850,150 950,300 Q 1000,450 950,600" stroke="#1a3a6c" stroke-width="1" fill="none" opacity="0.4" stroke-dasharray="3,3"/>
+
+        <!-- Compass -->
+        <g transform="translate(1130,80)" opacity="0.5">
+          <circle r="20" stroke="#1a1410" stroke-width="1" fill="none"/>
+          <line x1="0" y1="-15" x2="0" y2="15" stroke="#1a1410" stroke-width="0.5"/>
+          <line x1="-15" y1="0" x2="15" y2="0" stroke="#1a1410" stroke-width="0.5"/>
+          <text y="-22" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#1a1410">N</text>
+        </g>
+
+        <!-- City labels (light) -->
+        <g font-family="Fraunces" font-style="italic" font-size="13" fill="#6b5a48" opacity="0.7">
+          <text x="780" y="180">BAY OF GDAŃSK</text>
+          <text x="60" y="640">KASHUBIA</text>
+          <text x="200" y="100">POMERANIA</text>
+        </g>
+
+        <!-- ===================== LINE PATHS (drawn first, then overlaid) ===================== -->
+        <!-- All lines as base/dim, then highlighted via opacity changes -->
+
+        <!-- S1 spine: Lębork (top-left) → Wejherowo → Reda → Rumia → Gdynia → Sopot → Gdańsk Wrzeszcz → Główny → Śródmieście → Pruszcz -->
+        <g id="lineS1">
+          <path d="M 100,200 L 280,260 L 380,290 L 460,330 L 540,380 L 620,440 L 700,490 L 760,530 L 820,570 L 880,610" stroke="#1a3a6c" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- southern provisional 2030+ extension to Pruszcz -->
+          <path id="s1ext" d="M 880,610 L 950,640" stroke="#1a3a6c" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="0" opacity="0"/>
+        </g>
+
+        <!-- S2 short-turn: Wejherowo → Reda → Rumia → Gdynia (parallel offset, opens 2029) -->
+        <g id="lineS2" opacity="0">
+          <path d="M 280,250 L 380,280 L 460,320 L 540,370 L 620,430" stroke="#d6a82c" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,-12)"/>
+        </g>
+
+        <!-- S3 ring: Gdańsk Główny → Wrzeszcz → PKM (Strzyża, Brętowo, Jasień, Matarnia, Lotnisko, Osowa) → Gdynia Wielki Kack → Karwiny → Gdynia Główna -->
+        <g id="lineS3" opacity="0">
+          <!-- from Gdańsk Główny up through PKM curve to airport, then north to Gdynia -->
+          <path d="M 760,530 L 700,490 Q 580,460 480,420 Q 380,360 360,260 Q 400,200 480,200 Q 580,220 620,440" stroke="#a52818" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+
+        <!-- S4 PKM Południe: Gdańsk Główny → Śródmieście → Łostowice → Kowale (south-southeast) -->
+        <g id="lineS4" opacity="0">
+          <path d="M 760,530 L 820,570 L 800,620 L 740,660 L 660,640" stroke="#7a3a8c" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+
+        <!-- S5 Kashubian: Wrzeszcz → Osowa → Somonino → Kościerzyna (long curve to southwest) -->
+        <g id="lineS5" opacity="0">
+          <path d="M 700,490 Q 600,460 500,420 Q 380,360 320,300 Q 240,250 180,260 L 80,300" stroke="#1d4d3a" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+
+        <!-- ===================== STATIONS ===================== -->
+        <!-- Major stations as larger circles -->
+        <g id="stations">
+          <!-- S1 stations -->
+          <g class="station" data-y="2026">
+            <circle cx="100" cy="200" r="6" fill="#f4ece0" stroke="#1a1410" stroke-width="2"/>
+            <text x="100" y="186" text-anchor="middle" font-family="JetBrains Mono" font-size="10" font-weight="700" fill="#1a1410">LĘBORK</text>
+          </g>
+          <g class="station" data-y="2026">
+            <circle cx="280" cy="260" r="7" fill="#f4ece0" stroke="#1a1410" stroke-width="2"/>
+            <text x="280" y="246" text-anchor="middle" font-family="JetBrains Mono" font-size="10" font-weight="700" fill="#1a1410">WEJHEROWO</text>
+          </g>
+          <g class="station" data-y="2026">
+            <circle cx="380" cy="290" r="5" fill="#f4ece0" stroke="#1a1410" stroke-width="1.5"/>
+            <text x="385" y="284" font-family="JetBrains Mono" font-size="9" fill="#3a2e22">REDA</text>
+          </g>
+          <g class="station" data-y="2026">
+            <circle cx="460" cy="330" r="5" fill="#f4ece0" stroke="#1a1410" stroke-width="1.5"/>
+            <text x="465" y="324" font-family="JetBrains Mono" font-size="9" fill="#3a2e22">RUMIA</text>
+          </g>
+          <g class="station" data-y="2026">
+            <circle cx="540" cy="380" r="5" fill="#f4ece0" stroke="#1a1410" stroke-width="1.5"/>
+            <text x="500" y="374" font-family="JetBrains Mono" font-size="9" fill="#3a2e22">CHYLONIA</text>
+          </g>
+          <g class="station" data-y="2026">
+            <circle cx="620" cy="440" r="8" fill="#a52818" stroke="#1a1410" stroke-width="2"/>
+            <text x="630" y="436" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#1a1410">GDYNIA</text>
+          </g>
+          <g class="station" data-y="2026">
+            <circle cx="700" cy="490" r="6" fill="#f4ece0" stroke="#1a1410" stroke-width="2"/>
+            <text x="710" y="486" font-family="JetBrains Mono" font-size="10" fill="#1a1410">SOPOT</text>
+          </g>
+          <g class="station" data-y="2026">
+            <circle cx="760" cy="530" r="6" fill="#f4ece0" stroke="#1a1410" stroke-width="2"/>
+            <text x="770" y="526" font-family="JetBrains Mono" font-size="10" fill="#1a1410">WRZESZCZ</text>
+          </g>
+          <g class="station" data-y="2026">
+            <circle cx="820" cy="570" r="9" fill="#a52818" stroke="#1a1410" stroke-width="2"/>
+            <text x="830" y="566" font-family="JetBrains Mono" font-size="12" font-weight="700" fill="#1a1410">GDAŃSK GŁ.</text>
+          </g>
+          <g class="station" data-y="2026">
+            <circle cx="880" cy="610" r="5" fill="#f4ece0" stroke="#1a1410" stroke-width="1.5"/>
+            <text x="885" y="606" font-family="JetBrains Mono" font-size="9" fill="#3a2e22">ŚRÓDMIEŚCIE</text>
+          </g>
+
+          <!-- 2030: Pruszcz -->
+          <g class="station" data-y="2030" opacity="0">
+            <circle cx="950" cy="640" r="5" fill="#f4ece0" stroke="#1a1a3a6c" stroke-width="1.5"/>
+            <text x="955" y="636" font-family="JetBrains Mono" font-size="9" fill="#3a2e22">PRUSZCZ</text>
+          </g>
+
+          <!-- PKM stations (line is faintly shown from 2026 as preexisting infrastructure but S3 ring activates 2031) -->
+          <g class="pkm-station" opacity="0.4" data-y="2026">
+            <circle cx="480" cy="420" r="4" fill="#f4ece0" stroke="#1a1410" stroke-width="1"/>
+            <circle cx="380" cy="360" r="4" fill="#f4ece0" stroke="#1a1410" stroke-width="1"/>
+            <circle cx="360" cy="260" r="5" fill="#f4ece0" stroke="#1a1410" stroke-width="1.5"/>
+            <text x="305" y="254" font-family="JetBrains Mono" font-size="9" fill="#3a2e22">LOTNISKO</text>
+            <circle cx="480" cy="200" r="4" fill="#f4ece0" stroke="#1a1410" stroke-width="1"/>
+            <text x="490" y="195" font-family="JetBrains Mono" font-size="9" fill="#3a2e22">OSOWA</text>
+          </g>
+
+          <!-- 2032: PKM Południe stations -->
+          <g class="station" data-y="2032" opacity="0">
+            <circle cx="800" cy="620" r="5" fill="#f4ece0" stroke="#7a3a8c" stroke-width="2"/>
+            <text x="730" y="616" font-family="JetBrains Mono" font-size="9" fill="#3a2e22">ŁOSTOWICE</text>
+            <circle cx="740" cy="660" r="4" fill="#f4ece0" stroke="#7a3a8c" stroke-width="2"/>
+            <circle cx="660" cy="640" r="6" fill="#7a3a8c" stroke="#1a1410" stroke-width="2"/>
+            <text x="595" y="660" font-family="JetBrains Mono" font-size="10" font-weight="700" fill="#1a1410">KOWALE</text>
+          </g>
+
+          <!-- 2036: S5 Kashubian stations -->
+          <g class="station" data-y="2036" opacity="0">
+            <circle cx="320" cy="300" r="4" fill="#f4ece0" stroke="#1d4d3a" stroke-width="2"/>
+            <text x="240" y="320" font-family="JetBrains Mono" font-size="9" fill="#3a2e22">SOMONINO</text>
+            <circle cx="180" cy="260" r="4" fill="#f4ece0" stroke="#1d4d3a" stroke-width="2"/>
+            <circle cx="80" cy="300" r="6" fill="#1d4d3a" stroke="#1a1410" stroke-width="2"/>
+            <text x="60" y="285" font-family="JetBrains Mono" font-size="10" font-weight="700" fill="#1a1410">KOŚCIERZYNA</text>
+          </g>
+        </g>
+
+        <!-- Year stamp -->
+        <g>
+          <rect x="40" y="40" width="120" height="40" fill="#1a1410"/>
+          <text x="100" y="66" text-anchor="middle" font-family="Fraunces" font-size="22" font-weight="600" fill="#f4ece0" id="svgYear">2026</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="map-caption">
+      <div class="mc-year" id="mcYearLabel">2026 · The starting line</div>
+      <div class="mc-event" id="mcEventText">SKM spine carries 50M passengers. PKM operating since 2015. Line 202 a moving construction site. PKM Południe has a designer but no construction money.</div>
+    </div>
+
+    <div class="line-legend">
+      <div class="legend-item" data-line="1">
+        <div class="legend-bar" style="background:#1a3a6c"></div>
+        <div class="legend-name">SKM 1 · SPINE</div>
+        <div class="legend-route">Lębork ↔ Pruszcz Gdański</div>
+        <div class="legend-since">Continuous since 1951</div>
+      </div>
+      <div class="legend-item dim" data-line="2">
+        <div class="legend-bar" style="background:#d6a82c"></div>
+        <div class="legend-name">SKM 2 · SHORT-TURN</div>
+        <div class="legend-route">Wejherowo ↔ Gdynia Główna</div>
+        <div class="legend-since">From Dec 2029</div>
+      </div>
+      <div class="legend-item dim" data-line="3">
+        <div class="legend-bar" style="background:#a52818"></div>
+        <div class="legend-name">SKM 3 · RING</div>
+        <div class="legend-route">Główny ↔ PKM ↔ Gdynia</div>
+        <div class="legend-since">From Dec 2031</div>
+      </div>
+      <div class="legend-item dim" data-line="4">
+        <div class="legend-bar" style="background:#7a3a8c"></div>
+        <div class="legend-name">SKM 4 · POŁUDNIE</div>
+        <div class="legend-route">Główny ↔ Łostowice ↔ Kowale</div>
+        <div class="legend-since">From May 2032</div>
+      </div>
+      <div class="legend-item dim" data-line="5">
+        <div class="legend-bar" style="background:#1d4d3a"></div>
+        <div class="legend-name">SKM 5 · KASHUBIAN</div>
+        <div class="legend-route">Wrzeszcz ↔ Kościerzyna</div>
+        <div class="legend-since">From Dec 2036</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================ LEARNING ============================================================ -->
+<section class="panel" id="panel-learn">
+  <div class="learn-wrap">
+
+    <div class="timeline-head">
+      <h2>Five durable lessons</h2>
+      <p class="dek">For someone learning how rail networks actually develop — not how they appear in glossy strategy documents — Tri-City's decade offers a remarkably clean case study.</p>
+    </div>
+
+    <div class="lesson">
+      <div class="lesson-num">01<small>FUNDING</small></div>
+      <div>
+        <div class="lesson-title">Funding cycles, not engineering, set the timing.</div>
+        <div class="lesson-body">
+          <p>Every major Pomeranian rail project in this decade is shaped by the EU's Multiannual Financial Framework, which runs in seven-year cycles (2014–2020, 2021–2027, 2028–2034). Projects rush to be "n+3" eligible, meaning they must spend their allocation within three years of the cycle ending.</p>
+          <p>Line 202's slipped 2027 completion costs Pomorskie nothing engineering-wise but jeopardizes 280 million złoty of FEnIKS reimbursement. The PKM Południe construction tender is timed in 2028 not because the design is finished — it could have been ready earlier — but because the FEnIKS amendment cycle aligns.</p>
+        </div>
+        <div class="takeaway">Never look at a rail project schedule without first asking which EU programme is paying for which segment, and what the n+3 deadline is.</div>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <div class="lesson-num">02<small>STRUCTURE</small></div>
+      <div>
+        <div class="lesson-title">The infrastructure manager and the operator are <em>different organisms</em> with different incentives.</div>
+        <div class="lesson-body">
+          <p>PKP PLK builds the tracks but does not run trains. SKM and Polregio run trains but do not own the rails they run on. PKM SA, uniquely, does both — which is why it can deliver projects faster and integrate operations more tightly than the national norm.</p>
+          <p>It is also why PKM is more politically vulnerable: a single regional government takes both blame and credit. The 2030 metropolitan act and the 2031 PKM-SKM merger try to push the whole Tri-City network toward the PKM model.</p>
+        </div>
+        <div class="takeaway">Whether vertical integration improves outcomes by 2040 is one of the open questions of the decade. The bet is that it does.</div>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <div class="lesson-num">03<small>DEMOGRAPHICS</small></div>
+      <div>
+        <div class="lesson-title">Demographics outrun timetables.</div>
+        <div class="lesson-body">
+          <p>The most important data underlying every project is not in any rail document. It is in the Pomorskie Biuro Planowania Regionalnego mobile-phone study showing that 200,000 more people live in the metropolis than the GUS register records, almost all in suburban communes.</p>
+          <p>The PKM Południe alignment chooses Kowale over Pruszcz Gdański because that is where the people <em>are</em>, not where the historical rail map suggested they would be. Suburbanization is the engine; rail infrastructure is the chassis trying to catch up.</p>
+        </div>
+        <div class="takeaway">When a network forgets this — as Polish rail did in the 1990s — it loses two decades of ridership.</div>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <div class="lesson-num">04<small>METRICS</small></div>
+      <div>
+        <div class="lesson-title">Success metrics are <em>political</em> before they are technical.</div>
+        <div class="lesson-body">
+          <p>Tri-City's two tracked metrics in 2036 — passengers per year (95 million network-wide) and modal share for public transport (35% metropolitan-wide) — are presented to voters as proof of competence.</p>
+          <p>But the metric Marshal Struk's office watches in private is <strong>trips per resident per year</strong>, where Pomorskie holds and extends a national lead. Trips-per-resident captures whether the network is genuinely changing daily life, or merely moving the same commuters around. By 2036 it stands at 48, up from 33.24 in 2024.</p>
+        </div>
+        <div class="takeaway">The metric you can publish is the one that survives politics. The metric you trust is the one that captures behaviour change.</div>
+      </div>
+    </div>
+
+    <div class="lesson">
+      <div class="lesson-num">05<small>COOPERATION</small></div>
+      <div>
+        <div class="lesson-title">Cooperation pays a premium that <em>no single player</em> can capture.</div>
+        <div class="lesson-body">
+          <p>The Bilet Metropolitalny in 2008. The FALA payment system in 2024. The joint PSC contract in 2033. The four-city buyout of PKP's stake in 2028. Each is a coordination victory whose return shows up in ridership two to five years later, never on the books of the agency that paid for it.</p>
+          <p>This is why metropolitan transport governance is hard everywhere, and why Pomorskie's eventual win is partly a function of having the same Marshal in office continuously since 2010, building relationships across changes of national government.</p>
+        </div>
+        <div class="takeaway">Institutional persistence beats institutional brilliance. The single most important variable is who is still in the room after the third election.</div>
+      </div>
+    </div>
+
+    <!-- Funding chart -->
+    <div class="fund-chart">
+      <h4>Where the money came from</h4>
+      <p>Indicative split of capital expenditure on Tri-City rail infrastructure, 2026–2036</p>
+      <div class="fund-bars">
+        <div class="fund-bar">
+          <div class="fund-label">EU FEnIKS</div>
+          <div class="fund-track"><div class="fund-fill" style="width:42%">&nbsp;</div></div>
+          <div class="fund-pct">42%</div>
+        </div>
+        <div class="fund-bar">
+          <div class="fund-label">EU CEF/MFF</div>
+          <div class="fund-track"><div class="fund-fill f2" style="width:18%">&nbsp;</div></div>
+          <div class="fund-pct">18%</div>
+        </div>
+        <div class="fund-bar">
+          <div class="fund-label">National (KPK)</div>
+          <div class="fund-track"><div class="fund-fill f3" style="width:24%">&nbsp;</div></div>
+          <div class="fund-pct">24%</div>
+        </div>
+        <div class="fund-bar">
+          <div class="fund-label">Pomorskie</div>
+          <div class="fund-track"><div class="fund-fill f4" style="width:11%">&nbsp;</div></div>
+          <div class="fund-pct">11%</div>
+        </div>
+        <div class="fund-bar">
+          <div class="fund-label">Cities + EIB</div>
+          <div class="fund-track"><div class="fund-fill f5" style="width:5%">&nbsp;</div></div>
+          <div class="fund-pct">5%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Glossary -->
+    <div class="glossary">
+      <h3>Glossary of acronyms</h3>
+      <div class="gloss-grid">
+        <div class="gloss-item">
+          <div class="gloss-term">SKM</div>
+          <div class="gloss-def">Szybka Kolej Miejska — Tri-City's commuter rail operator since 1951; majority-owned by PKP until 2028, then by Pomorskie + four cities.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">PKM</div>
+          <div class="gloss-def">Pomorska Kolej Metropolitalna — regional rail company that opened the Wrzeszcz–Airport–Osowa line in September 2015. Both infrastructure manager and (after 2031) operator.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">PKP PLK</div>
+          <div class="gloss-def">PKP Polskie Linie Kolejowe — Poland's national rail infrastructure manager. Owns most of the track in the country.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">FEnIKS</div>
+          <div class="gloss-def">Fundusze Europejskie na Infrastrukturę, Klimat, Środowisko — Poland's main EU cohesion programme for transport infrastructure 2021–2027.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">KPO</div>
+          <div class="gloss-def">Krajowy Plan Odbudowy — Poland's National Recovery and Resilience Plan, the EU's post-COVID Recovery and Resilience Facility allocation.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">KPK 2030</div>
+          <div class="gloss-def">Krajowy Program Kolejowy — National Rail Programme through 2030. Domestic capital programme for rail infrastructure.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">OMGGS</div>
+          <div class="gloss-def">Obszar Metropolitalny Gdańsk-Gdynia-Sopot — voluntary association of 59 municipalities; gains formal organising competence after 2030 metropolitan act.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">CPK</div>
+          <div class="gloss-def">Centralny Port Komunikacyjny — Poland's central transport hub project, including the Y-line high-speed rail Warsaw-Łódź-Wrocław-Poznań.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">PSC</div>
+          <div class="gloss-def">Public Service Contract — the legal vehicle by which a regional authority orders and pays an operator to run trains on its territory.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">ETCS</div>
+          <div class="gloss-def">European Train Control System — the EU-mandated signalling standard. Level 2 enables 200 km/h operation.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">EIB</div>
+          <div class="gloss-def">European Investment Bank — provides long-tenor public-sector loans; financed the SKM municipalization buyout in 2028.</div>
+        </div>
+        <div class="gloss-item">
+          <div class="gloss-term">n+3</div>
+          <div class="gloss-def">EU funding rule: money allocated in year n must be spent by year n+3, or it expires. Drives most rail project timing.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  Pomeranian Quarterly · A speculative dispatch from <b>Wednesday, 29 April 2026</b> · This narrative imagines the decade ahead. Anchored in real contracts as of early 2026.
+</footer>
+
+<script>
+// =================== TABS ===================
+const tabs = document.querySelectorAll('.tab');
+const panels = document.querySelectorAll('.panel');
+tabs.forEach(t => t.addEventListener('click', () => {
+  tabs.forEach(x => x.classList.remove('active'));
+  panels.forEach(p => p.classList.remove('active'));
+  t.classList.add('active');
+  document.getElementById('panel-' + t.dataset.tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+
+// =================== MAP ANIMATION ===================
+const slider = document.getElementById('yearSlider');
+const yearText = document.getElementById('yearText');
+const svgYear = document.getElementById('svgYear');
+const playBtn = document.getElementById('playBtn');
+const statRiders = document.getElementById('statRiders');
+const statLines = document.getElementById('statLines');
+const mcYearLabel = document.getElementById('mcYearLabel');
+const mcEventText = document.getElementById('mcEventText');
+
+const yearData = {
+  2026: {riders:'50M',lines:1,label:'2026 · The starting line',event:'SKM spine carries 50M passengers. PKM operating since 2015. Line 202 a moving construction site. PKM Południe has a designer but no construction money.'},
+  2027: {riders:'52M',lines:1,label:'2027 · First opening',event:'Line 202 Lębork–Słupsk delivered. Travel time to Słupsk falls 17 minutes. PKM Południe documentation ready three months early.'},
+  2028: {riders:'53M',lines:1,label:'2028 · The pivot year',event:'PKM Południe construction begins (1.85B złoty EU funding). Four cities + Pomorskie buy out PKP\'s 65.98% stake in SKM for 280M złoty.'},
+  2029: {riders:'56M',lines:2,label:'2029 · S2 is born',event:'Four-track Gdynia–Wejherowo opens. First short-turn line in Tri-City history: every 10 minutes peak. Line 229 reactivated to Sierakowice and Lębork.'},
+  2030: {riders:'59M',lines:2,label:'2030 · Governance reform',event:'Metropolitan act passes. OMGGS gains transport competence. Provisional SKM service to Pruszcz Gdański launches via line 9 paths.'},
+  2031: {riders:'68M',lines:3,label:'2031 · The ring closes',event:'Third track Osowa–Gdynia opens. S3 ring service begins: Główny → PKM → Gdynia in 38 minutes, every 20 min peak. Pruszcz–Pszczółki four-track section completes.'},
+  2032: {riders:'82M',lines:4,label:'2032 · PKM Południe opens',event:'S4 carries 28,000 daily on day one, reaches 45,000 within six months. Modal share in southern Gdańsk: 27% → 41% in two years. Bydgoszcz–Gdynia electric throughout.'},
+  2033: {riders:'85M',lines:4,label:'2033 · Operational consolidation',event:'Single PSC contract with merged PKM-SKM operator. Bilet Metropolitalny becomes Bilet Pomorski. Stage-2 feasibility commissioned.'},
+  2034: {riders:'88M',lines:4,label:'2034 · Hel and Bytów',event:'Stadler battery-electric Akku trains begin Hel service. PKM Południe Stage-2 contract signed (1.4B złoty). Lipusz–Bytów line reactivated.'},
+  2035: {riders:'91M',lines:4,label:'2035 · CPK Y-line opens',event:'Through-service Warsaw → Gdańsk: 2 hours 19 minutes. Tri-City absorbs platform extensions at Gdynia Główna for regional capacity.'},
+  2036: {riders:'~95M',lines:5,label:'2036 · The fifth line',event:'S5 launches: Kościerzyna ↔ Wrzeszcz, every 30 minutes peak. Five-line network in service. Modal share OMGGS reaches 35%. Trips per resident: 48.'}
+};
+
+function updateYear(y) {
+  yearText.textContent = y;
+  svgYear.textContent = y;
+  const d = yearData[y];
+  statRiders.textContent = d.riders;
+  statLines.textContent = d.lines;
+  mcYearLabel.textContent = d.label;
+  mcEventText.textContent = d.event;
+
+  // Show/hide line elements
+  document.getElementById('lineS1').style.opacity = 1; // S1 always on
+  // Provisional Pruszcz extension shows from 2030
+  document.getElementById('s1ext').style.opacity = (y >= 2030) ? 0.7 : 0;
+  document.getElementById('lineS2').style.opacity = (y >= 2029) ? 1 : 0;
+  document.getElementById('lineS3').style.opacity = (y >= 2031) ? 1 : 0;
+  document.getElementById('lineS4').style.opacity = (y >= 2032) ? 1 : 0;
+  document.getElementById('lineS5').style.opacity = (y >= 2036) ? 1 : 0;
+
+  // Show/hide stations by year
+  document.querySelectorAll('.station[data-y]').forEach(s => {
+    const stationYear = parseInt(s.dataset.y);
+    s.style.opacity = (y >= stationYear) ? 1 : 0;
+    s.style.transition = 'opacity 0.6s';
+  });
+
+  // Update legend dim states
+  document.querySelectorAll('.legend-item').forEach(item => {
+    const ln = parseInt(item.dataset.line);
+    let active = false;
+    if (ln === 1) active = true;
+    if (ln === 2 && y >= 2029) active = true;
+    if (ln === 3 && y >= 2031) active = true;
+    if (ln === 4 && y >= 2032) active = true;
+    if (ln === 5 && y >= 2036) active = true;
+    item.classList.toggle('dim', !active);
+  });
+}
+
+slider.addEventListener('input', e => updateYear(parseInt(e.target.value)));
+
+// Play animation
+let playInterval = null;
+playBtn.addEventListener('click', () => {
+  if (playInterval) {
+    clearInterval(playInterval);
+    playInterval = null;
+    playBtn.textContent = '▶';
+    return;
+  }
+  playBtn.textContent = '❚❚';
+  let y = parseInt(slider.value);
+  if (y >= 2036) { y = 2026; slider.value = y; updateYear(y); }
+  playInterval = setInterval(() => {
+    y++;
+    if (y > 2036) {
+      clearInterval(playInterval);
+      playInterval = null;
+      playBtn.textContent = '▶';
+      return;
+    }
+    slider.value = y;
+    updateYear(y);
+  }, 1100);
+});
+
+// Initialize
+updateYear(2026);
+
+// Add smooth transitions to lines
+document.querySelectorAll('#lineS1, #lineS2, #lineS3, #lineS4, #lineS5, #s1ext').forEach(el => {
+  el.style.transition = 'opacity 0.8s';
+});
+</script>
+
+</body>
+</html>
