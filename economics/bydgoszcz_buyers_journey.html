@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bydgoszcz - a buyer's journey</title>
+<meta name="author" content="Alexander Gostev">
+<meta name="description" content="A nine-chapter guide to buying an apartment in Bydgoszcz, Poland - districts, developers, estates, prices and what to verify before signing.">
+<meta name="copyright" content="© 2026 Alexander Gostev">
+<meta property="og:title" content="Bydgoszcz - a buyer's journey">
+<meta property="og:description" content="Which districts hold their value, which builders finish properly, and which numbers are quietly lying to you.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBFAF7;
+  --paper-2:#F4F1EA;
+  --paper-3:#EDE8DE;
+  --ink:#1E1E1B;
+  --ink-2:#4A4A44;
+  --ink-3:#7C7A71;
+  --line:#DFD9CC;
+  --line-2:#C9C1B0;
+  --moss:#4A5D4E;
+  --moss-l:#7C9080;
+  --clay:#A8674C;
+  --clay-l:#C99B84;
+  --sky:#5A7B8C;
+  --amber:#B08442;
+  --stone:#9A968C;
+  --max:820px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:16.5px;
+  line-height:1.72;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
+
+/* ── typography ─────────────────────────────── */
+h1,h2,h3,h4{font-family:'Fraunces',Georgia,serif;font-weight:400;letter-spacing:-0.01em;line-height:1.18}
+h2{font-size:2.05rem;margin:0 0 .2em}
+h3{font-size:1.32rem;margin:2.6em 0 .5em;font-weight:500}
+h4{font-size:1.02rem;margin:2em 0 .3em;font-family:'Inter',sans-serif;font-weight:600;letter-spacing:.01em}
+p{margin:0 0 1.15em}
+a{color:var(--moss);text-decoration:none;border-bottom:1px solid var(--line-2);transition:.18s}
+a:hover{color:var(--clay);border-bottom-color:var(--clay)}
+small{font-size:.82rem}
+.lead{font-size:1.12rem;color:var(--ink-2);line-height:1.68}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.86em;letter-spacing:-.02em}
+
+/* ── cover ──────────────────────────────────── */
+.cover{
+  min-height:88vh;display:flex;flex-direction:column;justify-content:center;
+  padding:80px 0 60px;border-bottom:1px solid var(--line);
+}
+.kicker{
+  font-size:.72rem;text-transform:uppercase;letter-spacing:.22em;
+  color:var(--ink-3);font-weight:500;margin-bottom:2.2rem;
+}
+.cover h1{font-size:clamp(2.6rem,6.5vw,4.1rem);font-weight:300;margin:0 0 .35em;line-height:1.06}
+.cover h1 em{font-style:italic;color:var(--moss)}
+.cover .sub{font-size:1.18rem;color:var(--ink-2);max-width:56ch;line-height:1.62;margin-bottom:2.6rem}
+.cover-meta{
+  display:flex;flex-wrap:wrap;gap:0 40px;padding-top:22px;border-top:1px solid var(--line);
+  font-size:.8rem;color:var(--ink-3);
+}
+.cover-meta b{display:block;color:var(--ink);font-weight:500;font-size:.92rem;margin-bottom:2px}
+
+/* ── contents ───────────────────────────────── */
+.toc{margin:70px 0 0;padding:34px 0 0;border-top:1px solid var(--line)}
+.toc ol{list-style:none;margin:0;padding:0;counter-reset:ch}
+.toc li{counter-increment:ch;border-bottom:1px solid var(--line);}
+.toc a{
+  display:flex;align-items:baseline;gap:18px;padding:15px 4px;border:0;
+  color:var(--ink);
+}
+.toc a:hover{background:var(--paper-2);color:var(--moss);padding-left:12px}
+.toc a::before{
+  content:counter(ch,upper-roman);font-family:'IBM Plex Mono',monospace;font-size:.72rem;
+  color:var(--stone);min-width:34px;letter-spacing:.06em;
+}
+.toc .t{font-family:'Fraunces',serif;font-size:1.06rem}
+.toc .d{margin-left:auto;font-size:.78rem;color:var(--ink-3);text-align:right;max-width:44%}
+@media(max-width:640px){.toc .d{display:none}}
+
+/* ── chapters ───────────────────────────────── */
+.chapter{padding:86px 0 20px;border-top:1px solid var(--line);margin-top:60px}
+.chapter:first-of-type{border-top:0}
+.ch-num{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.2em;
+  color:var(--clay);text-transform:uppercase;margin-bottom:14px;
+}
+.ch-open{
+  font-family:'Fraunces',serif;font-size:1.18rem;font-weight:300;line-height:1.62;
+  color:var(--ink-2);font-style:italic;
+  border-left:2px solid var(--moss-l);padding-left:22px;margin:26px 0 34px;
+}
+
+/* ── hover glossary ─────────────────────────── */
+.g{
+  border-bottom:1px dotted var(--clay);cursor:help;position:relative;
+  color:inherit;
+}
+.g::after{
+  content:attr(data-t);
+  position:absolute;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%) translateY(4px);
+  background:var(--ink);color:#F6F3EC;padding:10px 13px;border-radius:3px;
+  font-family:'Inter',sans-serif;font-size:.78rem;line-height:1.5;font-style:normal;font-weight:400;
+  width:max-content;max-width:290px;white-space:normal;text-align:left;
+  opacity:0;pointer-events:none;transition:.16s;z-index:60;
+  box-shadow:0 8px 26px rgba(30,30,27,.18);
+}
+.g::before{
+  content:'';position:absolute;left:50%;bottom:calc(100% + 3px);transform:translateX(-50%);
+  border:5px solid transparent;border-top-color:var(--ink);
+  opacity:0;pointer-events:none;transition:.16s;z-index:60;
+}
+.g:hover::after,.g:hover::before{opacity:1;transform:translateX(-50%) translateY(0)}
+.g:hover::before{transform:translateX(-50%)}
+
+/* sourced figure - hover shows source, click opens it */
+.s{
+  border-bottom:1px solid var(--line-2);position:relative;color:var(--ink);
+  font-weight:500;
+}
+.s:hover{color:var(--clay);border-bottom-color:var(--clay)}
+.s::after{
+  content:attr(data-t);
+  position:absolute;left:50%;bottom:calc(100% + 9px);transform:translateX(-50%) translateY(4px);
+  background:var(--moss);color:#F6F3EC;padding:9px 13px;border-radius:3px;
+  font-size:.75rem;line-height:1.5;font-weight:400;
+  width:max-content;max-width:280px;text-align:left;
+  opacity:0;pointer-events:none;transition:.16s;z-index:60;
+  box-shadow:0 8px 26px rgba(30,30,27,.18);
+}
+.s:hover::after{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── confidence chips ───────────────────────── */
+.c{
+  display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.63rem;
+  letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:2px;
+  vertical-align:middle;position:relative;cursor:help;white-space:nowrap;
+}
+.c-v{background:#E3EAE2;color:#3B5040;border:1px solid #C6D4C6}
+.c-r{background:#F3E9D8;color:#7E5D22;border:1px solid #E2D0B0}
+.c-w{background:#EEE9E4;color:#6E655C;border:1px solid #DCD3C8}
+.c::after{
+  content:attr(data-t);position:absolute;left:0;bottom:calc(100% + 8px);
+  background:var(--ink);color:#F6F3EC;padding:9px 12px;border-radius:3px;
+  font-family:'Inter',sans-serif;font-size:.74rem;letter-spacing:0;text-transform:none;line-height:1.5;
+  width:max-content;max-width:270px;text-align:left;
+  opacity:0;pointer-events:none;transition:.16s;z-index:60;
+  box-shadow:0 8px 26px rgba(30,30,27,.18);
+}
+.c:hover::after{opacity:1}
+
+/* ── tables ─────────────────────────────────── */
+.tw{overflow-x:auto;margin:26px 0 30px}
+table{width:100%;border-collapse:collapse;font-size:.87rem}
+th{
+  text-align:left;font-weight:500;font-size:.68rem;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-3);padding:0 14px 10px 0;border-bottom:1px solid var(--line-2);white-space:nowrap;
+}
+td{padding:12px 14px 12px 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+tbody tr{transition:.14s}
+tbody tr:hover{background:var(--paper-2)}
+tbody tr:hover td{color:var(--ink)}
+td strong,th:first-child{color:var(--ink)}
+td.num{font-family:'IBM Plex Mono',monospace;font-size:.85rem;white-space:nowrap;color:var(--ink)}
+.up{color:var(--moss)}
+.dn{color:var(--clay)}
+.flat{color:var(--stone)}
+
+/* ── cards ──────────────────────────────────── */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:14px;margin:28px 0 32px}
+.card{
+  background:var(--paper-2);border:1px solid var(--line);border-radius:3px;
+  padding:20px 20px 18px;transition:.2s;position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--moss-l);
+  transform:scaleY(0);transform-origin:top;transition:.28s;
+}
+.card:hover{background:#fff;border-color:var(--line-2);transform:translateY(-2px);box-shadow:0 10px 28px rgba(30,30,27,.07)}
+.card:hover::before{transform:scaleY(1)}
+.card .r{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--stone);letter-spacing:.14em;margin-bottom:8px}
+.card h4{margin:0 0 4px;font-family:'Fraunces',serif;font-size:1.14rem;font-weight:500}
+.card .pr{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--moss);margin-bottom:10px}
+.card p{font-size:.85rem;line-height:1.62;color:var(--ink-2);margin:0 0 8px}
+.card .hid{
+  max-height:0;opacity:0;overflow:hidden;transition:.32s;
+  font-size:.79rem;color:var(--ink-3);line-height:1.58;
+}
+.card:hover .hid{max-height:220px;opacity:1;margin-top:8px;padding-top:9px;border-top:1px solid var(--line)}
+
+/* ── callouts ───────────────────────────────── */
+.note{
+  border-left:2px solid var(--line-2);padding:4px 0 4px 22px;margin:26px 0;
+  font-size:.9rem;color:var(--ink-2);
+}
+.note b{color:var(--ink);font-weight:600}
+.warn{border-left-color:var(--clay)}
+.warn b{color:var(--clay)}
+.good{border-left-color:var(--moss-l)}
+
+.box{
+  background:var(--paper-2);border:1px solid var(--line);border-radius:3px;
+  padding:24px 26px;margin:30px 0;
+}
+.box h4{margin-top:0}
+.box ul{margin:0;padding-left:18px}
+.box li{margin-bottom:.5em;font-size:.9rem;color:var(--ink-2)}
+
+/* checklist */
+.check{list-style:none;padding:0;margin:18px 0}
+.check li{
+  padding:11px 0 11px 30px;border-bottom:1px solid var(--line);position:relative;
+  font-size:.9rem;color:var(--ink-2);transition:.15s;
+}
+.check li::before{
+  content:'';position:absolute;left:2px;top:16px;width:11px;height:11px;
+  border:1px solid var(--line-2);border-radius:1px;transition:.18s;
+}
+.check li:hover{color:var(--ink);padding-left:34px}
+.check li:hover::before{background:var(--moss-l);border-color:var(--moss)}
+.check .pl{font-style:italic;color:var(--ink-3);font-size:.85em}
+
+/* pull quote */
+.pull{
+  font-family:'Fraunces',serif;font-size:1.42rem;font-weight:300;line-height:1.45;
+  color:var(--moss);margin:44px 0;padding:0 0 0 4px;
+}
+
+/* stat row */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:2px;margin:30px 0 34px;background:var(--line)}
+.stat{background:var(--paper);padding:20px 18px;transition:.18s}
+.stat:hover{background:var(--paper-2)}
+.stat .v{font-family:'Fraunces',serif;font-size:1.75rem;font-weight:400;color:var(--ink);line-height:1.1}
+.stat .k{font-size:.72rem;color:var(--ink-3);margin-top:6px;line-height:1.45}
+
+hr.rule{border:0;border-top:1px solid var(--line);margin:52px 0}
+.dinkus{text-align:center;color:var(--stone);letter-spacing:.6em;margin:52px 0;font-size:.8rem}
+
+footer{
+  border-top:1px solid var(--line);margin-top:90px;padding:44px 0 80px;
+  font-size:.82rem;color:var(--ink-3);
+}
+footer a{color:var(--ink-3)}
+.srcs{columns:2;column-gap:34px;font-size:.78rem;line-height:1.85}
+@media(max-width:640px){.srcs{columns:1}}
+.srcs a{border:0;color:var(--ink-3)}
+.srcs a:hover{color:var(--clay)}
+
+.colophon{
+  margin-top:44px;padding-top:26px;border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:14px 40px;align-items:baseline;
+}
+.colophon .cr{
+  font-family:'Fraunces',Georgia,serif;font-size:1.02rem;color:var(--ink);
+  white-space:nowrap;letter-spacing:.01em;
+}
+.colophon .cx{font-size:.75rem;line-height:1.72;color:var(--ink-3);flex:1;min-width:260px}
+
+@media(max-width:640px){
+  .wrap{padding:0 20px}
+  body{font-size:16px}
+  h2{font-size:1.68rem}
+  .g::after,.s::after,.c::after{max-width:210px}
+}
+@media print{
+  .g::after,.s::after,.c::after,.card .hid{display:none}
+  .cover{min-height:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ COVER ═══════════════ -->
+<div class="wrap">
+<header class="cover">
+  <div class="kicker">Bydgoszcz &nbsp;·&nbsp; Kujawsko-Pomorskie &nbsp;·&nbsp; July 2026</div>
+  <h1>A buyer's journey to<br>the <em>right</em> address</h1>
+  <p class="sub">Nine chapters on choosing an apartment in Poland's second-cheapest big city - which districts hold their value, which builders finish properly, and which numbers are quietly lying to you.</p>
+  <div class="cover-meta">
+    <div><b>Alexander Gostev</b>Author</div>
+    <div><b>Buyers arriving from outside Poland</b>Written for</div>
+    <div><b>Seven research reports, 120+ sources</b>Based on</div>
+    <div><b>30 June - 29 July 2026</b>Prices as of</div>
+  </div>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#ch1"><span class="t">The city on two rivers</span><span class="d">What Bydgoszcz is, and what it is becoming</span></a></li>
+    <li><a href="#ch2"><span class="t">Three prices for one apartment</span><span class="d">Why the portals disagree by 40%</span></a></li>
+    <li><a href="#ch3"><span class="t">Reading the map</span><span class="d">Districts, and which ones people actually want</span></a></li>
+    <li><a href="#ch4"><span class="t">The guild of builders</span><span class="d">Ten developers, ranked on measured quality</span></a></li>
+    <li><a href="#ch5"><span class="t">Houses already standing</span><span class="d">The seven best completed estates</span></a></li>
+    <li><a href="#ch6"><span class="t">Houses not yet born</span><span class="d">The pipeline, with the dates corrected</span></a></li>
+    <li><a href="#ch7"><span class="t">The older doors</span><span class="d">Buying resale - vintages, risks, five best areas</span></a></li>
+    <li><a href="#ch8"><span class="t">Getting the keys</span><span class="d">What to ask, check and verify before signing</span></a></li>
+    <li><a href="#ch9"><span class="t">What the map does not show</span><span class="d">Where this guide is weakest, stated plainly</span></a></li>
+  </ol>
+</nav>
+</div>
+
+<div class="wrap">
+
+<!-- ═══════════════ I ═══════════════ -->
+<section class="chapter" id="ch1">
+  <div class="ch-num">Chapter I</div>
+  <h2>The city on two rivers</h2>
+  <p class="ch-open">You arrive by the station, walk ten minutes north, and the Brda opens up in front of you with an opera house sitting in the middle of it. This is the part of Bydgoszcz everyone photographs. The apartment you buy will probably be somewhere else.</p>
+
+  <p>Bydgoszcz is the eighth-largest city in Poland and, after Łódź, the cheapest of the big regional capitals. That is the whole appeal and the whole risk in one sentence. You get a lot of square metres for your money, and you get them in a city that is shrinking.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="v">321,100</div><div class="k">Official population, 31 Dec 2025 <span class="c c-v" data-t="GUS official figure. Note the city registry uses a different basis - 282,746 - which counts registered voters plus under-18s. Never mix the two.">verified</span></div></div>
+    <div class="stat"><div class="v">−4,483</div><div class="k">Residents lost in 2025 alone, on the registry basis <span class="c c-v" data-t="Urząd Miasta Bydgoszczy registry data, released January 2026.">verified</span></div></div>
+    <div class="stat"><div class="v">8,033</div><div class="k">zł/m² - what resale flats actually sold for, Q1 2026 <span class="c c-v" data-t="NBP transaction series, confirmed independently on two portals.">verified</span></div></div>
+    <div class="stat"><div class="v">6.5-7.0%</div><div class="k">Gross rental yield claimed by a local licensed agent <span class="c c-r" data-t="Single agent's estimate, November 2025. Our own arithmetic gives 6.2-8.1% depending on which price register you use.">reported</span></div></div>
+  </div>
+
+  <p>The population line matters more than any district ranking. A city of 386,855 in 1998 held <span class="s" data-t="Wikipedia, citing GUS. Peak 1998, 330,038 in 2022.">330,038 in 2022</span> and 321,100 at the end of 2025. GUS put Bydgoszcz second in Poland for population outflow, behind Łódź. When a city shrinks, people consolidate into central, well-connected, small apartments and abandon peripheral large ones. Every choice in this guide bends around that fact.</p>
+
+  <p>Against the decline, real money is going in. The 2026 city investment programme is <span class="s" data-t="bydgoszczinformuje.pl, 5 January 2026 - nine major projects listed.">915 mln zł across nine projects</span>, four of them in or touching the centre.</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>What the city is building</th><th>Budget</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Tram line to Szwederowo</strong></td><td class="num">103.5 mln zł</td><td>Starts 2026</td></tr>
+      <tr><td><strong>Brda boulevards + Wyspa św. Barbary</strong></td><td class="num">54.7 mln zł</td><td>Ongoing, Strabag, ~30 months</td></tr>
+      <tr><td><strong>Opera Nova fourth circle</strong> <span style="color:var(--ink-3)">incl. ~300-car underground garage</span></td><td class="num">37 mln zł</td><td>Ongoing</td></tr>
+      <tr><td><strong>Central Park bathing area</strong></td><td class="num">24 mln zł</td><td>Starts 2026</td></tr>
+      <tr><td><strong>Teatr Polski stage rebuild</strong></td><td class="num">8.3 mln zł</td><td>Starts 2026</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>The <a href="https://metropoliabydgoska.pl/akademia-muzyczna-w-bydgoszczy-nowy-kampus/" target="_blank">new Akademia Muzyczna campus</a> on ul. Kamienna opened for the 2025/26 academic year - four concert halls, roughly 200 teaching studios, an underground garage, and a lakeside park open to the public from 06:00 to 22:00. Sources disagree on the cost (<span class="s" data-t="metropoliabydgoska.pl says over 500 mln zł including fit-out; tygodnikbydgoski.pl says nearly 400 mln zł. Unresolved.">400 or 500 mln zł</span>), which tells you something about how carefully local figures should be read.</p>
+
+  <div class="note warn">
+    <b>One planning fight worth knowing about.</b> The draft <span class="g" data-t="Plan ogólny - the new city-wide zoning document replacing the old study. It sets height limits and what can be built where.">plan ogólny</span> published in April 2026 drew organised opposition from Bydgoski Ruch Miejski and several neighbourhood councils. They argue it allows towers up to 120 m in the east, plans for 34,000 new residents in a shrinking city, and reserves no land for schools or parks. It also proposes building on the Górny Taras Fordonu green area. If it passes as drafted, new estates will be denser than what is standing today - which quietly raises the value of the low-density estates already built.
+  </div>
+</section>
+
+<!-- ═══════════════ II ═══════════════ -->
+<section class="chapter" id="ch2">
+  <div class="ch-num">Chapter II</div>
+  <h2>Three prices for one apartment</h2>
+  <p class="ch-open">Before you look at a single flat, learn this. Every price you will see online is one of three different numbers, and Polish property portals almost never tell you which one you are reading.</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>Register</th><th>Bydgoszcz, mid-2026</th><th>What it means</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Transaction</strong><br><small style="color:var(--ink-3)">notarial deeds, resale</small></td>
+        <td class="num">8,033 zł/m²<br><span class="up">+8.2% y/y</span></td>
+        <td>What buyers <em>paid</em>. NBP data, Q1 2026. The only number that describes reality. <span class="c c-v" data-t="Confirmed independently on tabelaofert, which sources it from NBP directly, and matching the Bankier figure.">verified</span></td>
+      </tr>
+      <tr>
+        <td><strong>Asking, private sellers</strong><br><small style="color:var(--ink-3)">no-agent listings</small></td>
+        <td class="num">9,614 zł/m²<br><small>median flat 506,000 zł</small></td>
+        <td>Adresowo, July 2026, 252 listings. 20% above closing prices. <span class="c c-r" data-t="Single portal, moderate sample. Direction is right, level is a listing pool not a market.">reported</span></td>
+      </tr>
+      <tr>
+        <td><strong>Asking, agency portals</strong></td>
+        <td class="num">10,504 - 11,371 zł/m²</td>
+        <td>Gethome, Domiporta, Tabelaofert. 25-40% above closing. This is what you will see first. <span class="c c-r" data-t="Multiple portals, all asking-based, all skewed by new-build and premium stock in the pool.">reported</span></td>
+      </tr>
+      <tr>
+        <td><strong>New-build asking</strong></td>
+        <td class="num">10,676 or 11,369 zł/m²</td>
+        <td>Tabelaofert says 10,676 and falling 5.23%. Rynekpierwotny says 11,369 and rising 5%. Both confirmed live on the same day. <span class="c c-w" data-t="The level (10.7-11.4k) is reliable. The direction is genuinely unresolved - different baskets, and nobody could reconcile them.">contested</span></td>
+      </tr>
+    </tbody>
+  </table></div>
+
+  <p class="pull">The gap between what people ask and what people pay in Bydgoszcz is roughly 40%. Budget 8-15% below asking on any individual flat, and treat every district table you find online as a map of hope rather than a map of prices.</p>
+
+  <div class="note">
+    <b>An oddity nobody explained.</b> Tabelaofert puts secondary <em>asking</em> (11,371) above primary <em>asking</em> (10,676), and primary transaction (11,406, up 21.5%) above both. Those relationships are not what a normal market produces. Either the primary-transaction sample is tiny or the listing pools are badly mixed. Do not build a purchase decision on any single portal figure.
+  </div>
+
+  <h3>Asking prices by district</h3>
+  <p>Tabelaofert, 30 June 2026, 773 active listings. Read this as a <strong>new-build price map</strong>, not a district price map - 669 of the 773 listings are new build. Districts with no new construction (Sielanka, Skrzetusko, Osiedle Leśne, Osowa Góra, Miedzyń) are simply missing, which means the most prestigious addresses in the city are absent from the table.</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>District</th><th>zł/m²</th><th>Year on year</th><th>Read</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Bielawy</strong></td><td class="num">13,446</td><td class="num flat">+0.93%</td><td>Dearest in the city, and flat - a settled market</td></tr>
+      <tr><td><strong>Okole</strong></td><td class="num">12,947</td><td class="num up">+18.13%</td><td>Officially a degraded area. See the paradox below</td></tr>
+      <tr><td><strong>Wzgórze Wolności</strong></td><td class="num">11,836</td><td class="num up">+4.33%</td><td>Fairly priced, no obvious edge</td></tr>
+      <tr><td><strong>Bartodzieje</strong></td><td class="num">11,600</td><td class="num up">+4.98%</td><td>The family default</td></tr>
+      <tr><td><strong>Czyżkówko</strong></td><td class="num">10,957</td><td class="num up">+14.32%</td><td>Quiet, holds value, hard to buy into</td></tr>
+      <tr><td><strong>Wyżyny</strong></td><td class="num">10,738</td><td class="num up">+13.17%</td><td>Cheapest well-served district</td></tr>
+      <tr><td><strong>Śródmieście</strong></td><td class="num">10,636</td><td class="num up">+22.90%</td><td>Premium new stock entering the sample</td></tr>
+      <tr><td><strong>Bocianowo</strong></td><td class="num">10,631</td><td class="num up">+11.87%</td><td>Most new construction, weakest street fabric</td></tr>
+      <tr><td><strong>Bydgoszcz Wschód</strong></td><td class="num">10,465</td><td class="num flat">0%</td><td>Worst safety score in the city</td></tr>
+      <tr><td><strong>Kapuściska</strong></td><td class="num">10,359</td><td class="num up">+5.41%</td><td>Split personality - 1950s brick, then 1970s panel</td></tr>
+      <tr><td><strong>Fordon</strong></td><td class="num">10,174</td><td class="num up">+11.40%</td><td>Volume market, 72,000 people, tram since 2016</td></tr>
+      <tr><td><strong>Brdyujście</strong></td><td class="num">9,207</td><td class="num flat">0%</td><td>Flat in a rising market = a real-terms loss</td></tr>
+      <tr><td><strong>Stary Fordon</strong></td><td class="num">9,196</td><td class="num flat">0%</td><td>Cheapest. Also flat. Speculative</td></tr>
+      <tr style="background:var(--paper-3)"><td><strong>City average</strong></td><td class="num">10,802</td><td class="num dn">−4.21%</td><td>Asking, mixed primary and secondary</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note warn">
+    <b>The Okole paradox.</b> Okole has the second-highest new-build price in Bydgoszcz and sits inside the city's officially designated degraded area, with the third-worst safety score in the 2020 resident survey (3.21/5 against a 3.73 city mean). The likeliest explanation is composition - one project, <a href="https://palladium.iqdevelopment.pl/" target="_blank">Palladium</a> at 15,202-19,904 zł/m² for 182 units, is enough to drag a small district's average up hard. Three separate research passes reached that conclusion and none of them found a source confirming it. <strong>Do not buy an Okole kamienica expecting to have already captured that 18%.</strong>
+  </div>
+</section>
+
+<!-- ═══════════════ III ═══════════════ -->
+<section class="chapter" id="ch3">
+  <div class="ch-num">Chapter III</div>
+  <h2>Reading the map</h2>
+  <p class="ch-open">Bydgoszcz has 25-odd <span class="g" data-t="Osiedle - a named housing estate or neighbourhood unit. Used for both a developer's gated project and a large 1970s district. Context tells you which.">osiedla</span>. Locals will tell you where they would live, and where they would not, with total confidence. The evidence behind those opinions is thinner than the confidence suggests.</p>
+
+  <p>Here is the honest position. The best sentiment dataset for Bydgoszcz districts is an <a href="https://media.otodom.pl/cztery-dzielnice-bydgoszczy-z-wyrazna-przewaga" target="_blank">Otodom survey</a> of 2,000+ residents run in 2020. It is six years old. Nothing newer exists at district level. The forum threads everyone cites - SkyscraperCity - sit behind a paywall that returns HTTP 402 to every automated read, so no verbatim quote in this guide has been read from its source. What survives verification is price, and price is a decent proxy for what people want.</p>
+
+  <h3>The seven that people dream about</h3>
+  <p class="lead" style="font-size:.95rem">Hover any card for the argument against it.</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="r">01</div>
+      <h4>Bielawy</h4>
+      <div class="pr">13,446 zł/m² new · 9,443 resale</div>
+      <p>The only district that wins on every axis and has survey evidence behind it. Ranked most attractive in 2020 at 3.57/5, first for sports-active residents, second for shops. Villa streets, Kochanowski park, the UKW botanical garden, Jurasza hospital, a walk to the centre.</p>
+      <div class="hid"><strong>Against:</strong> Otodom respondents scored it below average on safety and neighbour relations. Only 17 active resale listings on Domiporta - the best district to own in and the worst to buy into. Population falling: 6,083 in 2024 to 6,028 in 2025.</div>
+    </div>
+    <div class="card">
+      <div class="r">02</div>
+      <h4>Sielanka</h4>
+      <div class="pr">No verified price series exists</div>
+      <p>A garden city laid out by Joseph Stübben with the plan fixed in 1912, built out between the wars, settled by the city's doctors, lawyers and factory owners. Brick villas, hidden gardens, near-silence, ten minutes' walk from Stary Rynek.</p>
+      <div class="hid"><strong>Against:</strong> Almost no apartments - this is a house market. No schools or shops of its own; it borrows Śródmieście's. SonarHome's Sielanka page returns 404. The only price point anyone found was a 550 m² villa at 9.4M zł, which is a listing, not a market.</div>
+    </div>
+    <div class="card">
+      <div class="r">03</div>
+      <h4>Osiedle Leśne</h4>
+      <div class="pr">~9,500-10,500 zł/m² resale (est.)</div>
+      <p>Myślęcinek - Poland's largest municipal park at 830+ ha - is on the doorstep. 1950s tree-lined layout built as military housing, solid brick, and Platanowy Park adding a modern resale pool that barely existed in 2018. Top ten least-degraded in the 2023 city report.</p>
+      <div class="hid"><strong>Against:</strong> Few businesses per capita. The post-1972 towers and socrealist blocks read as depressing to some. The resale price range is an estimate built from a Q1 2025 asking figure of 9,114, not a published 2026 number.</div>
+    </div>
+    <div class="card">
+      <div class="r">04</div>
+      <h4>Bartodzieje</h4>
+      <div class="pr">11,600 zł/m² new · ~9,500-10,100 resale</div>
+      <p>The evidence-backed family choice. The least degraded district on municipal indicators - not a single poverty measure above the city average - plus 79% resident satisfaction in 2022. Balaton lake, the Sahara dune, Las Gdański, Pomona mall, ~23,000 residents. Deepest listing pool in the city after the centre.</p>
+      <div class="hid"><strong>Against:</strong> A 1990s crime reputation older residents still remember, including bullet holes in stairwells per one local blogger. A rail crossing at ul. Inwalidów where people have died. Hard to find post-2000 flats above 70 m².</div>
+    </div>
+    <div class="card">
+      <div class="r">05</div>
+      <h4>Smukała-Opławiec-Janowo</h4>
+      <div class="pr">Not in any price table</div>
+      <p>The strongest single set of sentiment scores anywhere in the city: first in Poland for ecology, 4.52 for neighbour relations, 4.40 safety, 4.37 cleanliness. Around 2,000 people across 842 ha, by the Brda and the Smukała reservoir.</p>
+      <div class="hid"><strong>Against:</strong> Buses 54 and 58 only, stopping a long walk from the southern streets. Essentially one grocery shop. One primary school. You need two cars and remote work.</div>
+    </div>
+    <div class="card">
+      <div class="r">06</div>
+      <h4>Fordon - the good parts</h4>
+      <div class="pr">10,174 zł/m² new · ~9,000-9,900 resale</div>
+      <p>Not Fordon as a whole - the specific sub-estates that scored. Tereny Nadwiślańskie led the city on transport (4.03) and came second on children's infrastructure and ecology. Tatrzańskie led on children's infrastructure (4.01). The tram cut roughly 15 minutes off the centre run.</p>
+      <div class="hid"><strong>Against:</strong> Forum sentiment is genuinely split - "bedroom district removed from workplaces", "a cluster of concrete in the middle of a field", "cultural desert". The counter is that almost nothing there exceeds 4-5 storeys. Fordońska was a building site from early 2025 to end of May 2026.</div>
+    </div>
+    <div class="card">
+      <div class="r">07</div>
+      <h4>Osielsko &amp; Niemcz</h4>
+      <div class="pr">~7,200 zł/m² for houses (2023)</div>
+      <p>The out-of-city upgrade. Osielsko is the wealthiest gmina in the voivodeship and had the region's highest average house price. Forum users group Niemcz and Osielsko with Sielanka when naming the best addresses.</p>
+      <div class="hid"><strong>Against:</strong> The weakest evidence of the seven. No resident survey covers these communes at all. The price data is from September 2023. Their "dream" status rests entirely on price and unverified forum mentions.</div>
+    </div>
+  </div>
+
+  <h3>Where not to look</h3>
+  <div class="tw"><table>
+    <thead><tr><th>District</th><th>The problem</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Bydgoszcz Wschód-Siernieczek</strong></td><td>Worst safety score in the city, 3.04/5 against a 3.73 mean. Poor on cost of living (2.59). Industrial fringe, effectively no apartment market.</td></tr>
+      <tr><td><strong>Zimne Wody-Czersko Polskie</strong></td><td>Worst in the city for children's infrastructure (1.53) and transport (2.50). Inside the degraded area.</td></tr>
+      <tr><td><strong>Łęgnowo / Łęgnowo Wieś</strong></td><td>Worst on cost of living (2.49), near-bottom on children's infrastructure (2.41) and safety (3.17).</td></tr>
+      <tr><td><strong>Wilczak-Jary</strong></td><td>8.32% of families on welfare, 38.5% still on traditional stoves, sixth-grade exam score 64 - only Stary Fordon is worse. Cheapest rents in the city at 1,917 zł, and the shallowest rental market with 11 listings.</td></tr>
+      <tr><td><strong>Stary Fordon &amp; Brdyujście</strong></td><td>Both flat year on year while the city rose 8%. Revitalization may change this eventually. There is no evidence in the price data yet.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note">
+    <b>A contradiction left unresolved.</b> Flisy is the safest district in Bydgoszcz per the 2020 survey (4.51/5, "you can be calm about your child outside") and sits inside the lowest-happiness zone in the city per a 2022 ThinkCo report (38%). Different questions, different geography groupings, possibly small samples. Nobody could reconcile them. Worth a personal visit before you decide which is true.
+  </div>
+</section>
+
+<!-- ═══════════════ IV ═══════════════ -->
+<section class="chapter" id="ch4">
+  <div class="ch-num">Chapter IV</div>
+  <h2>The guild of builders</h2>
+  <p class="ch-open">In a city this size, roughly ten firms build almost everything. Learn their names and you have solved half the problem, because in Poland the developer's finishing standard follows you for the next twenty years.</p>
+
+  <p>One dataset makes this chapter possible. <a href="https://pewnylokal.pl/sprawdz-dewelopera/deweloper/cdi-deweloper-opinie" target="_blank">PewnyLokal</a> sends paid engineers to attend <span class="g" data-t="Odbiór techniczny - the technical handover, when the developer hands you the keys and you formally log every defect. Hiring an independent inspector for this is normal and costs roughly 500-1,500 zł.">odbiory techniczne</span> and publishes per-developer scores out of 5 on defect count, defect severity and customer service. Two independent spot-checks of that table reproduced to the decimal, so the numbers are real data rather than marketing.</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>Developer</th><th>Defects</th><th>Severity</th><th>Service</th><th>Sample</th><th>Windows</th><th>Damp</th></tr></thead>
+    <tbody>
+      <tr><td><strong>CDI KB</strong> <small style="color:var(--ink-3)">local</small></td><td class="num">4.8</td><td class="num">4.1</td><td class="num">4.8</td><td class="num">~29</td><td class="num">3.6</td><td class="num">4.9</td></tr>
+      <tr><td><strong>AWZ Deweloper</strong> <small style="color:var(--ink-3)">local</small></td><td class="num">4.4</td><td class="num dn">2.5</td><td class="num">4.4</td><td class="num dn">2-6</td><td class="num">4.2</td><td class="num">4.2</td></tr>
+      <tr><td><strong>Grupa Moderator</strong> <small style="color:var(--ink-3)">local</small></td><td class="num">4.3</td><td class="num">3.8</td><td class="num">4.8</td><td class="num">43</td><td class="num">3.1</td><td class="num">4.8</td></tr>
+      <tr><td><strong>Arkada Invest</strong> <small style="color:var(--ink-3)">local</small></td><td class="num">4.2</td><td class="num">4.0</td><td class="num up">4.9</td><td class="num">23-30</td><td>n/a</td><td>n/a</td></tr>
+      <tr><td><strong>JHM Development</strong> <small style="color:var(--ink-3)">national</small></td><td class="num">4.1</td><td class="num">4.0</td><td class="num">4.6</td><td class="num">172</td><td class="num">3.1</td><td class="num">4.9</td></tr>
+      <tr><td><strong>Budlex</strong> <small style="color:var(--ink-3)">Bydgoszcz only</small></td><td class="num">4.0</td><td>n/a</td><td>n/a</td><td class="num">116</td><td>n/a</td><td>n/a</td></tr>
+      <tr><td><strong>Murapol</strong> <small style="color:var(--ink-3)">Os. Akademickie</small></td><td class="num">4.0</td><td class="num">3.8</td><td class="num dn">4.1</td><td class="num">62</td><td class="num dn">2.8</td><td class="num">5.0</td></tr>
+      <tr><td><strong>Budlex</strong> <small style="color:var(--ink-3)">national</small></td><td class="num">3.9</td><td class="num">3.8</td><td class="num">4.7</td><td class="num">156</td><td class="num">3.3</td><td class="num">4.9</td></tr>
+      <tr><td><strong>Red Co.</strong> <small style="color:var(--ink-3)">regional</small></td><td class="num dn">3.6</td><td class="num dn">3.6</td><td class="num">4.6</td><td class="num">37</td><td class="num dn">2.8</td><td class="num">4.6</td></tr>
+      <tr><td><strong>Budstol Invest</strong> <small style="color:var(--ink-3)">local</small></td><td class="num dn">3.4</td><td class="num">3.5</td><td class="num">4.6</td><td class="num dn">14</td><td class="num">3.1</td><td class="num dn">3.6</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note">
+    <b>Read this table carefully.</b> The sample is self-selected - only buyers who pay for an inspector appear, and those buyers may skew toward projects where problems were already suspected. Inspection counts vary by an order of magnitude. AWZ's alarming 2.5 severity score rests on <em>two inspections</em> and is statistically meaningless as a verdict. Customer service clusters at 4.4-4.9 for everyone, so it discriminates poorly. <b>Defect severity and the windows column are the useful signals.</b>
+  </div>
+
+  <div class="note good">
+    <b>A city-wide pattern, and what it means for you.</b> Window joinery scores 2.8-3.6 out of 5 for almost every developer in Bydgoszcz. Damp-proofing scores 4.6-5.0 for almost all of them. That gap is too consistent to be developer-specific negligence - a shared subcontractor pool for joinery is the likelier explanation. Practical consequence: <strong>inspect the windows at handover regardless of who built the block.</strong> It is not a way to tell developers apart.
+  </div>
+
+  <h3>Tier 1 - buy with confidence</h3>
+  <div class="cards">
+    <div class="card">
+      <div class="r">01 · Bydgoszcz, ~10 yrs as developer</div>
+      <h4>CDI KB</h4>
+      <div class="pr">Platanowy Park · Osiedle Uniwersyteckie · Rabatki</div>
+      <p>Best handover quality in the city by a clear margin. Subsidiary of WSE-listed Grupa Kapitałowa Immobile, so there is a public balance sheet behind it. 1,300 units delivered, 350 in preparation. Inspectors describe Rabatki as "typically under 10 defects, cosmetic only".</p>
+      <div class="hid"><strong>Against:</strong> One buyer on Platanowy Park phase II complained the hall and corridor tiles were "tragiczne", with water pooling in the garage and peeling plaster, and said they were considering resale. Windows at 3.6 are best in the city and still mediocre.</div>
+    </div>
+    <div class="card">
+      <div class="r">02 · Bydgoszcz, 26 yrs</div>
+      <h4>Arkada Invest</h4>
+      <div class="pr">Atrium Park · forDOM · NEST · ASPIRE</div>
+      <p>55 buildings, 1,500 units. Highest customer service score in the set at 4.9. Inspectors on forDOM: defects "significantly below market standard". Atrium Park is credited on forums with raising the architectural bar for the whole city.</p>
+      <div class="hid"><strong>Against:</strong> Balaton Apartamenty is the weak link - inspectors note "complicated and hard-to-remove defects" there. Small current pipeline: 2 investments, 108 units. Quality varies more by project than the headline score suggests.</div>
+    </div>
+    <div class="card">
+      <div class="r">03 · Bydgoszcz, since 1991</div>
+      <h4>Grupa Moderator</h4>
+      <div class="pr">Symfonia · Industria · Avia · Ceramika</div>
+      <p>Largest current local pipeline - 8 investments, 261 units. Symfonia placed second in the 2023 quality ranking at 4.55. Genuine amenity investment at Industria: residents' playroom, gym, PV on common areas, 4.2 m ceilings, green courtyard.</p>
+      <div class="hid"><strong>Against:</strong> Windows 3.1/5. Inspectors flag Industria for window frame damage, missing drainage grilles, plaster gaps, and "improperly executed screeds falling significantly below standards" in some units.</div>
+    </div>
+  </div>
+
+  <h3>Tier 2 - solid, but verify the specific project</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Developer</th><th>The case for</th><th>The case against</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Budlex</strong><br><small style="color:var(--ink-3)">Toruń HQ, regional</small></td>
+        <td>Won the 2023 ranking outright with Urzecze at 4.88, and took 2nd and 3rd in 2025 (Enklawa Z4/Z5, Gajowa A). The most awarded name in the region.</td>
+        <td>Highest volume, most variable output. 3.9/5 nationally, plaster 3.6, 297 defects logged across 7 investments. At Urzecze itself an inspection found "very poor plaster condition" plus a dozen window defects. One review: <em>"Poor quality, do not recommend. I regret the purchase."</em></td>
+      </tr>
+      <tr>
+        <td><strong>Folwark Deweloper</strong><br><small style="color:var(--ink-3)">Bydgoszcz, since 2006</small></td>
+        <td>The best window and plaster feedback found anywhere in Bydgoszcz - inspectors on Iluzjon report "practically zero chipping" and no reservations on joinery. That is unusual in this city.</td>
+        <td>Thin review sample. A secondary profile describes the business model as "fast build and low apartment prices", which is a caution flag if quality is your priority.</td>
+      </tr>
+      <tr>
+        <td><strong>AWZ Deweloper</strong><br><small style="color:var(--ink-3)">Bydgoszcz, since 1999</small></td>
+        <td>Delivered Nowy Port, the most admired recent completion in the city. 20 projects, 1,100+ units.</td>
+        <td>The only screed and severity scores below 3/5 in this report - on a two-inspection sample. At Nowy Port specifically, three inspections scored 1.3/5 on defect severity and 1.7/5 on screeds, with window joinery flagged as needing replacement.</td>
+      </tr>
+      <tr>
+        <td><strong>JHM Development</strong><br><small style="color:var(--ink-3)">Skierniewice, Mirbud group</small></td>
+        <td>Largest evidence base at 172 inspections and respectable scores. Aura Towers is a landmark.</td>
+        <td>Rooms of 7-8 m² alongside oversized corridors at Aura Towers. Later inspections found dozens of defects per unit and window joinery needing replacement. A June 2025 report alleges the developer avoids warranty obligations and is unresponsive after handover.</td>
+      </tr>
+    </tbody>
+  </table></div>
+
+  <h3>Tier 3 - caution</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Developer</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Red Co.</strong></td><td>Topped the 2025 rynekpierwotny ranking, but that ranking measures <strong>page views on the portal</strong>, not build quality - the methodology says so explicitly. Lowest scores of any established local firm: 3.6/3.6, windows 2.8. A resident of Łowicka 25 compared the sound insulation to <span class="g" data-t="Wielka płyta - large-panel prefabricated concrete construction, mass-built in Poland in the 1960s-80s. Cheap, fast, and famously bad at sound insulation.">wielka płyta</span>.</td></tr>
+      <tr><td><strong>Budstol Invest</strong></td><td>Weakest defect-count score (3.4) and the only sub-4 damp-proofing rating in the set (3.6), which matters more than cosmetics. Heating-system issues were the top defect category. Sample of 14 - directional only.</td></tr>
+      <tr><td><strong>Murapol</strong></td><td>Rated 2.3/5 from 96 votes on deweloperbuduje.pl and the lowest customer service score here. Detailed resident allegations about Osiedle Akademickie - sewage odour across the estate, collapsing parking-area roads, no warranty service. <strong>These are unverified individual claims.</strong> No news report, UOKiK decision or court record corroborates them.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note warn">
+    <b>What nobody publishes, and it matters more than any of the above.</b> There is zero public data on <span class="g" data-t="Wspólnota mieszkaniowa - the owners' association that runs a building: collects the monthly czynsz, holds the renovation fund, decides on major works.">wspólnota</span> and estate-management quality for any Bydgoszcz estate. After year five, how well your building is managed matters more than how well it was built. Ask to see meeting minutes and the renovation fund balance before you buy - see Chapter VIII.
+  </div>
+</section>
+
+<!-- ═══════════════ V ═══════════════ -->
+<section class="chapter" id="ch5">
+  <div class="ch-num">Chapter V</div>
+  <h2>Houses already standing</h2>
+  <p class="ch-open">The safest apartment to buy is one where other people have already lived for two winters and complained loudly about it. These seven have a public record.</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="r">01 · CDI · Fordon</div>
+      <h4>Osiedle Uniwersyteckie</h4>
+      <div class="pr">ul. Strzeleckiego · stage III finished 2026</div>
+      <p>The strongest verified quality record in the city: nine independent inspections from June 2020 to July 2026, plaster 5.0/5, screeds 5.0/5, defect count 5.0/5, no biological corrosion in any inspection. Stage III has 114 underground plus 68 surface parking spaces for 168 flats - a genuinely generous ratio. Fenced, playground, outdoor fitness, auto-irrigated courtyard, tram and the university next door.</p>
+      <div class="hid"><strong>Against:</strong> Fordon is the cheapest large district, so no resale premium. One February 2022 inspection flagged joinery "leaving much to be desired". It is a long way from the centre.</div>
+    </div>
+    <div class="card">
+      <div class="r">02 · CDI · Osiedle Leśne</div>
+      <h4>Platanowy Park</h4>
+      <div class="pr">12,400-14,302 zł/m² · stage IV 2026</div>
+      <p>The largest modern estate in Bydgoszcz - 743 flats delivered in stages 0 to III plus 173-180 in stage IV, on 10 ha of the former Makrum factory site. A raised patio restricts car traffic, heavy planting, forest and Myślęcinek adjacent. Thirteen inspections 2023-25: 4.5 defect count, plaster "bez zarzutu". A deep, standardised post-2015 resale pool, which is rare in a city this size.</p>
+      <div class="hid"><strong>Against:</strong> Windows 3.0/5 with "significant defects" including scratches and poor sealing across multiple units. Typical 10-15 minor defects per unit. Residents report paying 130-250 zł/month for a parking space they already bought, with limited visitor spaces. CDI ran a summer 2026 discount of up to 1,300 zł/m² - a demand signal worth noting.</div>
+    </div>
+    <div class="card">
+      <div class="r">03 · Budlex · Okole</div>
+      <h4>Urzecze</h4>
+      <div class="pr">262 units · 50-140 m² · 11 floors</div>
+      <p>Won the 2023 investment ranking outright at 4.88/5, the highest score in the set. Built July 2021 to June 2024, architect Atelier Tektura, contractor Erbud. Green headland on the Brda directly at the buildings, 10-12 minutes on foot to Opera Nova and Wyspa Młyńska. Unusually large average unit size for Bydgoszcz - the minimum is 50 m².</p>
+      <div class="hid"><strong>Against:</strong> Handover reports flag poor plaster condition, unsatisfactory screeds and a dozen window defects. It sits in Okole, which is inside the officially degraded area and scored 3.21/5 on safety in 2020.</div>
+    </div>
+    <div class="card">
+      <div class="r">04 · AWZ · Śródmieście</div>
+      <h4>Nowy Port · phase 1</h4>
+      <div class="pr">From 13,800 zł/m² · occupied 2025</div>
+      <p>The best urbanism in the city's recent stock, and the only completed scheme here that is deliberately <em>not</em> gated - an open quarter with a tree-lined street, two public squares and a Brda boulevard, keeping the historic Grakona facade as a commercial anchor. 192 apartments, BBGK Architekci, opposite Opera Nova. Deep 3 m terraces on river-facing units.</p>
+      <div class="hid"><strong>Against:</strong> Three inspections scored 1.3/5 on defect severity, 1.7/5 on screeds, with joinery needing replacement. Architektura-Murator's review notes the internal courtyard "may be perceived by some residents as cramped and oppressive". Critics said the buildings should be taller. Street noise, no forest. <strong>Read the unit count carefully:</strong> 628 is the four-quarter masterplan, not what is built.</div>
+    </div>
+    <div class="card">
+      <div class="r">05 · Moderator · Bielawy</div>
+      <h4>Osiedle Symfonia</h4>
+      <div class="pr">ul. Chodkiewicza 9 · 102 units · 26-126 m²</div>
+      <p>Second in the 2023 ranking at 4.55, cited for stone flooring and carpeted corridors. Genuinely high spec for this city: air conditioning, underfloor heating, winter gardens, quiet lifts, community garden, EV charging, bike store, shared library. Only 102 units, so the wspólnota stays manageable. Bielawy, near the Music Academy, on a street with almost no remaining development land.</p>
+      <div class="hid"><strong>Against:</strong> Sources conflict on the massing - 3 buildings and 6 floors per one database, 2 buildings and 5 floors per another. The delivery date is unverified. Moderator's window scores are 3.1/5 across its portfolio.</div>
+    </div>
+    <div class="card">
+      <div class="r">06 · Budlex · Leśne</div>
+      <h4>Enklawa</h4>
+      <div class="pr">ul. Zaświat · 9,940-12,190 zł/m²</div>
+      <p>Second place in the 2025 ranking (Z4/Z5). Five buildings, three complete. Marketed on smart parcel lockers, quiet lifts, an underground garage with a heated entry ramp, and private ground-floor gardens.</p>
+      <div class="hid"><strong>Against:</strong> The 2025 ranking is a page-view popularity contest, not a quality measure. Budlex's national scores are the weakest of the four leading local firms, so the estate-level result does not transfer automatically.</div>
+    </div>
+    <div class="card">
+      <div class="r">07 · CDI · Okole</div>
+      <h4>Rabatki</h4>
+      <div class="pr">ul. Czarna Droga, by the Bydgoszcz Canal</div>
+      <p>Third in the 2023 ranking at 4.17. Inspectors describe handovers as "typically under 10 defects, only cosmetic issues" - the cleanest description in the pack. A second stage of roughly 270 units is in presale.</p>
+      <div class="hid"><strong>Against:</strong> Okole again - degraded area designation, weak 2020 safety score, and a district price signal that is almost certainly a composition effect rather than genuine repricing.</div>
+    </div>
+  </div>
+
+  <div class="note warn">
+    <b>Aura Towers - the one to think hard about.</b> JHM's three 17-storey buildings on Fordońska, 309 apartments, 25.55-109.31 m², built March 2020 to September 2022. Prestigious address, commendation in the 2023 ranking. The layout criticism that follows it everywhere - 7-8 m² bedrooms next to oversized corridors - reached every research pass through search summaries only and could not be verified at source. It is also the estate with credible 2025 complaints about warranty avoidance after handover. Go and stand in one of those bedrooms before you decide.
+  </div>
+</section>
+
+<!-- ═══════════════ VI ═══════════════ -->
+<section class="chapter" id="ch6">
+  <div class="ch-num">Chapter VI</div>
+  <h2>Houses not yet born</h2>
+  <p class="ch-open">Buying off-plan in Poland means paying for a drawing. The drawing usually arrives late. Here is the pipeline with the dates corrected against the developers' own pages, because three of the widely quoted completion dates are wrong.</p>
+
+  <div class="note warn">
+    <b>Delivery dates in this chapter carry a health warning.</b> Where a developer's own site and a third-party database disagree, this guide takes the developer's site as closer to current truth. The opposite assumption - that developers publish optimistic marketing dates - is also defensible, and would push every date below <em>later</em>, never earlier.
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr><th>Project</th><th>Developer / where</th><th>Scale</th><th>Delivery</th><th>zł/m²</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Nowa Nakielska</strong></td>
+        <td>PHN · Wilczak, Nakielska 53</td>
+        <td>Stage I: 3 buildings, 170 units, 170 underground spaces, 78 mln zł. Whole scheme: 5 stages, 13 buildings, ~600 units</td>
+        <td><strong>2027</strong><br><small class="dn">not Q2 or Q4 2026</small></td>
+        <td class="num">not published</td>
+      </tr>
+      <tr>
+        <td><strong>ASPIRE</strong></td>
+        <td>Arkada Invest · Babia Wieś, Toruńska 136</td>
+        <td>2 towers of 40 m, 167 units, 26-101 m². Rooftop panoramic terrace for residents - the first on a Bydgoszcz apartment building. Balconies up to 48 m², PV with battery storage</td>
+        <td><strong>Q1 2027</strong><br><small class="dn">not 2026</small></td>
+        <td class="num">11,200-16,900</td>
+      </tr>
+      <tr>
+        <td><strong>Industria</strong></td>
+        <td>Grupa Moderator · Bocianowo, Rycerska 24</td>
+        <td>338 units under construction on a 5 ha former rail cargo terminal, multi-stage. Gym, playroom, PV on common areas, bike repair, EV charging. Next to the tram loop and Bydgoszcz Główna</td>
+        <td>Stage I-B Q3 2026<br>Stage I-A Mar 2027</td>
+        <td class="num">9,700-11,200</td>
+      </tr>
+      <tr>
+        <td><strong>Osiedle Nowe Horyzonty</strong></td>
+        <td>PRES · Bartodzieje, Fordońska 16</td>
+        <td><strong>Phase I: 2 buildings, 149 units</strong>, 28-94 m², 8 storeys, started Feb 2024. The 371-unit figure is the masterplan, not phase I</td>
+        <td>Phase I Q1 2026<br>All March 2027</td>
+        <td class="num">8,800-13,600</td>
+      </tr>
+      <tr>
+        <td><strong>Gajowa</strong></td>
+        <td>Budlex · Bartodzieje, Gajowa 18</td>
+        <td>3 buildings cascading 11 to 5 storeys, 256 units, 31-135 m², 254 parking. Design by Kuryłowicz &amp; Associates - the strongest architectural credential in the pipeline. Next to the park and Balaton</td>
+        <td>July 2026<br><small class="dn">was Sept 2025</small></td>
+        <td class="num">9,900-14,650</td>
+      </tr>
+      <tr>
+        <td><strong>Palladium</strong></td>
+        <td>IQ Development · Paderewskiego 25</td>
+        <td>2 buildings, 182 units, from 33 m². Positioned as the "New Music District" next to the Akademia Muzyczna and Park Szwalbego</td>
+        <td>Q3 2026</td>
+        <td class="num">15,202-19,904</td>
+      </tr>
+      <tr>
+        <td><strong>Nowy Port stage II</strong></td>
+        <td>AWZ · Śródmieście</td>
+        <td>201-202 units, 5 sections of 3-7 storeys, 219 parking, 27-100 m². 30% presold before official launch</td>
+        <td>Q1 2028</td>
+        <td class="num">13,800-16,200</td>
+      </tr>
+      <tr>
+        <td><strong>Lofty Farbiarnia</strong></td>
+        <td>NK Polska · Wyspa Młyńska, Św. Trójcy</td>
+        <td>Heritage conversion of the 1903 Wilhelm Kopp dye works. Largest unit is a two-level 272 m² apartment with a 90 m² terrace and pool. Unit count unresolved - 49 or 60</td>
+        <td>No date published<br><small class="dn">was due early 2025</small></td>
+        <td class="num">17,200-23,100</td>
+      </tr>
+      <tr>
+        <td><strong>Murapol Rivo</strong></td>
+        <td>Murapol · Śródmieście, Dworcowa</td>
+        <td>122 units in one building. Entry 311,567 zł for a 27 m² studio, with an advertised discount of up to 20%</td>
+        <td>Q3 2026</td>
+        <td class="num">9,740-11,620<br><small class="dn">cut from 10,910-14,425</small></td>
+      </tr>
+    </tbody>
+  </table></div>
+
+  <p>The market backdrop, confirmed on 29 July 2026: <span class="s" data-t="rynekpierwotny.pl, checked live 29 July 2026.">1,333 units on sale across 34 investments, 2,792 under construction</span>, deliveries running to Q1 2028, and 561 units already finished and waiting for a buyer. Bydgoszcz w budowie counted 50 residential projects under construction citywide in spring 2026, down from 51 in autumn 2025 - the weakest edition of its series. Rynekpierwotny tracked new-build supply down 22% year on year.</p>
+
+  <div class="note">
+    <b>Two names to watch, not to buy yet.</b> JHM's Łęczycka "Chemia" site is the biggest planned scheme at 959 units targeted for 2028, and the draft plan ogólny would let it reach 70 m - but it depends on a zoning document still in institutional review. It is a planning number, not a project. Atal bought the former paper mill site in Czyżkówko in summer 2024 and its CEO said in September 2024 they may get the permit and sell the land rather than build.
+  </div>
+
+  <div class="note warn">
+    <b>The 561 finished-and-unsold units are the most useful number in this chapter.</b> A developer holding completed stock negotiates differently from one selling a hole in the ground. CDI discounting Platanowy Park by up to 1,300 zł/m² and Murapol advertising up to 20% off Rivo are the same signal. Ask for the discount. In July 2026 it is there.
+  </div>
+</section>
+
+<!-- ═══════════════ VII ═══════════════ -->
+<section class="chapter" id="ch7">
+  <div class="ch-num">Chapter VII</div>
+  <h2>The older doors</h2>
+  <p class="ch-open">New-build asking prices run about 40% above what resale flats actually sell for. That gap is the strongest argument in this whole guide, and it comes with a condition: you have to know what you are looking at.</p>
+
+  <p>Polish housing comes in vintages, and each one carries a different bill. Learn the six and you can price a building from the street.</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>Vintage</th><th>Where in Bydgoszcz</th><th>What you are taking on</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>19th-c. <span class="g" data-t="Kamienica - a pre-war urban tenement building, usually brick, often 4-5 storeys with a courtyard. Beautiful, and the highest-variance thing you can buy in Poland.">kamienice</span></strong></td>
+        <td>Śródmieście, Stare Miasto, Bocianowo, Okole, Wilczak</td>
+        <td><strong>Highest variance in the city.</strong> Coal-stove heating still present in parts of the stock. Electrical and gas installations often original. Thick plaster and 3-4 m ceilings multiply every renovation cost. Unpredictable wspólnota levies. A technical survey before purchase is not optional here.</td>
+      </tr>
+      <tr>
+        <td><strong>1950s brick</strong></td>
+        <td>Osiedle Leśne, Ikara (both built as military housing), Stare Kapuściska 1951-60</td>
+        <td><strong>The sweet spot.</strong> Solid brick, generous green setting, sane layouts. Main issues are dated risers and small bathrooms - both fixable, both predictable.</td>
+      </tr>
+      <tr>
+        <td><strong>1960s brick</strong></td>
+        <td>Błonie, built on the 16th Ulan Regiment parade ground</td>
+        <td>Cheap and structurally sound. The era's signature defect is the <span class="g" data-t="Ślepa kuchnia - a windowless internal kitchen. Structurally harmless, permanently harder to resell.">ślepa kuchnia</span>, called out specifically for Błonie. A resale drag, not a deal-breaker.</td>
+      </tr>
+      <tr>
+        <td><strong>1970s wielka płyta</strong></td>
+        <td>Wyżyny, Wzgórze Wolności, Szwederowo, Bartodzieje, Nowe Kapuściska 1968-78</td>
+        <td>Panels from the Soviet-licensed plant on Przemysłowa, now 50+ years old. Check four things: thermal retrofit date, panel-joint anchor condition, riser replacement history, cold stairwells. A retrofitted block is a fine buy. <strong>An un-retrofitted one is a bill waiting to be issued.</strong></td>
+      </tr>
+      <tr>
+        <td><strong>1980s-90s prefab</strong></td>
+        <td>Fordon: Bohaterów 1982-85, Bajka 1983-86, Szybowników 1985-88, Przylesie 1985-88, Tatrzańskie 1988-92</td>
+        <td>Better panel systems and layouts than the 1970s cohort - Tatrzańskie used a "new building system" rather than classic wielka płyta. Most are insulated. Lowest technical risk among prefab.</td>
+      </tr>
+      <tr>
+        <td><strong>Post-2000 resale</strong></td>
+        <td>Fordon: Akademickie, Eskulapa, Pałcz, Zofin. Leśne: Platanowy Park. Górzyskowo</td>
+        <td>Lowest technical risk, highest entry price. Check the underground parking charge <em>separately</em> - Platanowy Park residents report 130-250 zł/month on top of the purchase, with limited visitor spaces.</td>
+      </tr>
+    </tbody>
+  </table></div>
+
+  <h3>The five best areas to buy resale</h3>
+  <div class="cards">
+    <div class="card">
+      <div class="r">01</div>
+      <h4>Fordon</h4>
+      <div class="pr">~9,000-9,900 zł/m² (est.)</div>
+      <p>Tatrzańskie, Przylesie, Szybowników, plus post-2000 Eskulapa, Pałcz and Zofin. The best combination of price, liquidity, prefab stock quality and rental demand. 72,000 residents, tram since January 2016, the Politechnika campus inside the district, and unusually few active listings for its size - which protects your exit. Roughly 500,000 zł for a 55 m² three-room.</p>
+      <div class="hid"><strong>Against:</strong> A long way from the centre, and forum sentiment on Fordon is genuinely split. The price range is an estimate built from portal narrative text, not a published secondary-only figure.</div>
+    </div>
+    <div class="card">
+      <div class="r">02</div>
+      <h4>Osiedle Leśne</h4>
+      <div class="pr">~9,500-10,500 zł/m² (est.)</div>
+      <p>1950s brick plus 743+ modern Platanowy Park flats in one district, close to the centre, with new-build asking around 12,476 zł/m² holding up the resale floor. Buy the brick, benefit from the new-build halo. Costs 5-10% more than Fordon and is worth it.</p>
+      <div class="hid"><strong>Against:</strong> Accept a dated bathroom and budget for riser replacement. Fewer businesses per capita than the city average.</div>
+    </div>
+    <div class="card">
+      <div class="r">03</div>
+      <h4>Bartodzieje</h4>
+      <div class="pr">~9,500-10,100 zł/m²</div>
+      <p>The most reliable liquidity in the city - 419 sale listings, 145 rental listings, second-highest average rent at 2,284 zł. 1970s prefab with newer infill, and Balaton park is a real amenity. Nothing about it is exciting. It will always sell.</p>
+      <div class="hid"><strong>Against:</strong> Mostly 1970s panel stock, so the retrofit checklist applies in full. Hard to find post-2000 flats above 70 m².</div>
+    </div>
+    <div class="card">
+      <div class="r">04</div>
+      <h4>Śródmieście / Stare Miasto</h4>
+      <div class="pr">~9,600-10,600 zł/m²</div>
+      <p>Deepest secondary market in the city - 168 secondary listings on Domiporta, 792 across the wider central unit - which means you can be picky and negotiate hard. Strongest rents. 468 new units at ~13,001 zł/m² are repricing the area upward.</p>
+      <div class="hid"><strong>Against:</strong> Highest technical risk in the city. <strong>Buy the building, not the flat</strong> - only where the roof, risers and facade are already done. Everything sits in the paid parking zone, and residents of streets just outside the boundary cannot buy a permit at all. The central unit lost 14.6% of its residents in five years.</div>
+    </div>
+    <div class="card">
+      <div class="r">05</div>
+      <h4>Szwederowo / Górzyskowo</h4>
+      <div class="pr">~9,900 zł/m²</div>
+      <p>Walkable to the centre, improving reputation - police told a local outlet the "bad Szwederowo" is now a myth - and the most active new construction after the centre. Górzyskowo posts the highest average rent in the city at 2,344 zł across 60 listings, which is a hard signal.</p>
+      <div class="hid"><strong>Against:</strong> The upside case rests partly on forum sentiment nobody could open and verify. Run-down courtyards remain. This is why it ranks fifth rather than higher.</div>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Just outside.</b> <strong>Bielawy</strong> is the best district in Bydgoszcz to own an apartment in and the worst to try to buy one - 17 active listings and 11,000-13,000+ zł/m². If one appears in your budget, take it. <strong>Wyżyny</strong> is the sharpest pure-value play at 8,800-9,500 zł/m² with good services, held back only by uniformly 1970s panel stock. <strong>Stare Kapuściska</strong> is the cheapest solid brick family stock in the city, with listings from 6,257 zł/m² - but the district has lost a third of its population since the late 1970s and had 17 active listings, so your exit will be slow.
+  </div>
+
+  <h3>If you are buying to rent it out</h3>
+  <div class="stats">
+    <div class="stat"><div class="v">1,999 zł</div><div class="k">Average monthly asking rent, July 2026 <span class="c c-r" data-t="znajdznajem.pl, 1,820 listings aggregated across 10 portals. Asking rents, not signed contracts.">reported</span></div></div>
+    <div class="stat"><div class="v">54 zł/m²</div><div class="k">Rent per square metre, per month</div></div>
+    <div class="stat"><div class="v">29%</div><div class="k">Share of listings that are studios, vs 21% nationally</div></div>
+    <div class="stat"><div class="v">~35,000</div><div class="k">Students across 15 institutions</div></div>
+  </div>
+
+  <p>Studios are where the demand is, and the 29% listing share confirms it. A studio under 35 m² in Fordon near the Politechnika campus or the tram is the clearest play - entry around 280,000-330,000 zł, gross yield above 7% per the local agent analysis. A two-room in Bartodzieje is the safer version: 145 active rental listings, 2,284 zł average rent, deep on both the sale and rental side.</p>
+
+  <div class="note warn">
+    <b>Do not buy anything over 60 m² for rental.</b> Heating costs and a thin tenant pool are pushing large-unit rents down - that warning comes from the same licensed agent whose yield figures this section uses. Also skip Wilczak: 1,917 zł average rent across 11 listings makes it both the cheapest and the shallowest rental submarket in the city.
+  </div>
+
+  <div class="note">
+    <b>Yield arithmetic, shown honestly.</b> 54 zł/m² asking rent against the 8,033 zł/m² NBP transaction price gives 8.1% gross. Against the 10,504 zł/m² Gethome asking price it gives 6.2%. The agent's 6.5-7.0% is a fair midpoint. All three are <em>gross</em> - before czynsz, tax, vacancy, management and repairs.
+  </div>
+</section>
+
+<!-- ═══════════════ VIII ═══════════════ -->
+<section class="chapter" id="ch8">
+  <div class="ch-num">Chapter VIII</div>
+  <h2>Getting the keys</h2>
+  <p class="ch-open">You have found it. The light is good, the trees are old, the seller is charming. This is the chapter where you stop feeling and start checking.</p>
+
+  <div class="box">
+    <h4>Mindset, before anything else</h4>
+    <ul>
+      <li>Math and facts decide, not "I can see myself here."</li>
+      <li>Any pressure to decide today is a signal to slow down.</li>
+      <li>Treat every "yes" from the seller as something to verify. Documents over words.</li>
+      <li>Visit 20+ apartments before deciding. Each visit improves your judgment.</li>
+      <li>Get a professional inspection before any serious offer. 500-1,500 zł prevents 30,000-100,000 zł surprises.</li>
+      <li>Do not sign anything you do not fully understand. Use an independent lawyer, not the seller's.</li>
+    </ul>
+  </div>
+
+  <h3>The questions that change the price</h3>
+  <ul class="check">
+    <li><strong>Why are you selling?</strong> <span class="pl">Dlaczego sprzedaje Pan/Pani to mieszkanie?</span></li>
+    <li><strong>How long has it been on the market?</strong> <span class="pl">Jak długo mieszkanie jest wystawione na sprzedaż?</span> <small style="color:var(--ink-3)">average time on market in Bydgoszcz is 96 days. Longer than that is room to negotiate.</small></li>
+    <li><strong>What is the <span class="g" data-t="Księga wieczysta - the land and mortgage register. Every property has one. You can look it up yourself, free, at ekw.ms.gov.pl using the KW number.">KW</span> number?</strong> <span class="pl">Jaki jest numer księgi wieczystej?</span> <small style="color:var(--ink-3)">then look it up yourself at ekw.ms.gov.pl, sections I to IV.</small></li>
+    <li><strong>Is this odrębna własność or spółdzielcze własnościowe prawo?</strong> <span class="pl">Czy mieszkanie ma odrębną własność lokalu czy spółdzielcze własnościowe prawo do lokalu?</span></li>
+    <li><strong>Any pending applications in the register?</strong> <span class="pl">Czy są jakieś wzmianki o złożonych wnioskach w księdze wieczystej?</span></li>
+    <li><strong>Any unpaid debts to the wspólnota or the city?</strong> <span class="pl">Czy są niezapłacone należności wobec wspólnoty, spółdzielni lub miasta?</span></li>
+    <li><strong>Is anyone currently registered at this address?</strong> <span class="pl">Czy ktoś jest aktualnie zameldowany pod tym adresem?</span></li>
+    <li><strong>What year and in what construction technology?</strong> <span class="pl">W którym roku powstał budynek i w jakiej technologii - wielka płyta, cegła, monolit?</span></li>
+    <li><strong>When was the building last thermally modernized?</strong> <span class="pl">Kiedy była ostatnia termomodernizacja budynku?</span></li>
+    <li><strong>When were the risers and building electrical last replaced?</strong> <span class="pl">Kiedy wymieniono piony i instalację elektryczną w budynku?</span></li>
+    <li><strong>What is the monthly czynsz, and what does it include?</strong> <span class="pl">Jaki jest miesięczny czynsz administracyjny i co dokładnie obejmuje?</span></li>
+    <li><strong>How much goes to the <span class="g" data-t="Fundusz remontowy - the building's renovation fund. A low balance in an old building means a special assessment is coming, and you will pay it.">fundusz remontowy</span>, and what is the balance?</strong> <span class="pl">Ile z czynszu idzie na fundusz remontowy i jaka jest jego aktualna wysokość?</span></li>
+    <li><strong>What major renovations are planned in the next 1-5 years?</strong> <span class="pl">Jakie duże remonty są planowane w najbliższych 1-5 latach?</span></li>
+    <li><strong>Any czynsz rises or special assessments planned in 12-24 months?</strong> <span class="pl">Czy są planowane podwyżki czynszu lub jednorazowe wpłaty?</span></li>
+    <li><strong>Does the wspólnota have debts or financial problems?</strong> <span class="pl">Czy wspólnota ma jakieś zadłużenie lub problemy finansowe?</span></li>
+    <li><strong>Can I see 12 months of utility bills?</strong> <span class="pl">Czy mogę zobaczyć rachunki za media za ostatnie 12 miesięcy?</span></li>
+    <li><strong>Any damp or mould, current or historical?</strong> <span class="pl">Czy są ślady wilgoci, pleśni lub zacieków?</span></li>
+    <li><strong>How is the sound insulation? Can you hear neighbours?</strong> <span class="pl">Jaka jest izolacja akustyczna? Czy słychać sąsiadów?</span></li>
+    <li><strong>Is there an assigned parking space, and is it in the price?</strong> <span class="pl">Czy jest przypisane miejsce postojowe lub garaż w cenie?</span> <small style="color:var(--ink-3)">on modern estates expect 130-250 zł/month on top.</small></li>
+    <li><strong>Any conflicts in the building - between owners, with the administrator?</strong> <span class="pl">Czy są trwające konflikty w budynku?</span></li>
+    <li><strong>Are any flats here short-term rentals?</strong> <span class="pl">Czy jakieś mieszkania są wynajmowane krótkoterminowo?</span></li>
+    <li><strong>If a kamienica - is it under heritage protection?</strong> <span class="pl">Czy budynek jest pod ochroną konserwatorską?</span> <small style="color:var(--ink-3)">in a listed building even replacing your own windows needs conservator sign-off.</small></li>
+    <li><strong>Who covers notary fees, PCC tax and agent commission?</strong> <span class="pl">Kto pokrywa koszty notariusza, podatek PCC i prowizję pośrednika?</span></li>
+  </ul>
+
+  <h3>Documents to walk out with</h3>
+  <div class="box">
+    <ul>
+      <li><strong>KW number</strong> - and look it up yourself at ekw.ms.gov.pl</li>
+      <li><strong>Zero-debt certificate</strong> from the wspólnota or spółdzielnia <span class="pl">zaświadczenie o niezaleganiu</span></li>
+      <li><strong>Energy performance certificate</strong> <span class="pl">świadectwo charakterystyki energetycznej</span> - ask for this rather than trusting any quoted energy class</li>
+      <li><strong>Building technical inspection report</strong> <span class="pl">protokół przeglądu technicznego budynku</span></li>
+      <li><strong>Recent wspólnota meeting minutes</strong> <span class="pl">protokół zebrania wspólnoty</span> - this is where the coming special assessment is hiding</li>
+      <li><strong>Floor plan</strong> <span class="pl">rzut mieszkania</span> - and check the area matches the KW</li>
+      <li><strong>12 months of utility bills</strong></li>
+      <li><strong>Mortgage discharge letter</strong>, if there is a mortgage <span class="pl">zgoda na wykreślenie hipoteki</span></li>
+      <li><strong>Inheritance ruling</strong>, if inherited <span class="pl">postanowienie o stwierdzeniu nabycia spadku</span></li>
+    </ul>
+  </div>
+
+  <h3>Twelve minutes of physical checks</h3>
+  <ul class="check">
+    <li>Sniff for gas, sewage, damp - do this in the first thirty seconds, before your nose adjusts</li>
+    <li>Hold a sheet of paper to every ventilation grille. It should be pulled in</li>
+    <li>Open every window and door, check the seal</li>
+    <li>Run all taps - pressure, drain speed, water colour after 30 seconds</li>
+    <li>Flush every toilet</li>
+    <li>Test the outlets with a phone charger</li>
+    <li>Photograph the fuse box - count the circuits, look for modern breakers</li>
+    <li>Pull furniture away from external walls and look for mould behind it</li>
+    <li>Inspect the cellar storage if it is included</li>
+    <li>Walk the stairwell to the top - the condition of the common parts tells you what the wspólnota is like</li>
+  </ul>
+
+  <div class="note warn">
+    <b>Outside this guide's evidence.</b> Nothing here covers Polish purchase law, transaction taxes, mortgage rules for non-residents, or whether you need a permit to buy as a foreign national. Those rules turn on your citizenship and residency and they change. Get them from a Polish lawyer or notary before you commit to anything, and do not take them from a property portal.
+  </div>
+
+  <div class="note good">
+    <b>If you are buying new build instead.</b> Hire an independent inspector for the odbiór techniczny - it is normal practice in Poland and costs a few hundred złoty. Given the city-wide pattern in Chapter IV, spend a disproportionate share of that inspection on the window joinery. Ask which phase of the estate you are buying, and whether it is the first building.
+  </div>
+</section>
+
+<!-- ═══════════════ IX ═══════════════ -->
+<section class="chapter" id="ch9">
+  <div class="ch-num">Chapter IX</div>
+  <h2>What the map does not show</h2>
+  <p class="ch-open">Every guide ends with confidence. This one ends with a list of the places where the ground under it is soft, because a buyer who knows which numbers to distrust is better armed than one who trusts all of them equally.</p>
+
+  <h3>What is solid</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Claim</th><th>Basis</th></tr></thead>
+    <tbody>
+      <tr><td>Citywide price levels and the primary-secondary gap</td><td>Four price series read directly at source on 29 July 2026. NBP transaction data confirmed on two independent portals.</td></tr>
+      <tr><td>The PewnyLokal developer scorecard</td><td>Two independent spot-checks (CDI, Red Co) reproduced every figure to the decimal.</td></tr>
+      <tr><td>Project existence, scale, architect and location</td><td>Four project databases plus developers' own pages.</td></tr>
+      <tr><td>Construction eras and technology by estate</td><td>Multiple independent sources agree.</td></tr>
+      <tr><td>Population decline and the revitalization area list</td><td>Official city and GUS figures.</td></tr>
+      <tr><td>Rental levels and market shape</td><td>1,820 listings aggregated across 10 portals.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>What is soft</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Weakness</th><th>What it affects</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>All district sentiment is from a 2020 survey</strong></td>
+        <td>Chapter III, almost entirely. Six years covers the Fordon tram maturing, the Fordońska rebuild and a large wave of new supply. The 2020 ordering may no longer hold.</td>
+      </tr>
+      <tr>
+        <td><strong>No forum post was ever read at source</strong></td>
+        <td>SkyscraperCity returns HTTP 402 behind a paywall to every automated read. Every forum opinion quoted anywhere in this guide is a paraphrase of a search summary. No usernames, no dates, no verbatim wording. This is the single largest hole.</td>
+      </tr>
+      <tr>
+        <td><strong>Every district-level resale price is arithmetic, not data</strong></td>
+        <td>Chapter VII's price ranges. No public source publishes secondary-only district prices for Bydgoszcz in 2026. Pull three to five comparable closed transactions per target street before you offer.</td>
+      </tr>
+      <tr>
+        <td><strong>Price direction is unresolved</strong></td>
+        <td>Tabelaofert says −4.21% and −5.23%. Rynekpierwotny says +5%. Both confirmed live on the same day. Different baskets. The <em>level</em> is reliable; the <em>direction</em> is not.</td>
+      </tr>
+      <tr>
+        <td><strong>Reddit, Facebook, Google Maps reviews - all unavailable</strong></td>
+        <td>A large part of the intended sentiment base is simply missing. So is the PZFD member register, so every "PZFD member" claim comes from aggregators rather than the association.</td>
+      </tr>
+      <tr>
+        <td><strong>Nobody publishes wspólnota quality</strong></td>
+        <td>Zero public data for any Bydgoszcz estate. For a question about where to live well, this matters more after year five than build quality does.</td>
+      </tr>
+      <tr>
+        <td><strong>Specific unverified claims carried forward</strong></td>
+        <td>The Aura Towers 7-8 m² bedroom criticism. The Murapol Osiedle Akademickie resident allegations. Budlex's 10,143-unit figure (its own site fails on a TLS certificate error). Otodom's 2020 "Bielawy most attractive" study, which nobody could locate in primary form.</td>
+      </tr>
+    </tbody>
+  </table></div>
+
+  <div class="note">
+    <b>The failure mode to watch for.</b> Nothing in the underlying research looked fabricated - both quality scorecards, both ranking pages, four project databases and two price portals all reproduced their reported figures. The recurring error is different and more subtle: <strong>masterplan totals presented as delivered stock</strong> (Nowy Port's 628 versus its actual 192), <strong>developer targets quoted as completion dates</strong> (Nowa Nakielska, ASPIRE), and <strong>a six-year-old survey carried as current sentiment</strong>. When you read any Bydgoszcz property article, check for those three before you believe it.
+  </div>
+
+  <div class="dinkus">· · ·</div>
+
+  <p class="pull">Buy the building, not the flat. Buy the district, not the balcony. And in a shrinking city, buy the thing that will still be easy to sell.</p>
+</section>
+
+</div>
+
+<footer><div class="wrap">
+  <p><strong>How this guide was made.</strong> Synthesised from seven research reports produced 29 July 2026, covering developers, completed estates, the pipeline, public sentiment, central districts and the secondary market. Those reports were LLM-authored with web research and independently verified by direct fetch of primary sources; claims that failed verification are flagged in place throughout. Prices reflect 30 June 2026 (Tabelaofert, NBP Q1) and 29 July 2026 (Rynekpierwotny) readings. Nothing here is financial, legal or investment advice - it is a research summary, and the seller's notary is not your lawyer.</p>
+
+  <h4 style="margin-top:34px;color:var(--ink-2)">Sources worth opening yourself</h4>
+  <div class="srcs">
+    <a href="https://tabelaofert.pl/ceny-mieszkan/bydgoszcz" target="_blank">tabelaofert.pl - district prices</a><br>
+    <a href="https://rynekpierwotny.pl/s/nowe-mieszkania-bydgoszcz/" target="_blank">rynekpierwotny.pl - new-build supply</a><br>
+    <a href="https://rynekpierwotny.pl/ranking-inwestycji/bydgoszcz/" target="_blank">rynekpierwotny.pl - investment rankings</a><br>
+    <a href="https://sonarhome.pl/ceny-mieszkan/bydgoszcz" target="_blank">sonarhome.pl - price series</a><br>
+    <a href="https://adresowo.pl/mieszkania/bydgoszcz/" target="_blank">adresowo.pl - no-agent listings</a><br>
+    <a href="https://www.bankier.pl/wiadomosc/Ceny-transakcyjne-mieszkan-na-rynku-wtornym-I-kw-2026-9132022.html" target="_blank">bankier.pl - NBP transaction prices</a><br>
+    <a href="https://pewnylokal.pl/sprawdz-dewelopera/deweloper/cdi-deweloper-opinie" target="_blank">pewnylokal.pl - developer scorecards</a><br>
+    <a href="https://bydgoszczwbudowie.pl/inwestycje/mieszkaniowe/" target="_blank">bydgoszczwbudowie.pl - construction tracker</a><br>
+    <a href="https://www.urbanity.pl/kujawsko-pomorskie/bydgoszcz" target="_blank">urbanity.pl - project database</a><br>
+    <a href="https://znajdznajem.pl/bydgoszcz/raport" target="_blank">znajdznajem.pl - rental index</a><br>
+    <a href="https://www.bydgoszcz.pl/rozwoj/rewitalizacja/obszar-rewitalizacji-i-obszar-zdegradowany/" target="_blank">bydgoszcz.pl - revitalization areas</a><br>
+    <a href="https://zdmikp.bydgoszcz.pl/pl/drogi-miejskie/8492-zmiany-w-strefie-platnego-parkowania-nowe-granice-zaplacimy-karta" target="_blank">zdmikp - paid parking zone</a><br>
+    <a href="https://metropoliabydgoska.pl/ilu-mieszkancow-ma-bydgoszcz/" target="_blank">metropoliabydgoska.pl - population</a><br>
+    <a href="https://media.otodom.pl/cztery-dzielnice-bydgoszczy-z-wyrazna-przewaga" target="_blank">media.otodom.pl - 2020 district survey</a><br>
+    <a href="https://turystykabezfiltrow.com/bydgoszcz/cykl-bydgoskie-osiedla-bez-filtrow/" target="_blank">turystykabezfiltrow.com - district write-ups</a><br>
+    <a href="https://cdi.net.pl/" target="_blank">cdi.net.pl</a> · <a href="https://arkada-invest.pl/" target="_blank">arkada-invest.pl</a> · <a href="https://grupamoderator.pl/" target="_blank">grupamoderator.pl</a><br>
+    <a href="https://www.phnsa.pl/pl/projekt/nowa-nakielska-i-etap" target="_blank">phnsa.pl - Nowa Nakielska</a><br>
+    <a href="https://ekw.ms.gov.pl" target="_blank">ekw.ms.gov.pl - land register lookup</a>
+  </div>
+
+  <div class="colophon">
+    <div class="cr">© 2026 Alexander Gostev</div>
+    <div class="cx">
+      Written and compiled by Alexander Gostev, July 2026. All rights reserved.<br>
+      Text and analysis may be quoted with attribution. Underlying price and inspection data belongs to the sources cited above and remains theirs.<br>
+      Figures were accurate on the dates stated and property markets do not hold still - re-check anything you plan to act on.
+    </div>
+  </div>
+</div></footer>
+</body>
+</html>
