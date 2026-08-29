@@ -1,0 +1,1188 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Краків · початок вересня 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Oswald:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5eddf; --paper-2:#efe4d1; --card:#fbf6ec; --card-2:#f3ead9;
+  --ink:#2c2419; --ink-soft:#5d5142; --ink-faint:#8b7d6a;
+  --sun:#d98324; --sun-deep:#b5651d; --amber:#e0a253;
+  --ember:#a4392a; --wine:#7c3a2d;
+  --mist:#8798a6; --mist-deep:#4f5d68; --night:#2b333b;
+  --moss:#727445; --moss-deep:#565737;
+  --line:rgba(44,36,25,.14); --line-soft:rgba(44,36,25,.08);
+  --shadow:0 1px 2px rgba(44,36,25,.06),0 8px 30px rgba(44,36,25,.09);
+  --maxw:920px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'Lora',Georgia,'Times New Roman',serif;
+  font-size:18px; line-height:1.72; -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img{max-width:100%}
+::selection{background:var(--amber);color:#2c2419}
+
+/* ---------- typographic scale ---------- */
+h1,h2,h3,h4{font-family:'Playfair Display',Georgia,serif;font-weight:700;line-height:1.12;color:var(--ink);margin:0}
+.eyebrow{font-family:'Oswald',sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.26em;font-size:.72rem;color:var(--sun-deep)}
+a{color:var(--wine);text-decoration:none;border-bottom:1px solid rgba(124,58,45,.28)}
+a:hover{border-bottom-color:var(--wine)}
+
+/* ---------- layout ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+section{scroll-margin-top:70px}
+.block{max-width:var(--maxw);margin:0 auto;padding:6px 22px 4px}
+.block p{margin:.7em 0}
+.lead{font-size:1.22rem;line-height:1.6;color:var(--ink-soft);font-style:italic}
+
+/* ---------- top nav ---------- */
+.topbar{position:sticky;top:0;z-index:50;background:rgba(245,237,223,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar .row{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:9px 18px}
+.brandmark{font-family:'Playfair Display',serif;font-weight:800;font-size:1.02rem;letter-spacing:.01em;white-space:nowrap}
+.brandmark .d{color:var(--sun-deep);font-style:italic;font-weight:600}
+.navscroll{display:flex;gap:2px;overflow-x:auto;scrollbar-width:thin;margin-left:auto}
+.navscroll::-webkit-scrollbar{height:5px}
+.navscroll::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+.navscroll a{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;color:var(--ink-soft);
+  border:0;padding:6px 11px;border-radius:20px;white-space:nowrap}
+.navscroll a:hover{background:var(--card-2);color:var(--ink)}
+
+/* ---------- HERO system ---------- */
+.hero{position:relative;overflow:hidden;border-radius:0}
+.hero svg.scene{display:block;width:100%;height:100%}
+.hero .herocap{position:absolute;left:0;right:0;bottom:0;padding:26px 22px 20px;
+  background:linear-gradient(to top,rgba(20,16,12,.5),rgba(20,16,12,.14) 55%,transparent);
+  color:#fdf7ea}
+.hero .herocap .eyebrow{color:#ffcf8f}
+.hero .herocap h1,.hero .herocap h2,.hero .herocap h3{color:#fdf7ea;text-shadow:0 1px 3px rgba(20,14,8,.55),0 2px 26px rgba(20,14,8,.5)}
+.band{width:100%}
+.band .inner{max-width:var(--maxw);margin:0 auto;position:relative}
+
+/* section hero (topic) */
+.topic-hero{height:230px}
+.cover{height:clamp(420px,74vh,600px)}
+.route-hero{height:150px}
+
+/* ---------- cover ---------- */
+.cover .cvcap{position:absolute;inset:auto 0 0 0;padding:0 22px 42px}
+.cover .cvinner{max-width:var(--maxw);margin:0 auto;color:#fdf7ea}
+.cover h1{font-size:clamp(2.6rem,7vw,4.7rem);font-weight:800;letter-spacing:-.01em;line-height:1.02;text-shadow:0 2px 40px rgba(20,12,6,.45)}
+.cover .sub{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(1.15rem,2.6vw,1.7rem);color:#ffe4bd;margin-top:.5rem}
+.cover .dateline{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.3em;font-size:.82rem;color:#ffcf8f;margin-bottom:1rem}
+.cover .cvmeta{margin-top:1.6rem;display:flex;flex-wrap:wrap;gap:10px 26px;font-size:.95rem;color:#f4e7d2}
+.cover .cvmeta b{color:#fff;font-weight:600}
+
+/* ---------- callouts & cards ---------- */
+.note{max-width:var(--maxw);margin:20px auto;padding:18px 22px;background:var(--card);border:1px solid var(--line);
+  border-left:4px solid var(--sun);border-radius:8px;box-shadow:var(--shadow)}
+.note.warn{border-left-color:var(--ember);background:#fbf0e9}
+.note.calm{border-left-color:var(--mist-deep);background:#eef1f2}
+.note.quote{border-left-color:var(--moss);font-style:italic;color:var(--ink-soft);font-size:1.06rem}
+.note .lbl{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.18em;font-size:.66rem;color:var(--sun-deep);display:block;margin-bottom:5px}
+.note.warn .lbl{color:var(--ember)}
+.note.calm .lbl{color:var(--mist-deep)}
+.note p{margin:.35em 0}
+
+.pull{max-width:var(--maxw);margin:26px auto;padding:0 22px;text-align:center}
+.pull q{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:clamp(1.3rem,3.4vw,1.8rem);line-height:1.35;color:var(--wine);quotes:"«" "»"}
+.pull .who{display:block;margin-top:.7rem;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.2em;font-size:.7rem;color:var(--ink-faint)}
+
+/* fact grid */
+.facts{max-width:var(--maxw);margin:16px auto;padding:0 22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:15px 17px;box-shadow:var(--shadow)}
+.fact .k{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.14em;font-size:.64rem;color:var(--sun-deep);margin-bottom:4px}
+.fact .v{font-size:1.02rem;line-height:1.4}
+.fact .v b{font-family:'Playfair Display',serif;font-size:1.15rem}
+
+/* tables */
+.tbl-wrap{max-width:var(--maxw);margin:18px auto;padding:0 22px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.95rem;background:var(--card);border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+thead th{font-family:'Oswald',sans-serif;font-weight:500;text-transform:uppercase;letter-spacing:.08em;font-size:.68rem;color:var(--paper);background:var(--mist-deep)}
+tbody tr:nth-child(even){background:var(--card-2)}
+tbody tr:last-child td{border-bottom:0}
+td b,th b{font-weight:600}
+
+/* day cards */
+.days{max-width:var(--maxw);margin:14px auto;padding:0 22px;display:grid;gap:16px}
+.day{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.day > .dh{display:flex;align-items:baseline;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);
+  background:linear-gradient(100deg,var(--card-2),var(--card))}
+.day .ddate{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.16em;font-size:.72rem;color:var(--sun-deep)}
+.day h3{font-size:1.4rem}
+.day .tag{margin-left:auto;font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:.62rem;
+  padding:3px 10px;border-radius:20px;border:1px solid var(--line);color:var(--ink-soft);white-space:nowrap}
+.day .tag.active{color:var(--sun-deep);border-color:rgba(181,101,29,.35);background:#fae9d3}
+.day .tag.calm{color:var(--mist-deep);background:#e9eef0;border-color:rgba(79,93,104,.3)}
+.day .db{padding:6px 18px 16px}
+.opt{margin:12px 0;padding-left:16px;border-left:3px solid var(--amber)}
+.opt .ot{font-family:'Playfair Display',serif;font-weight:700;font-size:1.05rem;margin-bottom:2px}
+.opt.b{border-left-color:var(--mist)}
+.opt.c{border-left-color:var(--moss)}
+
+/* route grid */
+.routes{max-width:var(--maxw);margin:16px auto;padding:0 22px;display:grid;grid-template-columns:1fr;gap:22px}
+.route{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.route .rbody{padding:4px 20px 20px}
+.route .rlede{font-family:'Playfair Display',serif;font-style:italic;font-size:1.08rem;color:var(--ink-soft);margin:14px 0 6px}
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:0;margin:12px 0 4px;
+  border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.strip div{padding:9px 12px;border-right:1px solid var(--line-soft)}
+.strip div:last-child{border-right:0}
+.strip .k{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:.6rem;color:var(--sun-deep)}
+.strip .v{font-size:.92rem;line-height:1.35}
+.timeline{margin:14px 0;padding:0;list-style:none}
+.timeline li{position:relative;padding:3px 0 10px 74px;min-height:26px}
+.timeline li::before{content:"";position:absolute;left:57px;top:9px;width:9px;height:9px;border-radius:50%;background:var(--sun);box-shadow:0 0 0 3px var(--card)}
+.timeline li::after{content:"";position:absolute;left:61px;top:16px;bottom:-4px;width:1px;background:var(--line)}
+.timeline li:last-child::after{display:none}
+.timeline .t{position:absolute;left:0;top:2px;width:50px;text-align:right;font-family:'Oswald',sans-serif;font-size:.74rem;color:var(--sun-deep);letter-spacing:.02em}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.rgrid .mini{background:var(--card-2);border-radius:9px;padding:12px 14px;font-size:.92rem}
+.rgrid .mini .k{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.12em;font-size:.6rem;color:var(--moss-deep);margin-bottom:3px}
+.know{margin-top:14px;font-size:.94rem;color:var(--ink-soft)}
+.know li{margin:.3em 0}
+.budget{display:inline-flex;gap:14px;margin-top:10px;font-family:'Oswald',sans-serif;font-size:.8rem;letter-spacing:.04em}
+.budget span{background:var(--card-2);border:1px solid var(--line);border-radius:20px;padding:4px 13px}
+.budget b{color:var(--sun-deep)}
+
+.chip{display:inline-block;font-family:'Oswald',sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;
+  padding:2px 9px;border-radius:14px;background:var(--card-2);border:1px solid var(--line);color:var(--ink-soft);margin:0 2px}
+.star{color:var(--sun-deep)}
+hr.sep{max-width:var(--maxw);margin:34px auto;border:0;border-top:1px solid var(--line)}
+.section-title{max-width:var(--maxw);margin:0 auto;padding:26px 22px 2px}
+.section-title h2{font-size:clamp(1.7rem,4vw,2.5rem)}
+.section-title .eyebrow{display:block;margin-bottom:8px}
+
+footer{background:var(--night);color:#cdbfa9;margin-top:40px;padding:34px 22px 44px;text-align:center}
+footer .fw{max-width:var(--maxw);margin:0 auto}
+footer b{color:#fbf0dc}
+footer .eyebrow{color:var(--amber)}
+
+/* ---------- hero light variants ---------- */
+.hero{position:relative;overflow:hidden;isolation:isolate}
+.hero .scene{position:absolute;inset:0;width:100%;height:100%;z-index:2}
+.hero::before{content:"";position:absolute;border-radius:50%;z-index:1;pointer-events:none}
+.hero .herocap,.hero .cvcap{z-index:3}
+.hero.dawn{--far:#b3bcc0;--near:#67757e;--water:#9caeb6;background:linear-gradient(to bottom,#a7b4bd 0%,#c4c6bd 46%,#e9d2aa 100%)}
+.hero.dawn::before{width:64px;height:64px;left:72%;top:24%;background:#ffe6c6;box-shadow:0 0 55px 26px rgba(255,226,182,.5)}
+.hero.day{--far:#b99c6c;--near:#6a5740;--water:#a7b5a4;background:linear-gradient(to bottom,#c2cec8 0%,#e7d8be 50%,#f1d7a1 100%)}
+.hero.day::before{width:92px;height:92px;left:80%;top:15%;background:#ffd67e;box-shadow:0 0 78px 38px rgba(255,214,138,.55)}
+.hero.evening{--far:#7c5b52;--near:#332723;--water:#b1673a;background:linear-gradient(to bottom,#59637190 0%,#5a6472 4%,#c17b45 62%,#f1b263 100%)}
+.hero.evening::before{width:118px;height:118px;left:23%;top:50%;background:#ff9a44;box-shadow:0 0 95px 46px rgba(255,140,70,.5)}
+.hero.mist{--far:#aeb6b8;--near:#71797c;--water:#9fadb0;background:linear-gradient(to bottom,#b8bdbd 0%,#c9c7bf 55%,#dcd2bf 100%)}
+.hero.mist::before{width:70px;height:70px;left:64%;top:30%;background:#f3ecd8;opacity:.75;box-shadow:0 0 50px 30px rgba(240,236,220,.4)}
+
+@media(max-width:620px){
+  body{font-size:17px}
+  .rgrid{grid-template-columns:1fr}
+  .navscroll{display:none}
+}
+@media print{.topbar{display:none}}
+</style>
+</head>
+<body>
+
+<!-- ============ SVG SCENE SPRITE (reusable silhouettes) ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <!-- MOUNDS: kopce / hills with a lone tree -->
+  <symbol id="s-mounds" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+    <path fill="var(--far)" d="M0,230 C180,150 320,175 470,150 C640,120 760,175 900,150 C1040,128 1130,168 1200,150 L1200,300 L0,300 Z"/>
+    <path fill="var(--near)" d="M0,300 L0,255 C160,215 300,262 430,232 C560,205 620,150 760,205 C880,250 1010,232 1200,262 L1200,300 Z"/>
+    <path fill="var(--near)" d="M735,208 l7,-42 6,42 z"/><rect fill="var(--near)" x="744" y="205" width="3" height="16"/>
+  </symbol>
+  <!-- OLDTOWN: spires, Mariacki twin towers, theatre dome -->
+  <symbol id="s-oldtown" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+    <path fill="var(--far)" d="M0,300 L0,235 L120,235 L150,205 L180,235 L340,235 L360,150 L372,120 L384,150 L384,235 L560,235 L560,300 Z"/>
+    <path fill="var(--near)" d="M0,300 L0,262 L150,262 L150,190 L165,168 L180,190 L180,110 L192,92 L204,110 L204,190 L220,168 L235,190 L235,262 L470,262
+      L470,205 L520,205 L540,178 L560,205 L560,262 L720,262 L720,200 L760,200 L760,160 L775,145 L790,160 L790,200 L830,200 L830,262
+      L1000,262 L1010,235 L1030,215 L1050,235 L1060,262 L1200,262 L1200,300 Z"/>
+    <circle fill="var(--near)" cx="1030" cy="212" r="5"/>
+  </symbol>
+  <!-- RIVER: Vistula bend + abbey/castle on a cliff -->
+  <symbol id="s-river" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+    <path fill="var(--far)" d="M0,300 L0,210 C120,170 260,195 380,180 L380,300 Z"/>
+    <path fill="var(--near)" d="M0,300 L0,250 L40,250 L40,205 L120,205 L120,155 L140,155 L140,135 L152,135 L152,155 L235,155 L235,205 L300,205 L300,250 L360,250 L360,300 Z"/>
+    <rect fill="var(--near)" x="128" y="120" width="4" height="20"/>
+    <path fill="var(--water)" d="M360,300 L360,255 C560,235 760,285 1000,258 C1100,246 1160,262 1200,252 L1200,300 Z"/>
+  </symbol>
+  <!-- FOREST: pines -->
+  <symbol id="s-forest" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+    <path fill="var(--far)" d="M0,300 L0,215 C150,175 260,205 420,180 C600,152 760,200 940,178 C1060,163 1140,190 1200,178 L1200,300 Z"/>
+    <g fill="var(--near)">
+      <path d="M60,285 l26,-70 26,70 z"/><path d="M150,290 l30,-90 30,90 z"/><path d="M255,285 l24,-64 24,64 z"/>
+      <path d="M360,292 l32,-96 32,96 z"/><path d="M470,286 l26,-72 26,72 z"/><path d="M575,290 l30,-88 30,88 z"/>
+      <path d="M690,285 l24,-66 24,66 z"/><path d="M795,291 l32,-94 32,94 z"/><path d="M910,286 l26,-74 26,74 z"/>
+      <path d="M1015,290 l30,-90 30,90 z"/><path d="M1120,285 l26,-70 26,70 z"/>
+    </g>
+    <rect fill="var(--near)" x="0" y="286" width="1200" height="14"/>
+  </symbol>
+  <!-- QUARRY: white cliffs + turquoise water (Zakrzówek) -->
+  <symbol id="s-quarry" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+    <path fill="var(--far)" d="M0,300 L0,120 L150,120 L230,60 L360,120 L500,95 L620,140 L760,90 L900,135 L1040,100 L1200,140 L1200,300 Z"/>
+    <path fill="var(--water)" d="M0,300 L0,235 C200,220 420,255 640,238 C860,222 1020,252 1200,236 L1200,300 Z"/>
+  </symbol>
+  <!-- BLOCKS: socrealist Nowa Huta blocks + chimney -->
+  <symbol id="s-blocks" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+    <path fill="var(--far)" d="M0,300 L0,180 L200,180 L200,300 Z M260,300 L260,150 L470,150 L470,300 Z M900,300 L900,165 L1120,165 L1120,300 Z"/>
+    <g fill="var(--near)">
+      <rect x="0" y="205" width="300" height="95"/><rect x="330" y="180" width="250" height="120"/>
+      <rect x="610" y="200" width="220" height="100"/><rect x="860" y="185" width="200" height="115"/>
+      <rect x="1090" y="205" width="110" height="95"/>
+      <rect x="1035" y="90" width="16" height="130"/>
+    </g>
+  </symbol>
+  <!-- MEADOW: Błonia / Łąki - grass, reeds, low horizon -->
+  <symbol id="s-meadow" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+    <path fill="var(--far)" d="M0,300 L0,235 C220,222 460,242 700,230 C900,220 1060,238 1200,228 L1200,300 Z"/>
+    <g fill="var(--near)">
+      <path d="M40,300 C44,265 48,255 46,240 C56,255 58,270 60,300 Z"/>
+      <path d="M120,300 C124,258 128,246 126,232 C138,248 140,266 142,300 Z"/>
+      <path d="M900,300 C904,262 908,250 906,236 C918,252 920,268 922,300 Z"/>
+      <path d="M1050,300 C1054,255 1058,244 1056,230 C1068,246 1070,264 1072,300 Z"/>
+      <rect x="0" y="270" width="1200" height="30"/>
+    </g>
+  </symbol>
+  <!-- MARKET: stalls / arcades (Kleparz, Sukiennice) -->
+  <symbol id="s-market" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+    <path fill="var(--far)" d="M0,300 L0,175 L1200,175 L1200,300 Z"/>
+    <g fill="var(--near)">
+      <path d="M60,300 L60,240 L60,225 L100,205 L140,225 L140,300 Z"/>
+      <path d="M180,300 L180,225 L220,205 L260,225 L260,300 Z"/>
+      <path d="M300,300 L300,225 L340,205 L380,225 L380,300 Z"/>
+      <path d="M760,300 L760,225 L800,205 L840,225 L840,300 Z"/>
+      <path d="M880,300 L880,225 L920,205 L960,225 L960,300 Z"/>
+      <path d="M1000,300 L1000,225 L1040,205 L1080,225 L1080,300 Z"/>
+      <rect x="440" y="215" width="4" height="85"/><path d="M420,215 h44 l-6,12 h-32 z"/>
+    </g>
+  </symbol>
+  <!-- FACADES: townhouse rooflines (Talowski / Aleje) -->
+  <symbol id="s-facades" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+    <g fill="var(--near)">
+      <path d="M0,300 L0,170 L120,170 L120,150 L150,150 L150,300 Z"/>
+      <path d="M150,300 L150,190 L150,160 L200,130 L250,160 L250,300 Z"/>
+      <path d="M250,300 L250,150 L370,150 L370,175 L400,175 L400,300 Z"/>
+      <path d="M400,300 L400,145 C400,130 420,120 435,120 C450,120 470,130 470,145 L470,300 Z"/>
+      <path d="M470,300 L470,175 L600,175 L600,150 L630,150 L630,300 Z"/>
+      <path d="M630,300 L630,160 L690,120 L750,160 L750,300 Z"/>
+      <path d="M750,300 L750,175 L880,175 L880,155 L905,155 L905,300 Z"/>
+      <path d="M905,300 L905,140 L1000,140 L1000,170 L1030,170 L1030,300 Z"/>
+      <path d="M1030,300 L1030,165 L1090,135 L1150,165 L1150,150 L1200,150 L1200,300 Z"/>
+    </g>
+    <path fill="var(--far)" d="M0,300 L0,110 L60,110 L60,90 L72,90 L72,110 L120,110 L120,300 Z"/>
+  </symbol>
+</defs>
+</svg>
+
+<div class="topbar">
+  <div class="row">
+    <span class="brandmark">Краків <span class="d">· меню поїздки</span></span>
+    <nav class="navscroll">
+      <a href="#facts">факти</a>
+      <a href="#principle">принцип</a>
+      <a href="#calendar">календар</a>
+      <a href="#weather">погода</a>
+      <a href="#days">день за днем</a>
+      <a href="#matrix">матриця</a>
+      <a href="#routes">мікроподорожі</a>
+      <a href="#food">їжа</a>
+      <a href="#logi">логістика</a>
+      <a href="#book">бронювати</a>
+      <a href="#history">історія</a>
+      <a href="#ukr">українське</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ============ COVER ============ -->
+<header class="hero cover dawn">
+  <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-oldtown"/></svg>
+  <div class="cvcap">
+    <div class="cvinner">
+      <div class="dateline">29 серпня – 2 вересня 2026</div>
+      <h1>Краків</h1>
+      <div class="sub">Це не маршрут. Це меню.</div>
+      <div class="cvmeta">
+        <span><b>4 ночі</b> · Hyatt Place, Лобзув</span>
+        <span><b>Вдвох</b> · без поспіху</span>
+        <span><b>Правило:</b> два дні активно, один спокійно</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="block" style="padding-top:30px">
+  <p class="lead">Твоє власне правило з жовтня 2025: «Не потрібно робити того, що не хочеться. Задача плану - запропонувати варіант за замовчуванням». У жовтні 2025 план мав ~129 пунктів за 11 днів. Виконано 21. Тут навмисно менше.</p>
+  <p>Головна перевага цієї поїздки - географія. Готель стоїть на краю <b>Блонь</b>, 48 га відкритого лугу в центрі міста. На захід через дорогу починається <b>Звежинець і Салватор</b> - район, який ти любиш найбільше, у тебе під ногами. Автобус 134 до Лісу Вольського відходить від твоєї власної зупинки. До Старого міста 25-30 хв пішки. Головний корпус Національного музею - за 400 метрів від дверей.</p>
+</div>
+
+<!-- ============ HARD FACTS ============ -->
+<section id="facts">
+  <div class="band"><div class="hero topic-hero day">
+    <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-river"/></svg>
+    <div class="herocap wrap"><span class="eyebrow">Розділ 1</span><h2>Тверді факти</h2></div>
+  </div></div>
+
+  <div class="facts">
+    <div class="fact"><div class="k">Туди</div><div class="v">сб 29.08 · EIP 5302<br>Гданськ Оліва 10:43 → Краків Гол. <b>16:35</b><br><span class="chip">вагон 7 · місця 31, 33</span></div></div>
+    <div class="fact"><div class="k">Назад</div><div class="v">ср 02.09 · EIP 3506<br>Краків Гол. <b>10:02</b> → Гданськ Оліва 15:12<br><span class="chip">вагон 7 · місця 31, 33</span></div></div>
+    <div class="fact"><div class="k">Готель</div><div class="v"><b>Hyatt Place Kraków</b><br>Aleja 3 Maja 47a, Лобзув<br>заїзд сб з 15:00 · виїзд ср до 12:00</div></div>
+    <div class="fact"><div class="k">Номер</div><div class="v">king-size + диван-ліжко · 2 дорослих · 4 ночі<br><span class="chip">харчування не входить</span></div></div>
+    <div class="fact"><div class="k">Реально маємо</div><div class="v"><b>вечір суботи + 3 повні дні + короткий ранок середи</b></div></div>
+    <div class="fact"><div class="k">Пішки від дверей</div><div class="v">Блоні 2 хв · MNK 5 хв · Салватор 15 хв · Ринок 25-30 хв</div></div>
+  </div>
+
+  <div class="note"><span class="lbl">Ключове про готель</span>
+    <p>Ти стоїш на краю Блонь. На захід через дорогу - Звежинець і Салватор. Автобус 134 до Лісу Вольського відходить від «Cracovia Stadion», твоєї власної зупинки. Тобто район, який ти любиш найбільше, у тебе під ногами. Це головна перевага цієї поїздки.</p>
+  </div>
+</section>
+
+<!-- ============ PRINCIPLE ============ -->
+<section id="principle">
+  <div class="band"><div class="hero topic-hero mist">
+    <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-meadow"/></svg>
+    <div class="herocap wrap"><span class="eyebrow">Розділ 2</span><h2>Головний принцип поїздки</h2></div>
+  </div></div>
+
+  <div class="pull"><q>Робити менше, щоб досягти більшого. Мати більше простору в дні - для занурення, роздумів, творення.</q><span class="who">З твоїх нотаток після Кракова 2025</span></div>
+
+  <div class="block">
+    <p>І з розбору Варшави: <b>два дні активно - один день спокійно</b>, «як потяг робить зупинки». Практичний висновок для чотирьох днів:</p>
+  </div>
+  <div class="days">
+    <div class="day"><div class="dh"><span class="ddate">Нд 30.08 і Вт 01.09</span><h3>Активні дні</h3><span class="tag active">рух</span></div>
+      <div class="db"><p>Один блок на день. Максимум два. Не три. Ранок - завжди твій: виходь о 6:00-6:30, поки місто порожнє.</p></div></div>
+    <div class="day"><div class="dh"><span class="ddate">Пн 31.08</span><h3>День без зобов'язань</h3><span class="tag calm">спокій</span></div>
+      <div class="db"><p>Це також день, коли більшість музеїв зачинена, тож календар сам це підказує. Подарунок, а не проблема.</p></div></div>
+  </div>
+  <div class="note calm"><span class="lbl">Важливий нюанс</span><p>Жовтень 2025 був поїздкою на чотирьох («щоб іншим трьом було добре») - це пояснює і виснаження, і 16% виконання. <b>Удвох стеля темпу зовсім інша. Не переносити обмеження 2025 механічно.</b></p></div>
+</section>
+<hr class="sep">
+
+<!-- ============ CALENDAR ============ -->
+<section id="calendar">
+  <div class="band"><div class="hero topic-hero day">
+    <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-facades"/></svg>
+    <div class="herocap wrap"><span class="eyebrow">Розділ 3</span><h2>Що диктує календар</h2></div>
+  </div></div>
+  <div class="block"><p>Це не деталь - це визначає, що можливо в який день.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>День</th><th>Головне обмеження</th><th>Наслідок</th></tr></thead>
+    <tbody>
+      <tr><td><b>Сб 29.08</b></td><td><b>Шабат.</b> Усі синагоги громади і Новий єврейський цвинтар зачинені. Вавель до 19:00.</td><td>Приїзд 16:35 - тільки вечір. Не планувати єврейський шар.</td></tr>
+      <tr><td><b>Нд 30.08</b></td><td>Rydlówka зачинена. Старий Клепаж тихий. Синагоги знову відкриті.</td><td>Найкращий день для Казімєжа з провідником.</td></tr>
+      <tr><td><b>Пн 31.08</b></td><td><b>Усі філії Національного музею зачинені.</b> MOCAK, Cricoteka, Manggha, Bunkier, Кшиштофори, Аптека під Орлом, Музей Підгужа, Rydlówka.</td><td><b>День прогулянки, не музеїв.</b> Але: Вавель 10-16 безкоштовно, Ринок Підземний 10-19 (рідкісний виняток), Стара синагога безкоштовно 10-15.</td></tr>
+      <tr><td><b>Вт 01.09</b></td><td><b>87-ма річниця початку Другої світової.</b> І <b>вівторок = безкоштовний день у всьому Національному музеї.</b></td><td>Найкращий музейний день. Ринок Підземний безкоштовно, але зачиняється о 15:00. Аптека під Орлом і Музей Підгужа зачинені.</td></tr>
+      <tr><td><b>Ср 02.09</b></td><td>Потяг о 10:02.</td><td>Виїзд з готелю ~9:00. Ранкова прогулянка максимум 2 години.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note warn"><span class="lbl">Музей-пастка</span><p><b>Музей Виспянського</b> відкритий тільки вт, пт, сб, нд. У твоєму вікні реально працює <b>тільки вівторок 1 вересня</b> (і безкоштовно). <b>Музей Нової Гути</b> тимчасово зачинений - заміна Підземна Нова Гута (безкоштовно по середах). <b>Bunkier Sztuki</b> знову відкритий після трьох років ремонту - у жовтні 2025 ти бачив його темним.</p></div>
+</section>
+<hr class="sep">
+
+<!-- ============ WEATHER ============ -->
+<section id="weather">
+  <div class="band"><div class="hero topic-hero dawn">
+    <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-forest"/></svg>
+    <div class="herocap wrap"><span class="eyebrow">Розділ 4</span><h2>Погода і світло</h2></div>
+  </div></div>
+  <div class="block"><p class="lead">Холодні ранки й вечори, тепле сонце вдень. Раннє вересневе світло - головна декорація цієї поїздки.</p></div>
+  <div class="facts">
+    <div class="fact"><div class="k">Денний максимум</div><div class="v"><b>~22 °C</b> · тепле сонце</div></div>
+    <div class="fact"><div class="k">Ніч / ранок</div><div class="v"><b>~11 °C</b> · о 6:00 на Блонях холодно й часто туман - бери шар, який можна зняти</div></div>
+    <div class="fact"><div class="k">Дощ</div><div class="v"><b>~26%</b> на день · приблизно один мокрий день з п'яти</div></div>
+    <div class="fact"><div class="k">Схід сонця</div><div class="v"><b>05:53</b> → 05:56</div></div>
+    <div class="fact"><div class="k">Захід сонця</div><div class="v"><b>19:26</b> → 19:20</div></div>
+    <div class="fact"><div class="k">Найясніший день</div><div class="v">1 вересня статистично найясніший день вікна</div></div>
+  </div>
+  <div class="note"><span class="lbl">Наслідки для плану</span>
+    <p><b>Захід о 19:20-19:26</b> робить Копець Крака чистим вечірнім планом. Виходити з Підгужа ~18:15.</p>
+    <p><b>На мокрий день тримай у резерві:</b> Нова Гута, прогулянка Таловського, Плац Щепанський (Ворхол + Бункер). Усе працює в сірому світлі.</p>
+    <p><b>На ясний день бережи:</b> Закшувек, Копець Костюшка, Тинець.</p>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ============ DAY BY DAY ============ -->
+<section id="days">
+  <div class="band"><div class="hero topic-hero day">
+    <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-oldtown"/></svg>
+    <div class="herocap wrap"><span class="eyebrow">Розділ 5</span><h2>День за днем - меню, не маршрут</h2></div>
+  </div></div>
+  <div class="days">
+
+    <div class="day"><div class="dh"><span class="ddate">Субота 29.08</span><h3>Тільки вечір</h3><span class="tag">приїзд 16:35</span></div>
+      <div class="db">
+        <p>Готель за 10 хв таксі або 15 хв трамваєм. Заселення, душ, і <b>не намагатися нічого встигнути</b>.</p>
+        <div class="opt"><div class="ot">Варіант А · тихий (за замовчуванням)</div>Вихід о 18:00. Блоні на заході сонця, вниз до Салватора, монастир норбертанок при впадінні Рудави у Віслу. Вечеря близько: <b>MOLÁM Thai</b> (Michelin Bib) або <b>Franca</b> (Крупніча 8). Бронювати.</div>
+        <div class="opt b"><div class="ot">Варіант Б · якщо є сили і хочеться музики</div>20:00, Філармонія (Звежинецька 1, 15 хв пішки) - Summer Jazz Festival, «Tribute to Jazz Vocal». Буквально по дорозі.</div>
+        <div class="opt c"><div class="ot">Варіант В · якщо приїхали виснажені</div>Купити щось у <b>Zaczyn</b> (веганська пекарня, Салватор) або на Плацу На Ставах, і сидіти. Це теж повноцінний вечір.</div>
+        <p><span class="chip">⚠ увага</span> У Чижинах великий рок-фестиваль Rockowizna - далеко, але вплине на трафік і таксі ввечері.</p>
+      </div></div>
+
+    <div class="day"><div class="dh"><span class="ddate">Неділя 30.08</span><h3>Активний день</h3><span class="tag active">рух</span></div>
+      <div class="db">
+        <p><b>Ранок (обов'язковий якір), вихід о 6:30 - один із:</b> <a href="#mp01">МП-01</a> Салватор + Копець Костюшка (якщо ясно) · <a href="#mp02">МП-02</a> Ліс Вольський (автобус 134) · <a href="#mp10">МП-10</a> Млинівка, якщо не хочеться нічого вирішувати.</p>
+        <p><b>Друга половина дня</b> - синагоги знову відкриті: <a href="#mp12">МП-12</a> Єврейський шар з провідником (Музей Галіція або KL Płaszów), або <a href="#mp08">МП-08</a> Казімєж: тиха половина без гіда.</p>
+        <p><b>Вечір:</b> <a href="#mp13">МП-13</a> Крафтове пиво (Craftownia, Omerta, Weźże Krafta) за правилом двох склянок. Або вечеря в <b>Karakter</b> (Бжозова 17).</p>
+      </div></div>
+
+    <div class="day"><div class="dh"><span class="ddate">Понеділок 31.08</span><h3>День без зобов'язань</h3><span class="tag calm">спокій</span></div>
+      <div class="db">
+        <p>Музеї зачинені. Це подарунок. Ранок: нічого не планувати до 9:00, кава на Плацу На Ставах або в Zaczyn.</p>
+        <p><b>Основний блок - один із:</b> <a href="#mp05">МП-05</a> Закшувек (⚠ у пн відкривається о 14:00) · <a href="#mp06">МП-06</a> Тинець · <a href="#mp07">МП-07</a> Нова Гута + Луки (якщо сіро) · <a href="#mp04">МП-04</a> Підгуже + Копець Крака ввечері.</p>
+        <div class="opt"><div class="ot">Вечір · найкраща подія тижня</div>19:00, <b>Adam Pierończyk Solo</b>, книгарня PWM UNA (ал. Красінського 11a). Останній вечір Summer Jazz Festival, соло-саксофон у малій залі. Бронювати.</div>
+      </div></div>
+
+    <div class="day"><div class="dh"><span class="ddate">Вівторок 01.09</span><h3>Активний день, і найкращий музейний</h3><span class="tag active">рух</span></div>
+      <div class="db">
+        <p><b>10:00 - Раковицький цвинтар.</b> Головна краківська церемонія 87-ї річниці початку Другої світової. Мала, стримана, місцева - історія війни без піднесення і без шоу.</p>
+        <p><b>Після обіду - вівторок безкоштовний у всьому Національному музеї:</b> Головний корпус MNK (400 м від готелю), <b>Музей Виспянського</b> (єдиний реальний слот за всю поїздку), Чарторийські, Ринок Підземний (до 15:00).</p>
+        <p><b>Або без музеїв:</b> <a href="#mp15">МП-15</a> Rydlówka + Броновіце · <a href="#mp03">МП-03</a> Таловський.</p>
+        <p><b>Вечір:</b> <b>Nat Bistro</b> (Іда Малець, Michelin Young Chef Poland 2026) або <b>Bufet KRK</b>.</p>
+      </div></div>
+
+    <div class="day"><div class="dh"><span class="ddate">Середа 02.09</span><h3>Ранок і потяг</h3><span class="tag">потяг 10:02</span></div>
+      <div class="db">
+        <p>Вихід з готелю ~9:00. Один варіант, і він хороший - <a href="#mp09">МП-09</a>: вихід о 6:15, Блоні в тумані → Реторика → Планти → Ринок о 7:15 порожній → вул. Шпитальна знизу, щоб театр Словацького виник раптово → вул. Каноніча, найстаріша вулиця міста.</p>
+        <p>Кава: <b>Charlotte</b> (круасани з 7:00) або <b>Ósma Rano</b>. Це закриває обидві твої заявки одразу: «вулиця, де театр» і «куди піти, якщо виходжу з готелю рано».</p>
+      </div></div>
+
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ============ MATRIX ============ -->
+<section id="matrix">
+  <div class="band"><div class="hero topic-hero evening">
+    <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-facades"/></svg>
+    <div class="herocap wrap"><span class="eyebrow">Розділ 6</span><h2>Матриця: настрій і погода → куди</h2></div>
+  </div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Стан</th><th>Куди</th></tr></thead>
+    <tbody>
+      <tr><td>Ясний ранок, хочу зусилля</td><td><a href="#mp01"><b>МП-01</b></a> Блоні → Салватор → Копець Костюшка (6 км, +120 м)</td></tr>
+      <tr><td>Ясний ранок, хочу самоти і лісу</td><td><a href="#mp02"><b>МП-02</b></a> автобус 134 від дверей → Копець Пілсудського</td></tr>
+      <tr><td>Тепло і ясно, після обіду</td><td><a href="#mp05"><b>МП-05</b></a> Закшувек - купання, безкоштовно</td></tr>
+      <tr><td>Ясний вечір</td><td><a href="#mp04"><b>МП-04</b></a> Підгуже → Копець Крака на захід сонця (~19:20)</td></tr>
+      <tr><td>Сіро, мряка</td><td><a href="#mp07"><b>МП-07</b></a> Нова Гута, <a href="#mp03"><b>МП-03</b></a> Таловський, або <a href="#mp16"><b>МП-16</b></a> Плац Щепанський</td></tr>
+      <tr><td>Мало сил, хочу близько</td><td><a href="#mp03"><b>МП-03</b></a> Реторика (1,5 км) або <a href="#mp10"><b>МП-10</b></a> Млинівка</td></tr>
+      <tr><td>Хочу те, чого ніхто не бачить</td><td><a href="#mp10"><b>МП-10</b></a> Млинівка Королівська + вали Рудави</td></tr>
+      <tr><td>Півдня з міста</td><td><a href="#mp06"><b>МП-06</b></a> Тинець (автобус 112, 4 год, 8 злотих)</td></tr>
+      <tr><td>Польська культура і література</td><td><a href="#mp15"><b>МП-15</b></a> Rydlówka + могила Лема на Салваторському цвинтарі</td></tr>
+      <tr><td>Гастро-ранок</td><td><a href="#mp11"><b>МП-11</b></a> Клепаж: ринок + Fiu Fiu + Tociekawa</td></tr>
+      <tr><td>Історія, обережно</td><td><a href="#mp12"><b>МП-12</b></a> Єврейський шар з провідником, або KL Płaszów самостійно</td></tr>
+      <tr><td>Пиво</td><td><a href="#mp13"><b>МП-13</b></a> Казімєж мультитапи</td></tr>
+      <tr><td>Архітектура</td><td><a href="#mp14"><b>МП-14</b></a> Алеї Трьох Віщунів + AGH усередині</td></tr>
+    </tbody>
+  </table></div>
+</section>
+<hr class="sep">
+
+<!-- ============ ROUTES ============ -->
+<section id="routes">
+  <div class="band"><div class="hero topic-hero dawn">
+    <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-mounds"/></svg>
+    <div class="herocap wrap"><span class="eyebrow">Розділ 7 · МП-01 … МП-16</span><h2>Мікроподорожі</h2></div>
+  </div></div>
+  <div class="block"><p>Шістнадцять мікроподорожей за твоїм шаблоном. Кожна - самодостатня, з планом Б і бюджетом на двох. Бери одну на день. Максимум дві.</p></div>
+  <div class="routes">
+
+  <article class="route" id="mp01">
+    <div class="hero route-hero day"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-mounds"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-01</span><h3>Салватор і Копець Костюшка</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Найкраще, що можна зробити з цих дверей - і це проходить крізь район, який ти любиш, але, за архівом, жодного разу так і не був.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Будь-який ранок. Найкраще нд 30 або пн 31</div></div>
+        <div><div class="k">Тривалість</div><div class="v">1 год 45 хв – 4 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Потрібна ясність - уся справа у виді</div></div>
+        <div><div class="k">Зусилля</div><div class="v">6 км туди-назад, +120 м. Асфальт</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">06:30</span> Вихід, край Блонь</li>
+        <li><span class="t">06:45</span> Роздоріжжя Салватор, монастир норбертанок при впадінні Рудави у Віслу</li>
+        <li><span class="t">07:20</span> <b>Салваторський цвинтар</b> на схилі - місцеві вважають найкрасивішим. Могили Лема, Вайди. Це і є справжня мета</li>
+        <li><span class="t">07:50</span> Вершина: Старе місто, долина Вісли, у ясний день <b>Бескиди</b> на південному горизонті</li>
+        <li><span class="t">08:30</span> Вниз, гак на <b>вул. Гонтина</b> - ~30 віл із конкурсу 1910 року</li>
+        <li><span class="t">09:15</span> Кава на Салваторі або назад до Блонь</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>Zaczyn</b>, Костюшки 27 - веганська пекарня, кава Roastains, прямо на маршруті вниз</div>
+        <div class="mini"><div class="k">План Б</div>Затягнуло - зупинитись на цвинтарі й Гонтині, вгору не йти. Ноги здали - трамвай 1/2/6 з Салватора</div>
+      </div>
+      <ul class="know">
+        <li>Квиток 34 zł - тільки за конус і виставки форту. <b>Схил, цвинтар і види безкоштовні й доступні завжди.</b> Стартуєш о 6:30 - конус можна пропустити без великої втрати.</li>
+        <li>Це також маршрут «Półwsie Zwierzynieckie» на Krakowski Szlak Modernizmu - міжвоєнні квартали, той регістр, за який ти любиш район.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>40 zł</b></span><span>Комфорт <b>204 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp02">
+    <div class="hero route-hero dawn"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-forest"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-02</span><h3>Ліс Вольський і Копець Пілсудського</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Автобус 134 відходить від твоєї власної зупинки. Через 20 хвилин ти в лісі, ще через 30 - на найвищій точці Кракова.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Ясний ранок. Сб/нд краще - посилений 134</div></div>
+        <div><div class="k">Тривалість</div><div class="v">4–5 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Ясно. У ліс і в дощ можна, але без виду</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Легко з автобусом (1,7 км)</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">08:30</span> «Cracovia Stadion», автобус 134</li>
+        <li><span class="t">09:30</span> <b>Копець Пілсудського</b> (383 м, найвища точка). Безкоштовно, цілодобово. Вид на Бескиди, у виняткових умовах - Татри</li>
+        <li><span class="t">10:15</span> Стежкою на <b>Панєнські Скали</b> - вапняковий яр-заказник</li>
+        <li><span class="t">11:15</span> <b>Пустиня камедулів</b> на Бєлянах - екстер'єр і розташування</li>
+        <li><span class="t">12:30</span> Назад 134, або вниз через Копець Костюшка до Салватора (злиття з МП-01)</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div>Взяти з собою з <b>Plac Na Stawach</b> або <b>Zaczyn</b> - на маршруті нічого немає</div>
+        <div class="mini"><div class="k">План Б</div>134 не ходить - таксі до Зоо (~35 zł). Дощ - розвернутись на Панєнських Скалах</div>
+      </div>
+      <ul class="know">
+        <li>⚠ <b>Камедули: жінкам можна входити до костелу тільки 12 днів на рік.</b> Список отримати не вдалося - перевірити перед тим, як їхати з Олею. Екстер'єр вражає у будь-якому разі.</li>
+        <li>Пішки весь маршрут ~8-9 км в один бік: <b>туди пішки, назад 134</b>. Найкращий варіант «втекти з міста, не виїжджаючи».</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>56 zł</b></span><span>Комфорт <b>210 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp03">
+    <div class="hero route-hero day"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-facades"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-03</span><h3>Таловський: Реторика і Смоленськ</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Галицький Гауді. Вісім будівель, 1,5 км, і починається за 10 хвилин від твоїх дверей. Найщільніша година архітектури в Кракові.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Будь-коли. Ідеально як розминка у Старе місто</div></div>
+        <div><div class="k">Тривалість</div><div class="v">45–60 хв. З кавою - 2 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Будь-яка - тримай у резерві на мокрий день</div></div>
+        <div><div class="k">Зусилля</div><div class="v">1,5 км, рівно</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">поч.</span> Ріг Пілсудського і Реторики, ПТГ «Sokół» (1894)</li>
+        <li><span class="t">1</span> Реторика 1 - <b>«Під співаючою жабою»</b>, жаба з укулеле на фронтоні</li>
+        <li><span class="t">2</span> Реторика 7 - <b>«Festina Lente»</b> (поспішай повільно)</li>
+        <li><span class="t">3</span> Реторика 9 - <b>«Під ослом»</b>, «Кожен - коваль свого щастя»</li>
+        <li><span class="t">4</span> Смоленськ 18 - <b>«Під драконом»</b>, бронзовий дракон тримає фронтон</li>
+        <li><span class="t">+</span> Бонус 12 хв убік: Карміліцька 35, <b>«Pod Pająkiem»</b> - зрізана вежа, крилатий змій, сонячний годинник</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>Massolit Bakery &amp; Café</b>, Смоленськ 17 - бейгли, кава Karma, англійська книгарня, на маршруті</div>
+        <div class="mini"><div class="k">План Б</div>Дощ - зайти в Massolit і подивитись решту іншого дня. Нічого не втрачається</div>
+      </div>
+      <ul class="know">
+        <li>Найкраще співвідношення «враження на хвилину» в усьому дослідженні, і фактично біля готелю.</li>
+        <li>Продовження: Пілсудського → Планти → Старе місто через вул. Св. Анни. Разом ~2,2 км.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>35 zł</b></span><span>Комфорт <b>150 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp04">
+    <div class="hero route-hero evening"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-mounds"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-04</span><h3>Підгуже і Копець Крака на заході сонця</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Найкраща нова для тебе дільниця. Незалежне австрійське місто до 1915 року: власний ринок, ратуша, костел - і вапнякові пагорби за ними.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Ясний вечір. Захід о 19:20-19:26</div></div>
+        <div><div class="k">Тривалість</div><div class="v">2,5–3 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Ясно на захід сонця</div></div>
+        <div><div class="k">Зусилля</div><div class="v">~5 км, невеликий підйом на Ласоту</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">17:00</span> Вихід. Трамвай або пішки бульварами</li>
+        <li><span class="t">17:45</span> <b>Кладка Бернатека</b> - місток зі скульптурами акробатів</li>
+        <li><span class="t">18:00</span> <b>Ринок Підгурський</b>, костел Св. Йосифа (неоготичний шпиль - схоже на німецьке містечко)</li>
+        <li><span class="t">18:20</span> <b>Парк Бернардинський</b> - кар'єр, який став парком</li>
+        <li><span class="t">19:05</span> <b>Копець Крака</b> - доісторичний, безкоштовно, цілодобово. Форт св. Бенедикт поруч</li>
+        <li><span class="t">19:20</span> Захід сонця над Старим містом</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>Vamos!</b> (тапас, шефиня Michelin Young Chef 2025) або <b>Euskadi</b> (баскська, пінчос і сидр)</div>
+        <div class="mini"><div class="k">План Б</div>Дощ - <b>Музей Підгужа</b> (тільки ср-нд) або <b>Cricoteka</b> (безкоштовно в середу)</div>
+      </div>
+      <ul class="know">
+        <li>⚠ <b>Каменоломня Лібана</b> (декорації «Списку Шіндлера») огороджена з липня 2025 - оглядати з краю біля Копця Крака, не заходити.</li>
+        <li>Плац Героїв Гетто і мур на Львівській ти вже бачив у 2025 - проходь повз або зайди в іншому регістрі.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>92 zł</b></span><span>Комфорт <b>514 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp05">
+    <div class="hero route-hero day"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-quarry"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-05</span><h3>Закшувек: купання у затопленому кар'єрі</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">У твоєму списку двічі - 2021 і 2025. Двічі не дійшов. Бірюзова вода до 32 метрів між білими скелями, і у 2026 вхід безкоштовний.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Теплий ясний день, після обіду</div></div>
+        <div><div class="k">Тривалість</div><div class="v">3–4 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Потрібно тепло. У вересні вода бадьора</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Легко. 4 км пішки або 25-30 хв</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">13:00</span> Вихід, пішки через Дембніки або транспортом</li>
+        <li><span class="t">14:00</span> На місці. Плавучі басейни, глибина від 40 см до 3,5 м</li>
+        <li><span class="t">15:00</span> Оглядові точки над скелями <b>Скалки Твардовського</b>, бігові стежки з фонтанчиками</li>
+        <li><span class="t">17:00</span> Кава в <b>Panorama Zakrzówek</b> (Вилом 20) або назад</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>Panorama Zakrzówek</b> - на місці, з видом. Пікнік з <b>Plac Na Stawach</b></div>
+        <div class="mini"><div class="k">План Б</div>Холодно або зачинено - все одно чудова прогулянка навколо кар'єру з оглядовими точками</div>
+      </div>
+      <ul class="know">
+        <li>⚠ <b>Понеділок 31 серпня: відкривається тільки о 14:00.</b> Найважливіша деталь. Сезон 1.06-30.09.2026, вхід безкоштовний, ліміт 300 осіб на понтонах.</li>
+        <li>Найвищий за потенціалом погодозалежний варіант усього плану. Теплий ясний день - віддай його сюди.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>62 zł</b></span><span>Комфорт <b>220 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp06">
+    <div class="hero route-hero day"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-river"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-06</span><h3>Тинець: бенедиктинське абатство</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Замість Велички. 8 злотих замість 156. Тиша замість фіксованої групи. Абатство XI століття на вапняковій скелі над Віслою, 12 км вгору по річці.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Будь-який день, найкраще пн 31.08</div></div>
+        <div><div class="k">Тривалість</div><div class="v">4 год двері-в-двері</div></div>
+        <div><div class="k">Погода</div><div class="v">Працює в будь-яку. Вид кращий у ясну</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Легко. Автобус + 600 м</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">09:30</span> Трамвай до Мосту Грюнвальдського</li>
+        <li><span class="t">10:00</span> Автобус 112 (~30 хв, кожні ~20 хв)</li>
+        <li><span class="t">10:45</span> Абатство. Квиток <b>8 zł / 5 zł</b>. Чорний мармуровий вівтар, амвон у формі човна</li>
+        <li><span class="t">12:00</span> Двір, вид на закрут Вісли</li>
+        <li><span class="t">13:00</span> Обід у монастирському ресторані, крамниця бенедиктинців з лікерами</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div>Ресторан абатства з видом на Віслу. Або по поверненні MOLÁM / Franca ввечері</div>
+        <div class="mini"><div class="k">План Б</div>Ллє - абатство все одно працює, костел усередині. Один із небагатьох варіантів, що не залежить від погоди</div>
+      </div>
+      <ul class="know">
+        <li><b>8 злотих за двох - 16.</b> Дивовижно дешево. Порівняння з Величкою: 156 zł з людини, фіксована група, оброблений маршрут - <b>точна протилежність того, що ти описуєш.</b></li>
+        <li>Крамниця з монастирськими лікерами - саме той тип «місії», який ти сам описував як спосіб культурного занурення.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>120 zł</b></span><span>Комфорт <b>416 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp07">
+    <div class="hero route-hero mist"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-blocks"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-07</span><h3>Нова Гута і Новогуцькі Луки</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">День на погану погоду. Сіре небо - рідна умова цього району. І та частина, якої не бачить майже ніхто: 57 гектарів Natura 2000 за соцреалістичним центром.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Сірий день. Пн 31.08 ідеально</div></div>
+        <div><div class="k">Тривалість</div><div class="v">4–5 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Найкращий у похмуру погоду</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Помірно. Багато ходьби рівним</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">11:00</span> Плац Центральний ім. Рейгана - радіальний план 1949 року, широкі проспекти як протипожежні розриви</li>
+        <li><span class="t">12:00</span> ⭐ <b>Новогуцькі Луки</b> - 57 га, Natura 2000, понад 370 видів рослин. Стежка з 7 зупинок від НЦК, панорама на уступ Вісли</li>
+        <li><span class="t">14:30</span> <b>Арка Пана</b> - костел у формі ковчега, збудований усупереч владі</li>
+        <li><span class="t">15:30</span> <b>Підземна Нова Гута</b> (безкоштовно по середах). ⚠ Музей Нової Гути тимчасово зачинений</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>Restauracja Stylowa</b> (їдальня 1950-х) · <b>Bar Mleczny Centralny</b> (з 1956, борщ 5,69 zł)</div>
+        <div class="mini"><div class="k">План Б</div>Дощ тут не проблема - це і є план на дощ. Втомився - Луки пропустити, залишити соцреалістичне ядро</div>
+      </div>
+      <ul class="know">
+        <li>Цікаво у 2026, <b>тільки якщо ставитись як до урбаністики і ландшафту</b>, а не збирання пам'яток. Нагорода - пройти план і відчути намір за ним.</li>
+        <li><b>Луки - та частина, якої не бачить майже жоден відвідувач, і саме вона тобі найбільше сподобається.</b></li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>84 zł</b></span><span>Комфорт <b>300 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp08">
+    <div class="hero route-hero dawn"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-facades"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-08</span><h3>Казімєж: тиха половина</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Туристична маса стоїть на Широкій і на Плацу Новому вночі. Хороший Казімєж - це сітка на захід і на південь від них. І це зовсім інше місто вранці.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Ранок або будній день. Не ввечері</div></div>
+        <div><div class="k">Тривалість</div><div class="v">3 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Будь-яка</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Легко, рівно</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">09:30</span> ⭐ <b>вул. Юзефа</b> - найкраща вулиця району. Галереї, вінтаж, двори, Висока синагога на 38. Година, не менше</li>
+        <li><span class="t">10:30</span> <b>вул. Мейзельса</b> і аркада зі «Списку Шіндлера»</li>
+        <li><span class="t">11:00</span> <b>Плац Вольниця</b> - первісна ринкова площа незалежного міста Казімєж</li>
+        <li><span class="t">11:30</span> Синагоги - <b>брати дві, не сім</b>: Ремух (1553) + Стара (музей), або Ісаака / Темпель</li>
+        <li><span class="t">12:30</span> ⭐ <b>Новий єврейський цвинтар, Мьодова 55</b> - тихіший і сильніший за всі синагоги. Стіна пам'яті з розбитих мацев</li>
+        <li><span class="t">13:15</span> Плац Новий - десять хвилин удень, заради ротонди кошерної різниці 1900 року</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div>Сніданок: <b>Poranki</b> (1 місце 2025), <b>Ranny Ptaszek</b> (шакшука) або <b>Hevre</b> (у колишньому молитовному домі)</div>
+        <div class="mini"><div class="k">План Б</div>Синагоги зачинені - вулиці й цвинтар усе одно головне. Дощ - <b>Музей Галіція</b> (щодня 10-18)</div>
+      </div>
+      <ul class="know">
+        <li>⚠ <b>Субота 29.08 - шабат, усі об'єкти громади зачинені.</b> Робити цей маршрут у неділю 30.08 або середу 02.09.</li>
+        <li>Хочеш цей шар із провідником - див. <a href="#mp12">МП-12</a>.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>146 zł</b></span><span>Комфорт <b>490 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp09">
+    <div class="hero route-hero dawn"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-oldtown"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-09</span><h3>Світанок: Реторика, театр, Каноніча</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Твоя пряма заявка: «вулиця, де театр - це просто прекрасне місце». Ось вона, і ось як зайти в неї так, щоб театр виник раптово. Плюс порожній Ринок о 7:15.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Дуже рано. Ідеально ср 02.09 перед потягом</div></div>
+        <div><div class="k">Тривалість</div><div class="v">2 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Будь-яка. У туман - краще</div></div>
+        <div><div class="k">Зусилля</div><div class="v">~4 км, рівно</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">06:15</span> Вихід. Блоні у тумані</li>
+        <li><span class="t">06:40</span> Гак у <b>вул. Реторика</b> (Таловський, див. МП-03)</li>
+        <li><span class="t">07:00</span> У <b>Планти</b> - іти на північний схід, а не зрізати всередину</li>
+        <li><span class="t">07:15</span> Старе місто. <b>Ринок порожній, його підмітають</b></li>
+        <li><span class="t">07:30</span> ⭐ <b>вул. Шпитальна знизу вгору</b> - щоб театр Словацького виник раптово з тісної вулиці у власну площу</li>
+        <li><span class="t">08:00</span> ⭐ <b>вул. Каноніча</b>, двори 18, 19, 21 - найстаріша і найцілісніша вулиця міста</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>Charlotte</b>, пл. Щепанський 2 - круасани з 7:00, найнадійніше о цій годині</div>
+        <div class="mini"><div class="k">План Б</div>Дощ - це навіть краще для порожнього міста. Взяти парасолю і йти</div>
+      </div>
+      <ul class="know">
+        <li><b>Театр ім. Юліуша Словацького</b> (1893, Ян Завейський) - за зразком Опери Гарньє, перша будівля Кракова з електричним світлом. Площа перед ним - єдиний по-справжньому «розкривний» простір Старого міста.</li>
+        <li>Ідеальний варіант на середу перед потягом 10:02: вихід о 6:15, кава о 8:30, готель о 9:00, вокзал о 9:40.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>50 zł</b></span><span>Комфорт <b>140 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp10">
+    <div class="hero route-hero dawn"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-meadow"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-10</span><h3>Млинівка Королівська і вали Рудави</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Найдовший парк Польщі - 8 км лінійного зеленого коридору, що йде просто крізь твій квартал за кілометр від дверей. Жодних пам'яток. Чиста текстура.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Ранок, коли не хочеться нічого вирішувати</div></div>
+        <div><div class="k">Тривалість</div><div class="v">1 год 45 хв – 2 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Будь-яка</div></div>
+        <div><div class="k">Зусилля</div><div class="v">7–8 км, рівно</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">07:00</span> Вихід, на північ до Млинівки</li>
+        <li><span class="t">07:20</span> У коридорі - історичне русло Рудави, середньовічний канал. Рідкісні прирічкові рослинні угруповання</li>
+        <li><span class="t">08:30</span> Зрізати на південь до <b>Рудави</b></li>
+        <li><span class="t">09:00</span> Валами Рудави вниз до <b>Салватора</b>, до впадіння у Віслу</li>
+        <li><span class="t">09:30</span> Назад через Блоні, кава</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>Zaczyn</b> (Салватор, на маршруті) або <b>Fournil</b>, Королівська 94 - справжні багети</div>
+        <div class="mini"><div class="k">План Б</div>Дощ - скоротити до Блонь і назад. Все одно працює</div>
+      </div>
+      <ul class="know">
+        <li>Антитуристична прогулянка у чистому вигляді: жодних пам'яток, квитків, рішень. Якщо ти полюбив Салватор за відчуття - це той самий регістр без жодного об'єкта.</li>
+        <li>Можна злити з <a href="#mp01">МП-01</a>: закінчити на Салваторі й піти вгору на Копець.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>35 zł</b></span><span>Комфорт <b>100 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp11">
+    <div class="hero route-hero day"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-market"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-11</span><h3>Клепаж: ринок і гастро-ранок</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Найкраща щільна гастрономічна кишеня в межах пішої досяжності. Ринок із 600-річною торгівлею і найкращий ресторан Польщі 2025 за двісті метрів від нього.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Ранок. Сб 29 або вт/ср. Не в неділю</div></div>
+        <div><div class="k">Тривалість</div><div class="v">3 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Будь-яка</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Легко. ~2,5 км / 30 хв</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">08:30</span> Кава: <b>Tociekawa</b> (Довга 37, 1 місце «кав'ярня 2025», сирник) або <b>Fornir</b> (сад у дворі)</li>
+        <li><span class="t">09:30</span> <b>Старий Клепаж</b> - ринок із понад 600 роками безперервної торгівлі, дешевий, непозований</li>
+        <li><span class="t">10:30</span> <b>Fiu Fiu Bistro</b> на ринку - шеф Янек Словінський, продукт із ринку за рогом</li>
+        <li><span class="t">12:30</span> ⭐ <b>Filipa 18</b> - найкращий ресторан Польщі 2025. Шеф купує продукти на цьому ринку за 200 м. Бістро-меню до 21:30</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>Filipa 18</b>. Резерв: <b>Fiu Fiu</b>, <b>Wyszukane Desery Braci Szewczenko</b> (українська кондитерська)</div>
+        <div class="mini"><div class="k">План Б</div>Ринок тихий - кластер кав'ярень і Filipa 18 самі варті дороги. Бронювати Filipa 18</div>
+      </div>
+      <ul class="know">
+        <li>Найкраща за співвідношенням щільність, досяжна пішки. Клепаж - робочий, негламурний північний шов, де туристичне місто різко закінчується.</li>
+        <li>«Вийшли трохи вбік, у менш круте місце, але воно теж виглядає чудово» - саме це.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>120 zł</b></span><span>Комфорт <b>924 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp12">
+    <div class="hero route-hero mist"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-meadow"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-12</span><h3>Єврейський і воєнний шар з провідником</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Твоє власне правило: обережно, з професійним провідником, окремим блоком. Не між двома приємними кав'ярнями.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Неділя 30.08 або середа 02.09. НЕ субота</div></div>
+        <div><div class="k">Тривалість</div><div class="v">3–4 год. Окремий блок, нічого після</div></div>
+        <div><div class="k">Погода</div><div class="v">Не має значення</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Емоційне, не фізичне</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">•</span> <b>KL Płaszów</b> - відкрита експозиція «Miejsce po, miejsce bez», з 15.03.2024, безкоштовно, цілодобово</li>
+        <li><span class="t">•</span> 14 інформаційних носіїв, 41 позначена точка, 3 археологічні вікна. ~година прогулянки відкритим схилом</li>
+        <li><span class="t">•</span> Величезне трав'яне плато, збудоване на двох знищених єврейських цвинтарях, западина Hujowa Górka</li>
+        <li><span class="t">•</span> <b>Це те місце в Кракові, де гід не розкіш, а необхідність</b> - без нього це непозначений луг</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Провідник</div>Гіди <b>Музею Галіція</b> (Дайвур 18, щодня 10-18, зустрічі зі свідками) або освітяни <b>Музею KL Płaszów</b></div>
+        <div class="mini"><div class="k">Після</div>Нічого відразу. Порожня година. Потім щось просте: <b>Bar Mleczny Górnik</b> або <b>Kluska na Placu</b></div>
+      </div>
+      <ul class="know">
+        <li>⚠ Нова будівля Меморіалу НЕ відкрита (заплановано початок 2027). <b>Walkative! не брати</b> - групи 20+, не той формат.</li>
+        <li><b>Аушвіц: не цього разу.</b> Бронювання тільки онлайн, музей просить два місяці наперед. Пункт для наступної поїздки, забронований заздалегідь.</li>
+        <li>Планка з 2021, від Big Tom: «Ідиш - це німецька з почуттям гумору», «Юдаїзм - це про суперечку», «Іноді гетто приходить до тебе».</li>
+        <li>⭐ Альтернатива без гіда: вт 1 вересня, 10:00, <b>Раковицький цвинтар</b> - церемонія 87-ї річниці. Мала, стримана, місцева.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>84 zł</b></span><span>Комфорт <b>840 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp13">
+    <div class="hero route-hero evening"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-facades"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-13</span><h3>Крафтове пиво: Казімєж</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Ціла група у твоєму плані 2025 і жодної галочки. Stara Zajezdnia, Omerta, Weźże Krafta, House of Beer. П'ять років у списку.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Вечір. Нд 30.08 найкраще</div></div>
+        <div><div class="k">Тривалість</div><div class="v">3–4 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Будь-яка, є сади</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Легко. Пішки між точками</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">18:00</span> Вечеря спочатку. <b>Karakter</b> (Бжозова 17) - субпродукти, дичина, 8-годинне реберце. Або <b>Bufet KRK</b></li>
+        <li><span class="t">20:00</span> <b>Craftownia</b> (Св. Вавжинця 22, 18 кранів) - дві склянки</li>
+        <li><span class="t">21:00</span> Прогулянка. Кладка Бернатека або бульвари</li>
+        <li><span class="t">21:45</span> <b>Stara Zajezdnia</b> (депо) або <b>T.E.A. Time</b> - ще дві</li>
+        <li><span class="t">23:00</span> ⭐ <b>Kiełbaski z Niebieskiej Nyski</b>, Гжегужецька 5. Синій фургон, ковбаска на вогні, 20+ років. Це і є фінал</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Правило</div>Дві склянки, пауза, прогулянка, потім ще дві. «Три перші, найсмачніші». Капітан, не камікадзе</div>
+        <div class="mini"><div class="k">План Б</div><b>Kufle i Widelce</b> (Чиста 3) за 15 хв від готелю. Або <b>SPOKO Pub</b> (Підгуже) - величезний сад</div>
+      </div>
+      <ul class="know">
+        <li>⚠ <b>Дольних Млинув / Tytano більше немає</b> - будмайданчик до кінця 2026. Weźże Krafta переїхав на <b>Дайвур 16</b>.</li>
+        <li>Вина замість пива: <b>Nat Bistro</b> (Michelin Bib + 2 винний бар міста), <b>Dzikie Wino</b>, <b>NOTO</b>, <b>Krako Slow Wines</b>.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>174 zł</b></span><span>Комфорт <b>770 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp14">
+    <div class="hero route-hero day"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-facades"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-14</span><h3>Алеї Трьох Віщунів і AGH</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">За 800 метрів від готелю стоїть один із найбільших будинків міжвоєнної Польщі, і всередину можна зайти. Тризала з аркадними галереями і кесонним світловим ліхтарем.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Будь-коли. Добре на сірий день</div></div>
+        <div><div class="k">Тривалість</div><div class="v">2–3 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Будь-яка</div></div>
+        <div><div class="k">Зусилля</div><div class="v">2–3 км лінійно, рівно</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">10:00</span> Парк Йордана - перший громадський парк-майданчик Європи (1889), десять хвилин</li>
+        <li><span class="t">10:20</span> ⭐ <b>Головний корпус AGH</b> (1923-35). Заглиблений іонічний портик, ар-деко у вестибюлі, тризала з аркадами, герби польських міст над аркадами. <b>Заходити всередину</b></li>
+        <li><span class="t">11:30</span> Уздовж <b>Алей Трьох Віщунів</b> - велика міжвоєнна композиція проспектів</li>
+        <li><span class="t">12:30</span> <b>Головний корпус MNK</b> (400 м від готелю). ⚠ Зачинено в пн, безкоштовно у вт</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>MELT</b> (Jubilat, боули і яйця) або <b>Bar Mleczny Żaczek</b> - недотований, гарний дерев'яний інтер'єр</div>
+        <div class="mini"><div class="k">План Б</div>AGH зачинено (вихідні) - Головний корпус MNK за 400 м, у вівторок безкоштовно</div>
+      </div>
+      <ul class="know">
+        <li>Krakowski Szlak Modernizmu має <b>чотири маршрути у тебе під дверима</b>: Aleje Trzech Wieszczów, Błonia, Krowodrza, Półwsie Zwierzynieckie.</li>
+        <li>⚠ <b>Готель Cracovia</b> навпроти твого готелю - модерністський, MNK купив у 2016, досі стадія проєкту, доступу немає. Дивитись ззовні з боку Блонь.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>50 zł</b></span><span>Комфорт <b>250 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp15">
+    <div class="hero route-hero day"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-facades"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-15</span><h3>Rydlówka і Броновіце</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Справжній будинок, де у 1900 році відбулося весілля, з якого Виспянський зробив «Весілля» - засадничу п'єсу сучасного польського театру. Двадцять п'ять хвилин від готелю.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Тільки вт 01.09 або ср 02.09. Зачинено нд і пн</div></div>
+        <div><div class="k">Тривалість</div><div class="v">3 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Будь-яка</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Легко</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">10:00</span> <b>Rydlówka</b> (Тетмаєра 28). Години вт-ср 9-16, чт 9-18. 22 zł, у вівторок безкоштовно</li>
+        <li><span class="t">11:30</span> <b>Броновіце</b> пішки - міжвоєнна і повоєнна забудова, майже не відвідувана. Фасади</li>
+        <li><span class="t">12:30</span> Зрізати на <b>Млинівку</b> і назад коридором (див. МП-10)</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>Fournil</b>, Королівська 94 по дорозі назад. Або <b>Buba</b> - найкращий хот-дог Кракова 2026</div>
+        <div class="mini"><div class="k">План Б</div>Зачинено - Броновіце і Млинівка все одно працюють. Або перекинутись на <a href="#mp10">МП-10</a></div>
+      </div>
+      <ul class="know">
+        <li><b>Вівторок 1 вересня - і відкрито, і безкоштовно.</b> Це найкращий слот. І цього немає в жодному з твоїх списків - справжня новина.</li>
+        <li>Броновіце - скромний, але справжній район. Не «автентична занедбаність», а нормальне житлове місто.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>76 zł</b></span><span>Комфорт <b>274 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp16">
+    <div class="hero route-hero mist"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-oldtown"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-16</span><h3>Плац Щепанський: Ворхол, Бункер, Шоляйські</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Одна площа, три інституції, нуль ходьби між ними. Це твій план на дощ.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Мокрий або сірий день. Не понеділок</div></div>
+        <div><div class="k">Тривалість</div><div class="v">3 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Резерв на дощ</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Мінімальне</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">10:30</span> Кава: <b>Charlotte</b>, пл. Щепанський 2 - круасани з 7:00</li>
+        <li><span class="t">11:00</span> ⭐ <b>Енді Ворхол «Od linii do legendy»</b> - Палац Штуки, пл. Щепанський 4, до 27 вересня</li>
+        <li><span class="t">12:30</span> <b>Bunkier Sztuki</b> - знову відкритий після трьох років ремонту. У жовтні 2025 ти бачив його зачиненим</li>
+        <li><span class="t">15:00</span> <b>Кам'яниця Шоляйських</b> - зміст майбутнього Музею архітектури і дизайну</li>
+        <li><span class="t">16:30</span> ⭐ <b>МЦК</b>, Ринок Головний 25 - Центральна і Східна Європа, одна з найкращих спеціалізованих книгарень Польщі</li>
+      </ul>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>Charlotte</b> · <b>Café Bunkier</b>. Резерв: <b>Kluska na Placu</b> (1 місце «польська кухня 2025», антипод пієрогі-шоу)</div>
+        <div class="mini"><div class="k">План Б</div>Понеділок - Бункер і Шоляйські зачинені. Тоді Ринок Підземний (10-19), Стара синагога, або Вавель безкоштовно</div>
+      </div>
+      <ul class="know">
+        <li>⭐ <b>МЦК на Ринку 25 - можливо найцінніша інституція всього дослідження, у якій ти ще не був.</b> Точний збіг із твоїми інтересами.</li>
+        <li>⚠ <b>Музей Виспянського</b> (поруч) відкритий тільки вт, пт, сб, нд. У вівторок 1 вересня - головна ціль, а не Ворхол.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>128 zł</b></span><span>Комфорт <b>600 zł</b></span></div>
+    </div>
+  </article>
+
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ============ FOOD ============ -->
+<section id="food">
+  <div class="band"><div class="hero topic-hero evening">
+    <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-market"/></svg>
+    <div class="herocap wrap"><span class="eyebrow">Розділ 8</span><h2>Їжа, кава, бари</h2></div>
+  </div></div>
+  <div class="block">
+    <p class="lead">Критерій твій: не для туристів без смаку. Все інше можна - від ковбаски з фургона до двох зірок.</p>
+    <p>У Кракові рівно один зірковий ресторан: <b>Bottiglieria 1881</b> (★★). Сила міста - рівень нижче: 5 Bib Gourmand і 19 рекомендованих, у діапазоні 100-200 злотих. Головна історія 2026 - «краківська школа casual fine dining»: короткі меню, відкриті кухні, натуральні вина. <b>Michelin Young Chef Poland 2026</b> - Іда Малець з краківського Nat Bistro.</p>
+  </div>
+
+  <div class="section-title" style="padding-top:8px"><span class="eyebrow">На розмах</span></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Місце</th><th>Що і чому</th><th>Район</th></tr></thead>
+    <tbody>
+      <tr><td><b>Bottiglieria 1881</b></td><td>Єдина 2-зіркова. Кліма, ферментація, польські продукти. ~890-940 zł. Бронювати за місяці - цього разу нереально</td><td>Казімєж</td></tr>
+      <tr><td><b>Filipa 18</b></td><td>Найкращий ресторан Польщі 2025. Шеф купує продукти на Старому Клепажі за 200 м</td><td>Клепаж</td></tr>
+      <tr><td>⭐ <b>Bufet KRK</b></td><td>«Ресторан моменту». Bib Gourmand 2026 + 3 ковпаки G&amp;M. <b>Був у твоєму списку 2025.</b></td><td>Казімєж</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="section-title"><span class="eyebrow">Зона, де ця поїздка · Bib Gourmand і відкриття</span></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Місце</th><th>Що і чому</th></tr></thead>
+    <tbody>
+      <tr><td>⭐ <b>Nat Bistro</b>, Краковська 34</td><td><b>Головна рекомендація поїздки.</b> Іда Малець, Michelin Young Chef 2026. Плюс другий винний бар міста. Найменш розкручене якісне бронювання зараз</td></tr>
+      <tr><td>⭐ <b>MOLÁM Thai</b></td><td>Справжній ісаанський і північнотайський. 1 місце «азійська» + «сервіс» 2025. <b>~20 хв пішки - твоя найкраща «вийшов і чудово поїв» вечеря</b></td></tr>
+      <tr><td>⭐ <b>Franca</b>, Крупніча 8</td><td>1 місце «найкраще нове місце 2025». Ogień × Molám, щедрі порції на шеринг. <b>15 хв від готелю</b></td></tr>
+      <tr><td>⭐ <b>Karakter</b>, Бжозова 17</td><td>Субпродукти, дичина, мідійний бар, 8-годинне реберце. Серйозна винна карта. <b>Сильний збіг з твоїм смаком</b></td></tr>
+      <tr><td><b>Folga</b> · <b>NOAH</b> · <b>Kropka</b></td><td>Шеринг zero-waste · ізраїльська · мале модерне бістро - уся хвиля</td></tr>
+      <tr><td><b>Pod Nosem</b> · <b>Hana Sushi</b></td><td>Традиційна польська і суші - обидва <b>були у твоєму списку</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="section-title"><span class="eyebrow">Дешеве і легендарне</span></div>
+  <div class="tbl-wrap"><table>
+    <tbody>
+      <tr><td>⭐ <b>Kiełbaski z Niebieskiej Nyski</b></td><td>Синій фургон Nysa, Гжегужецька 5. Ковбаска на вогні, тільки ввечері й уночі, 20+ років. Йти пізно, після бару</td></tr>
+      <tr><td><b>Buba</b>, Плац Імбрамовський</td><td>Найкращий хот-дог Кракова 2026. 25-30 zł. <b>Крововджа, твій бік міста</b></td></tr>
+      <tr><td><b>Запіканки, Плац Новий</b></td><td>Вижили чотири вікна: <b>Piecyk</b>, <b>Lajkonik Bar Oko</b>, <b>Endzior</b>, <b>Bar Zapiexa</b>. Решта - черствий хліб</td></tr>
+      <tr><td>⭐ <b>Молочні бари</b></td><td><b>Żaczek</b> (Чарновєйська 75, недотований, ~12 хв від готелю - найближчий) · <b>Górnik</b> (Чиста) · <b>Centralny</b> (Нова Гута). <b>У твоєму списку з 2021. П'ять років.</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="section-title"><span class="eyebrow">Кава</span></div>
+  <div class="block"><p><b>Karma Coffee</b> (Крупніча 12) · <b>Coffee Proficiency</b> (для нерда) · <b>Wesoła Cafe</b> (твоє щоденне кафе 2025) · <b>Tociekawa</b> (1 місце «кав'ярня 2025») · <b>PRZEŁOM</b> - listening bar на вінілі, найцікавіше відкриття 2026 · <b>Massolit</b> (був у твоєму списку) · <b>Charlotte</b> (круасани з 7:00).</p></div>
+
+  <div class="section-title"><span class="eyebrow">Біля готелю · Al. 3 Maja 47a</span></div>
+  <div class="facts">
+    <div class="fact"><div class="k">До 10 хв</div><div class="v"><b>Zaczyn</b> (веганська пекарня, Салватор) · <b>Plac Na Stawach</b> (районний ринок) · <b>Fable Cafe</b> (українська)</div></div>
+    <div class="fact"><div class="k">10–15 хв</div><div class="v"><b>Żaczek</b> молочний бар · <b>MELT</b> боули · <b>Fournil</b> багети · <b>Kufle i Widelce</b> крафт</div></div>
+    <div class="fact"><div class="k">15–25 хв / трамвай</div><div class="v"><b>MOLÁM</b> · <b>Franca</b> · Крупніча (Karma + Tektura + Szczapy) · кластер Клепажа (Filipa 18)</div></div>
+  </div>
+
+  <div class="note calm"><span class="lbl">Крафтове пиво · правило</span><p>Craftownia · Weźże Krafta (⚠ Дайвур 16, не Дольних Млинув) · Omerta · Stara Zajezdnia · Kufle i Widelce (найближчий). <b>Дві склянки за раз, потім пауза і прогулянка, потім ще одна-дві. Капітан, не камікадзе.</b></p></div>
+</section>
+<hr class="sep">
+
+<!-- ============ LOGISTICS ============ -->
+<section id="logi">
+  <div class="band"><div class="hero topic-hero day">
+    <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-blocks"/></svg>
+    <div class="herocap wrap"><span class="eyebrow">Розділ 9</span><h2>Логістика і практика</h2></div>
+  </div></div>
+
+  <div class="section-title" style="padding-top:8px"><span class="eyebrow">Транспорт · ціни змінилися 2 березня 2026</span></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Квиток</th><th>Звичайний</th><th>Пільговий</th></tr></thead>
+    <tbody>
+      <tr><td>20 хвилин (15-хв)</td><td>4 zł</td><td>2 zł</td></tr>
+      <tr><td>60 хвилин</td><td>8 zł</td><td>4 zł</td></tr>
+      <tr><td>Разовий</td><td>6 zł</td><td>3 zł</td></tr>
+      <tr><td><b>24 год (Зона I)</b></td><td><b>20 zł</b></td><td>10 zł</td></tr>
+      <tr><td><b>72 год</b></td><td><b>55 zł</b></td><td>27,50 zł</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note warn"><span class="lbl">Штраф і квитки</span><p>Штраф 2026: <b>266 zł без квитка</b>, 133 zł за неоштампований - компостувати. Квитки за часом, не за поїздкою. <b>Чи варта картка на кілька днів? Скоріше ні</b> - ти багато ходиш, реально 2-4 поїздки на день. Купуй разові за потребою. <b>Jakdojade</b> - обов'язково.</p></div>
+  <div class="note"><span class="lbl">Зупинки біля готелю</span><p>Твоя зупинка - <b>«Cracovia Stadion»</b>. Автобус <b>134</b> до Зоо і Лісу Вольського відходить звідси (сезон ~09:00-18:00, кожні 15 хв). Салватор - кінцева трамваїв 1, 2, 6. ⚠ <b>Не довіряй номерам ліній заздалегідь</b> - Краків постійно перекладає маршрути через ремонти колій. Перевіряти в Jakdojade того самого дня.</p></div>
+  <div class="note calm"><span class="lbl">Таксі</span><p>Uber, Bolt, FreeNow працюють. Bolt від ~2,20 zł/км, зазвичай дешевший. Через місто 25-45 zł, вокзал → готель ~25-30 zł. <b>Для тебе таксі - дешевий спосіб не йти назад після довгої прогулянки.</b> ⚠ Велопрокату Wavelo немає з 2019, заміни нема.</p></div>
+
+  <div class="section-title"><span class="eyebrow">Музеї · два головні факти</span></div>
+  <div class="facts">
+    <div class="fact"><div class="k">Вівторок 1 вересня</div><div class="v"><b>Найкращий музейний день.</b> Усі філії MNK безкоштовні. Ринок Підземний, Кшиштофори, Rydlówka, Manggha теж</div></div>
+    <div class="fact"><div class="k">Понеділок 31 серпня</div><div class="v">MNK зачинено, але <b>Вавель 10-16 безкоштовно</b>, Ринок Підземний 10-19 (рідкісний виняток), Стара синагога безкоштовно 10-15</div></div>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Об'єкт</th><th>Зачинено</th><th>Безкоштовно</th></tr></thead>
+    <tbody>
+      <tr><td>Головний корпус MNK (400 м від готелю)</td><td>понеділок</td><td>вівторок</td></tr>
+      <tr><td>⚠ Музей Виспянського</td><td>пн, ср, чт</td><td>вівторок</td></tr>
+      <tr><td>Ринок Підземний</td><td>2-й пн місяця</td><td>вівторок (до 15:00)</td></tr>
+      <tr><td>Стара синагога</td><td>—</td><td>понеділок 10-15</td></tr>
+      <tr><td>Аптека під Орлом · Музей Підгужа</td><td>пн + вт</td><td>ср / чт</td></tr>
+      <tr><td>Музей Галіція</td><td>—</td><td>щодня 10-18 (і в шабат)</td></tr>
+      <tr><td>Rydlówka</td><td>нд + пн</td><td>вівторок</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note warn"><span class="lbl">Синагоги і шабат</span><p><b>Субота 29 серпня - шабат.</b> Ремух, Темпель, Купа, Висока, Ісаака, Новий єврейський цвинтар - зачинені. Стара синагога (музей) - виняток, працює сб 9-17. <b>Висновок: єврейський шар - у неділю 30.08 або середу 02.09, не в суботу.</b></p></div>
+</section>
+<hr class="sep">
+
+<!-- ============ BOOK / MONEY / DON'T ============ -->
+<section id="book">
+  <div class="band"><div class="hero topic-hero evening">
+    <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-oldtown"/></svg>
+    <div class="herocap wrap"><span class="eyebrow">Розділ 10</span><h2>Бронювати, гроші, чого не робити</h2></div>
+  </div></div>
+
+  <div class="section-title" style="padding-top:8px"><span class="eyebrow">Що бронювати зараз · за терміновістю</span></div>
+  <div class="block"><ul class="know">
+    <li><b>1. Adam Pierończyk Solo</b>, пн 31.08, 19:00, книгарня PWM UNA. Мала зала.</li>
+    <li><b>2. Вечері:</b> Nat Bistro, Bufet KRK, MOLÁM, Franca, Karakter - усі потребують кількох днів, особливо на суботу-неділю.</li>
+    <li><b>3. Провідник для єврейського шару</b> - Музей Галіція або KL Płaszów, якщо йдемо в неділю.</li>
+    <li><b>4. Ринок Підземний</b> - жорсткий ліміт входу за часом, якщо взагалі хочемо.</li>
+    <li><b>5. Вавель</b> - квитки за часом онлайн. З 1 вересня знімається попередження про часткові закриття залів.</li>
+    <li><b>6. Bottiglieria 1881</b> (2 зірки) - реалістично потрібні місяці. Цього разу ні.</li>
+  </ul></div>
+
+  <div class="section-title"><span class="eyebrow">Гроші · орієнтовно на двох, без житла і потяга</span></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Стаття</th><th>Мінімум (zł)</th><th>Комфорт (zł)</th></tr></thead>
+    <tbody>
+      <tr><td>Транспорт у місті (4 дні)</td><td>60</td><td>200</td></tr>
+      <tr><td>Кава і сніданки</td><td>240</td><td>420</td></tr>
+      <tr><td>Обіди</td><td>200</td><td>500</td></tr>
+      <tr><td>Вечері</td><td>400</td><td>1400</td></tr>
+      <tr><td>Пиво і вино</td><td>150</td><td>450</td></tr>
+      <tr><td>Музеї і квитки</td><td>0 <span class="chip">вт безкоштовно</span></td><td>400</td></tr>
+      <tr><td>Провідник (єврейський шар)</td><td>0</td><td>500</td></tr>
+      <tr><td><b>Разом</b></td><td><b>~1050</b></td><td><b>~3870</b></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note warn"><span class="lbl">Чого не робити</span>
+    <p><b>Не планувати Аушвіц цього разу</b> - бронювання тільки онлайн, музей просить два місяці наперед. Пункт для наступної поїздки.</p>
+    <p><b>Не йти у Величку</b> (156 zł, фіксована група, оброблений маршрут) - <b>Тинець замість неї</b>: 8 zł, тиша, вид на Віслу.</p>
+    <p><b>Не йти на Дольних Млинув / Tytano</b> - комплексу більше немає. <b>Не планувати Весолу</b> - ще будмайданчик. <b>Не планувати єврейський шар на суботу</b> - шабат.</p>
+    <p><b>Не набивати день.</b> Один блок. Якщо вийшло два - добре. Три - це жовтень 2025. <b>Не довіряти номерам трамваїв заздалегідь</b> - перевіряти в Jakdojade того самого дня.</p>
+  </div>
+</section>
+<hr class="sep">
+
+<!-- ============ HISTORY / ARCHIVE ============ -->
+<section id="history">
+  <div class="band"><div class="hero topic-hero mist">
+    <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-facades"/></svg>
+    <div class="herocap wrap"><span class="eyebrow">Розділ 11 · з архіву чотирьох поїздок</span><h2>Що вже зроблено, що досі чекає</h2></div>
+  </div></div>
+
+  <div class="block">
+    <p>Витягнуто з Notion (гру 2021, Новий рік 2021/22, лют 2023, жов 2025) і з журналу. Твоя конвенція «зроблено» - чекбокс. На сторінці 2025 року з 129 пунктів викреслено 21.</p>
+  </div>
+
+  <div class="note calm"><span class="lbl">Не повторювати як відкриття</span><p>Ринок, Сукенниці, Маріацький, Барбакан, Флоріанська, Collegium Maius, Планти, двір Вавеля, загальний Казімєж, Плац Героїв Гетто, Нова Гута (Плац Центральний), Фабрика Шіндлера, Етнографічний. <b>Якщо повертаємось - то в іншу годину</b> (Ринок о 7:00 порожній - це інше місто).</p></div>
+
+  <div class="note"><span class="lbl">Найцінніша знахідка · твоє власне, недосягнуте</span>
+    <p><b>Увесь західний бік міста</b> (День 7 і Маршрут 2 - жодної галочки): Салватор, Копець Костюшка, Копець Пілсудського. <b>Закшувек</b> - у списку двічі, двічі не дійшов. <b>Копець Крака. Тинець. Молочний бар</b> - у списку з 2021. <b>Крафтове пиво</b> - ціла група. <b>Rydlówka.</b> Костел Св. Франциска з вітражами Виспянського - «Не пропустите». Пропустив.</p>
+  </div>
+
+  <div class="pull"><q>Вчорашнє відчуття було - я вдома. Загальна комбінація речей така знайома і така затишна. Їжа розкішна, сервіс щирий.</q><span class="who">Твоїми словами, Краків</span></div>
+
+  <div class="note quote"><span class="lbl">Правило про війну і Голокост</span><p>«У це треба занурюватися обережно, з професійним провідником. Це не сучасна річ і не те, що тебе піднімає. Хоча якщо взяти обережно - це може бути потужний досвід.» Ти вже зробив це добре у 2021 з провідником Big Tom, замовленим двічі. Повтор має щось <b>додати</b> - KL Płaszów, який ти не бачив (див. <a href="#mp12">МП-12</a>).</p></div>
+
+  <div class="note calm"><span class="lbl">Доктрина з жовтня 2025</span><p>«Більше ніякого поспіху. Високий темп тільки якщо він під контролем. Більше ніяких перевантажених розкладів. <b>Робити менше, щоб досягти більшого.</b> Мати більше простору в дні - для занурення, роздумів, творення.» І про Салватор окремо: <b>твоя любов до нього не підтверджена жодним виконаним візитом</b> - він тільки у файлі досліджень і в невикресленому Маршруті 2. Це найсильніший живий кандидат в усьому архіві.</p></div>
+</section>
+<hr class="sep">
+
+<!-- ============ UKRAINIAN ============ -->
+<section id="ukr">
+  <div class="band"><div class="hero topic-hero day">
+    <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-facades"/></svg>
+    <div class="herocap wrap"><span class="eyebrow">Розділ 12</span><h2>Українське в Кракові</h2></div>
+  </div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Місце</th><th>Що</th></tr></thead>
+    <tbody>
+      <tr><td>⭐ <b>Fable Cafe</b>, Чарновєйська 1</td><td>Найближче до готелю. Українська сніданкова кав'ярня</td></tr>
+      <tr><td><b>Urban Coffee</b>, Лобзовська 52</td><td>2 місце «кав'ярня 2025». Українська випічка, сніданки цілий день</td></tr>
+      <tr><td><b>Knitted Coffee</b></td><td>Тетяна і Тарас. Спешелті (European Coffee Trip), сети 23-35 zł</td></tr>
+      <tr><td><b>Kalejdoskop</b>, Вестерплатте 1</td><td>Домашня українська кухня: борщ, вареники, налисники. Дешево, справжнє</td></tr>
+      <tr><td>⭐ <b>Nić</b>, Славковська 28</td><td>Кав'ярня-книгарня з українськими подіями, коктейль-бар, літній двір. <b>Ймовірно найцікавіше для вас двох</b></td></tr>
+      <tr><td><b>Клуб Український / Fundacja Zustricz</b></td><td>Карміліцька 34/100, пн-пт 10-19. Головна українська громадська організація міста, Світлиця ZUSTRICZ</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<footer>
+  <div class="fw">
+    <span class="eyebrow">Краків · 29 серпня – 2 вересня 2026</span>
+    <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.35rem;margin:14px 0">«Казати більше меншою кількістю слів.»</p>
+    <p style="font-size:.92rem;color:#a99a83">Це меню, не контракт. Один блок на день, ранок завжди твій, два дні активно - один спокійно. <b>Не обов'язково робити те, що не хочеться.</b></p>
+  </div>
+</footer>
+
+<script>
+// smooth-active nav highlight (progressive enhancement, no storage)
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.navscroll a'));
+  var map={};links.forEach(function(a){var id=a.getAttribute('href').slice(1);var s=document.getElementById(id);if(s)map[id]=a;});
+  var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){l.style.background='';l.style.color='';});var a=map[e.target.id];if(a){a.style.background='var(--card-2)';a.style.color='var(--ink)';}}});},{rootMargin:'-45% 0px -50% 0px'});
+  Object.keys(map).forEach(function(id){obs.observe(document.getElementById(id));});
+})();
+</script>
+</body>
+</html>
