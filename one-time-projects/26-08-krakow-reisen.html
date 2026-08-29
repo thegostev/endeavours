@@ -183,6 +183,13 @@ td b,th b{font-weight:600}
   background:var(--sun-deep);border:2px solid var(--card);color:#fdf7ea;font-family:'Oswald',sans-serif;
   font-size:.75rem;font-weight:500;box-shadow:0 1px 4px rgba(44,36,25,.35)}
 .mk.end{background:var(--mist-deep)}
+.mk.hotel{background:transparent;border:0;box-shadow:none;font-size:19px}
+.foodlist{max-width:var(--maxw);margin:10px auto 4px;padding:0 22px;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:0 26px;font-size:.95rem}
+.foodlist li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--line-soft)}
+.foodlist .mk{flex:none;margin-top:3px;font-size:.7rem;width:24px;height:24px}
+.pitstops{margin-top:10px;padding-top:9px;border-top:1px dashed var(--line-soft);display:grid;gap:4px;font-size:.9rem;color:var(--ink-soft)}
+.pitstops .k{font-family:'Oswald',sans-serif;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sun-deep);margin-right:6px;white-space:nowrap}
+.poi-wine{background:var(--card-2);border-color:var(--sun-deep)}
 .leaflet-tooltip.rtip{font-family:'Oswald',sans-serif;font-size:.72rem;letter-spacing:.02em;
   background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:7px;
   box-shadow:var(--shadow);max-width:260px;white-space:normal;text-align:left;padding:6px 10px}
@@ -338,6 +345,7 @@ footer .eyebrow{color:var(--amber)}
       <a href="#matrix">матриця</a>
       <a href="#routes">мікроподорожі</a>
       <a href="#food">їжа</a>
+      <a href="#wine">вино</a>
       <a href="#logi">логістика</a>
       <a href="#book">бронювати</a>
       <a href="#history">історія</a>
@@ -356,6 +364,7 @@ footer .eyebrow{color:var(--amber)}
   <a href="#matrix">матриця</a>
   <a href="#routes">мікроподорожі</a>
   <a href="#food">їжа</a>
+  <a href="#wine">вино</a>
   <a href="#logi">логістика</a>
   <a href="#book">бронювати</a>
   <a href="#history">історія</a>
@@ -495,13 +504,13 @@ footer .eyebrow{color:var(--amber)}
     <div class="day"><div class="dh"><span class="ddate">Понеділок 31.08</span><h3>День без зобов'язань</h3><span class="tag calm">спокій</span></div>
       <div class="db">
         <p>Музеї зачинені. Це подарунок. Ранок: нічого не планувати до 9:00, кава на Плацу На Ставах або в Zaczyn.</p>
-        <p><b>Основний блок - один із:</b> <a href="#mp05">МП-05</a> Закшувек (⚠ у пн відкривається о 14:00) · <a href="#mp06">МП-06</a> Тинець · <a href="#mp07">МП-07</a> Нова Гута + Луки (якщо сіро) · <a href="#mp04">МП-04</a> Підгуже + Копець Крака ввечері.</p>
+        <p><b>Основний блок - один із:</b> <a href="#mp05">МП-05</a> Закшувек (⚠ у пн відкривається о 14:00) · <a href="#mp06">МП-06</a> Тинець · <a href="#mp07">МП-07</a> Нова Гута + Луки (якщо сіро) · <a href="#mp04">МП-04</a> Підгуже + Копець Крака ввечері. Безкоштовний шар: <a href="#mp22">МП-22</a> Вавель і Ринок Підземний.</p>
         <div class="opt"><div class="ot">Вечір · найкраща подія тижня</div>19:00, <b>Adam Pierończyk Solo</b>, книгарня PWM UNA (ал. Красінського 11a). Останній вечір Summer Jazz Festival, соло-саксофон у малій залі. Бронювати.</div>
       </div></div>
 
     <div class="day"><div class="dh"><span class="ddate">Вівторок 01.09</span><h3>Активний день, і найкращий музейний</h3><span class="tag active">рух</span></div>
       <div class="db">
-        <p><b>10:00 - Раковицький цвинтар.</b> Головна краківська церемонія 87-ї річниці початку Другої світової. Мала, стримана, місцева - історія війни без піднесення і без шоу.</p>
+        <p><b>10:00 - <a href="#mp20">Раковицький цвинтар</a>.</b> Головна краківська церемонія 87-ї річниці початку Другої світової. Мала, стримана, місцева - історія війни без піднесення і без шоу.</p>
         <p><b>Після обіду - вівторок безкоштовний у всьому Національному музеї:</b> Головний корпус MNK (400 м від готелю), <b>Музей Виспянського</b> (єдиний реальний слот за всю поїздку), Чарторийські, Ринок Підземний (до 15:00).</p>
         <p><b>Або без музеїв:</b> <a href="#mp15">МП-15</a> Rydlówka + Броновіце · <a href="#mp03">МП-03</a> Таловський.</p>
         <p><b>Вечір:</b> <b>Nat Bistro</b> (Іда Малець, Michelin Young Chef Poland 2026) або <b>Bufet KRK</b>.</p>
@@ -542,6 +551,10 @@ footer .eyebrow{color:var(--amber)}
       <tr><td>Сніданок і кава біля дому</td><td><a href="#mp17"><b>МП-17</b></a> Крововджа + Лобзув - Serio, Buba, Fournil, Żaczek</td></tr>
       <tr><td>Гастро-вечір з пивом</td><td><a href="#mp18"><b>МП-18</b></a> Підгуже: баски, Ефіопія → сад SPOKO</td></tr>
       <tr><td>Ранкова кава і сніданок у Казімєжі</td><td><a href="#mp19"><b>МП-19</b></a> Hevre / PRZEŁOM, поки тихо</td></tr>
+      <tr><td>Річниця війни, без шоу</td><td><a href="#mp20"><b>МП-20</b></a> Раковицький цвинтар, церемонія 10:00 (вт 01.09)</td></tr>
+      <tr><td>Старе місто, якого не бачив</td><td><a href="#mp21"><b>МП-21</b></a> вітражі Виспянського: Францисканська, Св. Анни, Каноніча</td></tr>
+      <tr><td>Пн без музеїв, але безкоштовно</td><td><a href="#mp22"><b>МП-22</b></a> Вавель + Стара синагога + Ринок Підземний</td></tr>
+      <tr><td>Сучасне мистецтво</td><td><a href="#mp23"><b>МП-23</b></a> MOCAK усередині + Заблоцє</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -551,10 +564,10 @@ footer .eyebrow{color:var(--amber)}
 <section id="routes">
   <div class="band"><div class="hero topic-hero dawn">
     <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-mounds"/></svg>
-    <div class="herocap wrap"><span class="eyebrow">Розділ 7 · МП-01 … МП-19</span><h2>Мікроподорожі</h2></div>
+    <div class="herocap wrap"><span class="eyebrow">Розділ 7 · МП-01 … МП-23</span><h2>Мікроподорожі</h2></div>
   </div></div>
-  <div class="block"><p>Дев'ятнадцять мікроподорожей за твоїм шаблоном. Кожна - самодостатня, з мапою, планом Б і бюджетом на двох. Бери одну на день. Максимум дві. Три останні (МП-17…19) - суто гастрономічні.</p></div>
-  <p class="maplegend">На мапах: пронумеровані точки - маршрут · <b>🥔 їжа</b> · <b>☕ кава</b> · <b>🍺 пиво</b></p>
+  <div class="block"><p>Двадцять три мікроподорожі за твоїм шаблоном. Кожна - самодостатня, з мапою, планом Б і бюджетом на двох. Бери одну на день. Максимум дві. МП-17…19 - суто гастрономічні. МП-20…23 - з твоїх власних списків невиконаного: Раковицький цвинтар, вітражі Виспянського, безкоштовний понеділок, MOCAK.</p></div>
+  <p class="maplegend">На мапах: пронумеровані точки - маршрут · <b>📍 готель</b> · <b>🥔 їжа</b> · <b>☕ кава</b> · <b>🍷 вино</b> · <b>🍺 пиво</b></p>
   <div class="routes">
 
   <article class="route" id="mp01">
@@ -585,7 +598,12 @@ footer .eyebrow{color:var(--amber)}
         <li>Квиток 34 zł - тільки за конус і виставки форту. <b>Схил, цвинтар і види безкоштовні й доступні завжди.</b> Стартуєш о 9:00 - конус можна пропустити без великої втрати.</li>
         <li>Це також маршрут «Półwsie Zwierzynieckie» на Krakowski Szlak Modernizmu - міжвоєнні квартали, той регістр, за який ти любиш район.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>40 zł</b></span><span>Комфорт <b>204 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Zaczyn</b>, Костюшки 27 (на маршруті) · <b>Fable Cafe</b>, Чарновєйська 1</div>
+        <div><span class="k">🥔</span> <b>Plac Na Stawach</b> - пікнік на гору · <b>Zaczyn</b> сніданок</div>
+        <div><span class="k">🍺</span> <b>Kufle i Widelce</b>, Чиста 3 - фінал по поверненні</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>40 zł</b></span><span>Комфорт <b>204 zł</b></span></div>
     </div>
   </article>
 
@@ -616,7 +634,12 @@ footer .eyebrow{color:var(--amber)}
         <li>⚠ <b>Камедули: жінкам можна входити до костелу тільки 12 днів на рік.</b> Список отримати не вдалося - перевірити перед тим, як їхати з Олею. Екстер'єр вражає у будь-якому разі.</li>
         <li>Пішки весь маршрут ~8-9 км в один бік: <b>туди пішки, назад 134</b>. Найкращий варіант «втекти з міста, не виїжджаючи».</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>56 zł</b></span><span>Комфорт <b>210 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Zaczyn</b>, Костюшки 27 - до виходу · <b>Fable Cafe</b>, Чарновєйська 1</div>
+        <div><span class="k">🥔</span> <b>Plac Na Stawach</b> - пікнік у ліс (на маршруті нічого немає)</div>
+        <div><span class="k">🍺</span> <b>Kufle i Widelce</b>, Чиста 3 - по поверненні</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>56 zł</b></span><span>Комфорт <b>210 zł</b></span></div>
     </div>
   </article>
 
@@ -648,7 +671,12 @@ footer .eyebrow{color:var(--amber)}
         <li>Найкраще співвідношення «враження на хвилину» в усьому дослідженні, і фактично біля готелю.</li>
         <li>Продовження: Пілсудського → Планти → Старе місто через вул. Св. Анни. Разом ~2,2 км.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>35 zł</b></span><span>Комфорт <b>150 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Coffee Proficiency</b>, Гарнчарська · <b>Massolit</b>, Смоленськ 17</div>
+        <div><span class="k">🥔</span> <b>Massolit</b> бейгли · <b>MOLÁM</b> по дорозі</div>
+        <div><span class="k">🍷</span> <b>Stoccaggio</b>, Крупніча 9 - натуральне, за рогом</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>35 zł</b></span><span>Комфорт <b>150 zł</b></span></div>
     </div>
   </article>
 
@@ -681,7 +709,12 @@ footer .eyebrow{color:var(--amber)}
         <li>Плац Героїв Гетто і мур на Львівській ти вже бачив у 2025 - проходь повз або зайди в іншому регістрі.</li>
         <li>🍺 <b>Фінал вечора:</b> <b>SPOKO Pub</b> (Кальварійська 9) - 100+ джинів, натуральні вина, найкращий сад для пиття. Або злий з <a href="#mp13">МП-13</a>.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>92 zł</b></span><span>Комфорт <b>514 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Knitted Coffee</b>, св. Вавжинця 16 · <b>Ambalaż Café</b>, Cricoteka</div>
+        <div><span class="k">🥔</span> <b>Euskadi</b> або <b>Vamos!</b> - Підгуже</div>
+        <div><span class="k">🍺</span> <b>Nalej Se</b>, Підгурська 34 - 25 кранів налив собі, сад</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>92 zł</b></span><span>Комфорт <b>514 zł</b></span></div>
     </div>
   </article>
 
@@ -711,7 +744,12 @@ footer .eyebrow{color:var(--amber)}
         <li>⚠ <b>Понеділок 31 серпня: відкривається тільки о 14:00.</b> Найважливіша деталь. Сезон 1.06-30.09.2026, вхід безкоштовний, ліміт 300 осіб на понтонах.</li>
         <li>Найвищий за потенціалом погодозалежний варіант усього плану. Теплий ясний день - віддай його сюди.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>62 zł</b></span><span>Комфорт <b>220 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Królowa Przedmieścia</b>, Барська 39 - Старе Дембники, біля кар'єру · <b>Panorama Zakrzówek</b>, Вилом 20</div>
+        <div><span class="k">🥔</span> пікнік з <b>Plac Na Stawach</b> · <b>Zaczyn</b> по дорозі</div>
+        <div><span class="k">🍺</span> <b>Kufle i Widelce</b>, Чиста 3 - по поверненні</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>62 zł</b></span><span>Комфорт <b>220 zł</b></span></div>
     </div>
   </article>
 
@@ -742,7 +780,12 @@ footer .eyebrow{color:var(--amber)}
         <li><b>8 злотих за двох - 16.</b> Дивовижно дешево. Порівняння з Величкою: 156 zł з людини, фіксована група, оброблений маршрут - <b>точна протилежність того, що ти описуєш.</b></li>
         <li>Крамниця з монастирськими лікерами - саме той тип «місії», який ти сам описував як спосіб культурного занурення.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>120 zł</b></span><span>Комфорт <b>416 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Tektura</b>, Крупніча 7 · <b>Karma</b>, Крупніча 12 - на шляху через Мост Грюнвальдський</div>
+        <div><span class="k">🥔</span> ресторан абатства (вид на Віслу) · <b>MOLÁM</b> по поверненні</div>
+        <div><span class="k">🍷</span> <b>Stoccaggio</b>, Крупніча 9</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>120 zł</b></span><span>Комфорт <b>416 zł</b></span></div>
     </div>
   </article>
 
@@ -772,7 +815,12 @@ footer .eyebrow{color:var(--amber)}
         <li>Цікаво у 2026, <b>тільки якщо ставитись як до урбаністики і ландшафту</b>, а не збирання пам'яток. Нагорода - пройти план і відчути намір за ним.</li>
         <li><b>Луки - та частина, якої не бачить майже жоден відвідувач, і саме вона тобі найбільше сподобається.</b></li>
       </ul>
-      <div class="budget"><span>Мінімум <b>84 zł</b></span><span>Комфорт <b>300 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Кава NOWA Księgarnia</b>, ос. Zgody 7 ⭐ · <b>Filmowa Cafe</b> (кінотеатр Świt, 1950-ті)</div>
+        <div><span class="k">🥔</span> <b>Bar Mleczny Centralny</b> (з 1956, борщ 5,69 zł) · <b>Restauracja Stylowa</b> - їдальня 1950-х</div>
+        <div><span class="k">🍺</span> <b>Centralka</b>, ос. Centrum E 12 - єдиний мультитап Нової Гути</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>84 zł</b></span><span>Комфорт <b>300 zł</b></span></div>
     </div>
   </article>
 
@@ -805,7 +853,12 @@ footer .eyebrow{color:var(--amber)}
         <li>Хочеш цей шар із провідником - див. <a href="#mp12">МП-12</a>.</li>
         <li>🍺 <b>Ввечері поруч:</b> мультитапи Казімєжа - <b>Craftownia</b> (Св. Вавжинця 22) або <b>Omerta</b> (Купа 3). Повний вечір - <a href="#mp13">МП-13</a>.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>146 zł</b></span><span>Комфорт <b>490 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>String Taste</b>, Божого Тіла 10 · <b>Karma</b>, св. Вавжинця 9</div>
+        <div><span class="k">🥔</span> <b>Poranki</b>, Плац Бавул (1 місце сніданки 2025) · запіканка <b>Endzior</b>, Плац Новий ⭐</div>
+        <div><span class="k">🍷</span> <b>NOTO Wine Bar</b>, Мейзельса 14 ⭐ - сад, сирні дошки</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>146 zł</b></span><span>Комфорт <b>490 zł</b></span></div>
     </div>
   </article>
 
@@ -837,7 +890,12 @@ footer .eyebrow{color:var(--amber)}
         <li><b>Театр ім. Юліуша Словацького</b> (1893, Ян Завейський) - за зразком Опери Гарньє, перша будівля Кракова з електричним світлом. Площа перед ним - єдиний по-справжньому «розкривний» простір Старого міста.</li>
         <li>Ідеальний варіант на середу перед потягом 10:02: вихід о 6:15, кава о 8:30, готель о 9:00, вокзал о 9:40.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>50 zł</b></span><span>Комфорт <b>140 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Charlotte</b>, пл. Щепанський 2 (з 7:00) · <b>Ósma Rano</b>, Підвале 4</div>
+        <div><span class="k">🥔</span> <b>Ósma Rano</b> сніданок · <b>Karma</b>, Крупніча 12 - на виході з Каноніча</div>
+        <div><span class="k">🍷</span> <b>Dzikie Wino</b>, Ринок Головний 27 - увечері, коли Ринок уже інший</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>50 zł</b></span><span>Комфорт <b>140 zł</b></span></div>
     </div>
   </article>
 
@@ -868,7 +926,12 @@ footer .eyebrow{color:var(--amber)}
         <li>Антитуристична прогулянка у чистому вигляді: жодних пам'яток, квитків, рішень. Якщо ти полюбив Салватор за відчуття - це той самий регістр без жодного об'єкта.</li>
         <li>Можна злити з <a href="#mp01">МП-01</a>: закінчити на Салваторі й піти вгору на Копець.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>35 zł</b></span><span>Комфорт <b>100 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Fable Cafe</b>, Чарновєйська 1 · <b>Zaczyn</b>, Костюшки 27 (фініш на Салваторі)</div>
+        <div><span class="k">🥔</span> <b>Fournil</b>, Королівська 94 - багети · <b>Zaczyn</b></div>
+        <div><span class="k">🍺</span> <b>Kufle i Widelce</b>, Чиста 3 - саме біля валів Рудави</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>35 zł</b></span><span>Комфорт <b>100 zł</b></span></div>
     </div>
   </article>
 
@@ -898,7 +961,12 @@ footer .eyebrow{color:var(--amber)}
         <li>Найкраща за співвідношенням щільність, досяжна пішки. Клепаж - робочий, негламурний північний шов, де туристичне місто різко закінчується.</li>
         <li>«Вийшли трохи вбік, у менш круте місце, але воно теж виглядає чудово» - саме це.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>120 zł</b></span><span>Комфорт <b>924 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Tociekawa</b>, Довга 37 (1 місце 2025) · <b>Fornir</b>, Довга 12 (сад)</div>
+        <div><span class="k">🥔</span> <b>Fiu Fiu</b> на ринку · <b>Wyszukane Desery Братів Шевченків</b>, Ринок Клепарський 14</div>
+        <div><span class="k">🍷</span> <b>Dzikie Wino na Kleparzu</b> - тільки польські вина, дегустації з виноробами</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>120 zł</b></span><span>Комфорт <b>924 zł</b></span></div>
     </div>
   </article>
 
@@ -928,9 +996,14 @@ footer .eyebrow{color:var(--amber)}
         <li>⚠ Нова будівля Меморіалу НЕ відкрита (заплановано початок 2027). <b>Walkative! не брати</b> - групи 20+, не той формат.</li>
         <li><b>Аушвіц: не цього разу.</b> Бронювання тільки онлайн, музей просить два місяці наперед. Пункт для наступної поїздки, забронований заздалегідь.</li>
         <li>Планка з 2021, від Big Tom: «Ідиш - це німецька з почуттям гумору», «Юдаїзм - це про суперечку», «Іноді гетто приходить до тебе».</li>
-        <li>⭐ Альтернатива без гіда: вт 1 вересня, 10:00, <b>Раковицький цвинтар</b> - церемонія 87-ї річниці. Мала, стримана, місцева.</li>
+        <li>⭐ Альтернатива без гіда: вт 1 вересня, 10:00, <b>Раковицький цвинтар</b> - церемонія 87-ї річниці. Мала, стримана, місцева (окремий маршрут - <a href="#mp20">МП-20</a>).</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>84 zł</b></span><span>Комфорт <b>840 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Muhabbet</b>, Бжозова 15 (турецький менемен) · <b>Knitted Coffee</b>, св. Вавжинця 16</div>
+        <div><span class="k">🥔</span> <b>Bufet KRK</b>, Дайвур 8 · <b>Bar Mleczny Górnik</b>, Чиста 1</div>
+        <div><span class="k">🍷</span> <b>Ciut Ciut</b>, Краковська 6 - тихий фінал після важкого дня</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>84 zł</b></span><span>Комфорт <b>840 zł</b></span></div>
     </div>
   </article>
 
@@ -961,7 +1034,12 @@ footer .eyebrow{color:var(--amber)}
         <li>⚠ <b>Дольних Млинув / Tytano більше немає</b> - будмайданчик до кінця 2026. Weźże Krafta переїхав на <b>Дайвур 16</b>.</li>
         <li>Вина замість пива: <b>Nat Bistro</b> (Michelin Bib + 2 винний бар міста), <b>Dzikie Wino</b>, <b>NOTO</b>, <b>Krako Slow Wines</b>.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>174 zł</b></span><span>Комфорт <b>770 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Karma</b>, св. Вавжинця 9 · <b>Knitted Coffee</b>, св. Вавжинця 16</div>
+        <div><span class="k">🥔</span> <b>Karakter</b>, Бжозова 17 · <b>Bufet KRK</b>, Дайвур 8 - спочатку їсти</div>
+        <div><span class="k">🍺</span> <b>Omerta</b>, Купа 3 - 26 кранів, третій кран вечора</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>174 zł</b></span><span>Комфорт <b>770 zł</b></span></div>
     </div>
   </article>
 
@@ -991,7 +1069,12 @@ footer .eyebrow{color:var(--amber)}
         <li>Krakowski Szlak Modernizmu має <b>чотири маршрути у тебе під дверима</b>: Aleje Trzech Wieszczów, Błonia, Krowodrza, Półwsie Zwierzynieckie.</li>
         <li>⚠ <b>Готель Cracovia</b> навпроти твого готелю - модерністський, MNK купив у 2016, досі стадія проєкту, доступу немає. Дивитись ззовні з боку Блонь.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>50 zł</b></span><span>Комфорт <b>250 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Urban Coffee</b>, Лобзовська 52 (українська) · <b>Fable Cafe</b></div>
+        <div><span class="k">🥔</span> <b>MELT</b> (Jubilat) · <b>Bar Mleczny Żaczek</b>, Чарновєйська 75</div>
+        <div><span class="k">🍺</span> <b>Kufle i Widelce</b>, Чиста 3</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>50 zł</b></span><span>Комфорт <b>250 zł</b></span></div>
     </div>
   </article>
 
@@ -1020,7 +1103,12 @@ footer .eyebrow{color:var(--amber)}
         <li><b>Вівторок 1 вересня - і відкрито, і безкоштовно.</b> Це найкращий слот. І цього немає в жодному з твоїх списків - справжня новина.</li>
         <li>Броновіце - скромний, але справжній район. Не «автентична занедбаність», а нормальне житлове місто.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>76 zł</b></span><span>Комфорт <b>274 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Zaczyn</b> - до виходу · <b>Fournil</b>, Королівська 94 (на Млинівці)</div>
+        <div><span class="k">🥔</span> <b>Buba</b>, Плац Імбрамовський · <b>Fournil</b> багети</div>
+        <div><span class="k">🍷</span> <b>Wine Garage</b>, Юзефітув 8 - по дорозі додому</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>76 zł</b></span><span>Комфорт <b>274 zł</b></span></div>
     </div>
   </article>
 
@@ -1051,7 +1139,12 @@ footer .eyebrow{color:var(--amber)}
         <li>⭐ <b>МЦК на Ринку 25 - можливо найцінніша інституція всього дослідження, у якій ти ще не був.</b> Точний збіг із твоїми інтересами.</li>
         <li>⚠ <b>Музей Виспянського</b> (поруч) відкритий тільки вт, пт, сб, нд. У вівторок 1 вересня - головна ціль, а не Ворхол.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>128 zł</b></span><span>Комфорт <b>600 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Charlotte</b>, пл. Щепанський 2 · <b>Café Bunkier</b> - тераса біля музею</div>
+        <div><span class="k">🥔</span> <b>Kluska na Placu</b>, пл. Щепанський 7 · <b>Ósma Rano</b>, Підвале 4</div>
+        <div><span class="k">🍷</span> <b>Dzikie Wino</b>, Ринок Головний 27 - 1 місце «винний бар 2025», там само, де МЦК</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>128 zł</b></span><span>Комфорт <b>600 zł</b></span></div>
     </div>
   </article>
 
@@ -1083,7 +1176,12 @@ footer .eyebrow{color:var(--amber)}
         <li>Це район, який твій файл досліджень називає ідеальним - «Звежинець / Салватор: усталений престиж». Тут усе під дверима і поза путівниками.</li>
         <li>☕ <b>Fable</b> (Чарновєйська 1) - українська кав'ярня, найближча до готелю, якщо хочеться сніданку раніше.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>90 zł</b></span><span>Комфорт <b>340 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Serio</b>, Шльонська 2 · <b>Urban Coffee</b>, Лобзовська 52</div>
+        <div><span class="k">🥔</span> <b>Buba</b>, Плац Імбрамовський · <b>Fournil</b>, Королівська 94</div>
+        <div><span class="k">🍷</span> <b>GMT Georgian Wine</b>, Битомська 23 (або <b>Wine Garage</b>, Юзефітув 8)</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>90 zł</b></span><span>Комфорт <b>340 zł</b></span></div>
     </div>
   </article>
 
@@ -1114,7 +1212,12 @@ footer .eyebrow{color:var(--amber)}
         <li>Підгуже - «найхіпстерніший район, перлина на підйомі» (твої нотатки).</li>
         <li>Можна злити з <a href="#mp04">МП-04</a>: почати їжею, закінчити Копцем Крака на заході сонця (~19:20), потім SPOKO.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>120 zł</b></span><span>Комфорт <b>520 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Ambalaż Café</b>, Cricoteka - вид · <b>Karma</b>, св. Вавжинця 9 (по дорозі)</div>
+        <div><span class="k">🥔</span> <b>Euskadi</b> · <b>Targowa 2</b> або <b>Ita</b></div>
+        <div><span class="k">🍺</span> <b>Nalej Se</b>, Підгурська 34 · фінал <b>SPOKO</b> - уже в плані</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>120 zł</b></span><span>Комфорт <b>520 zł</b></span></div>
     </div>
   </article>
 
@@ -1145,7 +1248,156 @@ footer .eyebrow{color:var(--amber)}
         <li>Пряме доповнення до <a href="#mp08">МП-08</a> (тиха половина Казімєжа). Ранок - єдиний час без натовпу.</li>
         <li>PRZEŁOM у колишній склодувні - hi-fi, вініл, спешелті. Найцікавіше кавове відкриття 2026.</li>
       </ul>
-      <div class="budget"><span>Мінімум <b>110 zł</b></span><span>Комфорт <b>420 zł</b></span></div>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Poranki</b>, Плац Бавул · <b>String Taste</b>, Божого Тіла 10 ⭐</div>
+        <div><span class="k">🥔</span> запіканка <b>Endzior</b>, Плац Новий · <b>Muhabbet</b> менемен / <b>NOLIO</b> піца</div>
+        <div><span class="k">🍷</span> <b>Wino Metal</b>, Мейзельса 16 - 3 місце «винний бар 2025»</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>110 zł</b></span><span>Комфорт <b>420 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp20">
+    <div class="hero route-hero day"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-meadow"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-20</span><h3>Раковицький цвинтар: церемонія і некрополь</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">87-ма річниця початку Другої світової. Мала, стримана, місцева церемонія серед краків'ян - і один із найкращих некрополів XIX ст. у Польщі архітектурно.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Вт 01.09, церемонія 10:00. Сам некрополь - будь-який ранок</div></div>
+        <div><div class="k">Тривалість</div><div class="v">2–3 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Будь-яка</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Легко, ~3 км. Трамвай або 35 хв пішки</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">08:30</span> Кава: <b>Wesoła Cafe</b> (Раковицька 17, з 7:30) - твоє щоденне кафе жовтня 2025</li>
+        <li><span class="t">09:30</span> Головні ворота, <b>Раковицька 26</b></li>
+        <li><span class="t">10:00</span> ⭐ <b>Церемонія</b> біля пам'ятника Солдатам Вересня і Армії «Краків», за участю Війська Польського. Меса о 8:30 у костелі на Раковицькій 18 - якщо встати</li>
+        <li><span class="t">11:00</span> <b>Некрополь</b>: алеї, склепи, мацеви, меморіальні кватери. Історія війни без піднесення і без шоу - твій регістр</li>
+        <li><span class="t">12:00</span> Вихід з боку Лубіч. Сніданок: <b>BeFree</b> (Раковицька 11, 2 місце сніданки 2025)</li>
+      </ul>
+      <div class="rmap" id="rmap-mp20"></div>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>BeFree</b> (органіка, шеф Філіп Роза) або <b>Wesoła Cafe</b>. Резерв: <b>Blossom</b> (Раковицька 20) - найкращий brew bar міста</div>
+        <div class="mini"><div class="k">План Б</div>Не на церемонію - некрополь вартий свого ранку будь-коли. Дощ - жодна проблема, це відкрита прогулянка в тихому місці</div>
+      </div>
+      <ul class="know">
+        <li>Раковицький - робочий міський цвинтар, не музей. Місцеві приходять на власні церемонії - тому все стримане.</li>
+        <li>Походить на <a href="#mp12">МП-12</a>: той самий регістр «історія, обережно», але без потреби в гіді.</li>
+      </ul>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Wesoła Cafe</b>, Раковицька 17 · <b>Blossom</b>, Раковицька 20 - найкращий brew bar міста</div>
+        <div><span class="k">🥔</span> <b>BeFree</b>, Раковицька 11 (2 місце сніданки) · <b>Wesoła</b> (сніданки - інституція)</div>
+        <div><span class="k">🍺</span> <b>Kufle i Widelce</b>, Чиста 3 - по дорозі додому</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>40 zł</b></span><span>Комфорт <b>160 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp21">
+    <div class="hero route-hero day"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-facades"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-21</span><h3>Старе місто, якого ти не бачив: вітражі Виспянського</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Ринок ти минаєш, усе головне - всередині. У плані жовтня 2025 навпроти Францисканської стояло «Не пропустите». Пропустив. Задача цього разу - не пропустити.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Будь-який день. Ідеально сірий</div></div>
+        <div><div class="k">Тривалість</div><div class="v">2–2,5 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Не має значення - усе всередині</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Легко, ~2,5 км</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">10:00</span> ⭐ <b>Базиліка Св. Франциска</b> (Францисканська 2) - вітражі і розети Виспянського: «Бог-Отець - Творення світу», зоряне небо 1897 року. Вхід безкоштовний</li>
+        <li><span class="t">10:40</span> <b>Єпископський палац</b> - папське вікно</li>
+        <li><span class="t">11:10</span> <b>Костел Св. Анни</b> - найкраще бароко міста</li>
+        <li><span class="t">11:40</span> Спуск <b>вул. Гродською</b>, <b>Свв. Петра і Павла</b> (Гродська 52а)</li>
+        <li><span class="t">12:10</span> ⭐ <b>вул. Каноніча</b>, <b>Палац Єжа Цьолка</b> (Каноніча 17, філія MNK - у вт безкоштовно)</li>
+      </ul>
+      <div class="rmap" id="rmap-mp21"></div>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div>Кава: <b>Nowa Prowincja</b> (Брацька 3-5) - кав'ярня Шимборської, гарячий шоколад</div>
+        <div class="mini"><div class="k">План Б</div>Дощ тут план на дощ: уся поїздка по інтер'єрах. Можна злити з <a href="#mp09">МП-09</a> (Каноніча зранку)</div>
+      </div>
+      <ul class="know">
+        <li>Це прямий викрест архіву: «Старе місто, залишки» - Барбакан і Ринок ти минаєш без докорів.</li>
+        <li>Продуктивна пара з <a href="#mp16">МП-16</a>: та сама географія, інший пласт.</li>
+      </ul>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Nowa Prowincja</b>, Брацька 3-5 · <b>Camelot</b>, св. Томаша 17</div>
+        <div><span class="k">🥔</span> <b>Ósma Rano</b>, Підвале 4 · <b>Pod Nosem</b>, Каноніча 22 ⭐ (прямо на Каноніча)</div>
+        <div><span class="k">🍺</span> <b>House of Beer</b>, св. Томаша 35 - 200 пляшок</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>35 zł</b></span><span>Комфорт <b>150 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp22">
+    <div class="hero route-hero dawn"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-oldtown"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-22</span><h3>Безкоштовний понеділок: Вавель, Стара синагога, Ринок Підземний</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Понеділок, коли філії MNK зачинені, аспидно щедрий на все інше. Три найкращі інтер'єри міста - без квитків. Двір Вавеля не рахуємо: ти його бачив у 2025.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Пн 31.08. Каси Вавеля з 9:30</div></div>
+        <div><div class="k">Тривалість</div><div class="v">Цілий день, у темпі без поспіху</div></div>
+        <div><div class="k">Погода</div><div class="v">Не має значення</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Легко, ~4 км</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">09:30</span> Вихід. <b>Вавель, каси з 9:30</b> - безкоштовні квитки на вибрані виставки за денною квотою</li>
+        <li><span class="t">10:00</span> ⭐ <b>Вавель всередині</b>: Коронна скарбниця або зброярня. Інтер'єри - у списку «був тільки двір»</li>
+        <li><span class="t">13:30</span> <b>Драконяча печера</b> (15 zł, сезон до 31 жовтня) і бульвари</li>
+        <li><span class="t">15:00</span> ⭐ <b>Стара синагога</b>, Широка 24 - музей, безкоштовно 10-15</li>
+        <li><span class="t">16:00</span> ⭐ <b>Ринок Підземний</b> - у пн відкритий 10-19, рідкісний виняток</li>
+      </ul>
+      <div class="rmap" id="rmap-mp22"></div>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>Bufet KRK</b> (Дайвур 8) - Bib Gourmand + 3 ковпаки G&amp;M, по дорозі з Казімєжа</div>
+        <div class="mini"><div class="k">План Б</div>Квота на Вавелі вичерпана - скарбниця окремо за 47 zł; Ринок Підземний за часом - обирати слот заздалегідь</div>
+      </div>
+      <ul class="know">
+        <li>⚠ Безкоштовний вхід - на <b>вибрані</b> виставки, квитки видають у касах 9:30-16:00, денна квота. Прийти на відкриття.</li>
+        <li>⚠ Попередження Вавеля про консервацію і кліматконтроль діє до 31 серпня - частина малих залів може бути зачинена. З 1 вересня знімається.</li>
+        <li><b>Кафедра</b> (дзвін Зигмунта, крипти) - окремий оператор і окремий квиток, кіоск навпроти входу. Години на 2026 не перевірено.</li>
+      </ul>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Cafe Cytat</b>, Мьодова 23 · <b>Charlotte</b>, пл. Щепанський 2 (фініш)</div>
+        <div><span class="k">🥔</span> <b>Pod Wawelem</b>, Підзамче 8 (поруч зі скарбницею) · <b>Bufet KRK</b>, Дайвур 8</div>
+        <div><span class="k">🍷</span> <b>Ciut Ciut</b>, Краковська 6 - після Казімєжа</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>90 zł</b></span><span>Комфорт <b>400 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp23">
+    <div class="hero route-hero mist"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-blocks"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-23</span><h3>MOCAK і Заблоцє</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Ти бачив MOCAK тільки ззовні, з бульвару. Усередині - найбільша колекція сучасного мистецтва Польщі, а поруч цілий невикреслений Заблоцє: мурал Конрада і Krako Slow Wines з твоєї вікової списку.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Крім пн. Добре на сірий день</div></div>
+        <div><div class="k">Тривалість</div><div class="v">3–4 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Головне всередині</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Легко, ~3 км</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">11:00</span> ⭐ <b>MOCAK</b>, Липова 4 - Колекція, рівень -1 (у чт безкоштовно, але чт у вікні немає). Поруч Фабрика Шіндлера - була у 2021, не повторюй</li>
+        <li><span class="t">13:00</span> <b>Мурал Джозефа Конрада</b> і залишки вул. Липови</li>
+        <li><span class="t">14:30</span> ☕ <b>Ambalaż Café</b> (Cricoteka, 4 поверх) - Вісла і Вавель через панорамне скло (перетин з <a href="#mp18">МП-18</a>)</li>
+        <li><span class="t">15:30</span> Бульварами назад - Кладка Бернатка, потім трамвай або Крупніча</li>
+      </ul>
+      <div class="rmap" id="rmap-mp23"></div>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div>По дорозі назад: <b>Franca</b> (Крупніча 8) або <b>MOLÁM</b>. Вечером тут же - <b>SPOKO Pub</b></div>
+        <div class="mini"><div class="k">План Б</div>Дощ не проблема - MOCAK і Ambalaż усередині. Скорочена версія: тільки Колекція + кава з видом</div>
+      </div>
+      <ul class="know">
+        <li>MOCAK зачинено в пн - тому він не на понеділок, і це ще один аргумент на користь <a href="#mp22">МП-22</a>.</li>
+        <li>🍺 <b>Krako Slow Wines</b> (Липова 6F, через дорогу від MOCAK) - ⭐ було у твоєму списку: польські сидри у постіндустріальній залі. Найкраще після MOCAK, ввечері.</li>
+      </ul>
+      <div class="pitstops">
+        <div><span class="k">☕</span> <b>Knitted Coffee</b>, Промислова 4 (біля MOCAK) · <b>Ambalaż Café</b>, Cricoteka</div>
+        <div><span class="k">🥔</span> <b>Franca</b>, Крупніча 8 · <b>MOLÁM</b> - по дорозі назад</div>
+        <div><span class="k">🍷</span> <b>Krako Slow Wines</b>, Липова 6F ⭐ - через дорогу від MOCAK</div>
+      </div>
+            <div class="budget"><span>Мінімум <b>60 zł</b></span><span>Комфорт <b>260 zł</b></span></div>
     </div>
   </article>
 
@@ -1163,6 +1415,30 @@ footer .eyebrow{color:var(--amber)}
     <p class="lead">Критерій твій: не для туристів без смаку. Все інше можна - від ковбаски з фургона до двох зірок.</p>
     <p>У Кракові рівно один зірковий ресторан: <b>Bottiglieria 1881</b> (★★). Сила міста - рівень нижче: 5 Bib Gourmand і 19 рекомендованих, у діапазоні 100-200 злотих. Головна історія 2026 - «краківська школа casual fine dining»: короткі меню, відкриті кухні, натуральні вина. <b>Michelin Young Chef Poland 2026</b> - Іда Малець з краківського Nat Bistro.</p>
   </div>
+
+  <div class="section-title" style="padding-top:8px"><span class="eyebrow">Мапа · їжа, кава, бари в один погляд</span></div>
+  <div class="block"><p style="font-size:.94rem;color:var(--ink-soft)">Вісімнадцять головних точок - цифра на мапі = номер у списку. <b>📍</b> готель - Hyatt Place, ал. 3 Мая 47a.</p></div>
+  <div class="tbl-wrap"><div class="rmap" id="fmap" style="height:340px"></div></div>
+  <ol class="foodlist">
+    <li><span class="mk">1</span><div><b>Zaczyn</b>, Костюшки 27 - веганська пекарня, кава Roastains · Салватор</div></li>
+    <li><span class="mk">2</span><div><b>Fable Cafe</b>, Чарновєйська 1 - українська сніданкова, найближча до готелю</div></li>
+    <li><span class="mk">3</span><div><b>Serio</b>, Шльонська 2 - баскський чізкейк · Крововджа</div></li>
+    <li><span class="mk">4</span><div><b>Fournil</b>, Королівська 94 - французькі багети · Крововджа</div></li>
+    <li><span class="mk">5</span><div><b>Bar Mleczny Żaczek</b>, Чарновєйська 75 - молочний бар, у списку з 2021</div></li>
+    <li><span class="mk">6</span><div><b>Buba</b>, Плац Імбрамовський - найкращий хот-дог Кракова 2026</div></li>
+    <li><span class="mk">7</span><div><b>Kufle i Widelce</b>, Чиста 3 - найближчий крафт-мультитап</div></li>
+    <li><span class="mk">8</span><div><b>Tociekawa</b>, Довга 37 - 1 місце «кав'ярня 2025», сирник</div></li>
+    <li><span class="mk">9</span><div><b>Filipa 18</b>, Св. Філіпа 18 - найкращий ресторан Польщі 2025 · Клепаж</div></li>
+    <li><span class="mk">10</span><div><b>MOLÁM Thai</b> - Michelin Bib, 1 місце «азійська» і «сервіс»</div></li>
+    <li><span class="mk">11</span><div><b>Franca</b>, Крупніча 8 - найкраще нове місце 2025 · 15 хв від готелю</div></li>
+    <li><span class="mk">12</span><div><b>Karakter</b>, Бжозова 17 - субпродукти, дичина, реберце</div></li>
+    <li><span class="mk">13</span><div><b>Nat Bistro</b>, Краковська 34 - Michelin Young Chef Poland 2026, головна рекомендація</div></li>
+    <li><span class="mk">14</span><div><b>Bufet KRK</b>, Дайвур 8 - Bib Gourmand + 3 ковпаки G&amp;M, був у списку 2025</div></li>
+    <li><span class="mk">15</span><div><b>PRZEŁOM</b>, Мостова 8 - listening bar, найцікавіше кавове відкриття 2026</div></li>
+    <li><span class="mk">16</span><div><b>Charlotte</b> і <b>Kluska na Placu</b>, пл. Щепанський 2 і 7 - круасани з 7:00 · 1 місце «польська кухня»</div></li>
+    <li><span class="mk">17</span><div><b>Kiełbaski z Niebieskiej Nyski</b>, Гжегужецька 5 - синій фургон, тільки ввечері й уночі</div></li>
+    <li><span class="mk">18</span><div><b>SPOKO Pub</b>, Кальварійська 9 - 100+ джинів, натуральні вина, найкращий сад · Підгуже</div></li>
+  </ol>
 
   <div class="section-title" style="padding-top:8px"><span class="eyebrow">На розмах</span></div>
   <div class="tbl-wrap"><table>
@@ -1382,6 +1658,31 @@ footer .eyebrow{color:var(--amber)}
   </table></div>
 </section>
 
+<!-- ============ WINE ============ -->
+<section id="wine">
+  <div class="band"><div class="hero topic-hero evening">
+    <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-market"/></svg>
+    <div class="herocap wrap"><span class="eyebrow">Розділ 13 · вино</span><h2>Винні бари</h2></div>
+  </div></div>
+  <div class="block">
+    <p class="lead">Усі - з натуральним ухилом, без дресирування під туристів. На кожній мапі МП тепер стоїть 🍷 - підібране під маршрут. Пиво - окремим МП-13.</p>
+  </div>
+  <div class="section-title" style="padding-top:8px"><span class="eyebrow">Мапа · вино в один погляд</span></div>
+  <div class="tbl-wrap"><div class="rmap" id="wmap" style="height:340px"></div></div>
+  <ol class="foodlist">
+    <li><span class="mk">1</span><div><b>Dzikie Wino</b>, Ринок Головний 27 - 1 місце «винний бар 2025», гарний сад</div></li>
+    <li><span class="mk">2</span><div><b>Dzikie Wino na Kleparzu</b> - тільки польські вина, дегустації з виноробами</div></li>
+    <li><span class="mk">3</span><div><b>NAT</b>, Краковська 34 - 2 місце. Поїсти і випити: 🍷 + Nat Bistro поруч</div></li>
+    <li><span class="mk">4</span><div><b>Wino Metal</b>, Мейзельса 16 - 3 місце. Казімєж</div></li>
+    <li><span class="mk">5</span><div><b>Ciut Ciut</b>, Краковська 6 - найкраще укомплектований натуральний бар Казімєжа</div></li>
+    <li><span class="mk">6</span><div><b>NOTO Wine Bar</b>, Мейзельса 14 ⭐ - 25 місць, сад, серйозні сирні дошки</div></li>
+    <li><span class="mk">7</span><div><b>Krako Slow Wines</b>, Липова 6F ⭐ - постіндустріальна зала, польські сидри</div></li>
+    <li><span class="mk">8</span><div><b>GMT Georgian Wine &amp; Art Gallery</b>, Битомська 23 - грузинське з родинних виноробень</div></li>
+    <li><span class="mk">9</span><div><b>Wine Garage</b>, Юзефітув 8 - крамниця + бар + справжня кухня. Близько від готелю</div></li>
+    <li><span class="mk">10</span><div><b>Stoccaggio</b>, Крупніча 9 - разом з Karma і Tektura на тій самій вулиці</div></li>
+  </ol>
+</section>
+
 <footer>
   <div class="fw">
     <span class="eyebrow">Краків · 29 серпня – 2 вересня 2026</span>
@@ -1414,23 +1715,42 @@ if(typeof L!=='undefined')(function(){
   mp16:[[50.0646,19.9349,'Charlotte, пл. Щепанський 2'],[50.0640,19.9349,'Палац Штуки — Ворхол'],[50.0636,19.9344,'Bunkier Sztuki'],[50.0635,19.9370,'Кам\'яниця Шоляйських'],[50.0621,19.9372,'МЦК, Ринок Головний 25']],
   mp17:[[50.0700,19.9210,'Serio — баскський чізкейк'],[50.0715,19.9130,'Fournil — багети'],[50.0658,19.9175,'Bar Mleczny Żaczek'],[50.0805,19.9350,'Buba — хот-дог'],[50.0730,19.9270,'Wine Garage / GMT — вино'],[50.0642,19.9285,'Kufle i Widelce — крафт']],
   mp18:[[50.0455,19.9540,'Euskadi — баскська'],[50.0448,19.9525,'Vamos! — тапас'],[50.0468,19.9560,'Targowa 2 / Mazi'],[50.0472,19.9528,'Ita / Ge\'ez'],[50.0480,19.9490,'Ambalaż Café — вид на Віслу'],[50.0455,19.9530,'SPOKO Pub — сад']],
-  mp19:[[50.0508,19.9433,'Hevre — сніданок'],[50.0498,19.9455,'PRZEŁOM — кава на вінілі'],[50.0518,19.9455,'вул. Юзефа'],[50.0505,19.9410,'Folga / NOLIO — обід'],[50.0514,19.9441,'Плац Новий']]
+  mp19:[[50.0508,19.9433,'Hevre — сніданок'],[50.0498,19.9455,'PRZEŁOM — кава на вінілі'],[50.0518,19.9455,'вул. Юзефа'],[50.0505,19.9410,'Folga / NOLIO — обід'],[50.0514,19.9441,'Плац Новий']],
+  mp20:[[50.0649,19.9449,'Wesoła Cafe, Раковицька 17 — кава до церемонії'],[50.0757,19.9437,'Головні ворота, Раковицька 26'],[50.0749,19.9447,'Церемонія 10:00 — пам\'ятник Солдатам Вересня і Армії «Краків»'],[50.0742,19.9418,'Некрополь: алеї, склепи, мацеви'],[50.0698,19.9438,'Вихід з боку Лубіч — назад пішки або трамваєм']],
+  mp21:[[50.0611,19.9353,'Базиліка Св. Франциска — вітражі Виспянського'],[50.0617,19.9347,'Єпископський палац — папське вікно'],[50.0637,19.9394,'Костел Св. Анни'],[50.0557,19.9385,'Свв. Петра і Павла, Гродська 52a'],[50.0537,19.9362,'вул. Каноніча і Палац Єжа Цьолка']],
+  mp22:[[50.0629,19.9097,'Готель'],[50.0540,19.9334,'Вавель — безкоштовні виставки, каси з 9:30'],[50.0522,19.9330,'Драконяча печера'],[50.0518,19.9424,'Стара синагога, Широка 24 — безкоштовно 10-15'],[50.0618,19.9366,'Ринок Підземний — у пн 10-19']],
+  mp23:[[50.0473,19.9725,'MOCAK, Липова 4'],[50.0473,19.9680,'Мурал Джозефа Конрада'],[50.0480,19.9490,'Кава: Ambalaż Café, Cricoteka'],[50.0530,19.9440,'Бульварами назад — Franca / MOLÁM по дорозі']]
   };
   var POIS={
-  mp01:[[50.0524,19.9060,'Zaczyn — веганська пекарня','☕'],[50.0555,19.9095,'Plac na Stawach — ринок','🥔']],
-  mp03:[[50.0648,19.9283,'Massolit — бейгли, кава Karma','☕'],[50.0646,19.9349,'Charlotte — круасани','☕']],
-  mp04:[[50.0448,19.9525,'Vamos! / Euskadi — тапас','🥔'],[50.0455,19.9528,'SPOKO Pub — сад','🍺']],
-  mp08:[[50.0516,19.9462,'Poranki — сніданок','🥔'],[50.0490,19.9470,'Craftownia — мультитап','🍺']],
-  mp09:[[50.0646,19.9349,'Charlotte — круасани з 7:00','☕'],[50.0626,19.9330,'Ósma Rano — сніданок','☕']],
-  mp10:[[50.0524,19.9060,'Zaczyn — пекарня','☕'],[50.0715,19.9130,'Fournil — багети','🥔']],
-  mp11:[[50.0658,19.9420,'Fornir — сад, сніданок','☕']],
-  mp13:[[50.0520,19.9448,'Karakter — вечеря','🥔']],
-  mp14:[[50.0560,19.9300,'MELT — боули','🥔'],[50.0655,19.9175,'Bar Mleczny Żaczek','🥔']],
-  mp16:[[50.0648,19.9360,'Kluska na Placu — вареники','🥔']],
-  mp17:[[50.0560,19.9300,'MELT — боули','🥔'],[50.0665,19.9160,'Fable — українська кава','☕']],
-  mp18:[[50.0450,19.9548,'Hankki — корейська','🥔']],
-  mp19:[[50.0480,19.9470,'Karma — фільтр','☕'],[50.0505,19.9412,'NOLIO — піца','🥔']]
+  mp01:[[50.0524,19.9060,'Zaczyn — веганська пекарня','☕'],[50.0555,19.9095,'Plac na Stawach — ринок, пікнік','🥔'],[50.0665,19.9160,'Fable Cafe — українська кава','☕'],[50.0642,19.9285,'Kufle i Widelce — крафт','🍺']],
+  mp02:[[50.0524,19.9060,'Zaczyn — до виходу','☕'],[50.0665,19.9160,'Fable Cafe','☕'],[50.0555,19.9095,'Plac na Stawach — пікнік','🥔'],[50.0642,19.9285,'Kufle i Widelce','🍺']],
+  mp03:[[50.0648,19.9283,'Massolit — бейгли, кава Karma','☕'],[50.0646,19.9349,'Charlotte — круасани','☕'],[50.0650,19.9250,'Coffee Proficiency, Гарнчарська — нерда-вибір','☕'],[50.0624,19.9370,'MOLÁM Thai — по дорозі','🥔'],[50.0508,19.9410,'Stoccaggio, Крупніча 9 — натуральне вино','🍷']],
+  mp04:[[50.0448,19.9525,'Vamos! / Euskadi — тапас','🥔'],[50.0455,19.9528,'SPOKO Pub — сад','🍺'],[50.0500,19.9448,'Knitted Coffee, св. Вавжинця 16','☕'],[50.0480,19.9490,'Ambalaż Café, Cricoteka — вид','☕'],[50.0427,19.9494,'Nalej Se, Підгурська 34 — 25 кранів','🍺']],
+  mp05:[[50.0402,19.9088,'Panorama Zakrzówek, Вилом 20 — кава з видом','☕'],[50.0409,19.9288,'Królowa Przedmieścia, Барська 39 — Старі Дембники','☕'],[50.0555,19.9095,'Plac na Stawach — пікнік','🥔'],[50.0524,19.9060,'Zaczyn — по дорозі','☕'],[50.0642,19.9285,'Kufle i Widelce','🍺']],
+  mp06:[[50.0505,19.9405,'Tektura, Крупніча 7 — фільтри','☕'],[50.0509,19.9418,'Karma, Крупніча 12','☕'],[50.0624,19.9370,'MOLÁM Thai','🥔'],[50.0508,19.9410,'Stoccaggio, Крупніча 9','🍷']],
+  mp07:[[50.0713,20.0368,'Кава NOWA Księgarnia, ос. Zgody 7','☕'],[50.0728,20.0320,'Filmowa Cafe — кіно Świt','☕'],[50.0705,20.0365,'Bar Mleczny Centralny — з 1956','🥔'],[50.0715,20.0345,'Centralka, os. Centrum E 12','🍺']],
+  mp08:[[50.0514,19.9437,'Poranki, Плац Бавул — 1 місце сніданки','🥔'],[50.0495,19.9452,'Craftownia, св. Вавжинця 22 — 18 кранів','🍺'],[50.0517,19.9437,'String Taste, Божого Тіла 10','☕'],[50.0505,19.9444,'Karma, св. Вавжинця 9','☕'],[50.0510,19.9445,'Endzior, Плац Новий — запіканка','🥔'],[50.0503,19.9437,'NOTO Wine Bar, Мейзельса 14','🍷']],
+  mp09:[[50.0646,19.9349,'Charlotte — круасани з 7:00','☕'],[50.0626,19.9330,'Ósma Rano, Підвале 4 — сніданки','☕'],[50.0509,19.9418,'Karma, Крупніча 12','☕'],[50.0617,19.9390,'Dzikie Wino, Ринок Головний 27','🍷']],
+  mp10:[[50.0524,19.9060,'Zaczyn — пекарня','☕'],[50.0715,19.9130,'Fournil — багети','🥔'],[50.0665,19.9160,'Fable Cafe','☕'],[50.0642,19.9285,'Kufle i Widelce','🍺']],
+  mp11:[[50.0658,19.9420,'Fornir — сад, сніданок','☕'],[50.0694,19.9457,'Wyszukane Desery Szewczenko, Ринок Клепарський 14','🥔'],[50.0703,19.9462,'Dzikie Wino na Kleparzu — тільки польські','🍷']],
+  mp12:[[50.0523,19.9456,'Muhabbet, Бжозова 15 — менемен','☕'],[50.0500,19.9448,'Knitted Coffee, св. Вавжинця 16','☕'],[50.0506,19.9484,'Bufet KRK, Дайвур 8','🥔'],[50.0642,19.9300,'Bar Mleczny Górnik, Чиста 1','🥔'],[50.0500,19.9415,'Ciut Ciut, Краковська 6','🍷']],
+  mp13:[[50.0520,19.9448,'Karakter — вечеря','🥔'],[50.0505,19.9444,'Karma, св. Вавжинця 9','☕'],[50.0500,19.9448,'Knitted Coffee, св. Вавжинця 16','☕'],[50.0506,19.9484,'Bufet KRK','🥔'],[50.0490,19.9436,'Omerta, Купа 3 — 26 кранів','🍺']],
+  mp14:[[50.0560,19.9300,'MELT — боули','🥔'],[50.0655,19.9175,'Bar Mleczny Żaczek','🥔'],[50.0685,19.9225,'Urban Coffee, Лобзовська 52 — українська','☕'],[50.0665,19.9160,'Fable Cafe','☕'],[50.0642,19.9285,'Kufle i Widelce','🍺']],
+  mp15:[[50.0524,19.9060,'Zaczyn — до виходу','☕'],[50.0715,19.9130,'Fournil, Королівська 94','☕'],[50.0805,19.9350,'Buba — хот-дог','🥔'],[50.0647,19.9260,'Wine Garage, Юзефітув 8','🍷']],
+  mp16:[[50.0648,19.9360,'Kluska na Placu — вареники','🥔'],[50.0638,19.9352,'Café Bunkier — тераса','☕'],[50.0650,19.9405,'Camelot, св. Томаша 17','☕'],[50.0626,19.9330,'Ósma Rano, Підвале 4','🥔'],[50.0617,19.9390,'Dzikie Wino, Ринок Головний 27 — 1 місце','🍷']],
+  mp17:[[50.0560,19.9300,'MELT — боули','🥔'],[50.0665,19.9160,'Fable — українська кава','☕'],[50.0685,19.9225,'Urban Coffee, Лобзовська 52','☕'],[50.0715,19.9130,'Fournil — багети','🥔'],[50.0805,19.9350,'Buba — хот-дог','🥔'],[50.0730,19.9270,'Wine Garage / GMT — вино','🍷']],
+  mp18:[[50.0450,19.9548,'Hankki — корейська','🥔'],[50.0505,19.9444,'Karma, св. Вавжинця 9 — по дорозі','☕'],[50.0448,19.9525,'Vamos! — тапас','🥔'],[50.0468,19.9560,'Targowa 2 — вегетаріанська','🥔'],[50.0427,19.9494,'Nalej Se, Підгурська 34 — 25 кранів','🍺']],
+  mp19:[[50.0480,19.9470,'Karma — фільтр','☕'],[50.0505,19.9412,'NOLIO — піца','🥔'],[50.0514,19.9437,'Poranki, Плац Бавул','🥔'],[50.0517,19.9437,'String Taste, Божого Тіла 10','☕'],[50.0510,19.9445,'Endzior, Плац Новий — запіканка','🥔'],[50.0505,19.9435,'Wino Metal, Мейзельса 16','🍷']],
+  mp20:[[50.0638,19.9459,'BeFree — 2 місце сніданки 2025','☕'],[50.0660,19.9452,'Blossom, Раковицька 20 — brew bar','☕'],[50.0642,19.9285,'Kufle i Widelce — по дорозі додому','🍺']],
+  mp21:[[50.0618,19.9405,'Nowa Prowincja, Брацька 3-5 — кав\'ярня Шимборської','☕'],[50.0650,19.9405,'Camelot, св. Томаша 17','☕'],[50.0626,19.9330,'Ósma Rano, Підвале 4','🥔'],[50.0536,19.9367,'Pod Nosem, Каноніча 22','🥔'],[50.0652,19.9400,'House of Beer, св. Томаша 35','🍺']],
+  mp22:[[50.0506,19.9484,'Bufet KRK — обід по дорозі','🥔'],[50.0646,19.9349,'Charlotte — круасани','☕'],[50.0548,19.9352,'Cafe Cytat, Мьодова 23','☕'],[50.0525,19.9345,'Pod Wawelem, Підзамче 8','🥔'],[50.0500,19.9415,'Ciut Ciut, Краковська 6','🍷']],
+  mp23:[[50.0487,19.9723,'Krako Slow Wines, Липова 6F','🍷'],[50.0478,19.9600,'Knitted Coffee, Промислова 4','☕'],[50.0505,19.9429,'Franca, Крупніча 8','🥔'],[50.0624,19.9370,'MOLÁM Thai','🥔']]
   };
+  var HOTEL=[50.0629,19.9097];
+  function hotelMarker(map,dup){
+    var ic=L.divIcon({className:'',html:'<span class="mk hotel">📍</span>',iconSize:[26,26],iconAnchor:[13,dup?3:13]});
+    L.marker(HOTEL,{icon:ic,zIndexOffset:900}).addTo(map).bindTooltip('<b>📍 Готель</b> · Hyatt Place, ал. 3 Мая 47a',{direction:'top',offset:[0,-14],className:'rtip'});
+  }
   Object.keys(ROUTES).forEach(function(id){
     var el=document.getElementById('rmap-'+id);
     if(!el)return;
@@ -1447,11 +1767,69 @@ if(typeof L!=='undefined')(function(){
       var ic=L.divIcon({className:'',html:'<span class="poi">'+q[3]+'</span>',iconSize:[23,23],iconAnchor:[11,11]});
       L.marker([q[0],q[1]],{icon:ic}).addTo(map).bindTooltip(q[3]+' '+q[2],{direction:'top',offset:[0,-11],className:'rtip'});
     });
-    var bnds=pts.map(function(p){return [p[0],p[1]];}).concat(pois.map(function(q){return [q[0],q[1]];}));
+    var dup=pts.some(function(p){return Math.abs(p[0]-HOTEL[0])<3e-4&&Math.abs(p[1]-HOTEL[1])<3e-4;});
+    hotelMarker(map,dup);
+    var bnds=pts.map(function(p){return [p[0],p[1]];}).concat(pois.map(function(q){return [q[0],q[1]];}),[[HOTEL[0],HOTEL[1]]]);
     map.fitBounds(bnds,{padding:[28,28]});
     // keep tiles crisp after fonts/layout settle
     setTimeout(function(){map.invalidateSize();},400);
   });
+  var FOOD=[
+    [50.0524,19.9060,'Zaczyn, Костюшки 27','веганська пекарня, кава Roastains — найближчий добрий сніданок'],
+    [50.0665,19.9160,'Fable Cafe, Чарновєйська 1','українська сніданкова кав\'ярня, найближча'],
+    [50.0700,19.9210,'Serio, Шльонська 2','баскський чізкейк'],
+    [50.0715,19.9130,'Fournil, Королівська 94','французькі багети'],
+    [50.0658,19.9175,'Bar Mleczny Żaczek, Чарновєйська 75','молочний бар, у списку з 2021'],
+    [50.0805,19.9350,'Buba, Плац Імбрамовський','найкращий хот-дог Кракова 2026'],
+    [50.0642,19.9285,'Kufle i Widelce, Чиста 3','найближчий крафт до готелю'],
+    [50.0668,19.9428,'Tociekawa, Довга 37','1 місце кав\'ярня 2025, сирник'],
+    [50.0674,19.9410,'Filipa 18, Св. Філіпа 18','найкращий ресторан Польщі 2025'],
+    [50.0624,19.9370,'MOLÁM Thai','Michelin Bib, 1 місце «азійська»'],
+    [50.0505,19.9429,'Franca, Крупніча 8','найкраще нове місце 2025'],
+    [50.0520,19.9448,'Karakter, Бжозова 17','субпродукти, дичина, 8-годинне реберце'],
+    [50.0490,19.9445,'Nat Bistro, Краковська 34','Michelin Young Chef Poland 2026'],
+    [50.0506,19.9484,'Bufet KRK, Дайвур 8','Bib Gourmand + 3 ковпаки G&M'],
+    [50.0498,19.9455,'PRZEŁOM, Мостова 8','listening bar на вінілі'],
+    [50.0646,19.9349,'Charlotte / Kluska na Placu, пл. Щепанський 2 і 7','круасани з 7:00 / 1 місце польська кухня'],
+    [50.0530,19.9490,'Kiełbaski z Niebieskiej Nyski, Гжегужецька 5','синій фургон Nysa, тільки ввечері'],
+    [50.0455,19.9530,'SPOKO Pub, Кальварійська 9','100+ джинів, найкращий пивний сад']
+  ];
+  var fel=document.getElementById('fmap');
+  if(fel){
+    var fmenu=L.map(fel,{scrollWheelZoom:false,attributionControl:true});
+    L.tileLayer(T,{maxZoom:19,attribution:ATTR,subdomains:'abc'}).addTo(fmenu);
+    FOOD.forEach(function(p,i){
+      var ic=L.divIcon({className:'',html:'<span class="mk">'+(i+1)+'</span>',iconSize:[26,26],iconAnchor:[13,13]});
+      L.marker([p[0],p[1]],{icon:ic}).addTo(fmenu).bindTooltip('<b>'+(i+1)+'. '+p[2]+'</b><br>'+p[3],{direction:'top',offset:[0,-14],className:'rtip'});
+    });
+    hotelMarker(fmenu,false);
+    fmenu.fitBounds(FOOD.map(function(p){return [p[0],p[1]];}).concat([[HOTEL[0],HOTEL[1]]]),{padding:[28,28]});
+    setTimeout(function(){fmenu.invalidateSize();},400);
+  }
+  var WINE=[
+    [50.0617,19.9390,'Dzikie Wino, Ринок Головний 27','1 місце «винний бар 2025», гарний сад'],
+    [50.0703,19.9462,'Dzikie Wino na Kleparzu','тільки польські вина, дегустації з виноробами'],
+    [50.0490,19.9445,'NAT, Краковська 34','2 місце. Натуральне вино + їжа рівня Michelin Bib'],
+    [50.0505,19.9435,'Wino Metal, Мейзельса 16','3 місце'],
+    [50.0500,19.9415,'Ciut Ciut, Краковська 6','найкраще укомплектований натуральний бар Казімєжа'],
+    [50.0503,19.9437,'NOTO Wine Bar, Мейзельса 14','25 місць, сад, серйозні сирні дошки. ⭐ Був у списку'],
+    [50.0487,19.9723,'Krako Slow Wines, Липова 6F','центральноєвропейські вина і польські сидри. ⭐ Був у списку'],
+    [50.0730,19.9270,'GMT Georgian Wine, Битомська 23','грузинське з родинних виноробень — на твоєму боці міста'],
+    [50.0647,19.9260,'Wine Garage, Юзефітув 8','крамниця + бар + справжня кухня, близько від готелю'],
+    [50.0508,19.9410,'Stoccaggio, Крупніча 9','винний гастробар поруч із Karma і Tektura']
+  ];
+  var wel=document.getElementById('wmap');
+  if(wel){
+    var wmap=L.map(wel,{scrollWheelZoom:false,attributionControl:true});
+    L.tileLayer(T,{maxZoom:19,attribution:ATTR,subdomains:'abc'}).addTo(wmap);
+    WINE.forEach(function(p){
+      var ic=L.divIcon({className:'',html:'<span class="poi poi-wine">🍷</span>',iconSize:[23,23],iconAnchor:[11,11]});
+      L.marker([p[0],p[1]],{icon:ic}).addTo(wmap).bindTooltip('<b>'+p[2]+'</b><br>'+p[3],{direction:'top',offset:[0,-11],className:'rtip'});
+    });
+    hotelMarker(wmap,false);
+    wmap.fitBounds(WINE.map(function(p){return [p[0],p[1]];}).concat([[HOTEL[0],HOTEL[1]]]),{padding:[28,28]});
+    setTimeout(function(){wmap.invalidateSize();},400);
+  }
 })();
 </script>
 <script>
