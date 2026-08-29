@@ -28,6 +28,7 @@ body{
   font-family:'Lora',Georgia,'Times New Roman',serif;
   font-size:18px; line-height:1.72; -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
+  padding-top:56px; /* fixed topbar */
 }
 img{max-width:100%}
 ::selection{background:var(--amber);color:#2c2419}
@@ -46,8 +47,20 @@ section{scroll-margin-top:70px}
 .lead{font-size:1.22rem;line-height:1.6;color:var(--ink-soft);font-style:italic}
 
 /* ---------- top nav ---------- */
-.topbar{position:sticky;top:0;z-index:50;background:rgba(245,237,223,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(245,237,223,.92);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .topbar .row{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:14px;padding:9px 18px}
+.menu-btn{display:none;margin-left:auto;width:36px;height:36px;flex:none;align-items:center;justify-content:center;
+  border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink-soft);
+  font-size:1.1rem;line-height:1;cursor:pointer;padding:0}
+/* mobile popup menu */
+.mobile-menu{display:none;position:fixed;top:58px;left:10px;right:10px;z-index:190;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
+  padding:8px;max-height:78vh;overflow-y:auto}
+.mobile-menu.open{display:block}
+.mobile-menu a{display:block;border:0;border-radius:9px;padding:12px 14px;margin:1px 0;
+  font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.14em;font-size:.8rem;color:var(--ink-soft)}
+.mobile-menu a:hover,.mobile-menu a:active{background:var(--card-2);color:var(--ink)}
 .brandmark{font-family:'Playfair Display',serif;font-weight:800;font-size:1.02rem;letter-spacing:.01em;white-space:nowrap}
 .brandmark .d{color:var(--sun-deep);font-style:italic;font-weight:600}
 .navscroll{display:flex;gap:2px;overflow-x:auto;scrollbar-width:thin;margin-left:auto}
@@ -176,6 +189,14 @@ td b,th b{font-weight:600}
 
 .chip{display:inline-block;font-family:'Oswald',sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;
   padding:2px 9px;border-radius:14px;background:var(--card-2);border:1px solid var(--line);color:var(--ink-soft);margin:0 2px}
+.chip.early{background:#f7e3c8;border-color:rgba(181,101,29,.4);color:var(--sun-deep)}
+.chip.filter{background:#e4ece2;border-color:rgba(86,87,55,.45);color:var(--moss-deep)}
+.chip.beer{background:#efe6d0;border-color:rgba(124,58,45,.35);color:var(--wine)}
+.poi{display:flex;align-items:center;justify-content:center;width:23px;height:23px;border-radius:50%;
+  background:var(--card);border:1.5px solid var(--line);box-shadow:0 1px 4px rgba(44,36,25,.3);font-size:13px;line-height:1}
+.maplegend{max-width:var(--maxw);margin:2px auto 6px;padding:0 22px;font-family:'Oswald',sans-serif;
+  font-size:.72rem;letter-spacing:.03em;color:var(--ink-soft)}
+.maplegend b{color:var(--ink);font-weight:500;white-space:nowrap}
 .star{color:var(--sun-deep)}
 hr.sep{max-width:var(--maxw);margin:34px auto;border:0;border-top:1px solid var(--line)}
 .section-title{max-width:var(--maxw);margin:0 auto;padding:26px 22px 2px}
@@ -205,6 +226,7 @@ footer .eyebrow{color:var(--amber)}
   body{font-size:17px}
   .rgrid{grid-template-columns:1fr}
   .navscroll{display:none}
+  .menu-btn{display:flex}
 }
 @media print{.topbar{display:none}}
 </style>
@@ -306,6 +328,7 @@ footer .eyebrow{color:var(--amber)}
 <div class="topbar">
   <div class="row">
     <span class="brandmark">Краків <span class="d">· меню поїздки</span></span>
+    <button class="menu-btn" id="menuBtn" aria-label="Меню" aria-expanded="false">☰</button>
     <nav class="navscroll">
       <a href="#facts">факти</a>
       <a href="#principle">принцип</a>
@@ -322,6 +345,22 @@ footer .eyebrow{color:var(--amber)}
     </nav>
   </div>
 </div>
+
+<!-- mobile popup menu -->
+<nav class="mobile-menu" id="mobileMenu" aria-label="Мобільне меню">
+  <a href="#facts">факти</a>
+  <a href="#principle">принцип</a>
+  <a href="#calendar">календар</a>
+  <a href="#weather">погода</a>
+  <a href="#days">день за днем</a>
+  <a href="#matrix">матриця</a>
+  <a href="#routes">мікроподорожі</a>
+  <a href="#food">їжа</a>
+  <a href="#logi">логістика</a>
+  <a href="#book">бронювати</a>
+  <a href="#history">історія</a>
+  <a href="#ukr">українське</a>
+</nav>
 
 <!-- ============ COVER ============ -->
 <header class="hero cover dawn">
@@ -378,7 +417,7 @@ footer .eyebrow{color:var(--amber)}
   </div>
   <div class="days">
     <div class="day"><div class="dh"><span class="ddate">Нд 30.08 і Вт 01.09</span><h3>Активні дні</h3><span class="tag active">рух</span></div>
-      <div class="db"><p>Один блок на день. Максимум два. Не три. Ранок - завжди твій: виходь о 6:00-6:30, поки місто порожнє.</p></div></div>
+      <div class="db"><p>Один блок на день. Максимум два. Не три. Ранок - твій: спокійний старт о 9:00-9:30, без будильника і поспіху.</p></div></div>
     <div class="day"><div class="dh"><span class="ddate">Пн 31.08</span><h3>День без зобов'язань</h3><span class="tag calm">спокій</span></div>
       <div class="db"><p>Це також день, коли більшість музеїв зачинена, тож календар сам це підказує. Подарунок, а не проблема.</p></div></div>
   </div>
@@ -415,7 +454,7 @@ footer .eyebrow{color:var(--amber)}
   <div class="block"><p class="lead">Холодні ранки й вечори, тепле сонце вдень. Раннє вересневе світло - головна декорація цієї поїздки.</p></div>
   <div class="facts">
     <div class="fact"><div class="k">Денний максимум</div><div class="v"><b>~22 °C</b> · тепле сонце</div></div>
-    <div class="fact"><div class="k">Ніч / ранок</div><div class="v"><b>~11 °C</b> · о 6:00 на Блонях холодно й часто туман - бери шар, який можна зняти</div></div>
+    <div class="fact"><div class="k">Ніч / ранок</div><div class="v"><b>~11 °C</b> · вранці на Блонях прохолодно й часто туман - бери шар, який можна зняти</div></div>
     <div class="fact"><div class="k">Дощ</div><div class="v"><b>~26%</b> на день · приблизно один мокрий день з п'яти</div></div>
     <div class="fact"><div class="k">Схід сонця</div><div class="v"><b>05:53</b> → 05:56</div></div>
     <div class="fact"><div class="k">Захід сонця</div><div class="v"><b>19:26</b> → 19:20</div></div>
@@ -448,7 +487,7 @@ footer .eyebrow{color:var(--amber)}
 
     <div class="day"><div class="dh"><span class="ddate">Неділя 30.08</span><h3>Активний день</h3><span class="tag active">рух</span></div>
       <div class="db">
-        <p><b>Ранок (обов'язковий якір), вихід о 6:30 - один із:</b> <a href="#mp01">МП-01</a> Салватор + Копець Костюшка (якщо ясно) · <a href="#mp02">МП-02</a> Ліс Вольський (автобус 134) · <a href="#mp10">МП-10</a> Млинівка, якщо не хочеться нічого вирішувати.</p>
+        <p><b>Ранок (обов'язковий якір), старт о 9:00-9:30 - один із:</b> <a href="#mp01">МП-01</a> Салватор + Копець Костюшка (якщо ясно) · <a href="#mp02">МП-02</a> Ліс Вольський (автобус 134) · <a href="#mp10">МП-10</a> Млинівка, якщо не хочеться нічого вирішувати.</p>
         <p><b>Друга половина дня</b> - синагоги знову відкриті: <a href="#mp12">МП-12</a> Єврейський шар з провідником (Музей Галіція або KL Płaszów), або <a href="#mp08">МП-08</a> Казімєж: тиха половина без гіда.</p>
         <p><b>Вечір:</b> <a href="#mp13">МП-13</a> Крафтове пиво (Craftownia, Omerta, Weźże Krafta) за правилом двох склянок. Або вечеря в <b>Karakter</b> (Бжозова 17).</p>
       </div></div>
@@ -470,7 +509,7 @@ footer .eyebrow{color:var(--amber)}
 
     <div class="day"><div class="dh"><span class="ddate">Середа 02.09</span><h3>Ранок і потяг</h3><span class="tag">потяг 10:02</span></div>
       <div class="db">
-        <p>Вихід з готелю ~9:00. Один варіант, і він хороший - <a href="#mp09">МП-09</a>: вихід о 6:15, Блоні в тумані → Реторика → Планти → Ринок о 7:15 порожній → вул. Шпитальна знизу, щоб театр Словацького виник раптово → вул. Каноніча, найстаріша вулиця міста.</p>
+        <p><b>Єдиний ранній виняток з правила 9:00-9:30.</b> Один варіант, і він хороший - <a href="#mp09">МП-09</a>: вихід о 6:15, Блоні в тумані → Реторика → Планти → Ринок о 7:15 порожній → вул. Шпитальна знизу, щоб театр Словацького виник раптово → вул. Каноніча, найстаріша вулиця міста. Назад у готель ~9:00, вокзал ~9:40.</p>
         <p>Кава: <b>Charlotte</b> (круасани з 7:00) або <b>Ósma Rano</b>. Це закриває обидві твої заявки одразу: «вулиця, де театр» і «куди піти, якщо виходжу з готелю рано».</p>
       </div></div>
 
@@ -500,6 +539,9 @@ footer .eyebrow{color:var(--amber)}
       <tr><td>Історія, обережно</td><td><a href="#mp12"><b>МП-12</b></a> Єврейський шар з провідником, або KL Płaszów самостійно</td></tr>
       <tr><td>Пиво</td><td><a href="#mp13"><b>МП-13</b></a> Казімєж мультитапи</td></tr>
       <tr><td>Архітектура</td><td><a href="#mp14"><b>МП-14</b></a> Алеї Трьох Віщунів + AGH усередині</td></tr>
+      <tr><td>Сніданок і кава біля дому</td><td><a href="#mp17"><b>МП-17</b></a> Крововджа + Лобзув - Serio, Buba, Fournil, Żaczek</td></tr>
+      <tr><td>Гастро-вечір з пивом</td><td><a href="#mp18"><b>МП-18</b></a> Підгуже: баски, Ефіопія → сад SPOKO</td></tr>
+      <tr><td>Ранкова кава і сніданок у Казімєжі</td><td><a href="#mp19"><b>МП-19</b></a> Hevre / PRZEŁOM, поки тихо</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -509,9 +551,10 @@ footer .eyebrow{color:var(--amber)}
 <section id="routes">
   <div class="band"><div class="hero topic-hero dawn">
     <svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-mounds"/></svg>
-    <div class="herocap wrap"><span class="eyebrow">Розділ 7 · МП-01 … МП-16</span><h2>Мікроподорожі</h2></div>
+    <div class="herocap wrap"><span class="eyebrow">Розділ 7 · МП-01 … МП-19</span><h2>Мікроподорожі</h2></div>
   </div></div>
-  <div class="block"><p>Шістнадцять мікроподорожей за твоїм шаблоном. Кожна - самодостатня, з планом Б і бюджетом на двох. Бери одну на день. Максимум дві.</p></div>
+  <div class="block"><p>Дев'ятнадцять мікроподорожей за твоїм шаблоном. Кожна - самодостатня, з мапою, планом Б і бюджетом на двох. Бери одну на день. Максимум дві. Три останні (МП-17…19) - суто гастрономічні.</p></div>
+  <p class="maplegend">На мапах: пронумеровані точки - маршрут · <b>🥔 їжа</b> · <b>☕ кава</b> · <b>🍺 пиво</b></p>
   <div class="routes">
 
   <article class="route" id="mp01">
@@ -526,12 +569,12 @@ footer .eyebrow{color:var(--amber)}
         <div><div class="k">Зусилля</div><div class="v">6 км туди-назад, +120 м. Асфальт</div></div>
       </div>
       <ul class="timeline">
-        <li><span class="t">06:30</span> Вихід, край Блонь</li>
-        <li><span class="t">06:45</span> Роздоріжжя Салватор, монастир норбертанок при впадінні Рудави у Віслу</li>
-        <li><span class="t">07:20</span> <b>Салваторський цвинтар</b> на схилі - місцеві вважають найкрасивішим. Могили Лема, Вайди. Це і є справжня мета</li>
-        <li><span class="t">07:50</span> Вершина: Старе місто, долина Вісли, у ясний день <b>Бескиди</b> на південному горизонті</li>
-        <li><span class="t">08:30</span> Вниз, гак на <b>вул. Гонтина</b> - ~30 віл із конкурсу 1910 року</li>
-        <li><span class="t">09:15</span> Кава на Салваторі або назад до Блонь</li>
+        <li><span class="t">09:00</span> Вихід, край Блонь</li>
+        <li><span class="t">09:15</span> Роздоріжжя Салватор, монастир норбертанок при впадінні Рудави у Віслу</li>
+        <li><span class="t">09:50</span> <b>Салваторський цвинтар</b> на схилі - місцеві вважають найкрасивішим. Могили Лема, Вайди. Це і є справжня мета</li>
+        <li><span class="t">10:20</span> Вершина: Старе місто, долина Вісли, у ясний день <b>Бескиди</b> на південному горизонті</li>
+        <li><span class="t">11:00</span> Вниз, гак на <b>вул. Гонтина</b> - ~30 віл із конкурсу 1910 року</li>
+        <li><span class="t">11:45</span> Кава на Салваторі або назад до Блонь</li>
       </ul>
       <div class="rmap" id="rmap-mp01"></div>
       <div class="rgrid">
@@ -539,7 +582,7 @@ footer .eyebrow{color:var(--amber)}
         <div class="mini"><div class="k">План Б</div>Затягнуло - зупинитись на цвинтарі й Гонтині, вгору не йти. Ноги здали - трамвай 1/2/6 з Салватора</div>
       </div>
       <ul class="know">
-        <li>Квиток 34 zł - тільки за конус і виставки форту. <b>Схил, цвинтар і види безкоштовні й доступні завжди.</b> Стартуєш о 6:30 - конус можна пропустити без великої втрати.</li>
+        <li>Квиток 34 zł - тільки за конус і виставки форту. <b>Схил, цвинтар і види безкоштовні й доступні завжди.</b> Стартуєш о 9:00 - конус можна пропустити без великої втрати.</li>
         <li>Це також маршрут «Półwsie Zwierzynieckie» на Krakowski Szlak Modernizmu - міжвоєнні квартали, той регістр, за який ти любиш район.</li>
       </ul>
       <div class="budget"><span>Мінімум <b>40 zł</b></span><span>Комфорт <b>204 zł</b></span></div>
@@ -558,11 +601,11 @@ footer .eyebrow{color:var(--amber)}
         <div><div class="k">Зусилля</div><div class="v">Легко з автобусом (1,7 км)</div></div>
       </div>
       <ul class="timeline">
-        <li><span class="t">08:30</span> «Cracovia Stadion», автобус 134</li>
-        <li><span class="t">09:30</span> <b>Копець Пілсудського</b> (383 м, найвища точка). Безкоштовно, цілодобово. Вид на Бескиди, у виняткових умовах - Татри</li>
-        <li><span class="t">10:15</span> Стежкою на <b>Панєнські Скали</b> - вапняковий яр-заказник</li>
-        <li><span class="t">11:15</span> <b>Пустиня камедулів</b> на Бєлянах - екстер'єр і розташування</li>
-        <li><span class="t">12:30</span> Назад 134, або вниз через Копець Костюшка до Салватора (злиття з МП-01)</li>
+        <li><span class="t">09:00</span> «Cracovia Stadion», автобус 134 (сезон від ~09:00)</li>
+        <li><span class="t">09:45</span> <b>Копець Пілсудського</b> (383 м, найвища точка). Безкоштовно, цілодобово. Вид на Бескиди, у виняткових умовах - Татри</li>
+        <li><span class="t">10:30</span> Стежкою на <b>Панєнські Скали</b> - вапняковий яр-заказник</li>
+        <li><span class="t">11:30</span> <b>Пустиня камедулів</b> на Бєлянах - екстер'єр і розташування</li>
+        <li><span class="t">12:45</span> Назад 134, або вниз через Копець Костюшка до Салватора (злиття з МП-01)</li>
       </ul>
       <div class="rmap" id="rmap-mp02"></div>
       <div class="rgrid">
@@ -636,6 +679,7 @@ footer .eyebrow{color:var(--amber)}
       <ul class="know">
         <li>⚠ <b>Каменоломня Лібана</b> (декорації «Списку Шіндлера») огороджена з липня 2025 - оглядати з краю біля Копця Крака, не заходити.</li>
         <li>Плац Героїв Гетто і мур на Львівській ти вже бачив у 2025 - проходь повз або зайди в іншому регістрі.</li>
+        <li>🍺 <b>Фінал вечора:</b> <b>SPOKO Pub</b> (Кальварійська 9) - 100+ джинів, натуральні вина, найкращий сад для пиття. Або злий з <a href="#mp13">МП-13</a>.</li>
       </ul>
       <div class="budget"><span>Мінімум <b>92 zł</b></span><span>Комфорт <b>514 zł</b></span></div>
     </div>
@@ -759,6 +803,7 @@ footer .eyebrow{color:var(--amber)}
       <ul class="know">
         <li>⚠ <b>Субота 29.08 - шабат, усі об'єкти громади зачинені.</b> Робити цей маршрут у неділю 30.08 або середу 02.09.</li>
         <li>Хочеш цей шар із провідником - див. <a href="#mp12">МП-12</a>.</li>
+        <li>🍺 <b>Ввечері поруч:</b> мультитапи Казімєжа - <b>Craftownia</b> (Св. Вавжинця 22) або <b>Omerta</b> (Купа 3). Повний вечір - <a href="#mp13">МП-13</a>.</li>
       </ul>
       <div class="budget"><span>Мінімум <b>146 zł</b></span><span>Комфорт <b>490 zł</b></span></div>
     </div>
@@ -770,7 +815,7 @@ footer .eyebrow{color:var(--amber)}
     <div class="rbody">
       <p class="rlede">Твоя пряма заявка: «вулиця, де театр - це просто прекрасне місце». Ось вона, і ось як зайти в неї так, щоб театр виник раптово. Плюс порожній Ринок о 7:15.</p>
       <div class="strip">
-        <div><div class="k">Коли</div><div class="v">Дуже рано. Ідеально ср 02.09 перед потягом</div></div>
+        <div><div class="k">Коли</div><div class="v">Дуже рано - <b>єдиний виняток з правила 9:00-9:30</b>. Ідеально ср 02.09 перед потягом</div></div>
         <div><div class="k">Тривалість</div><div class="v">2 год</div></div>
         <div><div class="k">Погода</div><div class="v">Будь-яка. У туман - краще</div></div>
         <div><div class="k">Зусилля</div><div class="v">~4 км, рівно</div></div>
@@ -808,11 +853,11 @@ footer .eyebrow{color:var(--amber)}
         <div><div class="k">Зусилля</div><div class="v">7–8 км, рівно</div></div>
       </div>
       <ul class="timeline">
-        <li><span class="t">07:00</span> Вихід, на північ до Млинівки</li>
-        <li><span class="t">07:20</span> У коридорі - історичне русло Рудави, середньовічний канал. Рідкісні прирічкові рослинні угруповання</li>
-        <li><span class="t">08:30</span> Зрізати на південь до <b>Рудави</b></li>
-        <li><span class="t">09:00</span> Валами Рудави вниз до <b>Салватора</b>, до впадіння у Віслу</li>
-        <li><span class="t">09:30</span> Назад через Блоні, кава</li>
+        <li><span class="t">09:00</span> Вихід, на північ до Млинівки</li>
+        <li><span class="t">09:20</span> У коридорі - історичне русло Рудави, середньовічний канал. Рідкісні прирічкові рослинні угруповання</li>
+        <li><span class="t">10:30</span> Зрізати на південь до <b>Рудави</b></li>
+        <li><span class="t">11:00</span> Валами Рудави вниз до <b>Салватора</b>, до впадіння у Віслу</li>
+        <li><span class="t">11:30</span> Назад через Блоні, кава</li>
       </ul>
       <div class="rmap" id="rmap-mp10"></div>
       <div class="rgrid">
@@ -839,9 +884,9 @@ footer .eyebrow{color:var(--amber)}
         <div><div class="k">Зусилля</div><div class="v">Легко. ~2,5 км / 30 хв</div></div>
       </div>
       <ul class="timeline">
-        <li><span class="t">08:30</span> Кава: <b>Tociekawa</b> (Довга 37, 1 місце «кав'ярня 2025», сирник) або <b>Fornir</b> (сад у дворі)</li>
-        <li><span class="t">09:30</span> <b>Старий Клепаж</b> - ринок із понад 600 роками безперервної торгівлі, дешевий, непозований</li>
-        <li><span class="t">10:30</span> <b>Fiu Fiu Bistro</b> на ринку - шеф Янек Словінський, продукт із ринку за рогом</li>
+        <li><span class="t">09:00</span> Кава: <b>Tociekawa</b> (Довга 37, 1 місце «кав'ярня 2025», сирник) або <b>Fornir</b> (сад у дворі)</li>
+        <li><span class="t">09:45</span> <b>Старий Клепаж</b> - ринок із понад 600 роками безперервної торгівлі, дешевий, непозований (найкращий до 10:00)</li>
+        <li><span class="t">10:45</span> <b>Fiu Fiu Bistro</b> на ринку - шеф Янек Словінський, продукт із ринку за рогом</li>
         <li><span class="t">12:30</span> ⭐ <b>Filipa 18</b> - найкращий ресторан Польщі 2025. Шеф купує продукти на цьому ринку за 200 м. Бістро-меню до 21:30</li>
       </ul>
       <div class="rmap" id="rmap-mp11"></div>
@@ -1010,6 +1055,100 @@ footer .eyebrow{color:var(--amber)}
     </div>
   </article>
 
+  <article class="route" id="mp17">
+    <div class="hero route-hero day"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-facades"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-17 · гастро</span><h3>Крововджа і Лобзув: гастро біля дому</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Гастрономія твого власного кварталу. Усе за 5-15 хвилин від дверей, і майже нічого з цього немає в путівниках.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Будь-який ранок або день</div></div>
+        <div><div class="k">Тривалість</div><div class="v">3 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Будь-яка - усе близько</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Легко, ~3 км</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">09:00</span> Сніданок: <b>Serio</b> (Шльонська 2, баскський чізкейк) або <b>Urban Coffee</b> (Лобзовська 52, українська)</li>
+        <li><span class="t">09:45</span> <b>Fournil</b> (Королівська 94) - французькі багети, або <b>MELT</b> (Jubilat) - боули і яйця</li>
+        <li><span class="t">10:30</span> <b>Bar Mleczny Żaczek</b> (Чарновєйська 75) - недотований, дерев'яний інтер'єр</li>
+        <li><span class="t">11:15</span> <b>Buba</b> (Плац Імбрамовський) - найкращий хот-дог Кракова 2026, є фалафельна версія</li>
+        <li><span class="t">12:15</span> <b>Wine Garage</b> (Юзефітув 8) або <b>GMT Georgian Wine</b> (Битомська 23) - грузинське вино з родинних виноробень</li>
+        <li><span class="t">13:00</span> 🍺 <b>Kufle i Widelce</b> (Чиста 3) - найближчий крафт, фінал</li>
+      </ul>
+      <div class="rmap" id="rmap-mp17"></div>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>Serio</b> чізкейк · <b>Buba</b> хот-дог · <b>Fournil</b> багети - усе пішки</div>
+        <div class="mini"><div class="k">План Б</div>Дощ - усе поруч і всередині. Короткий варіант: <b>MELT</b> сніданок + <b>Kufle i Widelce</b> ввечері</div>
+      </div>
+      <ul class="know">
+        <li>Це район, який твій файл досліджень називає ідеальним - «Звежинець / Салватор: усталений престиж». Тут усе під дверима і поза путівниками.</li>
+        <li>☕ <b>Fable</b> (Чарновєйська 1) - українська кав'ярня, найближча до готелю, якщо хочеться сніданку раніше.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>90 zł</b></span><span>Комфорт <b>340 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp18">
+    <div class="hero route-hero evening"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-river"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-18 · гастро</span><h3>Підгуже: їжа і пивний сад</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Підгуже їсть інакше - баски, середземномор'я, Ефіопія - і найкращий пивний сад міста в кінці.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Пообіддя-вечір</div></div>
+        <div><div class="k">Тривалість</div><div class="v">3–4 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Будь-яка, є сади</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Легко, ~3 км</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">13:00</span> Обід: <b>Euskadi</b> (баскська, пінчос, сидр, дешево) або <b>Vamos!</b> (тапас, шефиня Michelin Young Chef 2025)</li>
+        <li><span class="t">14:30</span> <b>Targowa 2</b> (вегетаріанська, шеф Янек Словінський) або <b>Mazi</b> (середземноморська)</li>
+        <li><span class="t">15:30</span> <b>Ita</b> (на місці ZaKładka, середземноморсько-балканська) або <b>Ge'ez</b> (ефіопська, рідкість для Кракова)</li>
+        <li><span class="t">17:00</span> ☕ <b>Ambalaż Café</b> (Cricoteka, 4 поверх) - найкращий вид на каву: Вісла і Вавель через панорамне скло</li>
+        <li><span class="t">18:30</span> 🍺 <b>SPOKO Pub</b> (Кальварійська 9) - 100+ джинів, 100+ натуральних вин, найкращий сад</li>
+      </ul>
+      <div class="rmap" id="rmap-mp18"></div>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>Euskadi</b> або <b>Vamos!</b>. Резерв: <b>Hankki</b> (корейська), <b>Mazi</b></div>
+        <div class="mini"><div class="k">План Б</div>Дощ - усе всередині. Кава з видом у <b>Ambalaż</b> працює в будь-яку погоду</div>
+      </div>
+      <ul class="know">
+        <li>Підгуже - «найхіпстерніший район, перлина на підйомі» (твої нотатки).</li>
+        <li>Можна злити з <a href="#mp04">МП-04</a>: почати їжею, закінчити Копцем Крака на заході сонця (~19:20), потім SPOKO.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>120 zł</b></span><span>Комфорт <b>520 zł</b></span></div>
+    </div>
+  </article>
+
+  <article class="route" id="mp19">
+    <div class="hero route-hero day"><svg class="scene" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><use href="#s-facades"/></svg>
+      <div class="herocap wrap"><span class="eyebrow">МП-19 · гастро</span><h3>Казімєж: сніданок і кава зранку</h3></div></div>
+    <div class="rbody">
+      <p class="rlede">Ранок у Казімєжі, поки він ще тихий: сніданок у молитовному домі, кава на вінілі, жодного натовпу до полудня.</p>
+      <div class="strip">
+        <div><div class="k">Коли</div><div class="v">Ранок, старт 9:00-9:30</div></div>
+        <div><div class="k">Тривалість</div><div class="v">3 год</div></div>
+        <div><div class="k">Погода</div><div class="v">Будь-яка</div></div>
+        <div><div class="k">Зусилля</div><div class="v">Легко, рівно</div></div>
+      </div>
+      <ul class="timeline">
+        <li><span class="t">09:00</span> Сніданок: <b>Hevre</b> (Мейзельса 18, у колишньому молитовному домі), <b>Muhabbet</b> (менемен, чилбир) або <b>Poranki</b> (величезні порції)</li>
+        <li><span class="t">10:30</span> ☕ <b>PRZEŁOM</b> (Мостова 8) - listening bar, вініл, спешелті. Або <b>Karma</b> (Св. Вавжинця 9) - фільтр</li>
+        <li><span class="t">11:15</span> <b>вул. Юзефа</b>, галереї і двори (перетин з <a href="#mp08">МП-08</a>)</li>
+        <li><span class="t">12:15</span> Легкий обід: <b>Folga</b> (шеринг, zero-waste) або <b>NOLIO</b> (Краковська 46, 1 місце піца 2025). Або запіканка <b>Endzior</b> на Плацу Новому</li>
+        <li><span class="t">веч.</span> 🍺 За бажанням фінал: <b>Craftownia</b> або <b>Omerta</b> (див. <a href="#mp13">МП-13</a>)</li>
+      </ul>
+      <div class="rmap" id="rmap-mp19"></div>
+      <div class="rgrid">
+        <div class="mini"><div class="k">Їжа - основне</div><b>Hevre</b> / <b>Muhabbet</b> / <b>Poranki</b> сніданок · <b>PRZEŁOM</b> кава</div>
+        <div class="mini"><div class="k">План Б</div>⚠ Субота-шабат - Hevre і частина точок зачинені. Брати <b>Muhabbet</b> / <b>Poranki</b>. Найкраще нд 30.08 або ср 02.09</div>
+      </div>
+      <ul class="know">
+        <li>Пряме доповнення до <a href="#mp08">МП-08</a> (тиха половина Казімєжа). Ранок - єдиний час без натовпу.</li>
+        <li>PRZEŁOM у колишній склодувні - hi-fi, вініл, спешелті. Найцікавіше кавове відкриття 2026.</li>
+      </ul>
+      <div class="budget"><span>Мінімум <b>110 zł</b></span><span>Комфорт <b>420 zł</b></span></div>
+    </div>
+  </article>
+
   </div>
 </section>
 <hr class="sep">
@@ -1058,8 +1197,37 @@ footer .eyebrow{color:var(--amber)}
     </tbody>
   </table></div>
 
-  <div class="section-title"><span class="eyebrow">Кава</span></div>
-  <div class="block"><p><b>Karma Coffee</b> (Крупніча 12) · <b>Coffee Proficiency</b> (для нерда) · <b>Wesoła Cafe</b> (твоє щоденне кафе 2025) · <b>Tociekawa</b> (1 місце «кав'ярня 2025») · <b>PRZEŁOM</b> - listening bar на вінілі, найцікавіше відкриття 2026 · <b>Massolit</b> (був у твоєму списку) · <b>Charlotte</b> (круасани з 7:00).</p></div>
+  <div class="section-title"><span class="eyebrow">Сніданки · у готелі не входять</span></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Місце</th><th>Що</th><th>Коли</th></tr></thead>
+    <tbody>
+      <tr><td>⭐ <b>Zaczyn</b>, Костюшки 27</td><td>Веганська пекарня, кава Roastains. <b>Найближчий добрий сніданок пішки</b> (Салватор) - <a href="#mp01">МП-01</a>, <a href="#mp10">МП-10</a>, <a href="#mp17">МП-17</a></td><td><span class="chip early">рано</span></td></tr>
+      <tr><td><b>Serio</b>, Шльонська 2 · <b>Fournil</b>, Королівська 94</td><td>Баскський чізкейк, мікрокав'ярня · французька пекарня, багети. Обидва біля готелю - <a href="#mp17">МП-17</a></td><td><span class="chip early">рано</span></td></tr>
+      <tr><td><b>MELT</b>, Jubilat · <b>Fable</b>, Чарновєйська 1</td><td>Боули і яйця, ~12 хв · українська сніданкова кав'ярня, найближча</td><td><span class="chip early">рано</span></td></tr>
+      <tr><td><b>Poranki</b>, Плац Бавул 4</td><td>1 місце «сніданки 2025», величезні порції. Казімєж - <a href="#mp08">МП-08</a>, <a href="#mp19">МП-19</a></td><td><span class="chip early">7:30-18:00</span></td></tr>
+      <tr><td><b>BeFree</b>, Раковицька 11 · <b>Breaking Bread</b>, Кальварійська 83</td><td>Органіка (шеф Філіп Роза) · ремісничий хліб, закваска розкуплена до полудня</td><td><span class="chip early">рано</span></td></tr>
+      <tr><td><b>Ranny Ptaszek</b>, Августіанська 5 · <b>Hevre</b>, Мейзельса 18</td><td>Видатна шакшука · англійський сніданок у колишньому молитовному домі (10-13)</td><td><span class="chip early">рано</span></td></tr>
+      <tr><td><b>Muhabbet</b>, Бжозова 15 · <b>Ósma Rano</b>, Підвале 4 · <b>Fornir</b>, Довга 12</td><td>Турецький менемен/чилбир (9-16) · 10 комбінацій на хлібі Zaczyn · сніданок цілий день, сад</td><td><span class="chip early">рано</span></td></tr>
+      <tr><td><b>Charlotte</b>, пл. Щепанський 2</td><td>Круасани з 7:00. Найнадійніший ранній варіант у центрі</td><td><span class="chip early">7:00</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="section-title"><span class="eyebrow">Кава · фільтр і рання</span></div>
+  <div class="maplegend" style="margin-bottom:8px"><span class="chip early">рано 9-10</span> - відкрито на сніданок · <span class="chip filter">фільтр</span> - альтернатива, drip, przelew</div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Місце</th><th>Чому</th><th>Позначки</th></tr></thead>
+    <tbody>
+      <tr><td><b>Coffee Proficiency</b>, Гарнчарська</td><td>Власна обсмажка, каппінги, японський slow-drip, рефрактометри на стійці. Для нерда</td><td><span class="chip filter">фільтр</span></td></tr>
+      <tr><td><b>Karma Coffee</b>, Крупніча 12 · Св. Вавжинця 9</td><td>10+ років обсмажують, світле single origin, сильні вегетаріанські сніданки</td><td><span class="chip filter">фільтр</span> <span class="chip early">рано</span></td></tr>
+      <tr><td><b>Tektura</b>, Крупніча 7</td><td>Ротація фільтрів від найкращих польських обсмажувачів</td><td><span class="chip filter">фільтр</span></td></tr>
+      <tr><td><b>Blossom</b>, Раковицька 20</td><td>Ймовірно найкраще обладнаний brew bar міста, Східна Африка</td><td><span class="chip filter">фільтр</span></td></tr>
+      <tr><td><b>Wesoła Cafe</b>, Раковицька 17</td><td>Твоє щоденне кафе 2025, ротація європейських обсмажувачів, з 7:30</td><td><span class="chip filter">фільтр</span> <span class="chip early">рано</span></td></tr>
+      <tr><td>⭐ <b>PRZEŁOM</b>, Мостова 8</td><td>Listening bar на вінілі, спешелті, домашня випічка. Найцікавіше відкриття 2026</td><td><span class="chip filter">фільтр</span></td></tr>
+      <tr><td><b>Tociekawa</b>, Довга 37 · <b>Massolit</b>, Смоленськ 17</td><td>1 місце «кав'ярня 2025», сирник · бейгли + кава Karma в англійській книгарні</td><td><span class="chip early">рано</span></td></tr>
+      <tr><td><b>Urban Coffee</b>, Лобзовська 52 · <b>Knitted</b> · <b>Emigrant</b></td><td>Українська, дешево, сніданки цілий день · українська спешелті · мінережа, European Coffee Trip</td><td><span class="chip filter">фільтр</span> <span class="chip early">рано</span></td></tr>
+      <tr><td><b>Charlotte</b>, пл. Щепанський 2</td><td>Круасани з 7:00. Найнадійніший ранній центр</td><td><span class="chip early">7:00</span></td></tr>
+    </tbody>
+  </table></div>
 
   <div class="section-title"><span class="eyebrow">Біля готелю · Al. 3 Maja 47a</span></div>
   <div class="facts">
@@ -1068,7 +1236,21 @@ footer .eyebrow{color:var(--amber)}
     <div class="fact"><div class="k">15–25 хв / трамвай</div><div class="v"><b>MOLÁM</b> · <b>Franca</b> · Крупніча (Karma + Tektura + Szczapy) · кластер Клепажа (Filipa 18)</div></div>
   </div>
 
-  <div class="note calm"><span class="lbl">Крафтове пиво · правило</span><p>Craftownia · Weźże Krafta (⚠ Дайвур 16, не Дольних Млинув) · Omerta · Stara Zajezdnia · Kufle i Widelce (найближчий). <b>Дві склянки за раз, потім пауза і прогулянка, потім ще одна-дві. Капітан, не камікадзе.</b></p></div>
+  <div class="section-title"><span class="eyebrow">Крафтове пиво і бари 🍺</span></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Місце</th><th>Крани / чому</th><th>Район</th></tr></thead>
+    <tbody>
+      <tr><td><b>Craftownia</b>, Св. Вавжинця 22</td><td>18 кранів, велика вискі-карта, колаборації броварень. Часто найкраще обладнаний</td><td>Казімєж</td></tr>
+      <tr><td><b>Weźże Krafta</b>, Дайвур 16</td><td>25 кранів + неаполітанська піца + сад з муралом. ⚠ Не Дольних Млинув</td><td>Казімєж</td></tr>
+      <tr><td><b>Omerta</b>, Купа 3 · <b>Stara Zajezdnia</b>, Св. Вавжинця 12</td><td>26 кранів, один з найстаріших · броварня у пам'ятковому трамвайному депо</td><td>Казімєж</td></tr>
+      <tr><td><b>Nowy Kraftowy</b>, Плац Новий 8 · <b>T.E.A. Time</b>, Дітля 1</td><td>25 кранів, цілорічний сад · англійські елі, ручні помпи</td><td>Казімєж</td></tr>
+      <tr><td><b>Multi Qlti</b>, Шевська 21 · <b>House of Beer</b>, Св. Томаша 35</td><td>25 кранів, -30% будні до 18:00 · 12 ротаційних + 200 пляшок</td><td>Старе місто</td></tr>
+      <tr><td>⭐ <b>Kufle i Widelce</b>, Чиста 3</td><td>8 кранів. <b>Найближчий пристойний мультитап до готелю</b></td><td>Крововджа</td></tr>
+      <tr><td><b>SPOKO Pub</b>, Кальварійська 9 · <b>Centralka</b>, ос. Centrum E 12</td><td>100+ джинів, натур. вина, найкращий сад · єдиний мультитап Нової Гути</td><td>Підгуже · Нова Гута</td></tr>
+    </tbody>
+  </table></div>
+  <div class="block"><p style="font-size:.92rem;color:var(--ink-soft)">Як фінал прогулянок: <a href="#mp13">МП-13</a> (мультитапи Казімєжа), <a href="#mp04">МП-04</a> і <a href="#mp18">МП-18</a> (SPOKO у Підгужі), <a href="#mp08">МП-08</a> і <a href="#mp19">МП-19</a> (Craftownia / Omerta).</p></div>
+  <div class="note calm"><span class="lbl">Крафтове пиво · правило</span><p><b>Дві склянки за раз, потім пауза і прогулянка, потім ще одна-дві. «Три перші, найсмачніші.» Капітан, не камікадзе.</b></p></div>
 </section>
 <hr class="sep">
 
@@ -1229,7 +1411,25 @@ if(typeof L!=='undefined')(function(){
   mp13:[[50.0520,19.9450,'Карактер, Бжозова 17 — вечеря'],[50.0480,19.9515,'Craftownia, св. Вавжинця 22'],[50.0466,19.9475,'Прогулянка: Кладка Бернатка'],[50.0485,19.9505,'Stara Zajezdnia (депо)'],[50.0530,19.9490,'Kiełbaski z Niebieskiej Nyski, Гжегужецька 5']],
   mp14:[[50.0627,19.9161,'Парк Йордана'],[50.0680,19.9130,'Головний корпус AGH'],[50.0678,19.9200,'Алеї Трьох Віщунів'],[50.0604,19.9236,'Головний корпус MNK']],
   mp15:[[50.0878,19.8781,'Rydlówka, Тетмаєра 28'],[50.0884,19.8710,'Броновіце'],[50.0743,19.9080,'Зріз на Млинівку']],
-  mp16:[[50.0646,19.9349,'Charlotte, пл. Щепанський 2'],[50.0640,19.9349,'Палац Штуки — Ворхол'],[50.0636,19.9344,'Bunkier Sztuki'],[50.0635,19.9370,'Кам\'яниця Шоляйських'],[50.0621,19.9372,'МЦК, Ринок Головний 25']]
+  mp16:[[50.0646,19.9349,'Charlotte, пл. Щепанський 2'],[50.0640,19.9349,'Палац Штуки — Ворхол'],[50.0636,19.9344,'Bunkier Sztuki'],[50.0635,19.9370,'Кам\'яниця Шоляйських'],[50.0621,19.9372,'МЦК, Ринок Головний 25']],
+  mp17:[[50.0700,19.9210,'Serio — баскський чізкейк'],[50.0715,19.9130,'Fournil — багети'],[50.0658,19.9175,'Bar Mleczny Żaczek'],[50.0805,19.9350,'Buba — хот-дог'],[50.0730,19.9270,'Wine Garage / GMT — вино'],[50.0642,19.9285,'Kufle i Widelce — крафт']],
+  mp18:[[50.0455,19.9540,'Euskadi — баскська'],[50.0448,19.9525,'Vamos! — тапас'],[50.0468,19.9560,'Targowa 2 / Mazi'],[50.0472,19.9528,'Ita / Ge\'ez'],[50.0480,19.9490,'Ambalaż Café — вид на Віслу'],[50.0455,19.9530,'SPOKO Pub — сад']],
+  mp19:[[50.0508,19.9433,'Hevre — сніданок'],[50.0498,19.9455,'PRZEŁOM — кава на вінілі'],[50.0518,19.9455,'вул. Юзефа'],[50.0505,19.9410,'Folga / NOLIO — обід'],[50.0514,19.9441,'Плац Новий']]
+  };
+  var POIS={
+  mp01:[[50.0524,19.9060,'Zaczyn — веганська пекарня','☕'],[50.0555,19.9095,'Plac na Stawach — ринок','🥔']],
+  mp03:[[50.0648,19.9283,'Massolit — бейгли, кава Karma','☕'],[50.0646,19.9349,'Charlotte — круасани','☕']],
+  mp04:[[50.0448,19.9525,'Vamos! / Euskadi — тапас','🥔'],[50.0455,19.9528,'SPOKO Pub — сад','🍺']],
+  mp08:[[50.0516,19.9462,'Poranki — сніданок','🥔'],[50.0490,19.9470,'Craftownia — мультитап','🍺']],
+  mp09:[[50.0646,19.9349,'Charlotte — круасани з 7:00','☕'],[50.0626,19.9330,'Ósma Rano — сніданок','☕']],
+  mp10:[[50.0524,19.9060,'Zaczyn — пекарня','☕'],[50.0715,19.9130,'Fournil — багети','🥔']],
+  mp11:[[50.0658,19.9420,'Fornir — сад, сніданок','☕']],
+  mp13:[[50.0520,19.9448,'Karakter — вечеря','🥔']],
+  mp14:[[50.0560,19.9300,'MELT — боули','🥔'],[50.0655,19.9175,'Bar Mleczny Żaczek','🥔']],
+  mp16:[[50.0648,19.9360,'Kluska na Placu — вареники','🥔']],
+  mp17:[[50.0560,19.9300,'MELT — боули','🥔'],[50.0665,19.9160,'Fable — українська кава','☕']],
+  mp18:[[50.0450,19.9548,'Hankki — корейська','🥔']],
+  mp19:[[50.0480,19.9470,'Karma — фільтр','☕'],[50.0505,19.9412,'NOLIO — піца','🥔']]
   };
   Object.keys(ROUTES).forEach(function(id){
     var el=document.getElementById('rmap-'+id);
@@ -1242,10 +1442,27 @@ if(typeof L!=='undefined')(function(){
       var n=L.divIcon({className:'',html:'<span class="mk'+(i===pts.length-1?' end':'')+'">'+(i+1)+'</span>',iconSize:[26,26],iconAnchor:[13,13]});
       L.marker([p[0],p[1]],{icon:n}).addTo(map).bindTooltip((i+1)+'. '+p[2],{direction:'top',offset:[0,-14],className:'rtip'});
     });
-    map.fitBounds(pts.map(function(p){return [p[0],p[1]];}),{padding:[28,28]});
+    var pois=POIS[id]||[];
+    pois.forEach(function(q){
+      var ic=L.divIcon({className:'',html:'<span class="poi">'+q[3]+'</span>',iconSize:[23,23],iconAnchor:[11,11]});
+      L.marker([q[0],q[1]],{icon:ic}).addTo(map).bindTooltip(q[3]+' '+q[2],{direction:'top',offset:[0,-11],className:'rtip'});
+    });
+    var bnds=pts.map(function(p){return [p[0],p[1]];}).concat(pois.map(function(q){return [q[0],q[1]];}));
+    map.fitBounds(bnds,{padding:[28,28]});
     // keep tiles crisp after fonts/layout settle
     setTimeout(function(){map.invalidateSize();},400);
   });
+})();
+</script>
+<script>
+// mobile popup menu
+(function(){
+  var b=document.getElementById('menuBtn'),m=document.getElementById('mobileMenu');
+  if(!b||!m)return;
+  function set(open){m.classList.toggle('open',open);b.setAttribute('aria-expanded',open);b.textContent=open?'✕':'☰';}
+  b.addEventListener('click',function(e){e.stopPropagation();set(!m.classList.contains('open'));});
+  m.addEventListener('click',function(e){if(e.target.tagName==='A')set(false);});
+  document.addEventListener('click',function(e){if(m.classList.contains('open')&&!m.contains(e.target)&&!b.contains(e.target))set(false);});
 })();
 </script>
 <script>
