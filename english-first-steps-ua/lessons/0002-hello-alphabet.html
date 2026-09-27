@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Урок 2 · Hello! Алфавіт і знайомство</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/speak.js"></script>
+<script src="../assets/quiz.js"></script>
+<script src="../assets/recorder.js"></script>
+</head>
+<body>
+<main>
+<nav class="top"><a href="../index.html">&larr; Усі уроки</a><a href="../reference/phrasebook.html">Розмовник</a><a href="../reference/sounds.html">Звуки</a></nav>
+<div class="col">
+
+<span class="kicker">Урок 2 з 6 · 25 хвилин</span>
+<h1>Hello! Як познайомитися і продиктувати своє ім'я</h1>
+<div id="toolbar"></div>
+
+<div class="win"><strong>Після уроку ти зможеш</strong>
+Привітатися, назвати себе і продиктувати своє ім'я чи e-mail по буквах - як на рецепції готелю, по телефону чи під час реєстрації.</div>
+
+<h2>Згадай з уроку 1</h2>
+<p class="muted">Без підглядання. Саме зусилля згадати і тримає слово в пам'яті.</p>
+<div class="quiz">
+<script type="application/json">
+[
+ {"type":"listen","say":"three","q":"Яке слово ти чуєш?","options":["three","tree"],"answer":0,"why":"three - язик між зубами."},
+ {"type":"choice","q":"Який звук найчастіший в англійській?","options":["шва /ə/","звук /θ/","звук /w/"],"answer":0,"why":"Шва - короткий ненаголошений звук, як в about."},
+ {"type":"accent","say":"water","q":"Хто каже water - UK чи US?","why":"US: чути «r» і м'яке «t»."}
+]
+</script>
+</div>
+
+<h2>1. Фрази для знайомства</h2>
+<ul class="phrases">
+<li><span class="en" data-say>Hello!</span> / <span class="en" data-say>Hi!</span> <span class="ua">- Привіт! (Hi - простіше, для друзів)</span></li>
+<li><span class="en" data-say>My name is Ivan.</span> <span class="ua">- Мене звати Іван. (підстав своє ім'я)</span></li>
+<li><span class="en" data-say>I'm Ivan.</span> <span class="ua">- Я Іван. (коротко й природно)</span></li>
+<li><span class="en" data-say>What's your name?</span> <span class="ua">- Як тебе звати?</span></li>
+<li><span class="en" data-say>Nice to meet you.</span> <span class="ua">- Приємно познайомитися.</span></li>
+<li><span class="en" data-say>How are you?</span> <span class="ua">- Як справи?</span></li>
+<li><span class="en" data-say>I'm fine, thanks.</span> / <span class="en" data-say>I'm good, thanks.</span> <span class="ua">- Добре, дякую.</span></li>
+<li><span class="en" data-say>How do you spell it?</span> <span class="ua">- Як це пишеться (по буквах)?</span></li>
+<li><span class="en" data-say>Goodbye!</span> / <span class="en" data-say>Bye!</span> / <span class="en" data-say>See you!</span> <span class="ua">- До побачення! / Бувай! / Побачимось!</span></li>
+</ul>
+<aside class="side"><span class="tag uk">UK</span> <span class="tag us">US</span> «I'm fine» і «I'm good» кажуть і там, і там; «I'm good» частіше чути в США. На «How are you?» не розповідають про життя - це просто привітання.</aside>
+<p>Натискай UK і US на кожній фразі і повторюй уголос, поки не зможеш сказати її, не дивлячись на екран.</p>
+
+<h2>2. Алфавіт: букви звуть не так, як читають</h2>
+<p>Латинські букви ти, мабуть, бачив. Але в англійській кожна буква має <b>назву</b>, і вона часто інша, ніж у школі чи в польській. Найпростіше вчити групами за звуком:</p>
+<div class="table-wrap"><table>
+<tr><th>Звук назви</th><th>Букви</th></tr>
+<tr><td class="ipa">/eɪ/ «ей»</td><td><span class="en" data-say="A.">A</span> <span class="en" data-say="H.">H</span> <span class="en" data-say="J.">J</span> <span class="en" data-say="K.">K</span></td></tr>
+<tr><td class="ipa">/iː/ «і»</td><td><span class="en" data-say="B. C. D. E.">B C D E</span> <span class="en" data-say="G. P. T. V.">G P T V</span></td></tr>
+<tr><td class="ipa">/e/ «е»</td><td><span class="en" data-say="F. L. M. N.">F L M N</span> <span class="en" data-say="S. X.">S X</span></td></tr>
+<tr><td class="ipa">/aɪ/ «ай»</td><td><span class="en" data-say="I. Y.">I Y</span></td></tr>
+<tr><td class="ipa">/əʊ/ «оу»</td><td><span class="en" data-say="O.">O</span></td></tr>
+<tr><td class="ipa">/uː/ «у»</td><td><span class="en" data-say="Q. U. W.">Q U W</span></td></tr>
+<tr><td class="ipa">/ɑː/ «а»</td><td><span class="en" data-say="R.">R</span></td></tr>
+<tr><td class="ipa">UK /zed/ · US /ziː/</td><td><span class="en" data-say="Z.">Z</span></td></tr>
+</table></div>
+<aside class="side"><span class="tag uk">UK</span> Z = «zed», R = /ɑː/ без «r».<br><span class="tag us">US</span> Z = «zee» (тому в US Z стоїть у групі з B, C, D), R = /ɑːr/.<br>Подвійні букви: у UK часто кажуть «double L», у US - частіше просто «L, L».</aside>
+<p><b>Пастки для українця:</b> <span class="en">E</span> звучить «і», а <span class="en">I</span> - «ай». <span class="en">G</span> - «джі», а <span class="en">J</span> - «джей». <span class="en">H</span> - «ейч». <span class="en">W</span> - «дабл ю» (подвійне U). <span class="en">Y</span> - «уай».</p>
+
+<h3>E-mail уголос</h3>
+<p><span class="en" data-say>at</span> = @ &nbsp;·&nbsp; <span class="en" data-say>dot</span> = крапка &nbsp;·&nbsp; <span class="en" data-say>dash</span> = дефіс &nbsp;·&nbsp; <span class="en" data-say>underscore</span> = _ . Приклад: <span class="en" data-say="ivan dot history at gmail dot com">ivan.history@gmail.com</span></p>
+
+<h2>3. Практика</h2>
+<span class="step">Слухай і пиши, що продиктували</span>
+<div class="quiz" data-lesson="0002">
+<script type="application/json">
+[
+ {"type":"type","say":"P. A. R. I. S.","q":"Яке місто продиктували? Напиши його.","answer":["Paris"],"why":"P-A-R-I-S: I звучить «ай»."},
+ {"type":"type","say":"R. O. M. E.","q":"Яке місто продиктували?","answer":["Rome"],"why":"R-O-M-E: E в кінці звучить «і»."},
+ {"type":"type","say":"O. S. L. O.","q":"Яке місто продиктували?","answer":["Oslo"],"why":"O-S-L-O."},
+ {"type":"type","say":"K. Y. I. V.","q":"Яке місто продиктували?","answer":["Kyiv"],"why":"K-Y-I-V: Y - «уай», I - «ай»."},
+ {"type":"choice","q":"Як в Америці називають букву Z?","options":["zee","zed","zet"],"answer":0,"why":"US - zee, UK - zed."},
+ {"type":"choice","q":"Яка буква звучить «джей»?","options":["J","G","H"],"answer":0,"why":"G - «джі», H - «ейч»."},
+ {"type":"choice","q":"Яка буква звучить «і»?","options":["E","I","Y"],"answer":0,"why":"E - «і», I - «ай», Y - «уай»."},
+ {"type":"choice","q":"Ти вперше бачиш людину. Що скажеш?","options":["Nice to meet you","Nice to see you","Nice to know you"],"answer":0,"why":"Nice to see you кажуть тим, кого вже знаєш."},
+ {"type":"type","q":"Напиши англійською: «Як тебе звати?»","answer":["What's your name?","What is your name?","Whats your name"],"why":"What's = What is."}
+]
+</script>
+</div>
+
+<h2>4. Скажи і запиши себе</h2>
+<div class="recorder" data-say="Hi! My name is Ivan. Nice to meet you."></div>
+<div class="recorder" data-say="My name is Ivan. I. V. A. N."></div>
+<p class="muted">Зверни увагу: I звучить «ай», а не «і». Після еталону скажи і продиктуй <b>своє</b> ім'я - для нього зразка немає, тут допоможе запис.</p>
+
+<h2>5. Напиши від руки</h2>
+<p>Напиши алфавіт від A до Z і під кожною буквою - як вона звучить українськими літерами (A - ей, B - бі...). Потім перевір себе за таблицею. Окремо напиши своє ім'я, прізвище й місто по буквах - це знадобиться в житті.</p>
+
+<h2>6. Місія в реальному житті</h2>
+<div class="mission">
+<ol>
+<li><b>Телефон англійською.</b> Зміни мову телефону на English на один тиждень (Налаштування → Мова). Ти вже знаєш іконки - тепер побачиш їхні англійські назви щодня.</li>
+<li><b>YouTube українською.</b> Подивись <a href="https://www.youtube.com/watch?v=godys_ta6h0">«Англійський алфавіт та вимова літер»</a> (канал «Легка англійська»). Зупиняй відео і повторюй кожну букву.</li>
+<li><b>Instagram.</b> Під будь-яким постом <a href="https://www.instagram.com/olga.bond.english/">@olga.bond.english</a> напиши коментар: <span class="en">Hello from [твоє місто]! I'm [твоє ім'я].</span> Це твоє перше повідомлення англійською для реальних людей.</li>
+<li><b>Дія.</b> Продиктуй наставнику голосовим свій e-mail по буквах англійською.</li>
+</ol>
+</div>
+
+<h2>Головне джерело</h2>
+<div class="source">
+<p><b><a href="https://teacheng.info/theory/pronunciation/alphabet/">TeachEng.info - «Англійський алфавіт»</a></b> (українською)<br>
+Таблиця 26 літер з транскрипцією кожної назви і поясненням різниці Z: «zed» у британській, «zee» в американській. Тримай відкритою, поки вчиш.</p>
+<p><b>Відео українською:</b> <a href="https://www.youtube.com/watch?v=godys_ta6h0">«Англійський алфавіт та вимова літер - Англійська з нуля (урок 0)»</a>, канал «Легка англійська».</p>
+</div>
+
+<p class="ask">Щось незрозуміло? Спитай наставника або ШІ-асистента (Claude), наприклад: «Продиктуй мені 5 міст Європи по буквах англійською, а я вгадаю».</p>
+
+<nav class="pager"><a href="0001-sounds-uk-us.html">&larr; Урок 1: Звуки</a><a href="0003-to-be-countries.html">Урок 3: Хто ти і звідки &rarr;</a></nav>
+</div>
+</main>
+</body>
+</html>
