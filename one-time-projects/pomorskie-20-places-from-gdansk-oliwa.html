@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pomorskie field guide - 20 places from Gdańsk Oliwa</title>
+<meta name="description" content="20 unusual places in Pomorskie with driving and rail-based routes from Opacka 20, Gdańsk. Snapshot checked on 15 November 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#f7f2e8; --surface:#fffdf8; --surface-2:#efe7d8; --ink:#121c26; --muted:#33414d;
+  --sea:#0a3554; --sea-soft:#dbe8f1; --pine:#14402f; --pine-soft:#dcebe2; --brick:#7a2516; --brick-soft:#fbe9e3;
+  --line:#5b6772; --on-accent:#ffffff; --focus:#121c26; --focus-ring:#f7f2e8;
+  --art-sky:#e6eef2; --art-sea:#bcd3e0; --art-sea2:#8fb3c9; --art-pine:#3e6b57; --art-sand:#e9d9b8; --art-sun:#e7b49a;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme=light]){
+    --bg:#0d151c; --surface:#16212b; --surface-2:#1e2c38; --ink:#eef1f3; --muted:#c9d3db;
+    --sea:#a8d4f2; --sea-soft:#1c3346; --pine:#b4e2c8; --pine-soft:#183427; --brick:#ffbfab; --brick-soft:#3a1d16;
+    --line:#93a1ad; --on-accent:#0d151c; --focus:#ffffff; --focus-ring:#0d151c;
+    --art-sky:#1a2833; --art-sea:#21445c; --art-sea2:#2c5873; --art-pine:#5d8f78; --art-sand:#5e5240; --art-sun:#a86a55;
+    color-scheme:dark;
+  }
+}
+:root[data-theme=dark]{
+  --bg:#0d151c; --surface:#16212b; --surface-2:#1e2c38; --ink:#eef1f3; --muted:#c9d3db;
+  --sea:#a8d4f2; --sea-soft:#1c3346; --pine:#b4e2c8; --pine-soft:#183427; --brick:#ffbfab; --brick-soft:#3a1d16;
+  --line:#93a1ad; --on-accent:#0d151c; --focus:#ffffff; --focus-ring:#0d151c;
+  --art-sky:#1a2833; --art-sea:#21445c; --art-sea2:#2c5873; --art-pine:#5d8f78; --art-sand:#5e5240; --art-sun:#a86a55;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:1.5rem;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:1.0625rem;line-height:1.6}
+h1,h2,h3{font-family:Geologica,Inter,"Segoe UI",sans-serif;line-height:1.2;letter-spacing:-.01em;margin:0 0 .5em}
+h1{font-size:clamp(2rem,6vw,3.4rem);font-weight:800}
+h2{font-size:clamp(1.5rem,3.6vw,2.1rem);font-weight:700;margin-top:0}
+h3{font-size:1.2rem;font-weight:700}
+p,li,dd{max-width:70ch}
+a{color:var(--sea);text-decoration-thickness:.08em;text-underline-offset:.18em}
+a:hover{text-decoration-thickness:.16em}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;box-shadow:0 0 0 6px var(--focus-ring);border-radius:4px}
+.visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:absolute;left:1rem;top:-10rem;background:var(--ink);color:var(--bg);padding:.75rem 1rem;z-index:10;font-weight:600;min-height:44px}
+.skip:focus{top:1rem}
+.wrap{max-width:76rem;margin:0 auto;padding:0 1.25rem}
+header.top{border-bottom:1px solid var(--line)}
+.top-bar{display:flex;flex-wrap:wrap;gap:.75rem 1.5rem;align-items:center;justify-content:space-between;padding-block:.5rem}
+.crumbs ol{list-style:none;display:flex;flex-wrap:wrap;gap:.25rem;margin:0;padding:0}
+.crumbs li{display:flex;align-items:center;gap:.25rem}
+.crumbs li+li::before{content:"/";color:var(--muted);padding:0 .25rem}
+.crumbs a,.crumbs [aria-current]{display:inline-flex;align-items:center;min-height:44px;padding:0 .25rem}
+.crumbs [aria-current]{font-weight:600}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend{font-weight:600;padding:0}
+.theme{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
+.theme legend{float:left;margin-right:.5rem;line-height:44px}
+.seg{display:inline-flex;flex-wrap:wrap;border:2px solid var(--line);border-radius:999px;overflow:hidden}
+.seg label{display:inline-flex;align-items:center;gap:.4rem;min-height:44px;min-width:44px;padding:0 .9rem;cursor:pointer}
+.seg input{width:1.1rem;height:1.1rem;margin:0;accent-color:var(--sea)}
+.seg label:has(input:checked){background:var(--sea);color:var(--on-accent);font-weight:600}
+.seg label:has(input:focus-visible){outline:3px solid var(--focus);outline-offset:-5px}
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:2rem;align-items:center;padding:3rem 0 2.5rem}
+.eyebrow{font-family:Geologica,Inter,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:.85rem;color:var(--pine);margin:0 0 .75rem}
+.lead{font-size:1.2rem;color:var(--muted)}
+.start{display:inline-flex;flex-wrap:wrap;gap:.25rem .75rem;align-items:center;margin-top:1rem;padding:.75rem 1rem;background:var(--surface);border:2px solid var(--ink);border-radius:14px}
+.start strong{font-family:Geologica,Inter,sans-serif;font-size:1.15rem}
+.hero-art{width:100%;height:auto;border-radius:24px;display:block}
+.snapshot{font-size:.95rem;color:var(--muted)}
+main section{padding:2.5rem 0;border-top:1px solid var(--line)}
+.grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;list-style:none;padding:0;margin:0}
+.notice{background:var(--brick-soft);border:2px solid var(--brick);border-left-width:8px;border-radius:12px;padding:1rem 1.1rem}
+.notice h3::before{content:"! ";font-weight:800;color:var(--brick)}
+.notice p{margin:.4rem 0}
+.pick,.pair{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:1.1rem}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin:.75rem 0 0}
+.chip{display:inline-flex;align-items:center;min-height:44px;padding:.35rem .9rem;border:2px solid var(--sea);border-radius:999px;font-weight:600;text-decoration:none;background:var(--sea-soft)}
+.chip:hover{text-decoration:underline}
+.finder{background:var(--surface);border:2px solid var(--ink);border-radius:20px;padding:1.25rem}
+.finder-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:1rem;align-items:end}
+.field label,.field .lbl{display:block;font-weight:600;margin-bottom:.35rem}
+input[type=search],select{width:100%;min-height:48px;font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:.5rem .75rem}
+.check{display:flex;gap:.6rem;align-items:center;min-height:48px;font-weight:600;cursor:pointer}
+.check input{width:1.4rem;height:1.4rem;accent-color:var(--pine);margin:0}
+.finder-actions{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;margin-top:1rem}
+.status{font-weight:600;margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:44px;min-width:44px;padding:.5rem 1rem;border-radius:10px;font:inherit;font-weight:600;text-decoration:none;cursor:pointer;border:2px solid transparent;line-height:1.25}
+.btn-sea{background:var(--sea);color:var(--on-accent)}
+.btn-pine{background:var(--pine);color:var(--on-accent)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost[aria-pressed=true]{background:var(--pine-soft);border-color:var(--pine);color:var(--ink)}
+.btn-ghost[aria-pressed=true] svg path{fill:currentColor}
+.btn:hover{text-decoration:underline}
+.region h2{display:flex;align-items:baseline;gap:.75rem;flex-wrap:wrap}
+.region-no{font-size:.9em;color:var(--pine);font-weight:800}
+.region-count{color:var(--muted);margin-top:-.25rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,22rem),1fr));gap:1.25rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:1.25rem;display:flex;flex-direction:column;gap:.6rem;min-width:0}
+.card-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.5rem;align-items:flex-start}
+.card h3{margin:0;font-size:1.3rem;flex:1 1 12rem}
+.appeal{margin:0;font-size:1.05rem}
+.tags{list-style:none;display:flex;flex-wrap:wrap;gap:.4rem;padding:0;margin:0}
+.tag{font-size:.9rem;font-weight:600;padding:.15rem .6rem;border:1.5px solid var(--line);border-radius:999px;background:var(--surface-2)}
+.warn{margin:0;background:var(--brick-soft);border-left:6px solid var(--brick);padding:.6rem .8rem;border-radius:8px}
+.facts{margin:0;display:grid;gap:.5rem}
+.facts div{border-top:1px dashed var(--line);padding-top:.5rem}
+.facts dt{font-weight:700;font-family:Geologica,Inter,sans-serif;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.facts dd{margin:.15rem 0 0;overflow-wrap:anywhere}
+.badge{font-family:Inter,sans-serif;font-size:.85rem;font-weight:700;padding:.1rem .55rem;border-radius:6px;border:1.5px solid}
+.badge-full{color:var(--pine);border-color:var(--pine);background:var(--pine-soft)}
+.badge-full::before{content:"✓ "}
+.badge-partial{color:var(--brick);border-color:var(--brick);background:var(--brick-soft)}
+.badge-partial::before{content:"◐ "}
+.route-links{display:flex;flex-wrap:wrap;gap:.6rem;margin:.25rem 0 0}
+details{border-top:1px solid var(--line);padding-top:.5rem;margin-top:auto}
+summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center;gap:.4rem;color:var(--sea)}
+summary:hover{text-decoration:underline}
+.story{padding-left:1.1rem}
+.story li{margin:.5rem 0;overflow-wrap:anywhere}
+#sl-fallback{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:10px;padding:.5rem}
+.shortlist{background:var(--pine-soft);border:2px solid var(--pine);border-radius:20px;padding:1.25rem}
+.sl-list{padding-left:1.25rem}
+.sl-list li{margin:.3rem 0}
+.sl-list a{display:inline-flex;min-height:44px;align-items:center}
+.how dl{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));margin:0}
+.how dl div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:1rem}
+.how dt{font-family:Geologica,Inter,sans-serif;font-weight:700;margin-bottom:.25rem}
+.how dd{margin:0}
+footer{border-top:1px solid var(--line);padding:2rem 0 3rem;color:var(--muted)}
+footer h2{color:var(--ink);font-size:1.4rem}
+.toc ul{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;padding:0;margin:0}
+[hidden]{display:none!important}
+@media (max-width:52rem){.hero{grid-template-columns:1fr;padding-top:2rem}.hero-art{max-width:32rem}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{
+  .skip,.theme,.finder,.js-only,.route-links .btn span[aria-hidden],.hero-art,details,nav.toc{display:none!important}
+  body{background:#fff;color:#000}
+  .card{break-inside:avoid;border:1px solid #000}
+  body.printing-shortlist main section:not(#shortlist):not(.region),body.printing-shortlist .toc{display:none!important}
+  body.printing-shortlist .hero{display:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="top">
+  <div class="wrap top-bar">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="https://github.com/thegostev/endeavours">Endeavours</a></li>
+        <li><span>One-time projects</span></li>
+        <li><span aria-current="page">Pomorskie field guide</span></li>
+      </ol>
+    </nav>
+    <fieldset class="theme js-only" hidden>
+      <legend>Reading colours</legend>
+      <div class="seg">
+        <label><input type="radio" name="theme" value="system" checked> Device</label>
+        <label><input type="radio" name="theme" value="light"> Light</label>
+        <label><input type="radio" name="theme" value="dark"> Dark</label>
+      </div>
+    </fieldset>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <p class="eyebrow">Pomorskie field guide</p>
+        <h1>20 interesting places to visit from Gdańsk Oliwa</h1>
+        <p class="lead">A curated collection of unusual architecture, archaeological sites, coastal landscapes, engineering landmarks and regional museums, using Zamek Kazimierczaka w Łapalicach as the starting point for the selection. The emphasis is on places with a distinctive story or atmosphere, rather than a comprehensive list of the region’s best-known sights.</p>
+        <p class="start"><span>All journeys start at</span> <strong>Opacka 20, Gdańsk</strong> <span>and are one-way.</span></p>
+        <p class="snapshot">Distances and driving times are Google Maps route snapshots checked on <strong>15 November 2026</strong>, not straight-line distances or guaranteed journey times.</p>
+      </div>
+      <svg class="hero-art" viewBox="0 0 480 340" aria-hidden="true" focusable="false">
+        <rect width="480" height="340" fill="var(--art-sky)"/>
+        <circle cx="370" cy="88" r="42" fill="var(--art-sun)"/>
+        <path d="M0 210 C80 190 160 200 240 188 S400 176 480 192 V340 H0Z" fill="var(--art-sea)"/>
+        <path d="M0 240 C90 226 170 236 250 226 S400 214 480 230 V340 H0Z" fill="var(--art-sea2)"/>
+        <path d="M0 290 C120 262 260 282 480 262 V340 H0Z" fill="var(--art-sand)"/>
+        <g fill="var(--art-pine)">
+          <path d="M40 300 L62 236 L84 300Z"/><path d="M48 262 L62 214 L76 262Z"/>
+          <path d="M80 304 L106 222 L132 304Z"/><path d="M90 256 L106 198 L122 256Z"/>
+          <path d="M126 302 L146 246 L166 302Z"/>
+        </g>
+        <g>
+          <rect x="300" y="170" width="22" height="104" fill="var(--brick)"/>
+          <rect x="300" y="196" width="22" height="12" fill="var(--art-sky)"/>
+          <rect x="300" y="232" width="22" height="12" fill="var(--art-sky)"/>
+          <path d="M294 170 H328 L320 152 H302Z" fill="var(--sea)"/>
+          <rect x="304" y="140" width="14" height="12" fill="var(--art-sun)"/>
+        </g>
+        <rect x="392" y="210" width="44" height="22" fill="var(--line)"/>
+        <rect x="398" y="200" width="12" height="10" fill="var(--line)"/>
+        <path d="M200 120 q8 -8 16 0 q8 -8 16 0" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+        <path d="M150 90 q6 -6 12 0 q6 -6 12 0" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <nav class="toc" aria-label="On this page">
+      <ul>
+        <li><a class="chip" href="#warnings">Access warnings</a></li>
+        <li><a class="chip" href="#picks">Quick picks</a></li>
+        <li><a class="chip" href="#finder">Find a place</a></li>
+        <li><a class="chip" href="#shortlist">Shortlist</a></li>
+        <li><a class="chip" href="#r-near">Close to Gdańsk and around Puck Bay</a></li><li><a class="chip" href="#r-kashubia">Kashubian architecture, archaeology and village life</a></li><li><a class="chip" href="#r-vistula">Tczew, the Lower Vistula and Powiśle</a></li><li><a class="chip" href="#r-slowinski">Forest archaeology and the Słowiński coast</a></li>
+        <li><a class="chip" href="#how">How to read routes</a></li>
+        <li><a class="chip" href="#pairs">Pairings</a></li>
+        <li><a class="chip" href="#notes">Sources and accessibility</a></li>
+      </ul>
+    </nav>
+
+    <section id="warnings" aria-labelledby="warnings-h">
+      <h2 id="warnings-h">Read first: four access warnings</h2>
+      <ul class="grid-4"><li class="notice"><h3>Łapalice</h3><p>This is a reference point for the selection, not a recommendation to enter: the unfinished building is unsafe, police advise against entering, and the approach road and gate area have traffic/stopping restrictions. Do not drive past restrictions or treat an open gate as permission (<a href="https://radiogdansk.pl/wiadomosci/region/kaszuby/2026/04/30/gmina-kartuzy-ostrzega-przed-wizytami-w-niedokonczonym-zamku-w-lapalicach">Radio Gdańsk</a>).</p><p><a href="#p-lapalice">Go to the Łapalice card</a></p></li><li class="notice"><h3>Kwidzyn Castle</h3><p>The museum is currently closed for major conservation work, with reopening planned for 2030; it belongs on a future-visit list rather than an interior-tour itinerary now (<a href="https://bilety.zamek.malbork.pl/index.html">official museum ticketing</a>).</p><p><a href="#p-kwidzyn">Go to the Kwidzyn Castle card</a></p></li><li class="notice"><h3>Groty Mechowskie</h3><p>The operator’s published 2026 visiting season ran from 24 April to 31 October, so the published season has ended at the date of this guide; check the next season before travelling (<a href="https://ckgminapuck.pl/grota/">cave operator</a>).</p><p><a href="#p-groty">Go to the Groty Mechowskie card</a></p></li><li class="notice"><h3>Beka</h3><p>Access is route-specific: designated trails 1–3 are available year-round, but trail 4 through the former settlement/coastal section is open only from 1 August to the end of February (<a href="https://www.gov.pl/attachment/c4c8614a-8565-46e5-91a7-2224d70c54c8">RDOŚ access rules</a>).</p><p><a href="#p-beka">Go to the Beka card</a></p></li></ul>
+    </section>
+
+    <section id="picks" aria-labelledby="picks-h">
+      <h2 id="picks-h">Where to start: quick picks</h2>
+      <p></p>
+      <ul class="grid-4"><li class="pick"><h3>Closest fit for unusual architecture</h3><p>Rzucewo for a romantic palace setting, Rutki for a distinctive engineering silhouette, and Kwidzyn for a future visit once the museum reopens.</p><p class="chips"><a class="chip" href="#p-rzucewo">Pałac / Zamek Rzucewo</a> <a class="chip" href="#p-rutki">Most kratownicowy w Rutkach</a> <a class="chip" href="#p-kwidzyn">Zamek w Kwidzynie</a></p></li><li class="pick"><h3>Most atmospheric archaeology</h3><p>Węsiory for a focused stone-circle visit, or Odry for the combination of a larger funerary landscape and a separate explanatory exhibition.</p><p class="chips"><a class="chip" href="#p-wesiory">Kamienne kręgi w Węsiorach</a> <a class="chip" href="#p-odry">Kamienne kręgi w Odrach</a></p></li><li class="pick"><h3>Most unusual engineering</h3><p>The Boruja bridge in Bytów for aqueduct-inspired masonry, Rutki for a distinctive steel structure, or Biała Góra for a broader system of river-control structures.</p><p class="chips"><a class="chip" href="#p-boruja">Most kolejowy nad Borują, Bytów</a> <a class="chip" href="#p-rutki">Most kratownicowy w Rutkach</a> <a class="chip" href="#p-biala-gora">Zespół śluz w Białej Górze</a></p></li><li class="pick"><h3>Strongest indoor option</h3><p>The Shipwreck Conservation Centre in Tczew, especially if the conservation process interests you as much as the objects.</p><p class="chips"><a class="chip" href="#p-tczew">Centrum Konserwacji Wraków Statków, Tczew</a></p></li><li class="pick"><h3>Big landscape day</h3><p>Łącka for the sand-and-water panorama, or Czołpino for a more varied forest, dune, lighthouse and beach outing.</p><p class="chips"><a class="chip" href="#p-lacka">Wydma Łącka, Słowiński Park Narodowy</a> <a class="chip" href="#p-czolpino">Latarnia Czołpino and Wydma Czołpińska</a></p></li></ul>
+    </section>
+
+    <section id="finder" aria-labelledby="finder-h">
+      <h2 id="finder-h">Find a place</h2>
+      <noscript><p>The filters need JavaScript. All 20 places are listed below by region.</p></noscript>
+      <form class="finder js-only" id="finder-form" hidden>
+        <div class="finder-grid">
+          <div class="field"><label for="q">Search names and stories</label><input type="search" id="q" name="q" autocomplete="off"></div>
+          <div class="field"><label for="interest">Interest</label>
+            <select id="interest" name="interest">
+              <option value="">All interests</option>
+              <option value="architecture">Architecture</option>
+              <option value="engineering">Engineering</option>
+              <option value="archaeology">Archaeology</option>
+              <option value="nature">Coast and nature</option>
+              <option value="museums">Museums and village life</option>
+            </select></div>
+          <div class="field"><label for="maxdrive">Maximum driving time</label>
+            <select id="maxdrive" name="maxdrive">
+              <option value="">Any time</option>
+              <option value="45">Up to 45 min</option>
+              <option value="60">Up to 1 h</option>
+              <option value="90">Up to 1 h 30 min</option>
+            </select></div>
+          <div class="field"><label for="sort">Sort within each region</label>
+            <select id="sort" name="sort">
+              <option value="order">Guide order</option>
+              <option value="mins">Shortest drive first</option>
+              <option value="km">Shortest distance first</option>
+              <option value="name">Name A-Z</option>
+            </select></div>
+          <div class="field"><label class="check"><input type="checkbox" id="full" name="full"> Only full rail-based journeys (verified)</label></div>
+        </div>
+        <div class="finder-actions">
+          <button type="submit" class="btn btn-sea">Apply filters</button>
+          <button type="reset" class="btn btn-ghost" id="reset">Reset filters</button>
+          <p class="status" id="count" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </section>
+
+    <section id="shortlist" aria-labelledby="shortlist-h">
+      <h2 id="shortlist-h">Your shortlist</h2>
+      <noscript><p>The shortlist needs JavaScript. You can still use the route links on each card.</p></noscript>
+      <div class="shortlist js-only" hidden>
+        <p id="sl-empty">Nothing here yet. Use “Add to shortlist” on any card. The list stays in this browser only.</p>
+        <ol class="sl-list" id="sl-list"></ol>
+        <div class="finder-actions">
+          <button type="button" class="btn btn-pine" id="sl-copy">Copy shortlist</button>
+          <button type="button" class="btn btn-ghost" id="sl-print">Print shortlist</button>
+          <button type="button" class="btn btn-ghost" id="sl-clear">Clear shortlist</button>
+          <p class="status" id="sl-status" role="status" aria-live="polite"></p>
+        </div>
+        <label class="visually-hidden" for="sl-fallback">Shortlist text to copy</label>
+        <textarea id="sl-fallback" readonly hidden rows="6"></textarea>
+      </div>
+    </section>
+
+
+<section class="region" id="r-near" aria-labelledby="r-near-h">
+  <h2 id="r-near-h"><span class="region-no" aria-hidden="true">01</span> Close to Gdańsk and around Puck Bay</h2>
+  <p class="region-count js-only" hidden></p>
+  <div class="cards">
+<article class="card" id="p-torpedownia" data-name="Torpedownia Babie Doły, Gdynia" data-order="0" data-mins="30" data-km="27.9" data-full="true" data-tags="engineering nature">
+  <div class="card-head">
+    <h3 id="p-torpedownia-h">Torpedownia Babie Doły, Gdynia</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-torpedownia" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Torpedownia Babie Doły, Gdynia</span>
+    </button>
+  </div>
+  <p class="appeal">A wartime concrete ruin standing in the sea, seen from a sandy beach.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-engineering">Engineering</li><li class="tag tag-nature">Coast and nature</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>27.9 km / 30 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-full">Full journey, verified</span></dt><dd><a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=54.5845%2C18.5357&amp;amp;travelmode=transit">Total to parking: 1 h 16 min, Sun; SKM + bus 109 + walking</a></dd></div>
+    <div><dt>Route ends at</dt><dd>Parking/shore approach, not the offshore ruin; beach walk remains.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=54.5845%2C18.5357&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Torpedownia Babie Doły, Gdynia</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=54.5845%2C18.5357&amp;travelmode=transit">Transit route<span class="visually-hidden"> to Torpedownia Babie Doły, Gdynia</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Torpedownia Babie Doły, Gdynia</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> The offshore structure is the surviving ruin of a German Second World War torpedo facility (<a href="https://pomorskie.travel/en/articles/sailing-on-the-bay-of-puck-we-visit-jastarnia-and-hel/">Pomorskie.travel</a>). Its position a few hundred metres out to sea makes wartime infrastructure an unusually conspicuous feature of the present coastline (<a href="https://pomorskie.travel/en/articles/sailing-on-the-bay-of-puck-we-visit-jastarnia-and-hel/">Pomorskie.travel</a>).</li><li><strong>What is special:</strong> The combination of a sandy beach and a large, isolated concrete ruin offers a very different coastal scene from a conventional seaside promenade (<a href="https://pomorskie.travel/en/articles/sailing-on-the-bay-of-puck-we-visit-jastarnia-and-hel/">Pomorskie.travel</a>). It is a good choice for a short photography-oriented outing, with the shore view rather than entry into the structure as the attraction.</li><li><strong>Visit note:</strong> The route above ends at the parking coordinates reported by a walking guide, which describes roughly five minutes on foot to the beach (<a href="https://mynaszlaku.pl/torpedownia-babie-doly-w-gdyni/">MyNaSzlaku</a>). Do not swim to, climb onto or moor at the ruin; submerged concrete also makes anchoring nearby hazardous (<a href="https://pomorskie.travel/en/articles/sailing-on-the-bay-of-puck-we-visit-jastarnia-and-hel/">Pomorskie.travel</a>).</li></ul>
+  </details>
+</article>
+<article class="card" id="p-rutki" data-name="Most kratownicowy w Rutkach" data-order="1" data-mins="33" data-km="32.7" data-full="true" data-tags="engineering nature">
+  <div class="card-head">
+    <h3 id="p-rutki-h">Most kratownicowy w Rutkach</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-rutki" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Most kratownicowy w Rutkach</span>
+    </button>
+  </div>
+  <p class="appeal">An 1886 steel railway bridge with an upside-down arch over a reservoir.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-engineering">Engineering</li><li class="tag tag-nature">Coast and nature</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>32.7 km / 33 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-full">Full journey, verified</span></dt><dd><a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Most%20kratownicowy%20w%20Rutkach%2C%20Poland&amp;amp;travelmode=transit">Total: 2 h, Sun; tram + train + bus + walking</a></dd></div>
+    <div><dt>Route ends at</dt><dd>Road approach; view from permitted paths, not the railway deck.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Most%20kratownicowy%20w%20Rutkach%2C%20Poland&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Most kratownicowy w Rutkach</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Most%20kratownicowy%20w%20Rutkach%2C%20Poland&amp;travelmode=transit">Transit route<span class="visually-hidden"> to Most kratownicowy w Rutkach</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Most kratownicowy w Rutkach</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> The bridge opened in 1886 as part of the Pruszcz Gdański–Kartuzy railway connection (<a href="https://pomorskie.travel/artykuly/pomorskie-wedrowki-zimowa-przez-jar-raduni-turystyka-piesza/">Pomorskie.travel</a>). The nearby hydroelectric scheme transformed the Radunia beneath it into a reservoir, bringing railway and water engineering together in one landscape (<a href="https://pomorskie.travel/artykuly/pomorskie-wedrowki-zimowa-przez-jar-raduni-turystyka-piesza/">Pomorskie.travel</a>).</li><li><strong>What is special:</strong> The steel framework has an unusual inverted-arch central span, giving it a distinctive outline above the water (<a href="https://odkryjpomorze.pl/atrakcje/most-kolejowy-rutki">Odkryj Pomorze</a>). The surrounding river valley, reservoir and power station make this more interesting as a waterside walk than as an isolated “look at a bridge” stop (<a href="https://pomorskie.travel/artykuly/pomorskie-wedrowki-zimowa-przez-jar-raduni-turystyka-piesza/">Pomorskie.travel</a>).</li><li><strong>Visit note:</strong> View the bridge from permitted bankside paths and do not enter the railway deck or tracks; older descriptions encouraging exploration or climbing should not be treated as current permission (<a href="https://na-kaszubach.com/atrakcje/atrakcje-historyczne/zukowo/most-kolejowy-w-rutkach">local visitor guide</a>). The blue walking trail provides a way to explore the Radunia valley without using the railway structure (<a href="https://pomorskie.travel/artykuly/pomorskie-wedrowki-zimowa-przez-jar-raduni-turystyka-piesza/">Pomorskie.travel</a>).</li></ul>
+  </details>
+</article>
+<article class="card" id="p-beka" data-name="Rezerwat Beka" data-order="2" data-mins="44" data-km="38.6" data-full="true" data-tags="nature">
+  <div class="card-head">
+    <h3 id="p-beka-h">Rezerwat Beka</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-beka" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Rezerwat Beka</span>
+    </button>
+  </div>
+  <p class="appeal">Quiet salt meadows and bird wetlands with views over Puck Bay.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-nature">Coast and nature</li></ul>
+  <p class="warn"><strong>Warning:</strong> Trails 1-3 are open all year. Trail 4 is open only from 1 August to the end of February.</p>
+  <dl class="facts">
+    <div><dt>By car</dt><dd>38.6 km / 44 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-full">Full journey, verified</span></dt><dd><a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Rezerwat%20Beka%20wie%C5%BCa%20widokowa%2C%20Poland&amp;amp;travelmode=transit">Total to mapped tower approach: 2 h 18 min, Mon; trains + bus 656 + walking</a></dd></div>
+    <div><dt>Route ends at</dt><dd>Tower/road approach; reserve exploration is additional. Do not drive onto reserve trails.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Rezerwat%20Beka%20wie%C5%BCa%20widokowa%2C%20Poland&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Rezerwat Beka</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Rezerwat%20Beka%20wie%C5%BCa%20widokowa%2C%20Poland&amp;travelmode=transit">Transit route<span class="visually-hidden"> to Rezerwat Beka</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Rezerwat Beka</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> Beka protects coastal salt meadows and salt-tolerant plants, including threatened species associated with this unusual shoreline habitat (<a href="https://pomorskie.travel/en/articles/off-the-beaten-path-a-walk-through-the-beka-nature-reserve/">Pomorskie.travel</a>). Its wetlands also provide important resting and feeding grounds for migrating birds, particularly in spring and autumn (<a href="https://pomorskie.travel/en/articles/off-the-beaten-path-a-walk-through-the-beka-nature-reserve/">Pomorskie.travel</a>).</li><li><strong>What is special:</strong> Open meadows, reeds and channels create a broad, quiet landscape with views towards Puck Bay and the Hel Peninsula (<a href="https://pomorskie.travel/en/articles/off-the-beaten-path-a-walk-through-the-beka-nature-reserve/">Pomorskie.travel</a>). A cross marking the former fishing settlement adds a human story to what initially looks like a purely natural place (<a href="https://pomorskie.travel/en/articles/off-the-beaten-path-a-walk-through-the-beka-nature-reserve/">Pomorskie.travel</a>).</li><li><strong>Visit note:</strong> Stay on the designated routes: trails 1–3 are available year-round, while trail 4 is restricted to 1 August–the end of February (<a href="https://www.gov.pl/attachment/c4c8614a-8565-46e5-91a7-2224d70c54c8">RDOŚ rules</a>). Bring waterproof footwear, as sections can be waterlogged (<a href="https://pomorskie.travel/en/articles/off-the-beaten-path-a-walk-through-the-beka-nature-reserve/">Pomorskie.travel</a>).</li></ul>
+  </details>
+</article>
+<article class="card" id="p-rzucewo" data-name="Pałac / Zamek Rzucewo" data-order="3" data-mins="52" data-km="46.2" data-full="true" data-tags="architecture nature">
+  <div class="card-head">
+    <h3 id="p-rzucewo-h">Pałac / Zamek Rzucewo</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-rzucewo" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Pałac / Zamek Rzucewo</span>
+    </button>
+  </div>
+  <p class="appeal">A Neo-Gothic palace by the Puck Bay cliff - now a hotel with a park.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-architecture">Architecture</li><li class="tag tag-nature">Coast and nature</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>46.2 km / 52 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-full">Full journey, verified</span></dt><dd><a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Zamek%20Rzucewo%2C%20Poland&amp;amp;travelmode=transit">Total: 1 h 58 min, Mon; trains + bus 656 + walking</a></dd></div>
+    <div><dt>Route ends at</dt><dd>Palace/hotel entrance; Maps flags restricted/private access on the driving route.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Zamek%20Rzucewo%2C%20Poland&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Pałac / Zamek Rzucewo</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Zamek%20Rzucewo%2C%20Poland&amp;travelmode=transit">Transit route<span class="visually-hidden"> to Pałac / Zamek Rzucewo</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Pałac / Zamek Rzucewo</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> The present Neo-Gothic palace was built in 1840–1845 to a design by Friedrich August Stüler (<a href="https://zamekrzucewo.pl/historia">palace history</a>). Despite its “zamek” name and castle-like appearance, it is a nineteenth-century residence rather than a medieval fortress (<a href="https://zamekrzucewo.pl/historia">palace history</a>).</li><li><strong>What is special:</strong> The palace stands close to the Puck Bay cliff, with a historic park connecting the architectural setting to the shore (<a href="https://pl.wikivoyage.org/wiki/Rzucewo">Wikivoyage</a>). A park-and-waterfront walk makes it a good alternative if what appeals about Łapalice is romantic architecture in a green setting, but you want a conventional visitor destination.</li><li><strong>Visit note:</strong> The property operates as a hotel and dining venue, not as a freely accessible castle museum (<a href="https://zamekrzucewo.pl/historia">palace history</a>). Confirm current access to the grounds or indoor spaces with reception, and respect hotel/private-road signs.</li></ul>
+  </details>
+</article>
+<article class="card" id="p-groty" data-name="Groty Mechowskie" data-order="4" data-mins="56" data-km="49.4" data-full="true" data-tags="nature">
+  <div class="card-head">
+    <h3 id="p-groty-h">Groty Mechowskie</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-groty" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Groty Mechowskie</span>
+    </button>
+  </div>
+  <p class="appeal">A small cave with natural stone columns - rare in flat northern Poland.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-nature">Coast and nature</li></ul>
+  <p class="warn"><strong>Warning:</strong> The published 2026 season (24 April - 31 October) has ended. Check the next season before you travel.</p>
+  <dl class="facts">
+    <div><dt>By car</dt><dd>49.4 km / 56 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-full">Full journey, verified</span></dt><dd><a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Groty%20Mechowskie%2C%20Poland&amp;amp;travelmode=transit">Total: 2 h 14 min, Mon; SKM + bus 658 + walking</a></dd></div>
+    <div><dt>Route ends at</dt><dd>Cave entrance, Turystyczna 2; seasonal visiting.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Groty%20Mechowskie%2C%20Poland&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Groty Mechowskie</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Groty%20Mechowskie%2C%20Poland&amp;travelmode=transit">Transit route<span class="visually-hidden"> to Groty Mechowskie</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Groty Mechowskie</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> The cave is a rare geological formation in deposits left by glacial meltwater, making it particularly unusual in the lowlands of northern Poland (<a href="https://ckgminapuck.pl/grota/">cave operator</a>). It was discovered during surveying in 1818 and is now protected as a natural monument (<a href="https://ckgminapuck.pl/grota/">cave operator</a>).</li><li><strong>What is special:</strong> The accessible entrance area contains natural sandstone-and-conglomerate columns that look surprisingly architectural (<a href="https://podroze.gazeta.pl/podroze/7,182655,33107271,w-polsce-kryje-sie-skalny-labirynt-jak-z-basni-miejscowi-opowiadaja.html">Gazeta.pl</a>). It is a miniature geological curiosity rather than a long underground expedition, so it works best as one stop in a wider day around Puck (<a href="https://podroze.gazeta.pl/podroze/7,182655,33107271,w-polsce-kryje-sie-skalny-labirynt-jak-z-basni-miejscowi-opowiadaja.html">Gazeta.pl</a>).</li><li><strong>Visit note:</strong> The operator lists 24 April–31 October for the 2026 season, which has already ended at the date of this guide (<a href="https://ckgminapuck.pl/grota/">cave operator</a>). Check a newly published season before making this the main reason for a trip.</li></ul>
+  </details>
+</article></div>
+</section>
+<section class="region" id="r-kashubia" aria-labelledby="r-kashubia-h">
+  <h2 id="r-kashubia-h"><span class="region-no" aria-hidden="true">02</span> Kashubian architecture, archaeology and village life</h2>
+  <p class="region-count js-only" hidden></p>
+  <div class="cards">
+<article class="card" id="p-lapalice" data-name="Zamek Kazimierczaka w Łapalicach" data-order="5" data-mins="52" data-km="44.7" data-full="true" data-tags="architecture">
+  <div class="card-head">
+    <h3 id="p-lapalice-h">Zamek Kazimierczaka w Łapalicach</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-lapalice" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Zamek Kazimierczaka w Łapalicach</span>
+    </button>
+  </div>
+  <p class="appeal">A huge unfinished modern castle. A reference point only - do not enter.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-architecture">Architecture</li></ul>
+  <p class="warn"><strong>Warning:</strong> Do not enter. The unfinished building is unsafe, police advise against entering, and the approach road has traffic and stopping restrictions.</p>
+  <dl class="facts">
+    <div><dt>By car</dt><dd>44.7 km / 52 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-full">Full journey, verified</span></dt><dd><a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Zamek%20%C5%81apalice%2C%20Poland&amp;amp;travelmode=transit">Mapped total: 2 h 45 min, Mon; train + bus 4 + walking</a></dd></div>
+    <div><dt>Route ends at</dt><dd>Reference only: a map route does not override the entry, driving or stopping restrictions.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka+20,+Gda%C5%84sk,+Poland&amp;destination=Zamek+%C5%81apalice,+Poland&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Zamek Kazimierczaka w Łapalicach</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Zamek%20%C5%81apalice%2C%20Poland&amp;travelmode=transit">Transit route<span class="visually-hidden"> to Zamek Kazimierczaka w Łapalicach</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Zamek Kazimierczaka w Łapalicach</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> Piotr Kazimierczak’s project began in 1983 with permission for a house and sculpture studio, but grew into an unfinished castle-like building of about 5,000 m² (<a href="https://sukces.rp.pl/architektura/art38062331-zamek-w-lapalicach-moze-zostac-dokonczony-jak-mialy-wygladac-jego-wnetrza">Rzeczpospolita</a>). It is an extraordinary modern building project rather than an authentic medieval ruin, with construction stalled since the 1990s (<a href="https://sukces.rp.pl/architektura/art38062331-zamek-w-lapalicach-moze-zostac-dokonczony-jak-mialy-wygladac-jego-wnetrza">Rzeczpospolita</a>).</li><li><strong>What is special:</strong> The fascination comes from the contrast between a huge, romantic castle design and its unfinished shell (<a href="https://pomorskie.travel/artykuly/7-nieoczywistych-miejsc-w-pomorskim-ktore-trzeba-zobaczyc/">Pomorskie.travel</a>). As an architectural story it is an excellent reference for this shortlist, but its popularity should not be confused with lawful visitor access (<a href="https://radiogdansk.pl/wiadomosci/region/kaszuby/2026/04/30/gmina-kartuzy-ostrzega-przed-wizytami-w-niedokonczonym-zamku-w-lapalicach">Radio Gdańsk</a>).</li><li><strong>Visit note:</strong> Do not enter the grounds or building, and do not drive or stop where prohibited (<a href="https://radiogdansk.pl/wiadomosci/region/kaszuby/2026/04/30/gmina-kartuzy-ostrzega-przed-wizytami-w-niedokonczonym-zamku-w-lapalicach">Radio Gdańsk</a>). The travel figures are geographic reference information only, not an endorsement of a visit or assurance of a legal viewing point.</li></ul>
+  </details>
+</article>
+<article class="card" id="p-szymbark" data-name="Centrum Edukacji i Promocji Regionu, Szymbark" data-order="6" data-mins="47" data-km="57.0" data-full="true" data-tags="museums architecture">
+  <div class="card-head">
+    <h3 id="p-szymbark-h">Centrum Edukacji i Promocji Regionu, Szymbark</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-szymbark" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Centrum Edukacji i Promocji Regionu, Szymbark</span>
+    </button>
+  </div>
+  <p class="appeal">The upside-down house next to serious history exhibits.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-museums">Museums and village life</li><li class="tag tag-architecture">Architecture</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>57.0 km / 47 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-full">Full journey, verified</span></dt><dd><a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Centrum%20Edukacji%20i%20Promocji%20Regionu%20Szymbark%2C%20Poland&amp;amp;travelmode=transit">Total: 3 h 42 min, Mon; train + connecting buses + walking</a></dd></div>
+    <div><dt>Route ends at</dt><dd>Centre entrance; private/restricted-road warning on mapped car route.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Centrum%20Edukacji%20i%20Promocji%20Regionu%20Szymbark%2C%20Poland&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Centrum Edukacji i Promocji Regionu, Szymbark</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Centrum%20Edukacji%20i%20Promocji%20Regionu%20Szymbark%2C%20Poland&amp;travelmode=transit">Transit route<span class="visually-hidden"> to Centrum Edukacji i Promocji Regionu, Szymbark</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Centrum Edukacji i Promocji Regionu, Szymbark</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> The centre combines exhibits about Polish and Kashubian history with installations relating to exile and wartime experience (<a href="https://cepr.pl/">CEPR</a>). Its attractions include a Siberian exile house, a gulag-related display and a bunker associated with the Pomeranian Griffin organisation (<a href="https://cepr.pl/">CEPR</a>).</li><li><strong>What is special:</strong> The upside-down house is the deliberately disorienting headline attraction, while the enormous plank adds another playful change of scale (<a href="https://cepr.pl/">CEPR</a>). The contrast between those visual novelties and the more serious historical exhibits makes it an unusual mixed-format destination rather than a conventional museum (<a href="https://cepr.pl/">CEPR</a>).</li><li><strong>Visit note:</strong> The centre recommends allowing about 1.5 hours and permits independent or guided visits (<a href="https://cepr.pl/">CEPR</a>). Check the current programme before travelling if a particular exhibit matters most to you.</li></ul>
+  </details>
+</article>
+<article class="card" id="p-wesiory" data-name="Kamienne kręgi w Węsiorach" data-order="7" data-mins="73" data-km="76.3" data-full="true" data-tags="archaeology nature">
+  <div class="card-head">
+    <h3 id="p-wesiory-h">Kamienne kręgi w Węsiorach</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-wesiory" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Kamienne kręgi w Węsiorach</span>
+    </button>
+  </div>
+  <p class="appeal">Stone circles and burial mounds from the 1st-3rd centuries CE.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-archaeology">Archaeology</li><li class="tag tag-nature">Coast and nature</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>76.3 km / 1 h 13 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-full">Full journey, verified</span></dt><dd><a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Kamienne%20Kr%C4%99gi%20W%C4%99siory%2C%20Poland&amp;amp;travelmode=transit">Total: 3 h, Mon; tram + train + bus 7 + walking</a></dd></div>
+    <div><dt>Route ends at</dt><dd>Road approach to the archaeological site; forest exploration additional.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Kamienne%20Kr%C4%99gi%20W%C4%99siory%2C%20Poland&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Kamienne kręgi w Węsiorach</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Kamienne%20Kr%C4%99gi%20W%C4%99siory%2C%20Poland&amp;travelmode=transit">Transit route<span class="visually-hidden"> to Kamienne kręgi w Węsiorach</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Kamienne kręgi w Węsiorach</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> This burial ground is associated with the Wielbark culture and the Goths/Gepids, and dates broadly to the first–third centuries CE (<a href="https://pomorskie.travel/en/punkty-poi/the-stone-circles-in-wesiory/">Pomorskie.travel</a>). The site preserves three stone circles, fragments of a fourth and twenty burial mounds, making an ancient funerary landscape visible without needing to imagine everything from an excavation plan (<a href="https://pomorskie.travel/en/punkty-poi/the-stone-circles-in-wesiory/">Pomorskie.travel</a>).</li><li><strong>What is special:</strong> The largest circle is around 26 metres across, with upright stones and additional stone pillars inside it (<a href="https://pomorskie.travel/en/punkty-poi/the-stone-circles-in-wesiory/">Pomorskie.travel</a>). The appeal is the quiet encounter with real archaeological remains; claims about mysterious “energy” should be treated as folklore, not the reason the site matters.</li><li><strong>Visit note:</strong> This is a good choice if you prefer atmosphere and a modest walk to large buildings or extensive museum interpretation. Treat the stones and burial features as archaeological remains, not climbing equipment.</li></ul>
+  </details>
+</article>
+<article class="card" id="p-wdzydze" data-name="Kaszubski Park Etnograficzny, Wdzydze" data-order="8" data-mins="76" data-km="89.8" data-full="false" data-tags="museums architecture">
+  <div class="card-head">
+    <h3 id="p-wdzydze-h">Kaszubski Park Etnograficzny, Wdzydze</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-wdzydze" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Kaszubski Park Etnograficzny, Wdzydze</span>
+    </button>
+  </div>
+  <p class="appeal">The first open-air museum on Polish lands, beside a lake.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-museums">Museums and village life</li><li class="tag tag-architecture">Architecture</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>89.8 km / 1 h 16 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-partial">Partial journey only</span></dt><dd>Total: n.a. <a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Ko%C5%9Bcierzyna%20stacja%20kolejowa%2C%20Poland&amp;amp;travelmode=transit">Kościerzyna leg: 3 h 03 min, Sun; tram + train + bus + walking</a>, then an unverified onward leg.</dd></div>
+    <div><dt>Route ends at</dt><dd>Museum entrance; no complete mapped transit itinerary verified.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Muzeum%20Kaszubski%20Park%20Etnograficzny%20Wdzydze%2C%20Poland&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Kaszubski Park Etnograficzny, Wdzydze</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Ko%C5%9Bcierzyna%20stacja%20kolejowa%2C%20Poland&amp;travelmode=transit">Partial transit leg<span class="visually-hidden"> towards Kaszubski Park Etnograficzny, Wdzydze</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Kaszubski Park Etnograficzny, Wdzydze</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> Founded in 1906 by Teodora and Izydor Gulgowski, the museum was the first open-air museum established on Polish lands (<a href="https://www.muzeum-wdzydze.gda.pl/en_index.html">official museum history</a>). Its buildings preserve the architecture and material culture of Kashubia and Kociewie, including homes, churches, workshops and farm buildings (<a href="https://www.muzeum-wdzydze.gda.pl/en_index.html">official museum</a>).</li><li><strong>What is special:</strong> The grounds lie beside Lake Gołuń, so the experience combines traditional village architecture with a lakeside landscape (<a href="https://www.muzeum-wdzydze.gda.pl/en_index.html">official museum</a>). Windmills, a school, a smithy and demonstrations of machinery make the visit more varied than a sequence of furnished cottages (<a href="https://www.muzeum-wdzydze.gda.pl/en_index.html">official museum</a>).</li><li><strong>Visit note:</strong> Guiding arrangements and access to individual buildings vary seasonally, so check the museum’s current visiting information (<a href="https://www.muzeum-wdzydze.gda.pl/">museum visitor information</a>). The Kościerzyna transport example above includes a bus section and is not a through train journey to Wdzydze.</li></ul>
+  </details>
+</article>
+<article class="card" id="p-bytow-castle" data-name="Zamek w Bytowie" data-order="9" data-mins="89" data-km="107.0" data-full="false" data-tags="architecture museums">
+  <div class="card-head">
+    <h3 id="p-bytow-castle-h">Zamek w Bytowie</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-bytow-castle" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Zamek w Bytowie</span>
+    </button>
+  </div>
+  <p class="appeal">A compact Teutonic castle with round towers and a regional museum.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-architecture">Architecture</li><li class="tag tag-museums">Museums and village life</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>107 km / 1 h 29 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-partial">Partial journey only</span></dt><dd>Total: n.a. <a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=L%C4%99bork%20railway%20station&amp;amp;travelmode=transit">Lębork hub leg: 1 h 07 min, Sun; train + walking</a>, then an unverified onward leg.</dd></div>
+    <div><dt>Route ends at</dt><dd>Castle, Zamkowa 1; do not assume passenger rail currently reaches Bytów.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Zamek%20Byt%C3%B3w&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Zamek w Bytowie</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=L%C4%99bork%20railway%20station&amp;travelmode=transit">Partial transit leg<span class="visually-hidden"> towards Zamek w Bytowie</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Zamek w Bytowie</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> The Teutonic castle was built in 1398–1405 and retains a rectangular layout with three round towers and a square powder tower (<a href="https://www.bytow.com.pl/Zamek-krzyzacki,152,94">Bytów municipality</a>). Its oldest Gothic building now houses the West Kashubian Museum, connecting the fortress to the history of the surrounding region (<a href="https://www.bytow.com.pl/Zamek-krzyzacki,152,94">Bytów municipality</a>).</li><li><strong>What is special:</strong> The compact arrangement of towers and courtyard gives it a very readable castle shape, making it a good choice if the architecture itself is the main draw (<a href="https://www.bytow.com.pl/Zamek-krzyzacki,152,94">Bytów municipality</a>). The courtyard and interiors also host cultural events, including tournaments, concerts and exhibitions, although these are programme-dependent rather than everyday guarantees (<a href="https://www.bytow.com.pl/Zamek-krzyzacki,152,94">Bytów municipality</a>).</li><li><strong>Visit note:</strong> Passenger trains to Bytów are planned to return in December 2027; that future project is not a present rail connection (<a href="https://pomorskie.eu/kolejowe-skomunikowanie-pomorza-odbudowa-i-modernizacja-historycznych-linii/">Pomorskie regional government</a>). For now, treat the Lębork rail leg as only a possible starting point for separately arranging onward transport.</li></ul>
+  </details>
+</article>
+<article class="card" id="p-boruja" data-name="Most kolejowy nad Borują, Bytów" data-order="10" data-mins="90" data-km="107.0" data-full="false" data-tags="engineering architecture">
+  <div class="card-head">
+    <h3 id="p-boruja-h">Most kolejowy nad Borują, Bytów</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-boruja" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Most kolejowy nad Borują, Bytów</span>
+    </button>
+  </div>
+  <p class="appeal">A brick railway bridge from about 1884, styled like a Roman aqueduct.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-engineering">Engineering</li><li class="tag tag-architecture">Architecture</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>107 km / 1 h 30 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-partial">Partial journey only</span></dt><dd>Total: n.a. <a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=L%C4%99bork%20railway%20station&amp;amp;travelmode=transit">Lębork hub leg: 1 h 07 min, Sun; train + walking</a>, then an unverified onward leg.</dd></div>
+    <div><dt>Route ends at</dt><dd>Historic bridge, Stary Dworzec 14; no complete transit itinerary verified.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Most%20kolejowy%20nad%20Boruj%C4%85%20Byt%C3%B3w&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Most kolejowy nad Borują, Bytów</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=L%C4%99bork%20railway%20station&amp;travelmode=transit">Partial transit leg<span class="visually-hidden"> towards Most kolejowy nad Borują, Bytów</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Most kolejowy nad Borują, Bytów</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> The historic railway bridge dates from around 1884, with six brick-vaulted spans resting on granite masonry supports (<a href="https://www.bytow.com.pl/Most-kolejowy-nad-rzeka-Boruja,152,98">Bytów municipality</a>). Municipal research corrected a popular story that it had never carried trains: surviving records indicate approximately thirty years of railway use (<a href="https://www.bytow.com.pl/Most-kolejowy-nad-rzeka-Boruja,152,98">Bytów municipality</a>).</li><li><strong>What is special:</strong> Its design was inspired by Roman aqueducts, giving it a much more monumental appearance than the small river crossing might suggest (<a href="https://www.bytow.com.pl/Most-kolejowy-nad-rzeka-Boruja,152,98">Bytów municipality</a>). Sandstone reliefs on the piers depict historical coats of arms, while restoration and landscaping have turned the surroundings into an important local recreation space (<a href="https://www.bytow.com.pl/Most-kolejowy-nad-rzeka-Boruja,152,98">Bytów municipality</a>).</li><li><strong>Visit note:</strong> The restored bridge officially reopened on 30 April 2019 (<a href="https://www.bytow.com.pl/Most-nad-Boruja,165">Bytów municipality</a>). It is a natural architectural companion to Bytów Castle, though the travel table gives separate journeys from Gdańsk rather than an inter-stop route.</li></ul>
+  </details>
+</article></div>
+</section>
+<section class="region" id="r-vistula" aria-labelledby="r-vistula-h">
+  <h2 id="r-vistula-h"><span class="region-no" aria-hidden="true">03</span> Tczew, the Lower Vistula and Powiśle</h2>
+  <p class="region-count js-only" hidden></p>
+  <div class="cards">
+<article class="card" id="p-tczew" data-name="Centrum Konserwacji Wraków Statków, Tczew" data-order="11" data-mins="46" data-km="55.3" data-full="true" data-tags="museums engineering">
+  <div class="card-head">
+    <h3 id="p-tczew-h">Centrum Konserwacji Wraków Statków, Tczew</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-tczew" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Centrum Konserwacji Wraków Statków, Tczew</span>
+    </button>
+  </div>
+  <p class="appeal">Shipwrecks on display - and you can watch conservation work happen.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-museums">Museums and village life</li><li class="tag tag-engineering">Engineering</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>55.3 km / 46 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-full">Full journey, verified</span></dt><dd><a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Centrum%20Konserwacji%20Wrak%C3%B3w%20Statk%C3%B3w%20Tczew&amp;amp;travelmode=transit">Total: 1 h 04 min, Sun; train IC5700 + bus 5 + walking</a></dd></div>
+    <div><dt>Route ends at</dt><dd>Museum, Paderewskiego 24; suggested car route has tolls.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Centrum%20Konserwacji%20Wrak%C3%B3w%20Statk%C3%B3w%20Tczew&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Centrum Konserwacji Wraków Statków, Tczew</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Centrum%20Konserwacji%20Wrak%C3%B3w%20Statk%C3%B3w%20Tczew&amp;travelmode=transit">Transit route<span class="visually-hidden"> to Centrum Konserwacji Wraków Statków, Tczew</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Centrum Konserwacji Wraków Statków, Tczew</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> This National Maritime Museum branch combines the display of shipwreck remains with a working conservation facility (<a href="https://nmm.pl/en/shipwreck-conservation-centre/">National Maritime Museum</a>). Its collections include Baltic wreck fragments, ancient Polish boats and vessels from other parts of the world, showing how maritime archaeology preserves objects that would otherwise deteriorate (<a href="https://nmm.pl/en/shipwreck-conservation-centre/">National Maritime Museum</a>).</li><li><strong>What is special:</strong> Large boat and wreck components are displayed in an open study warehouse rather than hidden in ordinary storage (<a href="https://nmm.pl/en/shipwreck-conservation-centre/">National Maritime Museum</a>). Visitors can also observe conservation processes, making it a particularly good option if you enjoy seeing how technical work is actually done (<a href="https://nmm.pl/en/shipwreck-conservation-centre/">National Maritime Museum</a>).</li><li><strong>Visit note:</strong> The museum suggests around an hour for the exhibitions and lists Tuesday–Sunday opening for its schedule valid through 31 December 2026 (<a href="https://nmm.pl/en/shipwreck-conservation-centre/">National Maritime Museum</a>). This is one of the stronger indoor choices in the selection.</li></ul>
+  </details>
+</article>
+<article class="card" id="p-malbork" data-name="Zamek w Malborku" data-order="12" data-mins="66" data-km="81.6" data-full="true" data-tags="architecture museums">
+  <div class="card-head">
+    <h3 id="p-malbork-h">Zamek w Malborku</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-malbork" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Zamek w Malborku</span>
+    </button>
+  </div>
+  <p class="appeal">The world’s largest brick castle and a UNESCO World Heritage site.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-architecture">Architecture</li><li class="tag tag-museums">Museums and village life</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>81.6 km / 1 h 06 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-full">Full journey, verified</span></dt><dd><a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Zamek%20Malbork&amp;amp;travelmode=transit">Total: 1 h 06 min, Sun; train EIC5100 + walking</a></dd></div>
+    <div><dt>Route ends at</dt><dd>Castle approach, Starościńska 1; car route has tolls.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Zamek%20Malbork&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Zamek w Malborku</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Zamek%20Malbork&amp;travelmode=transit">Transit route<span class="visually-hidden"> to Zamek w Malborku</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Zamek w Malborku</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> The former Teutonic castle was inscribed on the UNESCO World Heritage List in 1997 (<a href="https://zamek.malbork.pl/wizyta/">Castle Museum</a>). The museum describes it as the world’s largest brick castle, making it the major-scale benchmark against which the region’s smaller fortresses can be understood (<a href="https://zamek.malbork.pl/wizyta/">Castle Museum</a>).</li><li><strong>What is special:</strong> The attraction is not just a single impressive façade: routes lead through courtyards, fortified passages, terraces, moats and interior exhibitions (<a href="https://zamek.malbork.pl/wizyta/">Castle Museum</a>). Choose the full historical route for depth, or the grounds-oriented walking route if your main interest is the architecture and layout (<a href="https://zamek.malbork.pl/wizyta/">Castle Museum</a>).</li><li><strong>Visit note:</strong> This is deliberately the mainstream inclusion in an otherwise more unusual list. Check which route your ticket covers, as the historical and walking itineraries are different products (<a href="https://zamek.malbork.pl/wizyta/">Castle Museum</a>).</li></ul>
+  </details>
+</article>
+<article class="card" id="p-biala-gora" data-name="Zespół śluz w Białej Górze" data-order="13" data-mins="75" data-km="87.9" data-full="false" data-tags="engineering nature">
+  <div class="card-head">
+    <h3 id="p-biala-gora-h">Zespół śluz w Białej Górze</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-biala-gora" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Zespół śluz w Białej Górze</span>
+    </button>
+  </div>
+  <p class="appeal">Layers of river-control locks with a view over the Vistula valley.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-engineering">Engineering</li><li class="tag tag-nature">Coast and nature</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>87.9 km / 1 h 15 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-partial">Partial journey only</span></dt><dd>Total: n.a. <a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Malbork%20railway%20station&amp;amp;travelmode=transit">Malbork station leg: 47 min, Sun; train + walking</a>, then an unverified onward leg.</dd></div>
+    <div><dt>Route ends at</dt><dd>Hydrotechnical complex by DW605; car route has tolls.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=%C5%9Aluza%20Bia%C5%82a%20G%C3%B3ra&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Zespół śluz w Białej Górze</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Malbork%20railway%20station&amp;travelmode=transit">Partial transit leg<span class="visually-hidden"> towards Zespół śluz w Białej Górze</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Zespół śluz w Białej Górze</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> The complex reflects centuries of attempts to control the division of water between the Vistula and Nogat, a matter historically contested by Gdańsk and Elbląg (<a href="https://pomorskie.travel/punkty-poi/sluza-biala-gora/">Pomorskie.travel</a>). Its surviving structures include nineteenth-century works and later locks, weirs and flood-protection gates (<a href="https://pomorskie.travel/punkty-poi/sluza-biala-gora/">Pomorskie.travel</a>).</li><li><strong>What is special:</strong> Several layers of water engineering can be seen together instead of as a single isolated lock (<a href="https://pomorskie.travel/punkty-poi/sluza-biala-gora/">Pomorskie.travel</a>). The top of the historic great outlet offers a view over the Vistula valley, giving the stop both an engineering interest and a landscape payoff (<a href="https://pomorskie.travel/punkty-poi/sluza-biala-gora/">Pomorskie.travel</a>).</li><li><strong>Visit note:</strong> This is best approached as an outdoor infrastructure-and-viewpoint visit, not as a staffed museum tour. Stay within visitor-accessible areas and respect operational barriers around the water-control structures.</li></ul>
+  </details>
+</article>
+<article class="card" id="p-gniew" data-name="Zamek w Gniewie" data-order="14" data-mins="66" data-km="89.4" data-full="false" data-tags="architecture museums">
+  <div class="card-head">
+    <h3 id="p-gniew-h">Zamek w Gniewie</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-gniew" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Zamek w Gniewie</span>
+    </button>
+  </div>
+  <p class="appeal">A Gothic Teutonic castle with guided tours at fixed times.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-architecture">Architecture</li><li class="tag tag-museums">Museums and village life</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>89.4 km / 1 h 06 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-partial">Partial journey only</span></dt><dd>Total: n.a. <a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Morzeszczyn%20railway%20station&amp;amp;travelmode=transit">Morzeszczyn station leg: 1 h 19 min, Sun; two trains + walking</a>, then an unverified onward leg.</dd></div>
+    <div><dt>Route ends at</dt><dd>Castle/hotel approach; car route has tolls.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Zamek%20Gniew&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Zamek w Gniewie</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Morzeszczyn%20railway%20station&amp;travelmode=transit">Partial transit leg<span class="visually-hidden"> towards Zamek w Gniewie</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Zamek w Gniewie</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> Gniew’s castle is a medieval Teutonic fortress that retains its Gothic character (<a href="https://www.zamek-gniew.pl/">castle operator</a>). The visitor route connects that architecture with the history of the town, including a permanent exhibition, chapel, defensive galleries and armoury (<a href="https://www.zamek-gniew.pl/atrakcje/zwiedzanie-zamku">official tour information</a>).</li><li><strong>What is special:</strong> The experience is more structured than simply walking around a ruin, with a guided route through several distinct castle spaces (<a href="https://www.zamek-gniew.pl/atrakcje/zwiedzanie-zamku">official tour information</a>). The operator also runs historically themed events such as “Vivat Vasa”, which can provide an extra reason to choose a particular date (<a href="https://www.zamek-gniew.pl/">castle operator</a>).</li><li><strong>Visit note:</strong> Castle tours are guided and start at fixed times, so confirm a current tour slot before setting off (<a href="https://www.zamek-gniew.pl/atrakcje/zwiedzanie-zamku">official tour information</a>). A train to Morzeszczyn is only a partial journey, not a verified connection all the way to Gniew.</li></ul>
+  </details>
+</article>
+<article class="card" id="p-kwidzyn" data-name="Zamek w Kwidzynie" data-order="15" data-mins="81" data-km="117.0" data-full="true" data-tags="architecture">
+  <div class="card-head">
+    <h3 id="p-kwidzyn-h">Zamek w Kwidzynie</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-kwidzyn" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Zamek w Kwidzynie</span>
+    </button>
+  </div>
+  <p class="appeal">A Gothic castle with a tower on long arches. Museum closed until 2030.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-architecture">Architecture</li></ul>
+  <p class="warn"><strong>Warning:</strong> Museum closed for major conservation work. Reopening is planned for 2030.</p>
+  <dl class="facts">
+    <div><dt>By car</dt><dd>117 km / 1 h 21 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-full">Full journey, verified</span></dt><dd><a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Zamek%20Kwidzyn&amp;amp;travelmode=transit">Total to castle area: 2 h 15 min, Sun; two trains + walking</a></dd></div>
+    <div><dt>Route ends at</dt><dd>Closed museum; future visit/exterior context only. Car route has tolls.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Zamek%20Kwidzyn&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Zamek w Kwidzynie</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Zamek%20Kwidzyn&amp;travelmode=transit">Transit route<span class="visually-hidden"> to Zamek w Kwidzynie</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Zamek w Kwidzynie</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> This fourteenth-century Gothic castle was the seat of the Pomesanian cathedral chapter, rather than simply another Teutonic military fortress (<a href="https://dzieje.pl/wiadomosci/zamek-w-kwidzynie-przejdzie-najwieksza-w-historii-renowacje">Dzieje / PAP</a>). Together with the cathedral it forms a monumental architectural complex above the Vistula valley (<a href="https://kartaturysty.visitgdansk.com/pl/partnerzy/zamek-w-kwidzynie-656596">Gdańsk Tourist Card</a>).</li><li><strong>What is special:</strong> The most memorable feature is the gdanisko, a sanitary-defensive tower linked to the main building by a long elevated passage on huge arches (<a href="https://kartaturysty.visitgdansk.com/pl/partnerzy/zamek-w-kwidzynie-656596">Gdańsk Tourist Card</a>). That unusual silhouette makes it a particularly strong architectural candidate for someone drawn to remarkable castle-like buildings.</li><li><strong>Visit note:</strong> The museum is closed for major construction and conservation work, with reopening planned for 2030 (<a href="https://bilety.zamek.malbork.pl/index.html">official museum ticketing</a>). Keep this as a future interior visit; any exterior look now must respect construction fencing and may be affected by the works.</li></ul>
+  </details>
+</article></div>
+</section>
+<section class="region" id="r-slowinski" aria-labelledby="r-slowinski-h">
+  <h2 id="r-slowinski-h"><span class="region-no" aria-hidden="true">04</span> Forest archaeology and the Słowiński coast</h2>
+  <p class="region-count js-only" hidden></p>
+  <div class="cards">
+<article class="card" id="p-odry" data-name="Kamienne kręgi w Odrach" data-order="16" data-mins="107" data-km="119.0" data-full="false" data-tags="archaeology nature">
+  <div class="card-head">
+    <h3 id="p-odry-h">Kamienne kręgi w Odrach</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-odry" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Kamienne kręgi w Odrach</span>
+    </button>
+  </div>
+  <p class="appeal">Ten stone circles in pine forest above the Wda river.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-archaeology">Archaeology</li><li class="tag tag-nature">Coast and nature</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>119 km / 1 h 47 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-partial">Partial journey only</span></dt><dd>Total: n.a. <a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Czersk%20railway%20station&amp;amp;travelmode=transit">Czersk station leg: 2 h 09 min, Sun; trains + walking</a>, then an unverified onward leg.</dd></div>
+    <div><dt>Route ends at</dt><dd>Archaeological reserve; car route has tolls.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Rezerwat%20Kamienne%20Kr%C4%99gi%20Odry%2C%20Poland&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Kamienne kręgi w Odrach</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Czersk%20railway%20station&amp;travelmode=transit">Partial transit leg<span class="visually-hidden"> towards Kamienne kręgi w Odrach</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Kamienne kręgi w Odrach</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> The cemetery was founded around 70–80 CE and used into the early third century by people of the Wielbark culture, associated with the Goths (<a href="https://chojnicemuzeum.pl/cmentarzysko-z-kregami-kamiennymi-w-odrach">Chojnice museum</a>). The museum records ten stone circles, thirty burial mounds and hundreds of graves, giving the site an unusually extensive surviving funerary landscape (<a href="https://chojnicemuzeum.pl/cmentarzysko-z-kregami-kamiennymi-w-odrach">Chojnice museum</a>).</li><li><strong>What is special:</strong> The circles sit in pine forest above the Wda, so the visit combines archaeology with a distinctly woodland setting (<a href="https://chojnicemuzeum.pl/cmentarzysko-z-kregami-kamiennymi-w-odrach">Chojnice museum</a>). The stones also support an important lichen community, including rare species, which adds a second layer of natural-history interest (<a href="https://chojnicemuzeum.pl/cmentarzysko-z-kregami-kamiennymi-w-odrach">Chojnice museum</a>).</li><li><strong>Visit note:</strong> A separate museum exhibition in the village explains the Goths and objects excavated from the cemetery (<a href="https://chojnicemuzeum.pl/cmentarzysko-z-kregami-kamiennymi-w-odrach">Chojnice museum</a>). Check access arrangements for both the reserve and the exhibition rather than assuming they share a schedule.</li></ul>
+  </details>
+</article>
+<article class="card" id="p-lacka" data-name="Wydma Łącka, Słowiński Park Narodowy" data-order="17" data-mins="83" data-km="99.8" data-full="false" data-tags="nature">
+  <div class="card-head">
+    <h3 id="p-lacka-h">Wydma Łącka, Słowiński Park Narodowy</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-lacka" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Wydma Łącka, Słowiński Park Narodowy</span>
+    </button>
+  </div>
+  <p class="appeal">A moving sand dune between the Baltic Sea and Lake Łebsko.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-nature">Coast and nature</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>99.8 km / 1 h 23 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-partial">Partial journey only</span></dt><dd>Total: n.a. <a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=L%C4%99bork%20railway%20station&amp;amp;travelmode=transit">Lębork station leg: 1 h 07 min, Sun; train + walking</a>, then an unverified onward leg and dune approach.</dd></div>
+    <div><dt>Route ends at</dt><dd><strong>Rąbka visitor parking</strong>, not the dune. Substantial walking remains.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Parking%20R%C4%85bka%20%C5%81eba&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Wydma Łącka, Słowiński Park Narodowy</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=L%C4%99bork%20railway%20station&amp;travelmode=transit">Partial transit leg<span class="visually-hidden"> towards Wydma Łącka, Słowiński Park Narodowy</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Wydma Łącka, Słowiński Park Narodowy</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> Łącka is a mobile dune in a coastal dune complex exceeding 500 hectares, with prevailing westerly winds driving its movement eastwards (<a href="https://spn.gov.pl/atrakcje-turystyczne">Słowiński National Park</a>). Its changing form is a visible example of an active landscape rather than a fixed sandy hill (<a href="https://spn.gov.pl/atrakcje-turystyczne">Słowiński National Park</a>).</li><li><strong>What is special:</strong> From the summit, the broad sand landscape is framed by both the Baltic Sea and Lake Łebsko (<a href="https://www.national-geographic.pl/traveler/kierunki/polska-tez-ma-swoja-pustynie-wydma-lacka-to-kraina-wedrujacego-piasku">National Geographic Polska</a>). The contrast of open sand, forest and water makes this one of the most visually dramatic choices in the guide.</li><li><strong>Visit note:</strong> The car figures end at Rąbka parking; expect roughly 5 km on foot to the dune, rather than a drive-up viewpoint (<a href="https://www.national-geographic.pl/traveler/kierunki/polska-tez-ma-swoja-pustynie-wydma-lacka-to-kraina-wedrujacego-piasku">National Geographic Polska</a>). Stay inside the designated visitor zone, and check the current operation and extent of any seasonal electric-cart service instead of assuming it reaches the dune (<a href="https://www.national-geographic.pl/traveler/kierunki/polska-tez-ma-swoja-pustynie-wydma-lacka-to-kraina-wedrujacego-piasku">National Geographic Polska</a>).</li></ul>
+  </details>
+</article>
+<article class="card" id="p-czolpino" data-name="Latarnia Czołpino and Wydma Czołpińska" data-order="18" data-mins="99" data-km="134.0" data-full="false" data-tags="nature museums">
+  <div class="card-head">
+    <h3 id="p-czolpino-h">Latarnia Czołpino and Wydma Czołpińska</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-czolpino" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Latarnia Czołpino and Wydma Czołpińska</span>
+    </button>
+  </div>
+  <p class="appeal">A red-brick lighthouse, dunes, forest and beach in one walk.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-nature">Coast and nature</li><li class="tag tag-museums">Museums and village life</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>134 km / 1 h 39 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-partial">Partial journey only</span></dt><dd>Total: n.a. <a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=S%C5%82upsk%20railway%20station&amp;amp;travelmode=transit">Słupsk station leg: 1 h 54 min, Sun; train + walking</a>, then an unverified onward leg.</dd></div>
+    <div><dt>Route ends at</dt><dd><strong>Czołpino forest parking</strong>, not the lighthouse or dune.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Czo%C5%82pino%20parking%20le%C5%9Bny&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Latarnia Czołpino and Wydma Czołpińska</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=S%C5%82upsk%20railway%20station&amp;travelmode=transit">Partial transit leg<span class="visually-hidden"> towards Latarnia Czołpino and Wydma Czołpińska</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Latarnia Czołpino and Wydma Czołpińska</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> Czołpino’s red-brick lighthouse began operating in January 1875 and stands on a wooded dune inside Słowiński National Park (<a href="https://pomorskie.travel/punkty-poi/latarnia-morska-czolpino/">Pomorskie.travel</a>). Nearby, Wydma Czołpińska displays a varied dune landscape of vegetated and bare areas, making the outing a combination of maritime history and coastal geomorphology (<a href="https://spn.gov.pl/atrakcje-turystyczne">Słowiński National Park</a>).</li><li><strong>What is special:</strong> A walk from Czołpino can combine forest, dunes, beach, the lighthouse and the national park museum in the former lighthouse-keepers’ settlement (<a href="https://pomorskie.travel/artykuly/pomorskie-wedrowki-slowinski-skarb-narodowy/">Pomorskie.travel</a>). It is a good choice if you want a varied walking day rather than a single monument followed by a return to the car.</li><li><strong>Visit note:</strong> The driving figures end at the forest parking area; the lighthouse alone is reached by an approximately 1 km marked walk from parking (<a href="https://pomorskie.travel/punkty-poi/latarnia-morska-czolpino/">Pomorskie.travel</a>). Published lighthouse visiting information is seasonal, May–September, so do not assume that the tower interior is open in November (<a href="https://pomorskie.travel/punkty-poi/latarnia-morska-czolpino/">Pomorskie.travel</a>).</li></ul>
+  </details>
+</article>
+<article class="card" id="p-kluki" data-name="Muzeum Wsi Słowińskiej, Kluki" data-order="19" data-mins="101" data-km="136.0" data-full="true" data-tags="museums architecture">
+  <div class="card-head">
+    <h3 id="p-kluki-h">Muzeum Wsi Słowińskiej, Kluki</h3>
+    <button type="button" class="btn btn-ghost js-only shortlist-btn" aria-pressed="false" data-id="p-kluki" hidden>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="20" height="20"><path d="M6 3h12v18l-6-4-6 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span class="sl-label">Add to shortlist</span><span class="visually-hidden">: Muzeum Wsi Słowińskiej, Kluki</span>
+    </button>
+  </div>
+  <p class="appeal">A real Słowińcy village with thatched cottages and bread ovens.</p>
+  <ul class="tags" aria-label="Interests"><li class="tag tag-museums">Museums and village life</li><li class="tag tag-architecture">Architecture</li></ul>
+
+  <dl class="facts">
+    <div><dt>By car</dt><dd>136 km / 1 h 41 min</dd></div>
+    <div><dt>Rail-based <span class="badge badge-full">Full journey, verified</span></dt><dd><a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Muzeum%20Wsi%20S%C5%82owi%C5%84skiej%20Kluki&amp;amp;travelmode=transit">Total: 5 h 25 min, Mon; two trains + bus 204 + walking</a></dd></div>
+    <div><dt>Route ends at</dt><dd>Museum, Kluki 27; this particular public-transport itinerary is cumbersome.</dd></div>
+  </dl>
+  <p class="route-links">
+    <a class="btn btn-sea" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Muzeum%20Wsi%20S%C5%82owi%C5%84skiej%20Kluki&amp;travelmode=driving">Driving route<span class="visually-hidden"> to Muzeum Wsi Słowińskiej, Kluki</span> <span aria-hidden="true">→</span></a>
+    <a class="btn btn-pine" href="https://www.google.com/maps/dir/?api=1&amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;destination=Muzeum%20Wsi%20S%C5%82owi%C5%84skiej%20Kluki&amp;travelmode=transit">Transit route<span class="visually-hidden"> to Muzeum Wsi Słowińskiej, Kluki</span> <span aria-hidden="true">→</span></a>
+  </p>
+  <details>
+    <summary>Full story and sources<span class="visually-hidden">: Muzeum Wsi Słowińskiej, Kluki</span></summary>
+    <ul class="story"><li><strong>Why it is significant:</strong> The museum opened in 1963 to preserve the material culture of the Słowińcy and later developed into a reconstruction of historic Kluki’s village layout (<a href="https://muzeumkluki.pl/o-muzeum/historia-muzeum/">museum history</a>). Several farmsteads remain in their original positions, giving the site an authenticity beyond a collection of buildings moved into an unrelated park (<a href="https://muzeumkluki.pl/o-muzeum/obiekty/">museum buildings</a>).</li><li><strong>What is special:</strong> Timber-framed, reed-thatched cottages, farm buildings, wells and bread ovens create a coherent historic village environment (<a href="https://muzeumkluki.pl/o-muzeum/obiekty/">museum buildings</a>). Furnished interiors and displays about fishing and domestic life make it especially appealing if you enjoy everyday history rather than primarily military or aristocratic history (<a href="https://muzeumkluki.pl/o-muzeum/historia-muzeum/">museum history</a>).</li><li><strong>Visit note:</strong> Check the current museum programme and opening arrangements before travelling (<a href="https://muzeumkluki.pl/">museum website</a>). The verified rail-and-bus example takes 5 h 25 min one-way, so it should not be mistaken for a convenient train day trip from Oliwa (<a href="https://www.google.com/maps/dir/?api=1&amp;amp;origin=Opacka%2020%2C%20Gda%C5%84sk%2C%20Poland&amp;amp;destination=Muzeum%20Wsi%20S%C5%82owi%C5%84skiej%20Kluki&amp;amp;travelmode=transit">Google Maps itinerary</a>).</li></ul>
+  </details>
+</article></div>
+</section>
+
+    <section id="none" class="js-only" hidden aria-labelledby="none-h">
+      <h2 id="none-h">No places match</h2>
+      <p>Try a wider driving time or a different interest, or use “Reset filters”.</p>
+    </section>
+
+    <section id="how" class="how" aria-labelledby="how-h">
+      <h2 id="how-h">How to read the routes</h2>
+      <dl><div><dt>Car figures</dt><dd>The distance and time belong to the same recommended route, which is not necessarily the shortest route by kilometres. Allow extra time for traffic, finding legal parking and walking from the road endpoint; some suggested routes use toll roads.</dd></div><div><dt>Train figures</dt><dd>“Rail-based” means the complete mapped journey from the address, including walking, transfers and any connecting trams or buses, not just time on a train. The table identifies the connection types.</dd></div><div><dt>Departure days</dt><dd>“Sun” means 15 November and “Mon” means 16 November 2026, in Polish local time. These are examples returned by the “Leave now” search, sometimes departing the following morning; they are not a claim about the fastest service throughout the day, and time spent at home before that departure is not included.</dd></div><div><dt>Unverified totals</dt><dd>“n.a.” means no complete rail-inclusive itinerary to the attraction was verified, not that travel without a car is impossible. A separately timed journey to a useful onward-transport hub is provided where available; the remaining bus/taxi leg is not included.</dd></div><div><dt>Map links</dt><dd>The distance/car-time links open Google Maps directions from Opacka 20. For walking-only attractions, the destination is the specified parking area or road approach, not the attraction’s interior.</dd></div><div><dt>Geographic scope</dt><dd>The selection is restricted to the administrative territory of województwo pomorskie, rather than the broader historical/geographical region of Pomorze.</dd></div></dl>
+    </section>
+
+    <section id="pairs" aria-labelledby="pairs-h">
+      <h2 id="pairs-h">Suggested pairings</h2>
+      <ul class="grid-4"><li class="pair"><h3>Rzucewo + Beka</h3><p class="chips"><a class="chip" href="#p-rzucewo">Pałac / Zamek Rzucewo</a> <a class="chip" href="#p-beka">Rezerwat Beka</a></p></li><li class="pair"><h3>Bytów Castle + the Boruja bridge</h3><p class="chips"><a class="chip" href="#p-bytow-castle">Zamek w Bytowie</a> <a class="chip" href="#p-boruja">Most kolejowy nad Borują, Bytów</a></p></li><li class="pair"><h3>Tczew + Malbork</h3><p class="chips"><a class="chip" href="#p-tczew">Centrum Konserwacji Wraków Statków, Tczew</a> <a class="chip" href="#p-malbork">Zamek w Malborku</a></p></li><li class="pair"><h3>Czołpino + Kluki</h3><p class="chips"><a class="chip" href="#p-czolpino">Latarnia Czołpino and Wydma Czołpińska</a> <a class="chip" href="#p-kluki">Muzeum Wsi Słowińskiej, Kluki</a></p></li></ul>
+      <p>Possible themed outings include <strong>Rzucewo + Beka</strong>, <strong>Bytów Castle + the Boruja bridge</strong>, <strong>Tczew + Malbork</strong>, and <strong>Czołpino + Kluki</strong>. These are suggested combinations only: the guide does not calculate inter-stop driving times or guarantee that both venues’ opening hours fit the same day.</p>
+    </section>
+  </div>
+</main>
+
+<footer id="notes">
+  <div class="wrap">
+    <h2>Sources and accessibility</h2>
+    <p>Every fact links to its source in the “Full story and sources” part of each card. Route figures are Google Maps snapshots checked on 15 November 2026. They are not guaranteed journey times. A “Partial transit leg” goes only to a hub; the rest of the trip is not included.</p>
+    <p>This page aims for WCAG 2.2 AAA: high-contrast text, keyboard use, visible focus, large targets and no images of text. All content and map links work without JavaScript. Filters, shortlist and colour choice are extras that save to this browser only.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  'use strict';
+  var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},
+             set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}},
+             del:function(k){try{localStorage.removeItem(k)}catch(e){}}};
+  document.querySelectorAll('.js-only').forEach(function(el){if(el.id!=='none'&&!el.classList.contains('region-count'))el.hidden=false});
+  var root=document.documentElement;
+  // theme
+  var TK='pomorskie-theme';
+  function applyTheme(v){if(v==='light'||v==='dark')root.setAttribute('data-theme',v);else root.removeAttribute('data-theme')}
+  var saved=store.get(TK)||'system';applyTheme(saved);
+  document.querySelectorAll('input[name=theme]').forEach(function(r){
+    r.checked=(r.value===saved);
+    r.addEventListener('change',function(){applyTheme(r.value);store.set(TK,r.value)});
+  });
+  // finder
+  var cards=[].slice.call(document.querySelectorAll('.card'));
+  cards.forEach(function(c){c._text=c.textContent.toLowerCase()});
+  var f=document.getElementById('finder-form'),q=document.getElementById('q'),interest=document.getElementById('interest'),
+      maxd=document.getElementById('maxdrive'),full=document.getElementById('full'),sort=document.getElementById('sort'),
+      count=document.getElementById('count'),none=document.getElementById('none');
+  function norm(s){return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/ł/g,'l')}
+  cards.forEach(function(c){c._n=norm(c.textContent)});
+  function run(announce){
+    var term=norm(q.value.trim()),it=interest.value,md=parseInt(maxd.value,10),fo=full.checked,s=sort.value,shown=0;
+    cards.forEach(function(c){
+      var ok=(!term||c._n.indexOf(term)>-1)&&(!it||c.dataset.tags.split(' ').indexOf(it)>-1)&&(!md||+c.dataset.mins<=md)&&(!fo||c.dataset.full==='true');
+      c.hidden=!ok;if(ok)shown++;
+    });
+    document.querySelectorAll('.region').forEach(function(r){
+      var box=r.querySelector('.cards'),list=[].slice.call(box.children);
+      list.sort(function(a,b){
+        if(s==='name')return a.dataset.name.localeCompare(b.dataset.name,'pl');
+        if(s==='mins'||s==='km')return (+a.dataset[s])-(+b.dataset[s])||(+a.dataset.order)-(+b.dataset.order);
+        return (+a.dataset.order)-(+b.dataset.order);
+      }).forEach(function(c){box.appendChild(c)});
+      var v=list.filter(function(c){return !c.hidden}).length;
+      r.hidden=(v===0);
+      var rc=r.querySelector('.region-count');rc.hidden=false;rc.textContent=v+' of '+list.length+' places shown in this region';
+    });
+    none.hidden=shown!==0;
+    if(announce)count.textContent=shown===0?'No places match these filters.':'Showing '+shown+' of 20 places.';
+  }
+  [q,interest,maxd,full,sort].forEach(function(el){el.addEventListener(el===q?'input':'change',function(){run(true)})});
+  f.addEventListener('submit',function(e){e.preventDefault();run(true)});
+  f.addEventListener('reset',function(){setTimeout(function(){run(false);count.textContent='Filters reset. Showing all 20 places.'},0)});
+  run(false);
+  // shortlist
+  var SK='pomorskie-shortlist',list=[];
+  try{list=JSON.parse(store.get(SK)||'[]');if(!Array.isArray(list))list=[]}catch(e){list=[]}
+  list=list.filter(function(id){return document.getElementById(id)});
+  var ol=document.getElementById('sl-list'),empty=document.getElementById('sl-empty'),st=document.getElementById('sl-status'),fb=document.getElementById('sl-fallback');
+  function save(){if(list.length)store.set(SK,JSON.stringify(list));else store.del(SK)}
+  function render(){
+    ol.innerHTML='';
+    list.forEach(function(id){
+      var c=document.getElementById(id),li=document.createElement('li'),a=document.createElement('a');
+      a.href='#'+id;a.textContent=c.dataset.name;li.appendChild(a);ol.appendChild(li);
+    });
+    empty.hidden=list.length>0;ol.hidden=list.length===0;
+    ['sl-copy','sl-print','sl-clear'].forEach(function(b){document.getElementById(b).disabled=list.length===0});
+    document.querySelectorAll('.shortlist-btn').forEach(function(b){
+      var on=list.indexOf(b.dataset.id)>-1;b.setAttribute('aria-pressed',on?'true':'false');
+      b.querySelector('.sl-label').textContent=on?'On shortlist':'Add to shortlist';
+    });
+  }
+  document.querySelectorAll('.shortlist-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      var id=b.dataset.id,i=list.indexOf(id),name=document.getElementById(id).dataset.name;
+      if(i>-1){list.splice(i,1);st.textContent='Removed '+name+' from the shortlist.'}else{list.push(id);st.textContent='Added '+name+' to the shortlist.'}
+      save();render();
+    });
+  });
+  function text(){
+    return 'Pomorskie shortlist (from Opacka 20, Gdańsk; routes checked 15 November 2026)\n'+list.map(function(id,i){
+      var c=document.getElementById(id),links=c.querySelectorAll('.route-links a');
+      return (i+1)+'. '+c.dataset.name+'\n   Driving: '+links[0].href+'\n   '+(c.dataset.full==='true'?'Transit':'Partial transit leg')+': '+links[1].href;
+    }).join('\n');
+  }
+  document.getElementById('sl-copy').addEventListener('click',function(){
+    var t=text();
+    function fallback(){fb.hidden=false;fb.value=t;fb.focus();fb.select();st.textContent='Copy is not available here. The text is selected in the box below - press Ctrl+C or Command+C.'}
+    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(function(){fb.hidden=true;st.textContent='Shortlist copied with '+list.length+' places.'},fallback)}else fallback();
+  });
+  document.getElementById('sl-print').addEventListener('click',function(){
+    document.body.classList.add('printing-shortlist');
+    cards.forEach(function(c){c.hidden=list.indexOf(c.id)===-1});
+    document.querySelectorAll('.region').forEach(function(r){r.hidden=!r.querySelector('.card:not([hidden])')});
+    window.print();
+    document.body.classList.remove('printing-shortlist');run(false);
+  });
+  document.getElementById('sl-clear').addEventListener('click',function(){list=[];save();render();fb.hidden=true;st.textContent='Shortlist cleared.'});
+  render();
+})();
+</script>
+</body>
+</html>
