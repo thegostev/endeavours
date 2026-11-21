@@ -45,7 +45,7 @@ _Avoid_: "the app" when you mean the artifact
 
 ## Proposed in lessons 0002-0009 - promote after each explain-back
 Each lesson's "Words you need" box holds the full definitions. They move up to "Established terms" one lesson at a time, when Alex can say the one line from memory.
-- 0002: pipeline, stage, main line, Continuous Integration, Continuous Delivery, Continuous Deployment, promotion, blue-green deployment, canary, rollback
+- 0002: pipeline, stage, main line (trunk), trunk-based development, short-lived feature branch, feature flag, build / launch / runtime flag, flag debt, Continuous Integration, Continuous Delivery, Continuous Deployment, promotion, blue-green deployment, canary, rollback
 - 0003: process, virtual machine, container image, container, orchestrator, desired state, actual state, controller, imperative, declarative
 - 0004: region, availability zone, private network (VPC), subnet, firewall rule, load balancer, DNS, managed service, IAM, resource
 - 0005: definition file, ClickOps, script, idempotent, reproducible, drift, intent-based provisioning
@@ -54,8 +54,35 @@ Each lesson's "Words you need" box holds the full definitions. They move up to "
 - 0008: pull request, speculative plan, policy as code, provisioning, configuration management, mutable/immutable infrastructure, configuration as code, GitOps
 - 0009: platform, platform engineering, self-service, golden path, guardrails, developer portal, platform as a product, observability
 
+### Added from trunkbaseddevelopment.com (lesson 0002)
+
+**Trunk-based development**:
+Everyone works on one shared branch, the trunk, and avoids long-lived branches - the practical form of CI. Rule of the source: every team member commits to trunk at least once every 24 hours.
+_Avoid_: "GitFlow" as a synonym (it is a different branching model, with long-lived branches)
+
+**Trunk**:
+The one shared branch everyone merges into. Same thing as "main line" and Git's `main`.
+
+**Short-lived feature branch**:
+A branch that lives a day or two, only for code review and the CI check, then merges into trunk.
+_Avoid_: "feature branch" alone, when you mean one that lives for weeks - that is the thing trunk-based development avoids
+
+**Feature flag**:
+A value that turns a capability on or off, so code can be in trunk - and in production - switched off. Lesson 0001 called it a "switch"; from lesson 0002 on, the course says "feature flag".
+_Avoid_: "switch" (lesson 0001 only), "feature toggle" (Fowler's word - same thing, but say one word in this course)
+
+**Build flag / launch flag / runtime flag**:
+Where a flag's value is read. Build: decides what goes into the artifact - a capability left out cannot be turned on later. Launch: read from config when the app starts, so a change needs a restart. Runtime: changed while the app runs, from a shared store that every copy reads.
+
+**Flag debt**:
+Flags that nobody removed after their state was settled. Each one adds dead code paths and combinations to test. The source's fix: a review-for-delete date for every flag.
+
+**Branch by abstraction** (heard, not taught):
+Putting the old and new way behind one abstraction in trunk and switching between them, instead of a long-lived branch. The next page on trunkbaseddevelopment.com.
+
 Course rulings (apply in every lesson):
 - "CD" alone is not used. Say Continuous Delivery or Continuous Deployment.
+- "Feature flag" is the course word from lesson 0002 on. "Switch" stays only in lesson 0001.
 - "Provider" alone = the plugin. The company is the "cloud provider".
 - "Configuration as code" = app and tool settings in Git. Not infrastructure definitions, not configuration management.
 - "Stack" = one applied piece with its own state (Kief Morris). Terragrunt's word for it is "unit".

@@ -17,6 +17,8 @@ High-trust sources only. Lessons cite these. Checked Nov 21, 2026.
   Definitions of CD and of the pipeline. Use for: Layer 1-2, CI vs CD.
 - [Jez Humble: Continuous Delivery vs Continuous Deployment (2010)](https://continuousdelivery.com/2010/08/continuous-delivery-vs-continuous-deployment)
   The source of the delivery vs deployment split, from the co-author of _Continuous Delivery_. Use for: Layer 2.
+- [Trunk Based Development, by Paul Hammant and contributors](https://trunkbaseddevelopment.com/), especially [Feature Flags](https://trunkbaseddevelopment.com/feature-flags/)
+  The practical form of CI: one shared trunk, short-lived branches, flags for unfinished work. The Feature Flags page covers build vs launch vs runtime flags, testing flag combinations in CI, and removing flags. Use for: lesson 0002 (moment 2, the flag table), feature branch vs feature flag. Added Nov 21, on Alex's ask.
 - [Pete Hodgson: Feature Toggles (martinfowler.com)](https://martinfowler.com/articles/feature-toggles.html)
   Release toggles separate deployment from release. Use for: deploy vs release, Layer 2.
 

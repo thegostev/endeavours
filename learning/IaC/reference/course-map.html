@@ -59,7 +59,7 @@
 <thead><tr><th>#</th><th>Lesson</th><th>Layer</th><th>Status</th></tr></thead>
 <tbody>
 <tr class="here"><td>0001</td><td><a href="../lessons/0001-from-commit-to-user.html">From a code change to a user</a> - four things, three steps, one floor</td><td>0</td><td>Ready</td></tr>
-<tr><td>0002</td><td><a href="../lessons/0002-the-pipeline.html">The pipeline: one checked road</a> - CI vs Continuous Delivery vs Continuous Deployment, promotion, rollback</td><td>1-2</td><td>Ready</td></tr>
+<tr><td>0002</td><td><a href="../lessons/0002-the-pipeline.html">The pipeline: one checked road</a> - CI vs Continuous Delivery vs Continuous Deployment, trunk-based development and feature flags, promotion, rollback</td><td>1-2</td><td>Ready</td></tr>
 <tr><td>0003</td><td><a href="../lessons/0003-what-actually-runs.html">What actually runs</a> - process, virtual machine, container, image; desired state in Kubernetes</td><td>3</td><td>Ready</td></tr>
 <tr><td>0004</td><td><a href="../lessons/0004-notekeepers-floor.html">Notekeeper's floor</a> - network, compute, database, DNS, load balancer, access (IAM), regions</td><td>4</td><td>Ready</td></tr>
 <tr class="goal"><td>0005</td><td><a href="../lessons/0005-why-iac.html">Why Infrastructure as Code</a> - clicks vs scripts vs definitions; declarative vs imperative; desired vs actual state</td><td>5</td><td>Ready</td></tr>
@@ -80,6 +80,7 @@
 <tr><td>Application code vs infrastructure code</td><td>Application code says what the app does. Infrastructure code says what the floor is made of.</td><td>0001 (first look), 0005</td></tr>
 <tr><td>Infrastructure vs platform vs environment</td><td>Infrastructure is the floor. A platform is the road on top of it, as self-service. An environment is one use of the floor: infrastructure plus config, for one purpose.</td><td>0001, 0009</td></tr>
 <tr><td>CI vs Continuous Delivery vs Continuous Deployment</td><td>CI: merge daily, checked automatically. Delivery: always ready, a person presses the button. Deployment: no button.</td><td>0002</td></tr>
+<tr><td>Feature branch vs feature flag</td><td>A long-lived feature branch hides unfinished work outside trunk. A feature flag hides it inside trunk, switched off.</td><td>0002</td></tr>
 <tr><td>Container vs virtual machine</td><td>A container is an isolated process on a shared kernel. A VM is a whole pretend computer with its own OS.</td><td>0003</td></tr>
 <tr><td>Desired state vs actual state</td><td>Desired is what you wrote should be true. Actual is what really runs now. A gap that stays open is drift.</td><td>0003, 0005</td></tr>
 <tr><td>Provisioning vs configuration management</td><td>Provisioning creates the floor's parts. Configuration management sets up what is inside a server.</td><td>0008</td></tr>
