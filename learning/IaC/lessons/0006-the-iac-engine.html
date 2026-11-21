@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en" data-page="iac-0006">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>0006 - The IaC engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main class="page">
+<nav class="topnav" aria-label="Course"><a href="0005-why-iac.html">Lesson 0005</a><a href="../reference/course-map.html">Course map</a><a href="../reference/iac-in-one-line.html">IaC in one line</a><span>Lesson 6 of 9 · Layer 5 · part 2 of 4</span></nav>
+<div class="col">
+<h1>The IaC engine</h1>
+<p class="dek">Lesson 0005 said: a tool compares your files with reality and closes the gap. Today you run that tool yourself and watch each part work - init, plan, apply, state - on a tiny practice floor on your own Mac. No cloud account, no cost.</p>
+<div class="xp" data-max="175"><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-text">0 of 175 XP</span></div>
+<aside class="note">Layer 5 of the course map. Facts from HashiCorp's <a href="https://developer.hashicorp.com/terraform/intro">What is Terraform?</a>, <a href="https://developer.hashicorp.com/terraform/intro/core-workflow">Core workflow</a> and <a href="https://developer.hashicorp.com/terraform/language/state/purpose">Purpose of Terraform State</a>. OpenTofu is the open-source fork of Terraform with the same language and workflow, so the docs apply to both. The lab uses OpenTofu.</aside>
+<aside class="note"><strong>Honest note about the lab outputs.</strong> The outputs described in the reveals are the ones the documentation says you will see. The lab was not run on your Mac before you got it. If your terminal shows something different, that is the most useful thing you can paste in chat - it is real data, the page is not.</aside>
+<p>Time: about 50 minutes, hands-on. You know this from Argo: guess first, run, then read the why.</p>
+<h2>How to do this lesson</h2>
+<ol><li>Warm-up.</li><li>Big idea, words, the engine figure, the plan symbols.</li><li>Set up the lab (5 minutes).</li><li>Seven lab steps. Each: a bet, a command, then the reveal.</li><li>Read a real-looking database plan. Quiz. Paste your lines and your outputs in chat.</li></ol>
+<h2>Warm-up</h2>
+<div class="quiz" id="quiz-0006-warm"></div>
+<script type="application/json" data-quiz-for="quiz-0006-warm">
+[
+ {
+  "id": "w1",
+  "xp": 10,
+  "stem": "What does idempotent mean?",
+  "options": [
+   "Running again changes nothing if right",
+   "Running again repeats every single step",
+   "Running again deletes everything it made",
+   "Running again needs a new file"
+  ],
+  "answer": 0,
+  "why": "From 0005: \"the disk is 100 GB\" can run any number of times."
+ },
+ {
+  "id": "w2",
+  "xp": 10,
+  "stem": "Why does a script of steps fail on a new environment?",
+  "options": [
+   "Its steps assume a known start",
+   "Scripts cannot reach the cloud API",
+   "New environments have no cloud API",
+   "Scripts need a pipeline to run"
+  ],
+  "answer": 0,
+  "why": "From 0005: steps need one known start state."
+ },
+ {
+  "id": "w3",
+  "xp": 10,
+  "stem": "Network vs IAM - which sentence is right?",
+  "options": [
+   "Network: who can reach. IAM: who may act.",
+   "Network: who may act. IAM: who can reach.",
+   "Both decide only who can reach a part.",
+   "Both decide only who may act on it."
+  ],
+  "answer": 0,
+  "why": "From 0004: two different walls."
+ },
+ {
+  "id": "w4",
+  "xp": 10,
+  "stem": "Image vs container is the same pair as which?",
+  "options": [
+   "Artifact vs running app",
+   "Build vs the release",
+   "Region vs availability zone",
+   "Network vs IAM rules"
+  ],
+  "answer": 0,
+  "why": "From 0003: the fixed package vs it running."
+ }
+]
+</script>
+<h2>Where you are</h2>
+<figure class="fig fig-onion">
+<svg viewBox="0 0 660 660" role="img" aria-labelledby="l6-on-t"><title id="l6-on-t">The course as an onion: layer 0 in the center, layer 6 outside. Layer 5, Infrastructure as Code, is the goal.</title>
+<circle class="r-a ring" cx="330" cy="330" r="314"/>
+<circle class="r-goal ring-here" cx="330" cy="330" r="272"/>
+<circle class="r-a ring" cx="330" cy="330" r="230"/>
+<circle class="r-b ring" cx="330" cy="330" r="188"/>
+<circle class="r-a ring" cx="330" cy="330" r="146"/>
+<circle class="r-b ring" cx="330" cy="330" r="104"/>
+<circle class="r-a ring" cx="330" cy="330" r="62"/>
+<text class="t-ring" x="330" y="252" text-anchor="middle">1 · Delivery lifecycle</text>
+<text class="t-ring" x="330" y="210" text-anchor="middle">2 · Deploy and release</text>
+<text class="t-ring" x="330" y="168" text-anchor="middle">3 · Runtime</text>
+<text class="t-ring" x="330" y="126" text-anchor="middle">4 · Cloud infrastructure</text>
+<text class="t-ring" x="330" y="84" text-anchor="middle">5 · Infrastructure as Code</text>
+<text class="t-ring" x="330" y="42" text-anchor="middle">6 · Platform engineering</text>
+<text class="t-ring" x="330" y="326" text-anchor="middle">0 · The</text><text class="t-ring" x="330" y="344" text-anchor="middle">mental model</text>
+<text class="t-s" x="330" y="588" text-anchor="middle">you are here - the goal</text>
+</svg>
+<figcaption>Layer 5, part 2: the engine inside every declarative IaC tool.</figcaption>
+</figure>
+<section class="idea" aria-labelledby="idea-0006"><h2 id="idea-0006">The big idea</h2><dl><dt>Plan - the one thing</dt><dd>Know exactly what will change before anything changes - instead of finding out in production.</dd><dt>State - the one thing</dt><dd>A record that binds each resource in your files to one real object - instead of guessing which object is which.</dd><dt>In a paragraph</dt><dd>You write <strong>resources</strong> in configuration files. <code>init</code> downloads the <strong>providers</strong>: plugins that know one platform's API. <code>plan</code> reads your files and the <strong>state</strong>, asks each provider what really exists, and lists the difference as steps. <code>apply</code> makes those steps real, in the right order, and writes the new IDs into the state. Next time, the state tells the tool which real object each resource is.</dd><dt>Picture</dt><dd>A builder with a plan drawing and a site logbook. The drawing is your files. The logbook says "wall W1 is the one we built on 3 March". Before work starts, the builder walks the site, compares it with the drawing and the logbook, and writes a work list for you to sign.</dd><dt>Where the picture stops working</dt><dd>A builder can see a wall and know it is W1. A cloud API cannot always tell which object you mean: names can repeat, and not every resource has tags. The tool cannot see your intent, so the logbook (state) must say which object is which. Lose the state, and the tool no longer knows what it built.</dd></dl></section>
+<section class="words" aria-labelledby="words-0006"><h3 id="words-0006">Words you need</h3><dl><dt><dfn>resource</dfn></dt><dd>One thing the tool manages, written as a block in a file: <code>resource "local_file" "database" { ... }</code>.</dd><dt><dfn>address</dfn></dt><dd>A resource's name in the code: type plus name, for example <code>local_file.database</code>.</dd><dt><dfn>configuration</dfn></dt><dd>All the <code>.tf</code> files in one folder. The desired state.</dd><dt><dfn>provider</dfn></dt><dd>A plugin that turns resources into API calls for one platform. Here: <code>local</code> (files on your disk) and <code>random</code> (random names). In real work: <code>aws</code>.</dd><dt><dfn>init</dfn></dt><dd>The first command in a folder. It downloads the providers the configuration asks for.</dd><dt><dfn>state</dfn></dt><dd>A file (<code>terraform.tfstate</code>) that records, for each address, the ID and values of the real object it made.</dd><dt><dfn>plan</dfn></dt><dd>A preview: what will be created, changed, replaced or destroyed. Nothing changes yet.</dd><dt><dfn>apply</dfn></dt><dd>Makes the plan real, then updates the state.</dd><dt><dfn>dependency</dfn></dt><dd>One resource needs another's value first. The tool reads the references and works out the order.</dd><dt><dfn>update in place vs replace</dfn></dt><dd>In place: the real object is changed and keeps its ID. Replace: the old object is destroyed and a new one is made.</dd></dl><p class="small">Word flag from the glossary: "provider" here always means the plugin. AWS the company is the "cloud provider".</p></section>
+<h2>The engine</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 255" role="img" aria-labelledby="l6-en-t"><title id="l6-en-t">The engine: OpenTofu core reads the configuration (desired) and the state (the record of real IDs), builds a dependency graph and a plan, and calls provider plugins, which call each platform&#x27;s API. New IDs go back into state.</title><defs><marker id="l6-en-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><rect class="box-goal" x="20" y="30" width="160" height="64"/><text class="t-b" x="100.0" y="56.0" text-anchor="middle">Configuration</text><text class="t-s" x="100.0" y="76.0" text-anchor="middle">.tf files: desired</text><rect class="box" x="20" y="150" width="160" height="64"/><text class="t-b" x="100.0" y="176.0" text-anchor="middle">State</text><text class="t-s" x="100.0" y="196.0" text-anchor="middle">file -> real IDs</text><rect class="box-key" x="260" y="80" width="170" height="90"/><text class="t-b" x="345.0" y="111.0" text-anchor="middle">OpenTofu core</text><text class="t-s" x="345.0" y="131.0" text-anchor="middle">builds the graph,</text><text class="t-s" x="345.0" y="149.0" text-anchor="middle">makes the plan</text><rect class="box" x="510" y="30" width="190" height="64"/><text class="t-b" x="605.0" y="56.0" text-anchor="middle">Provider plugins</text><text class="t-s" x="605.0" y="76.0" text-anchor="middle">local, random, aws ...</text><rect class="box" x="510" y="150" width="190" height="64"/><text class="t-b" x="605.0" y="176.0" text-anchor="middle">Real objects</text><text class="t-s" x="605.0" y="196.0" text-anchor="middle">via each API: actual</text><path class="line" d="M180 62 L256 110" marker-end="url(#l6-en-a)"/><path class="line" d="M180 182 L256 146" marker-end="url(#l6-en-a)"/><path class="line" d="M430 112 L506 70" marker-end="url(#l6-en-a)"/><path class="line" d="M605 94 V146" marker-end="url(#l6-en-a)"/><text class="t-s" x="612" y="126" text-anchor="start">API calls</text><path class="line-soft" d="M506 192 C450 230 250 235 184 200" marker-end="url(#l6-en-a)"/><text class="t-s" x="345" y="240" text-anchor="middle">new IDs and values go into state</text></svg>
+<figcaption>Files and state in, plan out, API calls through the providers, new facts back into state. HashiCorp's own summary: Terraform creates and manages resources on cloud platforms through their APIs, and providers make that possible.</figcaption>
+</figure>
+<h2>How to read a plan: five symbols</h2>
+<div class="table-wrap"><table><thead><tr><th>Symbol</th><th>Meaning</th><th>Risk for a database</th></tr></thead><tbody><tr><td><code>+</code></td><td>create</td><td>Low - something new appears</td></tr><tr><td><code>~</code></td><td>update in place - same object, new values</td><td>Low to medium - read the values</td></tr><tr><td><code>-</code></td><td>destroy</td><td>High - it will be gone</td></tr><tr><td><code>-/+</code></td><td>replace: destroy first, then create a new one</td><td>Highest - the data goes with the old one</td></tr><tr><td><code>+/-</code></td><td>replace: create the new one first, then destroy the old</td><td>High, but no gap in service</td></tr></tbody></table></div>
+<p>The last line of every plan sums it up, for example <code>Plan: 1 to add, 0 to change, 1 to destroy.</code> A replace counts as one add and one destroy. Train your eye: read that line first, then look for <code>-</code> and <code>-/+</code>.</p>
+<h2>Set up the lab (5 minutes)</h2>
+<p>Install OpenTofu with Homebrew, then make a folder. (Install options: <a href="https://opentofu.org/docs/intro/install/">OpenTofu docs</a>.)</p>
+<pre data-copy><code>brew install opentofu
+tofu version
+mkdir -p ~/iac-lab/floor &amp;&amp; cd ~/iac-lab/floor</code></pre>
+<p>Make the configuration file. Copy the whole block and paste it in the terminal - it writes <code>main.tf</code>.</p>
+<pre data-copy><code>cat &gt; main.tf &lt;&lt;&#x27;EOF&#x27;
+terraform {
+  required_providers {
+    local  = { source = &quot;hashicorp/local&quot;, version = &quot;~&gt; 2.5&quot; }
+    random = { source = &quot;hashicorp/random&quot;, version = &quot;~&gt; 3.6&quot; }
+  }
+}
+
+# A random two-word name, like a cloud resource ID
+resource &quot;random_pet&quot; &quot;db_name&quot; {
+  length = 2
+}
+
+# A file that stands in for Notekeeper&#x27;s database
+resource &quot;local_file&quot; &quot;database&quot; {
+  filename = &quot;${path.module}/floor/database.conf&quot;
+  content  = &lt;&lt;-EOT
+    name    = notekeeper-${random_pet.db_name.id}
+    size_gb = 20
+  EOT
+}
+EOF</code></pre>
+<details><summary>Walk me through main.tf</summary><ul><li><code>terraform { required_providers ... }</code> - which plugins this folder needs, and which versions.</li><li><code>random_pet.db_name</code> - asks the random provider for a two-word name. It stands in for an ID that a cloud makes for you.</li><li><code>local_file.database</code> - asks the local provider for a file. It stands in for the database: its <code>content</code> holds the name and the size.</li><li><code>${random_pet.db_name.id}</code> - a reference. The file needs the name first. That is a dependency.</li></ul><p>Why files and random names? They behave like real resources for the engine - created, read, changed, destroyed through a provider - but cost nothing and break nothing.</p></details>
+<h2>The lab</h2>
+<h3>Step 1 - init</h3>
+<pre data-copy><code>tofu init
+ls -a</code></pre>
+<label class="small" for="bet-0006-s1">Bet (before you run it): what does <code>init</code> download, and where does it put it?</label><textarea class="bet" id="bet-0006-s1" placeholder="Your guess..."></textarea>
+<details><summary>Reveal - what the docs say you will see</summary><p><strong>The two providers, <code>local</code> and <code>random</code>, into a hidden <code>.terraform</code> folder.</strong> It also writes <code>.terraform.lock.hcl</code>, which pins the exact provider versions.</p><p class="why"><strong>Why:</strong> the core knows no cloud at all. Everything platform-specific lives in providers, and each folder says which ones it needs. The lock file makes sure your colleague and the pipeline get the same versions - lesson 0001's "same bytes everywhere", for tools.</p></details>
+<label class="lost"><input type="checkbox" data-lost="s1"> <span>Lost here (step 1)</span></label>
+<h3>Step 2 - the first plan</h3>
+<pre data-copy><code>tofu plan</code></pre>
+<label class="small" for="bet-0006-s2">Bet (before you run it): how many resources will the plan add? And can it show the database name yet?</label><textarea class="bet" id="bet-0006-s2" placeholder="Your guess..."></textarea>
+<details><summary>Reveal - what the docs say you will see</summary><p><strong>2 to add, 0 to change, 0 to destroy.</strong> The name is not known yet: the plan shows <code>(known after apply)</code> for the file content, because the random name does not exist yet.</p><p class="why"><strong>Why:</strong> a plan can only show what it can know before acting. Values made by the platform (IDs, random names, addresses) appear only after apply. When you review a real plan, "known after apply" means: the plan cannot promise this value.</p></details>
+<label class="lost"><input type="checkbox" data-lost="s2"> <span>Lost here (step 2)</span></label>
+<h3>Step 3 - apply</h3>
+<pre data-copy><code>tofu apply
+# type yes when asked
+cat floor/database.conf
+ls</code></pre>
+<label class="small" for="bet-0006-s3">Bet (before you run it): after apply, which new file appears in the folder, next to <code>floor/</code>?</label><textarea class="bet" id="bet-0006-s3" placeholder="Your guess..."></textarea>
+<details><summary>Reveal - what the docs say you will see</summary><p><strong><code>terraform.tfstate</code></strong> - the state. Open it: you will see both addresses with their real values, including the random name.</p><p class="why"><strong>Why:</strong> the state is how the tool remembers that <code>local_file.database</code> is this exact file and <code>random_pet.db_name</code> is this exact name. HashiCorp's docs call this mapping to the real world the primary purpose of state.</p></details>
+<label class="lost"><input type="checkbox" data-lost="s3"> <span>Lost here (step 3)</span></label>
+<h3>Step 4 - apply again</h3>
+<pre data-copy><code>tofu apply</code></pre>
+<label class="small" for="bet-0006-s4">Bet (before you run it): nothing changed in the file. What does the second apply do?</label><textarea class="bet" id="bet-0006-s4" placeholder="Your guess..."></textarea>
+<details><summary>Reveal - what the docs say you will see</summary><p><strong>Nothing.</strong> It reports no changes: your infrastructure matches the configuration.</p><p class="why"><strong>Why:</strong> this is idempotency from lesson 0005, now on your screen. Desired equals actual, so the plan is empty. You can run it a hundred times.</p></details>
+<label class="lost"><input type="checkbox" data-lost="s4"> <span>Lost here (step 4)</span></label>
+<h3>Step 5 - make the disk bigger</h3>
+<pre data-copy><code>sed -i &#x27;&#x27; &#x27;s/size_gb = 20/size_gb = 100/&#x27; main.tf
+tofu plan</code></pre>
+<label class="small" for="bet-0006-s5">Bet (before you run it): the plan will either update the file in place (<code>~</code>) or replace it (<code>-/+</code>). Which one?</label><textarea class="bet" id="bet-0006-s5" placeholder="Your guess..."></textarea>
+<details><summary>Reveal - what the docs say you will see</summary><p><strong>Replace: <code>-/+</code>, "1 to add, 0 to change, 1 to destroy".</strong> The local provider cannot edit a file in place: any change to its content means "delete the file, write a new one". The random name stays, because nothing about it changed.</p><p class="why"><strong>Why:</strong> whether a change is in place or a replace is decided by the provider, setting by setting - not by you, and not by how small the change looks. For a file, replace is harmless. For a database, the same symbol can mean the data is gone. That is why you read the plan before every apply. Run <code>tofu apply</code> now to accept it.</p></details>
+<label class="lost"><input type="checkbox" data-lost="s5"> <span>Lost here (step 5)</span></label>
+<h3>Step 6 - someone deletes it by hand</h3>
+<pre data-copy><code>rm floor/database.conf
+tofu plan</code></pre>
+<label class="small" for="bet-0006-s6">Bet (before you run it): the real file is gone, but the state still lists it. What will the plan propose?</label><textarea class="bet" id="bet-0006-s6" placeholder="Your guess..."></textarea>
+<details><summary>Reveal - what the docs say you will see</summary><p><strong>Create it again: "1 to add".</strong> Before planning, the tool reads the real objects. It finds the file missing, notes that objects changed outside the tool, and plans to bring reality back to the desired state.</p><p class="why"><strong>Why:</strong> every plan starts by refreshing: it asks the providers what really exists, and compares three things - configuration, state, reality. A hand-made change shows up as a difference. This is drift, and lesson 0007 is about living with it. Run <code>tofu apply</code> to put the file back.</p></details>
+<label class="lost"><input type="checkbox" data-lost="s6"> <span>Lost here (step 6)</span></label>
+<h3>Step 7 - your experiment, then clean up</h3>
+<pre data-copy><code># Edit the file by hand instead of deleting it:
+echo &#x27;size_gb = 999&#x27; &gt;&gt; floor/database.conf
+tofu plan
+
+# When done:
+tofu destroy</code></pre>
+<aside class="note"><strong>No answer here on purpose.</strong> In step 6 you deleted the file. Now you change its content by hand instead. Does the plan notice? What does it propose? Paste the first 10 lines of your plan in chat. Then <code>tofu destroy</code>: count how many resources it says it will destroy before you type yes.</aside>
+<label class="lost"><input type="checkbox" data-lost="s7"> <span>Lost here (step 7)</span></label>
+<h2>Read a real-looking plan</h2>
+<p>This is a short example of a plan for Notekeeper's production database on AWS. Someone renamed the database in the code to make the names neater.</p>
+<pre><code>  # aws_db_instance.notes must be replaced
+-/+ resource &quot;aws_db_instance&quot; &quot;notes&quot; {
+      ~ id         = &quot;db-ABCD1234&quot; -&gt; (known after apply)
+      ~ identifier = &quot;nk-prod&quot; -&gt; &quot;notekeeper-prod&quot; # forces replacement
+        # (40 unchanged attributes hidden)
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.</code></pre>
+<h3>Reading - the neat rename</h3>
+<label class="small" for="bet-0006-m1">Bet: if someone types yes, what happens to the notes stored in <code>nk-prod</code>?</label><textarea class="bet" id="bet-0006-m1" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>The database <code>nk-prod</code> is destroyed and a new, empty <code>notekeeper-prod</code> is made.</strong> The comment <code>forces replacement</code> shows which line causes it. Unless a backup is restored, the notes are gone.</p><p class="why"><strong>Why:</strong> a tiny, harmless-looking code change can mean a replace. The plan is the one place where this shows before it happens. That is why teams protect important resources: cloud settings such as deletion protection, and the tool's own <code>prevent_destroy</code> setting, which makes any plan that would destroy the resource fail.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m1"> <span>Lost here (reading)</span></label>
+<h2>Say the difference - the same words in every lesson</h2>
+<div class="pairs"><div class="pair"><strong>Configuration vs state vs reality</strong><p>Configuration: what you want. State: what the tool recorded it made. Reality: what really exists now.</p><p class="small">A plan compares all three. When they disagree, you have work to read carefully.</p></div><div class="pair"><strong>Plan vs apply</strong><p>Plan shows what would change. Apply changes it.</p><p class="small">Apply shows the plan again and waits for yes - the last chance to read it.</p></div><div class="pair"><strong>Update in place vs replace</strong><p>In place: the same object gets new values. Replace: the old object is destroyed and a new one is made.</p><p class="small">The provider decides, per setting. Look for <code>-/+</code> and <code>forces replacement</code>.</p></div><div class="pair"><strong>Provider vs cloud provider</strong><p>A provider is a plugin that calls one API. A cloud provider is a company like AWS.</p><p class="small">The <code>aws</code> provider is the plugin that calls AWS.</p></div></div>
+<h2>Quiz</h2>
+<div class="quiz" id="quiz-0006"></div>
+<script type="application/json" data-quiz-for="quiz-0006">
+[
+ {
+  "id": "q1",
+  "xp": 10,
+  "stem": "What is the primary purpose of the state file?",
+  "options": [
+   "Bind each address to one real object",
+   "Store a copy of the provider plugins",
+   "Keep a history of every Git commit",
+   "Hold the passwords for the cloud account"
+  ],
+  "answer": 0,
+  "why": "HashiCorp: state stores the bindings between real objects and the resources in your configuration."
+ },
+ {
+  "id": "q2",
+  "xp": 10,
+  "stem": "A plan line shows <code>-/+</code>. What does it mean?",
+  "options": [
+   "Destroy first, then create new",
+   "Update the object in place",
+   "Create a copy beside it",
+   "Read the object without change"
+  ],
+  "answer": 0,
+  "why": "-/+ = replace, destroy before create. For a database: the data goes with the old one."
+ },
+ {
+  "id": "q3",
+  "xp": 10,
+  "stem": "What does <code>init</code> download?",
+  "options": [
+   "The providers the configuration needs",
+   "The real objects from cloud",
+   "The state of a colleague",
+   "The latest commit of main"
+  ],
+  "answer": 0,
+  "why": "Providers are plugins. The core itself knows no platform."
+ },
+ {
+  "id": "q4",
+  "xp": 10,
+  "stem": "Who decides if a change is in place or a replace?",
+  "options": [
+   "The provider, setting by setting",
+   "The person who runs apply",
+   "The size of the change",
+   "The Git branch in use"
+  ],
+  "answer": 0,
+  "why": "The provider knows which settings the API can change on a live object."
+ },
+ {
+  "id": "q5",
+  "xp": 10,
+  "stem": "Before every plan, what does the tool do first?",
+  "options": [
+   "Refresh: read the real objects",
+   "Delete the old state file",
+   "Download a new provider version",
+   "Apply the previous plan again"
+  ],
+  "answer": 0,
+  "why": "It reads reality through the providers, then compares configuration, state and reality."
+ },
+ {
+  "id": "q6",
+  "xp": 10,
+  "stem": "Why does the plan show some values as <code>(known after apply)</code>?",
+  "options": [
+   "The platform makes them during apply",
+   "The tool hides secret values there",
+   "The provider plugin is not installed",
+   "The configuration has a syntax error"
+  ],
+  "answer": 0,
+  "why": "IDs, random names and addresses exist only after the platform creates the object."
+ }
+]
+</script>
+<h2>Say it in one line</h2>
+<p>From memory, no scrolling. Then open the model line. Same core = right.</p>
+<label class="small" for="bet-0006-line1">What does a plan really solve?</label><textarea class="bet" id="bet-0006-line1" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Know exactly what will change before anything changes - instead of finding out in production.</p></details>
+<label class="small" for="bet-0006-line2">What does state really solve?</label><textarea class="bet" id="bet-0006-line2" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>A record that binds each resource in your files to one real object - instead of guessing which object is which.</p></details>
+<label class="small" for="bet-0006-line3">Update in place vs replace, in one line.</label><textarea class="bet" id="bet-0006-line3" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>In place: the same object gets new values. Replace: the old object is destroyed and a new one is made.</p></details>
+<h2>Cards for your deck</h2>
+<div class="cards"><details class="card"><summary>A plan says "0 to add, 3 to change, 0 to destroy". What do you read first?</summary><p>The three <code>~</code> blocks and their old -> new values. No destroy - lower risk, but check what changes.</p></details><details class="card"><summary>A plan for the production database shows <code>-/+</code> and <code>forces replacement</code>. What do you ask?</summary><p>"Which line forces it, is it needed, and what protects the data?" Replace = the data goes with the old database.</p></details><details class="card"><summary>You lose <code>terraform.tfstate</code>. What does the next plan think?</summary><p>That nothing exists yet: it plans to create everything again, next to the real objects it can no longer recognise.</p></details><details class="card"><summary>Why does <code>tofu apply</code> twice in a row do nothing the second time?</summary><p>Desired equals actual: idempotency.</p></details><details class="card"><summary>What does the <code>aws</code> provider do?</summary><p>It turns resources in your files into AWS API calls, and reads real objects back.</p></details><details class="card"><summary>Someone deletes a resource by hand. What does the next plan propose?</summary><p>To create it again - the plan refreshes, sees it missing, and closes the gap.</p></details></div>
+<aside class="note"><strong>HwtP lens - optional, no answer here on purpose.</strong> In HwtP for Infra, who reads the plan before a database is changed? Is there a step where a person sees <code>-/+</code> before apply? Ask, or look at one release. This is the most important question in the course for your product.</aside>
+<div class="source"><h3>Read this next</h3><p><a href="https://developer.hashicorp.com/terraform/language/state/purpose">HashiCorp: Purpose of Terraform State</a> (8 minutes). It explains why the tool cannot just look at the cloud by name. Then <a href="https://developer.hashicorp.com/terraform/intro/core-workflow">Core workflow</a>, the "Working as an individual" part (5 minutes).</p></div>
+<h2>Done</h2>
+<ul class="checklist"><li><label><input type="checkbox" id="done-0006-0" data-xp="30"> <span>I finished steps 1-6 on my Mac</span></label></li><li><label><input type="checkbox" id="done-0006-1" data-xp="15"> <span>I did the step 7 experiment and pasted the plan</span></label></li><li><label><input type="checkbox" id="done-0006-2" data-xp="10"> <span>I read the state page</span></label></li><li><label><input type="checkbox" id="done-0006-3" data-xp="20"> <span>I did the explain-back in chat</span></label></li></ul>
+<h2>Lost here - your line</h2>
+<div class="lost-summary"></div>
+<p class="foot"><strong>Explain-back (10 minutes).</strong> In chat, start with the one line of plan and of state. Then 3-5 sentences: what init, plan and apply each did on your Mac, and what the neat rename would do to the notes. Paste your step 5 and step 7 outputs, the result lines and your lost line.<br><br>Questions about anything on this page? Ask in chat - your teacher is there for exactly that, and "this did not land" is welcome.<br><br>Next: <a href="0007-living-with-it.html">lesson 0007, living with it</a> - drift, shared state and locks, modules, and one code for many environments.</p>
+</div>
+</main>
+<script src="../assets/course.js"></script>
+<script src="../assets/quiz.js"></script>
+</body>
+</html>

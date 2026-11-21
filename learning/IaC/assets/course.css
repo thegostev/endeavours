@@ -1,0 +1,464 @@
+/* IaC course - shared stylesheet. Every lesson and reference page uses this.
+   Design: "Accessibility first" (design example 05), applied to the course components.
+   GOV.UK-based: Atkinson Hyperlegible everywhere, 19px body, nothing under 16px,
+   no italics, no all-caps labels, yellow focus you cannot miss, and right/wrong
+   said in words as well as color. Notes are inline "inset text" - one column, always.
+   Layers: base = structure, theme = tokens + identity, state = right/wrong feedback
+   (last, so nothing can hide it). Print and reduced-motion sit outside the layers. */
+@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Mono:wght@400;600&display=swap");
+@layer base, theme, state;
+
+@layer base {
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-block-start: env(safe-area-inset-top, 0px); }
+body {
+  margin: 0;
+  min-block-size: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  padding-block: env(safe-area-inset-top, 0px) env(safe-area-inset-bottom, 0px);
+}
+img, svg { display: block; max-inline-size: 100%; }
+input, button, textarea, select { font: inherit; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+::selection { background: color-mix(in srgb, var(--link) 22%, transparent); }
+
+/* Page and reading column: one column, centered, 66ch */
+.page {
+  font-family: var(--font-reading);
+  font-size: var(--step-0);
+  line-height: var(--lh);
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  padding: var(--pad-top) var(--gutter) 6rem;
+}
+.col { max-inline-size: var(--measure); margin-inline: auto; }
+.topnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem 1.4rem;
+  max-inline-size: var(--measure);
+  margin-inline: auto;
+  margin-block-end: 2.5rem;
+  font: 1rem/1.45 var(--font-ui);
+  color: var(--text-muted);
+}
+
+/* Heads and text */
+h1, h2, h3 { font-family: var(--font-head); color: var(--text); text-wrap: balance; }
+h1 { font-size: var(--step-4); line-height: 1.1; letter-spacing: -.01em; font-weight: 700; margin: 0 0 .4em; }
+.dek { font-size: var(--step-1); line-height: 1.4; color: var(--text); margin: 0 0 1.75rem; }
+h2 { font-size: var(--step-2); line-height: 1.2; letter-spacing: 0; font-weight: 700; margin: 2.4em 0 .65em; }
+h3 { font-size: var(--step-1); line-height: 1.25; letter-spacing: 0; font-weight: 700; margin: 1.8em 0 .5em; }
+p { margin: 0 0 1.15em; }
+em { font-style: normal; font-weight: 600; }
+.small { font-size: 1rem; color: var(--text-muted); }
+li + li { margin-block-start: .35em; }
+ul, ol { padding-inline-start: 1.35em; margin: 0 0 1.25em; }
+
+/* Links: visible affordance everywhere, thin then thick on hover */
+a { color: var(--link); text-decoration-line: underline; text-decoration-thickness: max(1px, .0625rem); text-underline-offset: .15em; text-decoration-skip-ink: auto; }
+a:hover { color: var(--link-hover); text-decoration-thickness: max(3px, .1875rem); }
+a:visited { color: var(--link-visited); }
+
+/* Code */
+code, kbd { font-family: var(--font-code); font-size: .86em; background: var(--code-bg); padding: .08em .3em; border-radius: .25rem; }
+pre { position: relative; font-family: var(--font-code); font-size: .85em; line-height: 1.55; background: var(--code-bg); padding: .9rem 1rem; margin: 0 0 1.2rem; overflow-x: auto; border-radius: var(--radius-sm); tab-size: 2; }
+pre code { background: none; padding: 0; font-size: inherit; }
+pre .c { color: var(--text-muted); }
+pre .hl-seq { color: var(--seq); font-weight: 600; }
+pre .hl-par { color: var(--par); font-weight: 600; }
+.copy { position: absolute; top: .45rem; right: .45rem; font: 1rem var(--font-code); color: var(--text); background: var(--surface); border: 0; border-radius: 0; padding: .15rem .5rem; cursor: pointer; box-shadow: 0 2px 0 #929191; }
+
+/* Legend: color = meaning. Teal = runs at the same time. Ochre = waits for the one before. */
+.par { color: var(--par); font-weight: 650; }
+.seq { color: var(--seq); font-weight: 650; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; inline-size: 100%; font: 1rem/1.5 var(--font-ui); font-variant-numeric: tabular-nums; margin: 0 0 1.2rem; }
+th, td { text-align: start; vertical-align: top; padding: .65rem .75rem .65rem 0; border-block-end: 1px solid var(--rule); }
+th { font-weight: 700; color: var(--text); }
+tr:last-child td { border-block-end: 0; }
+td code { white-space: nowrap; }
+
+/* Details */
+details { margin: 0 0 1rem; border-block-start: 1px solid var(--rule); padding-block-start: .6rem; }
+summary { cursor: pointer; font-weight: 700; }
+details[open] summary { margin-block-end: .6rem; }
+
+} /* end @layer base */
+
+/* ==========================================================================
+   THEME 05 - tokens and identity
+   ========================================================================== */
+@layer theme {
+
+:root {
+  color-scheme: light;
+  --bg: #FFFFFF;
+  --surface: #F3F2F1;
+  --surface-2: #E8E7E5;
+  --text: #0B0C0C;            /* 19.59:1 */
+  --text-muted: #505A5F;      /*  7.07:1 - AAA */
+  --link: #1D70B8;            /*  5.17:1 - AA */
+  --link-hover: #003078;      /* 12.40:1 */
+  --link-visited: #4C2C92;    /* 10.08:1 */
+  --rule: #B1B4B6;
+  --field-border: #0B0C0C;    /* fields get a 2px near-black border */
+  --focus: #FFDD00;
+  --focus-text: #0B0C0C;
+  --code-bg: #F3F2F1;
+  --good: #00703C; --good-soft: #E5F1EB;
+  --bad: #D4351C;  --bad-soft: #FBEAE7;
+  --btn-bg: #00703C; --btn-hover: #005A30; --btn-text: #FFFFFF; --btn-shadow: #002D18;
+  --par: #0B7A75;             /* parallel: things that run at the same time */
+  --seq: #8F5B00;             /* sequence: things that wait */
+
+  --font-reading: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif;
+  --font-ui: var(--font-reading);
+  --font-head: var(--font-reading);
+  --font-code: "Atkinson Hyperlegible Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Nothing below 1rem. */
+  --step--2: 1rem;
+  --step--1: 1rem;
+  --step-0:  clamp(1.125rem, 1.1rem + .15vw, 1.1875rem);   /* 18 -> 19px */
+  --step-1:  clamp(1.25rem, 1.15rem + .4vw, 1.5rem);
+  --step-2:  clamp(1.5rem, 1.25rem + 1vw, 2.25rem);
+  --step-3:  clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+  --step-4:  clamp(2rem, 1.5rem + 2.2vw, 3rem);
+  --lh: 1.6;
+  --measure: 66ch;
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --pad-top: clamp(2rem, 5vw, 3.5rem);
+  --radius: 0;
+  --radius-sm: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0F1011; --surface: #1C1E20; --surface-2: #26292B;
+    --text: #F3F2F1; --text-muted: #B7BCC0;
+    --link: #8DB9EA; --link-hover: #C2DBF5; --link-visited: #C3A8F0;
+    --rule: #5A6064; --field-border: #F3F2F1; --code-bg: #1C1E20;
+    --good: #6CCB97; --good-soft: #10291C; --bad: #FF8A73; --bad-soft: #3A1A14;
+    --btn-bg: #00703C; --btn-hover: #005A30; --btn-text: #FFFFFF; --btn-shadow: #000000;
+    --par: #4CC3BC; --seq: #E2A843;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0F1011; --surface: #1C1E20; --surface-2: #26292B;
+  --text: #F3F2F1; --text-muted: #B7BCC0;
+  --link: #8DB9EA; --link-hover: #C2DBF5; --link-visited: #C3A8F0;
+  --rule: #5A6064; --field-border: #F3F2F1; --code-bg: #1C1E20;
+  --good: #6CCB97; --good-soft: #10291C; --bad: #FF8A73; --bad-soft: #3A1A14;
+  --btn-bg: #00703C; --btn-hover: #005A30; --btn-text: #FFFFFF; --btn-shadow: #000000;
+  --par: #4CC3BC; --seq: #E2A843;
+}
+
+/* Focus: yellow with a black bar, on any background. */
+a:focus-visible, summary:focus-visible {
+  outline: 3px solid transparent;
+  outline-offset: 0;
+  color: var(--focus-text);
+  background: var(--focus);
+  box-shadow: 0 -2px var(--focus), 0 4px var(--focus-text);
+  text-decoration: none;
+  border-radius: 0;
+}
+.bet:focus-visible, .fill-input:focus-visible, .q-opt:focus-visible, button:focus-visible {
+  outline: 3px solid transparent;
+  outline-offset: 0;
+}
+
+/* Notes: inline "inset text". No margin column - one column, always. */
+.note {
+  font: 1rem/1.5 var(--font-ui);
+  color: var(--text);
+  margin: 1.5rem 0;
+  padding: .9rem 1rem .9rem 1.25rem;
+  border-inline-start: 10px solid var(--rule);
+}
+
+/* Buttons: green with a bottom edge, like GOV.UK. Also the runstrip's "Run it". */
+button {
+  font: 400 1.1875rem/1.2 var(--font-ui);
+  color: var(--btn-text);
+  background: var(--btn-bg);
+  border: 0;
+  border-radius: 0;
+  padding: .55rem 1rem .45rem;
+  min-block-size: 2.75rem;
+  box-shadow: 0 2px 0 var(--btn-shadow);
+  cursor: pointer;
+}
+button:hover:not(:disabled) { background: var(--btn-hover); }
+button:disabled { opacity: .45; cursor: not-allowed; }
+button:focus-visible {
+  outline: 3px solid transparent;
+  color: var(--focus-text);
+  background: var(--focus);
+  box-shadow: 0 2px 0 var(--focus-text);
+}
+button.ghost { background: var(--surface); color: var(--text); box-shadow: 0 2px 0 #929191; }
+button.ghost:hover:not(:disabled) { background: var(--surface-2); }
+
+/* Fields: 2px border, 19px text, yellow focus with an inset black ring. */
+.bet {
+  display: block;
+  inline-size: 100%;
+  min-block-size: 6.5rem;
+  font: 1.1875rem/1.5 var(--font-reading);
+  color: var(--text);
+  background: var(--bg);
+  border: 2px solid var(--field-border);
+  border-radius: 0;
+  padding: .65rem .8rem;
+  resize: vertical;
+  margin-block-end: 1rem;
+}
+.bet::placeholder { color: var(--text-muted); opacity: 1; }
+.bet:focus-visible, .fill-input:focus-visible { outline: 3px solid var(--focus); box-shadow: inset 0 0 0 2px var(--focus-text); }
+
+/* Quiz: full-width answers, 19px, 3rem targets. Words for right/wrong live in state. */
+.quiz { counter-reset: q; margin-block-end: 2rem; }
+.q { margin: 0 0 2.5rem; }
+.q-stem { margin-block-end: .8rem; font-weight: 700; }
+.q-stem::before { counter-increment: q; content: counter(q) ". "; color: var(--text-muted); font-weight: 400; }
+.q-opts { display: grid; grid-template-columns: minmax(0, 1fr); gap: .45rem; }
+.q-opt code { overflow-wrap: anywhere; }
+.q-opts[role="group"] { gap: .45rem; }
+.q-opt {
+  font: 400 1.1875rem/1.4 var(--font-reading);
+  text-align: start;
+  color: var(--text);
+  background: var(--bg);
+  border: 2px solid var(--field-border);
+  border-radius: 0;
+  padding: .7rem 1rem;
+  min-block-size: 3rem;
+  box-shadow: none;
+}
+.q-opt:hover:not([disabled]) { background: var(--surface); }
+.q-opt[disabled] { opacity: 1; cursor: default; }
+.q-why { font: 1.0625rem/1.5 var(--font-ui); margin-block-start: .8rem; padding: .5rem 0 .5rem 1rem; border-inline-start: 10px solid var(--rule); }
+.q-why strong { font-weight: 700; }
+.q-score { font: 1rem/1.5 var(--font-ui); border-block-start: 2px solid var(--text); padding-block-start: .8rem; }
+.q-result { display: grid; gap: .5rem; justify-items: start; margin: .8rem 0 1rem; }
+.q-result .small { margin: 0; }
+.q-line { display: block; max-inline-size: 100%; white-space: normal; overflow-wrap: anywhere; padding: .5rem .7rem; }
+
+/* Run strip */
+.runstrip { margin: 0 0 1.6rem; }
+.runstrip-lanes { display: flex; gap: .5rem; align-items: stretch; overflow-x: auto; padding: .6rem 0; }
+.wave { min-inline-size: 8.5rem; flex: 0 0 auto; border-block-start: 2px solid var(--rule); padding-block-start: .5rem; }
+.wave-label { font: 1rem/1.4 var(--font-ui); color: var(--text-muted); margin-block-end: .4rem; }
+.pill { display: block; font: 1rem/1.4 var(--font-code); padding: .3rem .6rem; margin-block-end: .35rem; border: 2px solid var(--seq); border-radius: 0; background: var(--bg); opacity: .28; transition: opacity .25s ease; }
+.wave.multi .pill { border-color: var(--par); }
+.pill.on { opacity: 1; }
+
+/* XP meter */
+.xp { display: flex; align-items: center; gap: .7rem; font: 1rem/1.45 var(--font-ui); color: var(--text-muted); margin: -1rem 0 2rem; }
+.xp-bar { flex: 0 1 12rem; block-size: 6px; background: var(--rule); border-radius: 0; overflow: hidden; }
+.xp-fill { block-size: 100%; width: 0; background: var(--good); transition: width .4s ease; }
+
+/* Big GOV.UK checkboxes */
+.checklist { list-style: none; padding: 0; }
+.checklist label { display: flex; gap: 1rem; align-items: flex-start; padding-block-start: .35rem; cursor: pointer; }
+.checklist input[type="checkbox"] {
+  appearance: none;
+  flex: none;
+  inline-size: 2.5rem; block-size: 2.5rem;
+  margin: 0;
+  transform: none;
+  border: 2px solid var(--field-border);
+  background: var(--bg);
+  border-radius: 0;
+  display: grid; place-content: center;
+  cursor: pointer;
+}
+.checklist input[type="checkbox"]::after {
+  content: "";
+  inline-size: 1.1rem; block-size: .55rem;
+  border: solid var(--text); border-width: 0 0 4px 4px;
+  transform: translateY(-.15rem) rotate(-45deg);
+  opacity: 0;
+}
+.checklist input[type="checkbox"]:checked::after { opacity: 1; }
+.checklist input[type="checkbox"]:focus-visible { outline: 3px solid var(--focus); outline-offset: 0; border-width: 4px; }
+
+/* Flashcards: details elements, flip by opening */
+.cards { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fill, minmax(min(17rem, 100%), 1fr)); margin-block-end: 1.2rem; }
+.card { border: 2px solid var(--field-border); border-radius: 0; padding: .8rem .9rem; margin: 0; background: var(--bg); }
+.card summary { font-weight: 400; list-style: none; cursor: pointer; }
+.card summary::-webkit-details-marker { display: none; }
+.card p { margin: .5rem 0 0; color: var(--par); }
+
+/* Big idea: the one thing, a picture, where the picture stops working */
+.idea { margin: 2rem 0 2.25rem; padding: 1.1rem 1.1rem 1.2rem 1.25rem; background: var(--surface); border-inline-start: 10px solid var(--link); }
+.idea > h2 { margin-top: 0; }
+.idea dl { margin: 0; }
+.idea dt { font-weight: 700; margin: 1rem 0 .2rem; color: var(--text); }
+.idea dt:first-child { margin-top: 0; }
+.idea dd { margin: 0; color: var(--text); }
+.idea dd ul { margin: .4rem 0 0; padding-inline-start: 1.25rem; }
+.idea code { white-space: normal; }
+/* Why: the reason behind a rule, inside a reveal */
+.why { border-inline-start: 4px solid var(--link); padding-inline-start: .85rem; margin: .9rem 0 0; }
+
+/* Words you need: definitions before the labs */
+.words { margin: 1.5rem 0 2rem; padding: 1rem 1.1rem 1.1rem 1.25rem; border: 2px solid var(--rule); }
+.words > h3 { margin-top: 0; }
+.words dl { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: .55rem; }
+.words dt { font-weight: 700; }
+.words dd { margin: 0 0 .2rem; }
+dfn { font-style: normal; font-weight: 700; }
+/* Story line above a lab, and the small open file */
+.story { font-weight: 600; }
+/* Lost here: one box per lab */
+.lost { display: flex; gap: .6rem; align-items: baseline; margin: .4rem 0 1.4rem; color: var(--text-muted); cursor: pointer; font: 1rem/1.5 var(--font-ui); }
+.lost input { width: 1.05rem; height: 1.05rem; flex: 0 0 auto; transform: translateY(.15rem); }
+.lost-summary { display: grid; gap: .5rem; justify-items: start; margin: 1.2rem 0; }
+.lost-summary .small { margin: 0; }
+/* Grid to fill from your runs */
+.grid td, .grid th { text-align: center; }
+.grid td:first-child, .grid th:first-child { text-align: start; }
+
+/* Fill: guess first, then reveal */
+.fill { margin: 0 0 1.4rem; }
+.fill [hidden] { display: none !important; }
+.blank { font-weight: 600; border-block-end: 2px dashed var(--text-muted); padding: 0 .15em; }
+.blank.is-empty { color: var(--text-muted); font-weight: 400; }
+.blank.is-empty::after { content: attr(data-n); font-size: 1rem; vertical-align: super; line-height: 0; margin-inline-start: .15em; }
+.blank.is-ok { color: var(--good); border-block-end-style: solid; border-block-end-color: var(--good); }
+.blank.is-shown { color: var(--seq); border-block-end-style: solid; border-block-end-color: var(--seq); }
+.fill-list { list-style: none; padding: 0; margin: 0 0 1rem; display: grid; gap: 1rem; }
+.fill-list > li { margin: 0; padding-inline-start: 1rem; border-inline-start: 2px solid var(--rule); min-inline-size: 0; }
+.fill-list > li.is-ok { border-inline-start-color: var(--good); }
+.fill-list > li.is-shown { border-inline-start-color: var(--seq); }
+.fill-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem; margin-block-end: .35rem; }
+.fill-n { font: 1rem var(--font-code); color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.chip { font: 1rem/1.4 var(--font-ui); letter-spacing: 0; text-transform: none; padding: .1rem .55rem; border-radius: 0; border: 2px solid var(--rule); color: var(--text-muted); }
+.chip-idea { border-color: var(--par); color: var(--par); }
+.chip-lookup { border-color: var(--link); color: var(--link); }
+.chip-given { border-color: var(--text-muted); color: var(--text-muted); }
+.fill-row { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; }
+.fill-input { flex: 1 1 16rem; min-inline-size: 0; font: 1rem/1.4 var(--font-code); color: var(--text); background: var(--bg); border: 2px solid var(--field-border); border-radius: 0; padding: .45rem .6rem; }
+.fill-input:read-only { border-style: dashed; }
+.fill-row .btn { padding: .35rem .75rem; font-size: 1.0625rem; }
+.fill-msg { font: 1rem/1.4 var(--font-ui); color: var(--text-muted); flex: 1 1 100%; }
+li.is-ok .fill-msg { color: var(--good); }
+li.is-shown .fill-msg { color: var(--seq); }
+.fill-hint, .fill-why { font: 1rem/1.5 var(--font-ui); margin-block-start: .5rem; }
+.fill-hint::before { content: "Where to find it: "; font-weight: 600; }
+.fill-value { margin: 0 0 .3rem; }
+.fill-done { display: grid; gap: .5rem; justify-items: start; }
+.fill-done .small { margin-block: 0; }
+
+.source { border-block-start: 2px solid var(--text); padding-block-start: .8rem; margin-block-start: 3rem; }
+.foot { margin-block-start: 3rem; font-size: 1rem; color: var(--text-muted); }
+
+} /* end @layer theme */
+
+/* ==========================================================================
+   STATE LAYER - right and wrong, last so nothing can hide them.
+   Color AND words, because color alone is no signal (WCAG 1.4.1).
+   ========================================================================== */
+@layer state {
+  .q-opt.right { background: var(--good-soft); border-color: var(--good); border-width: 2px 2px 2px 10px; color: var(--text); }
+  .q-opt.wrong { background: var(--bad-soft); border-color: var(--bad); border-width: 2px 2px 2px 10px; color: var(--text); }
+  .q-opt.right::after { content: " - correct answer"; font-weight: 700; }
+  .q-opt.wrong::after { content: " - your answer"; font-weight: 700; }
+}
+
+@media (prefers-reduced-motion: reduce) { .pill, .xp-fill { transition: none; } }
+
+@media print {
+  :root { --bg: #fff; --surface: #f1f1f1; --text: #000; --text-muted: #444; --rule: #b1b4b6; --code-bg: #f1f1f1; --field-border: #000; }
+  body { padding: 0; }
+  .topnav, button, .xp, .no-print { display: none !important; }
+  .page { padding: 0; }
+  .col { max-inline-size: none; }
+  .note { margin-block: .8rem; }
+  pre { white-space: pre-wrap; overflow: visible; break-inside: avoid; }
+  .runstrip-lanes { overflow: visible; }
+  h2, h3 { break-after: avoid; }
+  .card, .quiz .q, details { break-inside: avoid; }
+  a { color: inherit; }
+}
+/* ==========================================================================
+   IaC additions (Nov 2026): figures, look-alike pairs, the sorter, the map.
+   SVG figures use currentColor and the theme tokens, so they work in dark mode.
+   ========================================================================== */
+@layer base {
+  .fig { margin: 1.75rem 0 2rem; }
+  .fig svg { inline-size: 100%; block-size: auto; overflow: visible; }
+  .fig figcaption { font: 1rem/1.45 var(--font-ui); color: var(--text-muted); margin-top: .6rem; }
+  .fig .box { fill: var(--surface); stroke: var(--text); stroke-width: 1.5; }
+  .fig .box-key { fill: var(--good-soft); stroke: var(--good); stroke-width: 2; }
+  .fig .box-goal { fill: color-mix(in srgb, var(--link) 14%, var(--bg)); stroke: var(--link); stroke-width: 2.5; }
+  .fig .frame { fill: none; stroke: var(--text-muted); stroke-width: 1.5; stroke-dasharray: 6 5; }
+  .fig .floor { fill: color-mix(in srgb, var(--seq) 16%, var(--bg)); stroke: var(--seq); stroke-width: 1.5; }
+  .fig .line { fill: none; stroke: var(--text); stroke-width: 1.8; }
+  .fig .line-soft { fill: none; stroke: var(--text-muted); stroke-width: 1.4; stroke-dasharray: 4 4; }
+  .fig text { fill: var(--text); font-family: var(--font-ui); font-size: 15px; }
+  .fig .t-b { font-weight: 700; }
+  .fig .t-s { font-size: 13px; fill: var(--text-muted); }
+  .fig .t-verb { font-weight: 700; fill: var(--link); font-size: 15px; }
+  .fig .t-floor { fill: var(--seq); font-weight: 700; }
+  .fig .arrowhead { fill: var(--text); }
+  .fig .ring { stroke: var(--bg); stroke-width: 3; }
+  .fig .ring-here { stroke: var(--focus); stroke-width: 5; }
+
+  /* Look-alike pair: one row per pair, the same words in every lesson */
+  .pairs { display: grid; gap: .9rem; margin: 1.25rem 0 1.75rem; }
+  .pair { border: 2px solid var(--rule); padding: .8rem 1rem; background: var(--bg); }
+  .pair > strong { display: block; font-family: var(--font-head); margin-bottom: .3rem; }
+  .pair p { margin: .25rem 0; }
+
+  /* Sorter: one event at a time, pick its bucket, see why */
+  .sort { border: 2px solid var(--text); padding: 1rem 1.1rem; margin: 1.25rem 0 2rem; background: var(--surface); }
+  .sort-count { font: 1rem/1.4 var(--font-ui); color: var(--text-muted); margin: 0 0 .4rem; }
+  .sort-item { font-size: var(--step-1); line-height: 1.35; margin: 0 0 1rem; font-weight: 700; }
+  .sort-btns { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: .5rem; }
+  .sort-btn { padding: .65rem .8rem; border: 2px solid var(--field-border); background: var(--bg); color: var(--text); cursor: pointer; text-align: start; font-weight: 600; }
+  .sort-btn:hover:not(:disabled) { background: var(--surface-2); }
+  .sort-btn:disabled { cursor: default; }
+  .sort-why { margin: 1rem 0 0; }
+  .sort-next { margin-top: .8rem; padding: .6rem 1.1rem; border: 0; background: var(--btn-bg); color: var(--btn-text); font-weight: 700; cursor: pointer; box-shadow: 0 2px 0 var(--btn-shadow); }
+  .sort-next:hover { background: var(--btn-hover); }
+  .sort-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: .75rem; margin-top: 1rem; }
+  .sort-col { border: 1px solid var(--rule); background: var(--bg); padding: .6rem .75rem; }
+  .sort-col h4 { margin: 0 0 .4rem; font: 700 1rem/1.3 var(--font-head); }
+  .sort-col ul { margin: 0; padding-inline-start: 1.1rem; font-size: 1rem; }
+
+  /* Depth dots on the course map */
+  .depth { font-family: var(--font-code); letter-spacing: .1em; white-space: nowrap; }
+  tr.goal td { background: color-mix(in srgb, var(--link) 10%, var(--bg)); }
+  tr.here td { background: color-mix(in srgb, var(--focus) 30%, var(--bg)); }
+}
+@layer state {
+  .sort-btn.right { background: var(--good-soft); border-color: var(--good); border-width: 2px 2px 2px 10px; }
+  .sort-btn.wrong { background: var(--bad-soft); border-color: var(--bad); border-width: 2px 2px 2px 10px; }
+  .sort-btn.right::after { content: " - correct"; }
+  .sort-btn.wrong::after { content: " - your pick"; }
+}
+@layer base {
+  .fig .r-a { fill: var(--surface); }
+  .fig .r-b { fill: var(--surface-2); }
+  .fig .r-goal { fill: color-mix(in srgb, var(--link) 22%, var(--bg)); }
+  .fig .r-here { fill: color-mix(in srgb, var(--focus) 55%, var(--bg)); }
+  .fig .t-ring { font-size: 14px; font-weight: 700; }
+}
+@layer base { .fig-onion svg { max-inline-size: 30rem; margin-inline: auto; } }
+@layer base {
+  /* Wide diagrams: on a phone, keep the text readable and let the figure scroll sideways. */
+  .fig-wide { overflow-x: auto; }
+  @media (max-width: 40rem) { .fig-wide svg { min-inline-size: 40rem; } .fig-wide figcaption { position: sticky; left: 0; max-inline-size: calc(100vw - 2 * var(--gutter)); } }
+}

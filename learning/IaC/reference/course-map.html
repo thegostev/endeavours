@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en" data-page="iac-map">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IaC course map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main class="page">
+<nav class="topnav" aria-label="Course"><span>IaC reference</span><a href="iac-in-one-line.html">IaC in one line</a><a href="../lessons/0001-from-commit-to-user.html">Start: lesson 0001</a></nav>
+<div class="col">
+<h1>Course map</h1>
+<p class="dek">How software and infrastructure get from code to a running, reliable system - as seven layers, from the core out. The goal is a strong, whole picture of Infrastructure as Code.</p>
+<aside class="note">How to use it: before each lesson, find the layer you are in. After each lesson, cover the "one thing" column and say each line you have learned. Last update: Nov 21, 2026 (lessons 0001-0009 built).</aside>
+
+<figure class="fig fig-onion">
+<svg viewBox="0 0 660 660" role="img" aria-labelledby="mp-on-t"><title id="mp-on-t">The course as an onion: layer 0 in the center, layer 6 outside. Layer 5, Infrastructure as Code, is the goal.</title>
+<circle class="r-a ring" cx="330" cy="330" r="314"/>
+<circle class="r-goal ring" cx="330" cy="330" r="272"/>
+<circle class="r-a ring" cx="330" cy="330" r="230"/>
+<circle class="r-b ring" cx="330" cy="330" r="188"/>
+<circle class="r-a ring" cx="330" cy="330" r="146"/>
+<circle class="r-b ring" cx="330" cy="330" r="104"/>
+<circle class="r-here ring-here" cx="330" cy="330" r="62"/>
+<text class="t-ring" x="330" y="252" text-anchor="middle">1 · Delivery lifecycle</text>
+<text class="t-ring" x="330" y="210" text-anchor="middle">2 · Deploy and release</text>
+<text class="t-ring" x="330" y="168" text-anchor="middle">3 · Runtime</text>
+<text class="t-ring" x="330" y="126" text-anchor="middle">4 · Cloud infrastructure</text>
+<text class="t-ring" x="330" y="84" text-anchor="middle">5 · Infrastructure as Code</text>
+<text class="t-ring" x="330" y="42" text-anchor="middle">6 · Platform engineering</text>
+<text class="t-ring" x="330" y="326" text-anchor="middle">0 · The</text><text class="t-ring" x="330" y="344" text-anchor="middle">mental model</text>
+<text class="t-s" x="330" y="588" text-anchor="middle">the goal - taught in depth</text>
+<text class="t-s" x="330" y="420" text-anchor="middle">you are here: center</text>
+</svg>
+<figcaption>Each ring needs the rings inside it. You can explain an outer ring only in the words of the inner ones.</figcaption>
+</figure>
+
+<h2>The layers in one line</h2>
+<p>Depth = how far this course goes into the layer, for your goal. ●●●●● is in depth. ●●○○○ is "enough to understand IaC".</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Layer</th><th>The one thing - what it really solves, instead of what</th><th>Depth</th><th>Lessons</th></tr></thead>
+<tbody>
+<tr class="here"><td><strong>0 · The mental model</strong></td><td>Get a code change to users safely and repeatably - instead of by hand and hope.</td><td class="depth">●●●●●</td><td><a href="../lessons/0001-from-commit-to-user.html">0001</a></td></tr>
+<tr><td><strong>1 · Delivery lifecycle</strong></td><td>Every change takes the same checked road to production - instead of each person's own way.</td><td class="depth">●●○○○</td><td><a href="../lessons/0002-the-pipeline.html">0002</a></td></tr>
+<tr><td><strong>2 · Deploy and release</strong></td><td>Make shipping small, boring and reversible - instead of rare, risky launch days.</td><td class="depth">●●○○○</td><td><a href="../lessons/0002-the-pipeline.html">0002</a></td></tr>
+<tr><td><strong>3 · Runtime</strong></td><td>Give the app the same predictable box everywhere - instead of "it works on my machine".</td><td class="depth">●●○○○</td><td><a href="../lessons/0003-what-actually-runs.html">0003</a></td></tr>
+<tr><td><strong>4 · Cloud infrastructure</strong></td><td>Rent servers, networks and storage by API in minutes - instead of buying hardware for months.</td><td class="depth">●●●○○</td><td><a href="../lessons/0004-notekeepers-floor.html">0004</a></td></tr>
+<tr class="goal"><td><strong>5 · Infrastructure as Code</strong></td><td>Keep infrastructure in files a tool makes real - instead of clicks and memory.</td><td class="depth">●●●●●</td><td><a href="../lessons/0005-why-iac.html">0005</a>-<a href="../lessons/0008-delivering-infrastructure-code.html">0008</a></td></tr>
+<tr><td><strong>6 · Platform engineering</strong></td><td>Self-service delivery and infrastructure for app teams - instead of every team building its own.</td><td class="depth">●●●○○</td><td><a href="../lessons/0009-platforms.html">0009</a></td></tr>
+</tbody></table></div>
+<p class="small">The one lines of layers 1-6 were checked against the sources when their lessons were built (Nov 21, 2026). They change only if a lesson shows a more precise meaning.</p>
+
+<h2>The lesson plan</h2>
+<p>A proposal. It changes with your results - a missed idea gets its own fix before we go on.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>#</th><th>Lesson</th><th>Layer</th><th>Status</th></tr></thead>
+<tbody>
+<tr class="here"><td>0001</td><td><a href="../lessons/0001-from-commit-to-user.html">From a code change to a user</a> - four things, three steps, one floor</td><td>0</td><td>Ready</td></tr>
+<tr><td>0002</td><td><a href="../lessons/0002-the-pipeline.html">The pipeline: one checked road</a> - CI vs Continuous Delivery vs Continuous Deployment, promotion, rollback</td><td>1-2</td><td>Ready</td></tr>
+<tr><td>0003</td><td><a href="../lessons/0003-what-actually-runs.html">What actually runs</a> - process, virtual machine, container, image; desired state in Kubernetes</td><td>3</td><td>Ready</td></tr>
+<tr><td>0004</td><td><a href="../lessons/0004-notekeepers-floor.html">Notekeeper's floor</a> - network, compute, database, DNS, load balancer, access (IAM), regions</td><td>4</td><td>Ready</td></tr>
+<tr class="goal"><td>0005</td><td><a href="../lessons/0005-why-iac.html">Why Infrastructure as Code</a> - clicks vs scripts vs definitions; declarative vs imperative; desired vs actual state</td><td>5</td><td>Ready</td></tr>
+<tr class="goal"><td>0006</td><td><a href="../lessons/0006-the-iac-engine.html">The IaC engine</a> - resource, provider, state, plan, apply, idempotency. First hands-on lab</td><td>5</td><td>Ready</td></tr>
+<tr class="goal"><td>0007</td><td><a href="../lessons/0007-living-with-it.html">Living with it</a> - drift, state storage and locks, modules, one code for many environments</td><td>5</td><td>Ready</td></tr>
+<tr class="goal"><td>0008</td><td><a href="../lessons/0008-delivering-infrastructure-code.html">Delivering infrastructure code</a> - infra pipelines; provisioning vs configuration management; IaC vs config as code</td><td>5</td><td>Ready</td></tr>
+<tr><td>0009</td><td><a href="../lessons/0009-platforms.html">Platforms - and the whole picture</a> - golden paths, self-service, and where HwtP for Infra fits</td><td>6</td><td>Ready</td></tr>
+</tbody></table></div>
+
+<h2>The look-alike pairs</h2>
+<p>Words that people often use as if they meant the same. Each pair gets one line, and the same line in every lesson.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Pair</th><th>The difference in one line</th><th>Settled in</th></tr></thead>
+<tbody>
+<tr><td>Build vs deployment vs release</td><td>Build makes the thing. Deploy puts the thing in a place. Release lets users use it.</td><td>0001</td></tr>
+<tr><td>Artifact vs running app</td><td>The artifact is the packed, fixed thing in the store. The running app is that artifact alive in an environment, with its config.</td><td>0001</td></tr>
+<tr><td>Infrastructure vs environment</td><td>Infrastructure is the floor. An environment is one use of it: infrastructure plus config, for one purpose.</td><td>0001</td></tr>
+<tr><td>Application code vs infrastructure code</td><td>Application code says what the app does. Infrastructure code says what the floor is made of.</td><td>0001 (first look), 0005</td></tr>
+<tr><td>Infrastructure vs platform vs environment</td><td>Infrastructure is the floor. A platform is the road on top of it, as self-service. An environment is one use of the floor: infrastructure plus config, for one purpose.</td><td>0001, 0009</td></tr>
+<tr><td>CI vs Continuous Delivery vs Continuous Deployment</td><td>CI: merge daily, checked automatically. Delivery: always ready, a person presses the button. Deployment: no button.</td><td>0002</td></tr>
+<tr><td>Container vs virtual machine</td><td>A container is an isolated process on a shared kernel. A VM is a whole pretend computer with its own OS.</td><td>0003</td></tr>
+<tr><td>Desired state vs actual state</td><td>Desired is what you wrote should be true. Actual is what really runs now. A gap that stays open is drift.</td><td>0003, 0005</td></tr>
+<tr><td>Provisioning vs configuration management</td><td>Provisioning creates the floor's parts. Configuration management sets up what is inside a server.</td><td>0008</td></tr>
+<tr><td>Infrastructure as Code vs configuration as code</td><td>IaC describes the infrastructure itself. Configuration as code keeps app and tool settings in Git.</td><td>0008</td></tr>
+<tr><td>Imperative vs declarative</td><td>Imperative: you give the steps. Declarative: you give the end result, and a tool works out the steps.</td><td>0003, 0005</td></tr>
+<tr><td>Update in place vs replace</td><td>In place: the same object gets new values. Replace: the old object is destroyed and a new one is made.</td><td>0006</td></tr>
+<tr><td>Module vs stack</td><td>A module is reusable code. A stack is one applied piece with its own state.</td><td>0007</td></tr>
+<tr><td>Mutable vs immutable infrastructure</td><td>Mutable: change the live server in place. Immutable: never change it - build a new one and remove the old.</td><td>0008</td></tr>
+<tr><td>Portal vs platform</td><td>The portal is the front door. The platform is what the door leads to.</td><td>0009</td></tr>
+</tbody></table></div>
+
+<h2>The running example</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 680 320" role="img" aria-labelledby="mp-nk-t"><title id="mp-nk-t">Notekeeper: a user's browser talks to the web app, the web app to the API, the API to the database. All three run in the production environment, which stands on infrastructure rented from a cloud.</title>
+<defs><marker id="mp-nk-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<rect class="box" x="8" y="97" width="92" height="56"/><text class="t-b" x="54" y="122" text-anchor="middle">User</text><text class="t-s" x="54" y="141" text-anchor="middle">a browser</text>
+<rect class="frame" x="130" y="18" width="540" height="200"/>
+<text class="t-b" x="146" y="44">Production environment</text><text class="t-s" x="654" y="44" text-anchor="end">+ config: production values</text>
+<rect class="box" x="158" y="90" width="140" height="70"/><text class="t-b" x="228" y="118" text-anchor="middle">Web app</text><text class="t-s" x="228" y="139" text-anchor="middle">the pages users see</text>
+<rect class="box" x="342" y="90" width="140" height="70"/><text class="t-b" x="412" y="118" text-anchor="middle">API</text><text class="t-s" x="412" y="139" text-anchor="middle">rules and data access</text>
+<rect class="box" x="526" y="90" width="128" height="70"/><text class="t-b" x="590" y="118" text-anchor="middle">Database</text><text class="t-s" x="590" y="139" text-anchor="middle">the stored notes</text>
+<path class="line" d="M100 125 H154" marker-end="url(#mp-nk-a)"/><path class="line" d="M298 125 H338" marker-end="url(#mp-nk-a)"/><path class="line" d="M482 125 H522" marker-end="url(#mp-nk-a)"/>
+<path class="line-soft" d="M228 160 V244"/><path class="line-soft" d="M412 160 V244"/><path class="line-soft" d="M590 160 V244"/>
+<rect class="floor" x="130" y="244" width="540" height="62"/>
+<text class="t-floor" x="400" y="271" text-anchor="middle">Infrastructure</text><text class="t-s" x="400" y="292" text-anchor="middle">servers, network, storage - rented from a cloud</text>
+</svg>
+<figcaption>Notekeeper: a web app, an API and a database in a cloud. Every lesson changes or opens one part of it.</figcaption>
+</figure>
+
+<p class="small">Sources for the layer lines: <a href="https://12factor.net/build-release-run">Twelve-Factor</a>, <a href="https://martinfowler.com/bliki/ContinuousDelivery.html">Fowler: Continuous Delivery</a>, <a href="https://doi.org/10.6028/NIST.SP.800-145">NIST SP 800-145</a>, <a href="https://www.martinfowler.com/bliki/InfrastructureAsCode.html">Fowler: Infrastructure As Code</a>, Kief Morris, <a href="https://www.oreilly.com/library/view/infrastructure-as-code/9781098150341/">Infrastructure as Code, 3rd ed.</a> The lines are plain readings, not quotes.</p>
+</div>
+</main>
+<script src="../assets/course.js"></script>
+</body>
+</html>

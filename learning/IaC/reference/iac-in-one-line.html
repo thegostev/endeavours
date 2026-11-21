@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" data-page="iac-oneline">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IaC in one line</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main class="page">
+<nav class="topnav" aria-label="Course"><span>IaC reference</span><a href="course-map.html">Course map</a><a href="../lessons/0001-from-commit-to-user.html">Start: lesson 0001</a></nav>
+<div class="col">
+<h1>IaC in one line</h1>
+<p class="dek">What each concept really solves - and instead of what. Know the one thing, and the details follow from it.</p>
+<aside class="note">How to use it: cover the "one thing" column, say the line for each row, then compare. Same core = right. The lessons and cards use these exact words. The page grows with each lesson. Last update: Nov 21, 2026 (lessons 0001-0009).</aside>
+
+<h2>Layer 0 - the mental model</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Concept</th><th>The one thing</th><th>Lesson</th></tr></thead>
+<tbody>
+<tr><td><strong>Software delivery</strong></td><td>Get a code change to users safely and repeatably - instead of by hand and hope.</td><td><a href="../lessons/0001-from-commit-to-user.html">0001</a></td></tr>
+<tr><td><strong>Change</strong></td><td>A recorded, reviewable edit - instead of "someone changed something, sometime".</td><td>0001</td></tr>
+<tr><td><strong>Build</strong></td><td>Turns code into one fixed, versioned thing - instead of "whatever is on the server".</td><td>0001</td></tr>
+<tr><td><strong>Artifact</strong></td><td>The same bytes in every environment - instead of a different copy in each place.</td><td>0001</td></tr>
+<tr><td><strong>Config</strong></td><td>Keeps what differs between environments outside the artifact - instead of one build per place.</td><td>0001</td></tr>
+<tr><td><strong>Deployment</strong></td><td>A known version runs in a known place - instead of guessing what is live.</td><td>0001</td></tr>
+<tr><td><strong>Release</strong></td><td>Users get a feature when you choose - instead of when the code happens to land.</td><td>0001</td></tr>
+<tr><td><strong>Environment</strong></td><td>A separate place per purpose - instead of testing on real users.</td><td>0001</td></tr>
+<tr><td><strong>Infrastructure</strong></td><td>The floor every environment stands on - servers, network, storage.</td><td>0001</td></tr>
+</tbody></table></div>
+
+<h2>Layers 1-2 - delivery</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Concept</th><th>The one thing</th><th>Lesson</th></tr></thead>
+<tbody><tr><td><strong>Pipeline</strong></td><td>Every change takes the same checked road to production - instead of each person's own way.</td><td><a href="../lessons/0002-the-pipeline.html">0002</a></td></tr><tr><td><strong>Continuous Integration</strong></td><td>Merge small changes daily, each checked automatically - instead of one painful merge weeks later.</td><td><a href="../lessons/0002-the-pipeline.html">0002</a></td></tr><tr><td><strong>Continuous Delivery</strong></td><td>Every good change is ready for production at any time; a person presses the button.</td><td><a href="../lessons/0002-the-pipeline.html">0002</a></td></tr><tr><td><strong>Continuous Deployment</strong></td><td>Every good change goes to production automatically - no button.</td><td><a href="../lessons/0002-the-pipeline.html">0002</a></td></tr><tr><td><strong>Promotion</strong></td><td>The same artifact moves on, collecting proof - instead of a new build per environment.</td><td><a href="../lessons/0002-the-pipeline.html">0002</a></td></tr><tr><td><strong>Blue-green / canary</strong></td><td>Deploy without a big bang: switch all users at once and back (blue-green), or a few first (canary).</td><td><a href="../lessons/0002-the-pipeline.html">0002</a></td></tr></tbody></table></div>
+<h2>Layer 3 - runtime</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Concept</th><th>The one thing</th><th>Lesson</th></tr></thead>
+<tbody><tr><td><strong>Container</strong></td><td>Give the app the same predictable box everywhere - instead of "it works on my machine".</td><td><a href="../lessons/0003-what-actually-runs.html">0003</a></td></tr><tr><td><strong>Virtual machine</strong></td><td>A whole pretend computer with its own OS - a stronger wall, at a higher cost.</td><td><a href="../lessons/0003-what-actually-runs.html">0003</a></td></tr><tr><td><strong>Desired state</strong></td><td>You write what should be true; a loop makes it true and keeps it true - instead of you doing each step.</td><td><a href="../lessons/0003-what-actually-runs.html">0003</a></td></tr><tr><td><strong>Controller</strong></td><td>A loop that compares desired with actual and acts, forever - instead of a person at 03:00.</td><td><a href="../lessons/0003-what-actually-runs.html">0003</a></td></tr></tbody></table></div>
+<h2>Layer 4 - cloud</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Concept</th><th>The one thing</th><th>Lesson</th></tr></thead>
+<tbody><tr><td><strong>Cloud</strong></td><td>Rent servers, networks and storage by API in minutes - instead of buying hardware for months.</td><td><a href="../lessons/0004-notekeepers-floor.html">0004</a></td></tr><tr><td><strong>Availability zone</strong></td><td>An isolated location in a region - copies in two zones survive one zone failing.</td><td><a href="../lessons/0004-notekeepers-floor.html">0004</a></td></tr><tr><td><strong>Load balancer</strong></td><td>One front door that spreads users over healthy copies.</td><td><a href="../lessons/0004-notekeepers-floor.html">0004</a></td></tr><tr><td><strong>IAM</strong></td><td>Who may do which action on which resource - nothing is allowed until a policy allows it.</td><td><a href="../lessons/0004-notekeepers-floor.html">0004</a></td></tr></tbody></table></div>
+<h2>Layer 5 - Infrastructure as Code</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Concept</th><th>The one thing</th><th>Lesson</th></tr></thead>
+<tbody><tr><td><strong>Infrastructure as Code</strong></td><td>Keep infrastructure in files a tool makes real - instead of clicks and memory.</td><td><a href="../lessons/0005-why-iac.html">0005</a></td></tr><tr><td><strong>Declarative</strong></td><td>Give the end result, and a tool works out the steps - instead of steps that need a known start.</td><td><a href="../lessons/0005-why-iac.html">0005</a></td></tr><tr><td><strong>Idempotent</strong></td><td>Running it again changes nothing if it is already right.</td><td><a href="../lessons/0005-why-iac.html">0005</a></td></tr></tbody></table></div>
+<h2>Layer 5 - the engine</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Concept</th><th>The one thing</th><th>Lesson</th></tr></thead>
+<tbody><tr><td><strong>Plan</strong></td><td>Know exactly what will change before anything changes - instead of finding out in production.</td><td><a href="../lessons/0006-the-iac-engine.html">0006</a></td></tr><tr><td><strong>State</strong></td><td>A record that binds each resource in your files to one real object - instead of guessing which object is which.</td><td><a href="../lessons/0006-the-iac-engine.html">0006</a></td></tr><tr><td><strong>Provider</strong></td><td>A plugin that turns resources into API calls for one platform - so the core knows no cloud.</td><td><a href="../lessons/0006-the-iac-engine.html">0006</a></td></tr><tr><td><strong>Replace (-/+)</strong></td><td>The old object is destroyed and a new one is made - for a database, the data goes with the old one.</td><td><a href="../lessons/0006-the-iac-engine.html">0006</a></td></tr></tbody></table></div>
+<h2>Layer 5 - living with it</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Concept</th><th>The one thing</th><th>Lesson</th></tr></thead>
+<tbody><tr><td><strong>Drift</strong></td><td>Reality changed outside the code - so code, state and reality no longer agree.</td><td><a href="../lessons/0007-living-with-it.html">0007</a></td></tr><tr><td><strong>Remote state + lock</strong></td><td>One shared state, one apply at a time - instead of two people changing the same floor at once.</td><td><a href="../lessons/0007-living-with-it.html">0007</a></td></tr><tr><td><strong>Module</strong></td><td>Write a group of resources once and use it with different inputs - instead of copying folders.</td><td><a href="../lessons/0007-living-with-it.html">0007</a></td></tr><tr><td><strong>Stack</strong></td><td>A piece you apply as one unit, with its own state - so one mistake cannot reach everything.</td><td><a href="../lessons/0007-living-with-it.html">0007</a></td></tr></tbody></table></div>
+<h2>Layer 5 - delivering it</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Concept</th><th>The one thing</th><th>Lesson</th></tr></thead>
+<tbody><tr><td><strong>Infrastructure pipeline</strong></td><td>Every infrastructure change gets a reviewed plan, per environment, before apply - instead of applies from laptops.</td><td><a href="../lessons/0008-delivering-infrastructure-code.html">0008</a></td></tr><tr><td><strong>Policy as code</strong></td><td>Rules that check every plan automatically - instead of trusting tired reviewers with the must-nevers.</td><td><a href="../lessons/0008-delivering-infrastructure-code.html">0008</a></td></tr><tr><td><strong>Immutable infrastructure</strong></td><td>Never change a live server: build a new one and remove the old - so drift has nowhere to live.</td><td><a href="../lessons/0008-delivering-infrastructure-code.html">0008</a></td></tr></tbody></table></div>
+<h2>Layer 6 - platforms</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Concept</th><th>The one thing</th><th>Lesson</th></tr></thead>
+<tbody><tr><td><strong>Platform</strong></td><td>Self-service delivery and infrastructure for app teams - instead of every team building its own.</td><td><a href="../lessons/0009-platforms.html">0009</a></td></tr><tr><td><strong>Golden path</strong></td><td>The supported, easiest way to do a common job - instead of each team finding its own.</td><td><a href="../lessons/0009-platforms.html">0009</a></td></tr></tbody></table></div>
+<h2>The pairs</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Pair</th><th>The difference</th></tr></thead>
+<tbody>
+<tr><td>Build vs deploy vs release</td><td>Build makes the thing. Deploy puts the thing in a place. Release lets users use it.</td></tr>
+<tr><td>Artifact vs running app</td><td>The artifact is the packed, fixed thing in the store. The running app is that artifact alive in an environment, with its config.</td></tr>
+<tr><td>Infrastructure vs environment</td><td>Infrastructure is the floor. An environment is one use of it: infrastructure plus config, for one purpose.</td></tr>
+<tr><td>CI vs Continuous Delivery vs Continuous Deployment</td><td>CI: merge daily, checked automatically. Delivery: always ready, a person presses the button. Deployment: no button.</td></tr>
+<tr><td>Container vs VM</td><td>A container is an isolated process on a shared kernel. A VM is a whole pretend computer with its own OS.</td></tr>
+<tr><td>Imperative vs declarative</td><td>Imperative: you give the steps. Declarative: you give the end result, and a tool works out the steps.</td></tr>
+<tr><td>Update in place vs replace</td><td>In place: the same object gets new values. Replace: the old object is destroyed and a new one is made.</td></tr>
+<tr><td>Module vs stack</td><td>A module is reusable code. A stack is one applied piece with its own state.</td></tr>
+<tr><td>Provisioning vs configuration management</td><td>Provisioning creates the floor's parts. Configuration management sets up what is inside a server.</td></tr>
+<tr><td>IaC vs configuration as code</td><td>IaC describes the infrastructure itself. Configuration as code keeps app and tool settings in Git.</td></tr>
+<tr><td>Infrastructure vs platform vs environment</td><td>Infrastructure is the floor. A platform is the road on top of it, as self-service. An environment is one use of the floor.</td></tr>
+</tbody></table></div>
+<p class="small">"Infrastructure" has no "instead of" on purpose: it is the floor itself; the cloud line (Layer 4) says what renting it replaced. The lines are plain readings of the sources in each lesson, not quotes. If a line sounds wrong to you, say so in chat.</p>
+</div>
+</main>
+<script src="../assets/course.js"></script>
+</body>
+</html>

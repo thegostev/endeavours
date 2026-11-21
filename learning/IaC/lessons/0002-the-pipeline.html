@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en" data-page="iac-0002">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>0002 - The pipeline: one checked road</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main class="page">
+<nav class="topnav" aria-label="Course"><a href="0001-from-commit-to-user.html">Lesson 0001</a><a href="../reference/course-map.html">Course map</a><a href="../reference/iac-in-one-line.html">IaC in one line</a><span>Lesson 2 of 9 · Layers 1-2</span></nav>
+<div class="col">
+<h1>The pipeline: one checked road</h1>
+<p class="dek">How does a change get from Ana's merge to production, the same safe way every time? This lesson covers Layers 1 and 2 at the depth IaC needs: the pipeline, the three "continuous" words, and how teams deploy without fear.</p>
+<div class="xp" data-max="160"><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-text">0 of 160 XP</span></div>
+<aside class="note">Layers 1 and 2 of the course map. Facts from <a href="https://martinfowler.com/articles/continuousIntegration.html">Continuous Integration</a> and <a href="https://martinfowler.com/bliki/ContinuousDelivery.html">Continuous Delivery</a> (Martin Fowler), <a href="https://continuousdelivery.com/2010/08/continuous-delivery-vs-continuous-deployment">Continuous Delivery vs Continuous Deployment</a> (Jez Humble), <a href="https://martinfowler.com/bliki/BlueGreenDeployment.html">Blue Green Deployment</a>, <a href="https://www.martinfowler.com/bliki/CanaryRelease.html">Canary Release</a> and <a href="https://dora.dev/guides/dora-metrics-four-keys">DORA's metrics</a>.</aside>
+<p>Time: about 40 minutes. This lesson has the most look-alike words in the course: CI, Continuous Delivery and Continuous Deployment. Take it slowly.</p>
+<h2>How to do this lesson</h2>
+<ol><li>Warm-up from lesson 0001.</li><li>Read the big idea and the words.</li><li>Follow 1.4.2 down the pipeline: five moments, each with a bet first.</li><li>Sort 8 team habits into CI, Continuous Delivery or Continuous Deployment. Then the quiz.</li><li>Tick "Lost here" if a moment makes no sense. Paste your result lines in chat.</li></ol>
+<h2>Warm-up from lesson 0001</h2>
+<div class="quiz" id="quiz-0002-warm"></div>
+<script type="application/json" data-quiz-for="quiz-0002-warm">
+[
+ {
+  "id": "w1",
+  "xp": 10,
+  "stem": "Ana merges the pin-note change. Production still runs 1.3.9. What must happen before any user can pin a note?",
+  "options": [
+   "Build, deploy, then release it",
+   "Nothing; the merge is enough",
+   "Only a new release switch",
+   "Only a bigger database disk"
+  ],
+  "answer": 0,
+  "why": "A merge only changes the repo. A build makes the artifact, a deployment makes it run, a release lets users use it."
+ },
+ {
+  "id": "w2",
+  "xp": 10,
+  "stem": "Production broke after a deployment of 1.4.1. How do you go back?",
+  "options": [
+   "Deploy the last good artifact",
+   "Edit 1.4.1 inside the store",
+   "Rebuild 1.4.0 from your memory",
+   "Turn every feature switch off"
+  ],
+  "answer": 0,
+  "why": "Rollback is a deployment of an older artifact. It still sits in the store, unchanged."
+ },
+ {
+  "id": "w3",
+  "xp": 10,
+  "stem": "Which change has no artifact and no deployment?",
+  "options": [
+   "Making the database disk bigger",
+   "Fixing a small API bug",
+   "Adding a new web page",
+   "Moving version 1.4.2 into staging"
+  ],
+  "answer": 0,
+  "why": "A bigger disk changes the floor - the infrastructure - not the app."
+ }
+]
+</script>
+<h2>Where you are</h2>
+<figure class="fig fig-onion">
+<svg viewBox="0 0 660 660" role="img" aria-labelledby="l2-on-t"><title id="l2-on-t">The course as an onion: layer 0 in the center, layer 6 outside. Layer 5, Infrastructure as Code, is the goal.</title>
+<circle class="r-a ring" cx="330" cy="330" r="314"/>
+<circle class="r-goal ring" cx="330" cy="330" r="272"/>
+<circle class="r-a ring" cx="330" cy="330" r="230"/>
+<circle class="r-b ring" cx="330" cy="330" r="188"/>
+<circle class="r-a ring" cx="330" cy="330" r="146"/>
+<circle class="r-here ring-here" cx="330" cy="330" r="104"/>
+<circle class="r-a ring" cx="330" cy="330" r="62"/>
+<text class="t-ring" x="330" y="252" text-anchor="middle">1 · Delivery lifecycle</text>
+<text class="t-ring" x="330" y="210" text-anchor="middle">2 · Deploy and release</text>
+<text class="t-ring" x="330" y="168" text-anchor="middle">3 · Runtime</text>
+<text class="t-ring" x="330" y="126" text-anchor="middle">4 · Cloud infrastructure</text>
+<text class="t-ring" x="330" y="84" text-anchor="middle">5 · Infrastructure as Code</text>
+<text class="t-ring" x="330" y="42" text-anchor="middle">6 · Platform engineering</text>
+<text class="t-ring" x="330" y="326" text-anchor="middle">0 · The</text><text class="t-ring" x="330" y="344" text-anchor="middle">mental model</text>
+<text class="t-s" x="330" y="588" text-anchor="middle">the goal - taught in depth</text>
+<text class="t-s" x="330" y="420" text-anchor="middle">you are here</text>
+</svg>
+<figcaption>Layers 1 and 2: the road a change takes, and how it reaches users safely.</figcaption>
+</figure>
+<section class="idea" aria-labelledby="idea-0002"><h2 id="idea-0002">The big idea</h2><dl><dt>The pipeline - the one thing</dt><dd>Every change takes the same checked road to production - instead of each person's own way.</dd><dt>In a paragraph</dt><dd>A <strong>pipeline</strong> is a fixed series of <strong>stages</strong>. Each stage takes the same artifact and adds proof: it builds, it passes fast tests, it runs in staging. Early stages are fast and catch most problems. Later stages are slower and more thorough. A change that fails a stage stops there. A change that passes every stage is ready for production.</dd><dt>Picture</dt><dd>Airport security. Every bag goes through the same belt, the same scanner, the same checks, whoever owns it. No bag takes a side door because its owner is in a hurry.</dd><dt>Where the picture stops working</dt><dd>At an airport, every bag gets the same check forever. A good pipeline changes: when a bug gets through, the team adds a check, so that kind of bug cannot get through again. And the bag is never changed by the checks - just like the artifact.</dd></dl></section>
+<section class="words" aria-labelledby="words-0002"><h3 id="words-0002">Words you need</h3><dl><dt><dfn>pipeline</dfn></dt><dd>A fixed series of automatic stages that every change goes through on its way to production. Also called a deployment pipeline or a delivery pipeline.</dd><dt><dfn>stage</dfn></dt><dd>One step of a pipeline. It runs a check (build, test, deploy to staging) and passes the artifact on - or stops it.</dd><dt><dfn>main line</dfn></dt><dd>The one shared branch of the repo that the team keeps working (in Git: <code>main</code>). Also called trunk or mainline.</dd><dt><dfn>CI (Continuous Integration)</dfn></dt><dd>Everyone merges small changes into the main line at least daily, and each merge starts an automatic build with tests.</dd><dt><dfn>Continuous Delivery</dfn></dt><dd>Every change that passes the pipeline is ready to go to production at any moment. A person decides when, with one button.</dd><dt><dfn>Continuous Deployment</dfn></dt><dd>Every change that passes the pipeline goes to production automatically. No button.</dd><dt><dfn>promotion</dfn></dt><dd>Moving the same artifact to the next environment after it passed the stage before.</dd><dt><dfn>blue-green deployment</dfn></dt><dd>Two full copies of production. The new version goes to the idle copy, then all users switch to it at once.</dd><dt><dfn>canary</dfn></dt><dd>The new version gets a small share of users first, then more as confidence grows.</dd><dt><dfn>rollback</dfn></dt><dd>Going back to the last good version (from lesson 0001: a deployment of an older artifact).</dd></dl><p class="small">Word flag: "CI/CD" mixes all three ideas. In this course, say which one you mean. "CD" alone is not allowed - it has two meanings.</p></section>
+<h2>The pipeline, on one screen</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 235" role="img" aria-labelledby="l2-pp-t"><title id="l2-pp-t">The pipeline: a merged change goes through the CI stage, which builds an artifact and runs fast tests, then the staging stage, then production. Between staging and production there is either a button (Continuous Delivery) or no button (Continuous Deployment).</title><defs><marker id="l2-pp-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><rect class="box" x="10" y="70" width="110" height="64"/><text class="t-b" x="65.0" y="96.0" text-anchor="middle">Change</text><text class="t-s" x="65.0" y="116.0" text-anchor="middle">merged to main</text><path class="line" d="M120 102 H150" marker-end="url(#l2-pp-a)"/><rect class="box-key" x="150" y="60" width="150" height="84"/><text class="t-b" x="225.0" y="88.0" text-anchor="middle">CI stage</text><text class="t-s" x="225.0" y="108.0" text-anchor="middle">build + fast tests</text><text class="t-s" x="225.0" y="126.0" text-anchor="middle">-> artifact 1.4.2</text><path class="line" d="M300 102 H330" marker-end="url(#l2-pp-a)"/><rect class="box" x="330" y="60" width="140" height="84"/><text class="t-b" x="400.0" y="96.0" text-anchor="middle">Staging stage</text><text class="t-s" x="400.0" y="116.0" text-anchor="middle">deploy + slower tests</text><path class="line" d="M470 102 H560" marker-end="url(#l2-pp-a)"/><text class="t-verb" x="515" y="92" text-anchor="middle">button?</text><rect class="box-goal" x="560" y="60" width="150" height="84"/><text class="t-b" x="635.0" y="96.0" text-anchor="middle">Production</text><text class="t-s" x="635.0" y="116.0" text-anchor="middle">deploy 1.4.2</text><rect class="frame" x="140" y="30" width="340" height="140"/><text class="t-s" x="310" y="22" text-anchor="middle">the same artifact moves right - each stage adds proof</text><text class="t-s" x="515" y="200" text-anchor="middle">Continuous Delivery: a person presses it</text><text class="t-s" x="515" y="220" text-anchor="middle">Continuous Deployment: there is no button</text><text class="t-s" x="225" y="200" text-anchor="middle">Continuous Integration lives here</text></svg>
+<figcaption>Left to right: the change becomes an artifact in the CI stage, then the same artifact gets more proof in staging. The only difference between Continuous Delivery and Continuous Deployment is the button before production.</figcaption>
+</figure>
+<h2>Follow 1.4.2 down the road</h2>
+<h3>Moment 1 - three weeks on a branch</h3>
+<p class="story">Ana and Ben both change the API. Each works on a private branch for three weeks. On Friday they merge both branches into main. Nothing works, and nobody knows which change broke it.</p>
+<label class="small" for="bet-0002-m1">Bet: what would Continuous Integration have changed for Ana and Ben?</label><textarea class="bet" id="bet-0002-m1" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>They would merge small pieces into main at least once a day, and every merge would start a build with tests.</strong> A clash between Ana's and Ben's code shows up on the day they write it, while it is small and fresh.</p><p class="why"><strong>Why:</strong> integration bugs are cheap when they are young. Fowler's first CI article says that with CI, most integration bugs show up the same day they are made, instead of weeks later. The longer two branches stay apart, the bigger the merge and the harder the hunt.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m1"> <span>Lost here (moment 1)</span></label>
+<h3>Moment 2 - the CI stage passes</h3>
+<p class="story">Ana merges a small change. The CI stage builds <code>notekeeper-api:1.4.2</code> and its fast tests pass. The team works with Continuous Delivery.</p>
+<label class="small" for="bet-0002-m2">Bet: does 1.4.2 go to production now?</label><textarea class="bet" id="bet-0002-m2" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Not by itself.</strong> With Continuous Delivery, 1.4.2 goes on through the staging stage. If it passes, it is <em>ready</em> - a person presses the button when the business wants it. With Continuous Deployment, it would go to production automatically after the last stage.</p><p class="why"><strong>Why:</strong> both ways need the same automatic checks. The only difference is who decides the last step. Jez Humble, who named Continuous Delivery, describes Continuous Deployment as releasing every good build to users. So Continuous Deployment always includes Continuous Delivery, but not the other way round.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m2"> <span>Lost here (moment 2)</span></label>
+<h3>Moment 3 - from staging to production</h3>
+<p class="story">1.4.2 passed every test in staging. The team presses the button.</p>
+<label class="small" for="bet-0002-m3">Bet: what goes to production: the code from main, a new build, or the same 1.4.2 that staging tested?</label><textarea class="bet" id="bet-0002-m3" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>The same 1.4.2.</strong> This is promotion: the artifact moves on, and nothing is built again.</p><p class="why"><strong>Why:</strong> each stage adds proof about one exact artifact. A new build for production would throw that proof away - you would ship something no stage ever checked. (Lesson 0001, moment 3: one artifact, config per environment.)</p></details>
+<label class="lost"><input type="checkbox" data-lost="m3"> <span>Lost here (moment 3)</span></label>
+<h3>Moment 4 - a risky change</h3>
+<p class="story">1.4.2 changes how notes are saved. The team wants real users to try it, but if it is bad, only a few users should see it.</p>
+<label class="small" for="bet-0002-m4">Bet: blue-green or canary - which one lets 5% of users try 1.4.2 first?</label><textarea class="bet" id="bet-0002-m4" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Canary.</strong> A small share of users gets 1.4.2. If the numbers look good, the share grows. Blue-green moves everyone at once - but it can move everyone back in one step.</p><p class="why"><strong>Why:</strong> both strategies keep the old version ready, so going back is fast. They trade different things: blue-green needs a second full copy of production for a short time, canary needs a way to split traffic and good measurements. Neither one needs a new build to go back.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m4"> <span>Lost here (moment 4)</span></label>
+<h3>Moment 5 - fast or safe?</h3>
+<p class="story">Another team deploys once a month, in one big batch. Their lead says: "Slow is safe. Every deployment is a risk, so we do fewer."</p>
+<label class="small" for="bet-0002-m5">Bet: does deploying less often make that team safer?</label><textarea class="bet" id="bet-0002-m5" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Not by DORA's research.</strong> DORA measures teams with speed metrics (how often they deploy, how long a commit takes to reach production) and stability metrics (how many deployments fail, how fast they recover). The best teams score high on both at once.</p><p class="why"><strong>Why:</strong> a monthly batch holds a month of changes. When it fails, the cause is hard to find and the rollback takes many good changes with it. Small, frequent deployments are each small, easy to check and easy to undo. The pipeline is what makes frequent deployments safe.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m5"> <span>Lost here (moment 5)</span></label>
+<h2>The four numbers DORA uses</h2>
+<div class="table-wrap"><table><thead><tr><th>Number</th><th>What it asks</th><th>Speed or stability</th></tr></thead><tbody><tr><td>Deployment frequency</td><td>How often do you deploy to production?</td><td>Speed</td></tr><tr><td>Change lead time</td><td>How long from commit to running in production?</td><td>Speed</td></tr><tr><td>Change fail rate</td><td>What share of deployments need a fix or a rollback right away?</td><td>Stability</td></tr><tr><td>Failed deployment recovery time</td><td>When a deployment fails, how fast are you back?</td><td>Stability</td></tr></tbody></table></div>
+<p><span class="small">DORA added a fifth number in 2024, deployment rework rate: the share of deployments that are unplanned, made because of a production incident. Source: <a href="https://dora.dev/guides/dora-metrics-four-keys">dora.dev</a>.</span></p>
+<h2>Blue-green and canary</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 180" role="img" aria-labelledby="l2-st-t"><title id="l2-st-t">Blue-green: two full copies, all traffic moves from blue to green at once, and back if bad. Canary: a small share of traffic goes to the new version first, then more.</title><defs><marker id="l2-st-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><text class="t-b" x="170" y="22" text-anchor="middle">Blue-green: switch everyone at once</text><rect class="box" x="20" y="40" width="130" height="56"/><text class="t-b" x="85.0" y="73.0" text-anchor="middle">Users</text><rect class="box" x="200" y="30" width="130" height="44"/><text class="t-b" x="265.0" y="57.0" text-anchor="middle">Blue: 1.4.1</text><rect class="box-key" x="200" y="90" width="130" height="44"/><text class="t-b" x="265.0" y="117.0" text-anchor="middle">Green: 1.4.2</text><path class="line" d="M150 68 L196 112" marker-end="url(#l2-st-a)"/><text class="t-s" x="168" y="110" text-anchor="middle">100%</text><path class="line-soft" d="M150 62 L196 52" marker-end="url(#l2-st-a)"/><text class="t-s" x="170" y="48" text-anchor="middle">0%</text><text class="t-s" x="175" y="165" text-anchor="middle">Bad? Switch back to blue - one step.</text><text class="t-b" x="540" y="22" text-anchor="middle">Canary: a few users first</text><rect class="box" x="390" y="40" width="130" height="56"/><text class="t-b" x="455.0" y="73.0" text-anchor="middle">Users</text><rect class="box" x="570" y="30" width="130" height="44"/><text class="t-b" x="635.0" y="57.0" text-anchor="middle">1.4.1</text><rect class="box-key" x="570" y="90" width="130" height="44"/><text class="t-b" x="635.0" y="117.0" text-anchor="middle">1.4.2</text><path class="line" d="M520 62 L566 52" marker-end="url(#l2-st-a)"/><text class="t-s" x="540" y="48" text-anchor="middle">95%</text><path class="line" d="M520 74 L566 108" marker-end="url(#l2-st-a)"/><text class="t-s" x="540" y="112" text-anchor="middle">5%</text><text class="t-s" x="545" y="165" text-anchor="middle">Good? 25%, 50%, 100%. Bad? Back to 0%.</text></svg>
+<figcaption>Two ways to deploy without a big bang. Both keep the old version ready to take users back.</figcaption>
+</figure>
+<h2>Say the difference - the same words in every lesson</h2>
+<div class="pairs"><div class="pair"><strong>CI vs Continuous Delivery vs Continuous Deployment</strong><p>CI: merge small changes daily, each checked automatically. Continuous Delivery: every good change is ready for production, a person presses the button. Continuous Deployment: every good change goes to production, no button.</p><p class="small">Each one needs the one before it. Continuous Deployment always includes Continuous Delivery.</p></div><div class="pair"><strong>Canary (deployment) vs feature switch (release)</strong><p>A canary sends some users to a different running version. A feature switch keeps one running version and turns a feature on for some users.</p><p class="small">Canary works at deployment level (Layer 2). A switch works at release level (lesson 0001).</p></div><div class="pair"><strong>Blue-green vs canary</strong><p>Blue-green moves all users at once, and back at once. Canary moves users a little at a time.</p></div><div class="pair"><strong>Build vs deploy vs release (from 0001)</strong><p>Build makes the thing. Deploy puts the thing in a place. Release lets users use it.</p><p class="small">The pipeline automates the first two. The release can stay a separate decision.</p></div></div>
+<h2>Sort the habits</h2>
+<p>Eight habits of Notekeeper's team. Put each in the practice it belongs to. The first click counts.</p>
+<div class="sort" id="sort-0002"></div>
+<script type="application/json" data-sort-for="sort-0002">
+{
+ "buckets": [
+  "Continuous Integration",
+  "Continuous Delivery",
+  "Continuous Deployment"
+ ],
+ "xp": 5,
+ "items": [
+  {
+   "id": "s1",
+   "text": "Every developer merges into main at least once a day.",
+   "answer": 0,
+   "why": "That is the core habit of CI: small, frequent merges into one line."
+  },
+  {
+   "id": "s2",
+   "text": "Every merge starts a build with automatic tests.",
+   "answer": 0,
+   "why": "Checking each merge automatically is the other half of CI."
+  },
+  {
+   "id": "s3",
+   "text": "Any change that passed the pipeline can go to production with one button.",
+   "answer": 1,
+   "why": "Ready at any moment, a person decides when: Continuous Delivery."
+  },
+  {
+   "id": "s4",
+   "text": "The product owner picks the moment to send the ready version to production.",
+   "answer": 1,
+   "why": "A human decision on the last step - Continuous Delivery."
+  },
+  {
+   "id": "s5",
+   "text": "Every change that passes the last stage reaches production with no human step.",
+   "answer": 2,
+   "why": "No button: Continuous Deployment."
+  },
+  {
+   "id": "s6",
+   "text": "A broken build on main is fixed before anyone merges more work.",
+   "answer": 0,
+   "why": "Fowler lists \"fix broken builds immediately\" as a CI practice. The main line must stay healthy."
+  },
+  {
+   "id": "s7",
+   "text": "Production gets 20 deployments a day, each started by a merge.",
+   "answer": 2,
+   "why": "Each merge goes all the way automatically - Continuous Deployment."
+  },
+  {
+   "id": "s8",
+   "text": "Staging always holds a version that could go live today.",
+   "answer": 1,
+   "why": "Always ready, not always shipped - Continuous Delivery."
+  }
+ ]
+}
+</script>
+<h2>Quiz</h2>
+<div class="quiz" id="quiz-0002"></div>
+<script type="application/json" data-quiz-for="quiz-0002">
+[
+ {
+  "id": "q1",
+  "xp": 10,
+  "stem": "What does Continuous Deployment add on top of Continuous Delivery?",
+  "options": [
+   "No human step before production",
+   "Daily merges into main line",
+   "Automatic tests on every merge",
+   "A second production copy exists"
+  ],
+  "answer": 0,
+  "why": "Continuous Delivery makes every good change ready. Continuous Deployment also removes the button."
+ },
+ {
+  "id": "q2",
+  "xp": 10,
+  "stem": "1.4.2 passed staging. What should go to production?",
+  "options": [
+   "The very same 1.4.2 artifact",
+   "A fresh build from main",
+   "A production build of 1.4.2",
+   "The newest commit on main"
+  ],
+  "answer": 0,
+  "why": "Promotion: the artifact that collected the proof is the one that ships."
+ },
+ {
+  "id": "q3",
+  "xp": 10,
+  "stem": "Which strategy sends 5% of users to the new version first?",
+  "options": [
+   "Canary",
+   "Blue-green",
+   "Rollback",
+   "Promotion"
+  ],
+  "answer": 0,
+  "why": "Canary grows the share of users step by step. Blue-green moves everyone at once."
+ },
+ {
+  "id": "q4",
+  "xp": 10,
+  "stem": "A team merges branches once a month. Which practice are they missing?",
+  "options": [
+   "Continuous Integration",
+   "Continuous Deployment",
+   "Blue-green deployment",
+   "Canary deployment"
+  ],
+  "answer": 0,
+  "why": "CI means merging into main at least daily. Monthly merges are the pain CI removes."
+ },
+ {
+  "id": "q5",
+  "xp": 10,
+  "stem": "Which DORA number measures stability, not speed?",
+  "options": [
+   "Change fail rate",
+   "Weekly deployment frequency",
+   "Change lead time",
+   "Number of merges"
+  ],
+  "answer": 0,
+  "why": "Change fail rate and recovery time measure stability. Frequency and lead time measure speed."
+ },
+ {
+  "id": "q6",
+  "xp": 10,
+  "stem": "Why do early pipeline stages run the fast tests?",
+  "options": [
+   "Most problems show up there",
+   "Fast tests are more correct",
+   "Slow tests need no artifact",
+   "Production needs the slow tests"
+  ],
+  "answer": 0,
+  "why": "Early stages give fast feedback and catch most problems. Later stages are slower and more thorough (Fowler, Deployment Pipeline)."
+ }
+]
+</script>
+<h2>Say it in one line</h2>
+<p>From memory, no scrolling. Then open the model line. Same core = right.</p>
+<label class="small" for="bet-0002-line1">What does a pipeline really solve?</label><textarea class="bet" id="bet-0002-line1" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Every change takes the same checked road to production - instead of each person's own way.</p></details>
+<label class="small" for="bet-0002-line2">CI vs Continuous Delivery vs Continuous Deployment, in one line.</label><textarea class="bet" id="bet-0002-line2" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>CI: merge daily, checked automatically. Delivery: always ready, a person presses the button. Deployment: no button.</p></details>
+<label class="small" for="bet-0002-line3">Blue-green vs canary, in one line.</label><textarea class="bet" id="bet-0002-line3" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Blue-green moves all users at once, and back at once. Canary moves users a little at a time.</p></details>
+<h2>Cards for your deck</h2>
+<div class="cards"><details class="card"><summary>Someone says "we do CD". What do you ask first?</summary><p>"Continuous Delivery or Continuous Deployment - is there a button before production?"</p></details><details class="card"><summary>Your team runs a CI server on every feature branch, but merges to main once a month. Is that CI?</summary><p>No. CI means merging into the shared main line at least daily. A build server alone is not CI.</p></details><details class="card"><summary>Staging passed. A colleague wants to "make a clean build for production". What is the risk?</summary><p>Production gets an artifact no stage ever checked. Promote the same artifact.</p></details><details class="card"><summary>A canary at 5% shows more errors than the old version. What do you do?</summary><p>Send the 5% back to the old version. No new build is needed - the old one is still running.</p></details><details class="card"><summary>Why can frequent deployments be safer than rare ones?</summary><p>Each one is small, easy to check and easy to undo. DORA finds the best teams fast and stable at once.</p></details><details class="card"><summary>Where do the fast tests go, and why?</summary><p>In the early stages: they catch most problems in minutes. Slow, thorough tests come later.</p></details></div>
+<aside class="note"><strong>HwtP lens - optional, 15 minutes, no answer here on purpose.</strong> Open one release in HwtP for K8s. Is the last step to production a button (Continuous Delivery) or automatic (Continuous Deployment)? Is there a canary step? Then: does HwtP for Infra have the same stages? Write what you found in chat. It feeds lesson 0008.</aside>
+<div class="source"><h3>Read this next</h3><p><a href="https://martinfowler.com/bliki/ContinuousDelivery.html">Martin Fowler: Continuous Delivery</a> (3 minutes), then <a href="https://continuousdelivery.com/2010/08/continuous-delivery-vs-continuous-deployment">Jez Humble: Continuous Delivery vs Continuous Deployment</a> (3 minutes). Deeper, when you have 30 minutes: <a href="https://martinfowler.com/articles/continuousIntegration.html">Fowler: Continuous Integration</a>, the section "Practices of Continuous Integration".</p></div>
+<h2>Done</h2>
+<ul class="checklist"><li><label><input type="checkbox" id="done-0002-0" data-xp="10"> <span>I read the two short sources</span></label></li><li><label><input type="checkbox" id="done-0002-1" data-xp="20"> <span>I did the explain-back in chat</span></label></li></ul>
+<h2>Lost here - your line</h2>
+<div class="lost-summary"></div>
+<p class="foot"><strong>Explain-back (10 minutes).</strong> In chat, start with the one line of a pipeline. Then 3-5 sentences: the difference between CI, Continuous Delivery and Continuous Deployment, using Notekeeper, and one sentence on canary vs blue-green. Paste the "IaC result" and "IaC sort" lines and your lost line.<br><br>Questions about anything on this page? Ask in chat - your teacher is there for exactly that, and "this did not land" is welcome.<br><br>Next: <a href="0003-what-actually-runs.html">lesson 0003, what actually runs</a> - process, virtual machine, container, and the first look at desired state.</p>
+</div>
+</main>
+<script src="../assets/course.js"></script>
+<script src="../assets/quiz.js"></script>
+<script src="../assets/sort.js"></script>
+</body>
+</html>

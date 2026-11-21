@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en" data-page="iac-0005">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>0005 - Why Infrastructure as Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main class="page">
+<nav class="topnav" aria-label="Course"><a href="0004-notekeepers-floor.html">Lesson 0004</a><a href="../reference/course-map.html">Course map</a><a href="../reference/iac-in-one-line.html">IaC in one line</a><span>Lesson 5 of 9 · Layer 5 · part 1 of 4</span></nav>
+<div class="col">
+<h1>Why Infrastructure as Code</h1>
+<p class="dek">The goal layer starts here. In lesson 0001 you were asked how a team changes a database disk, and what it knows about that change afterwards. This lesson answers it - and the answer is the reason IaC exists.</p>
+<div class="xp" data-max="180"><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-text">0 of 180 XP</span></div>
+<aside class="note">Layer 5 of the course map. Facts from <a href="https://www.martinfowler.com/bliki/InfrastructureAsCode.html">Martin Fowler: Infrastructure As Code</a>, Kief Morris, <a href="https://www.oreilly.com/library/view/infrastructure-as-code/9781098150341/">Infrastructure as Code, 3rd ed.</a> (ch. 1 and 4), <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/object-management/">Kubernetes Object Management</a> and <a href="https://docs.spacelift.io/concepts/intelligence/intent">Spacelift Intent</a> as a contrast.</aside>
+<p>Time: about 35 minutes. No tool yet - only the idea. Lesson 0006 puts a real tool in your hands.</p>
+<h2>How to do this lesson</h2>
+<ol><li>Warm-up: lessons 0001-0004.</li><li>Re-read your answer to the moment-5 question of lesson 0001, if you wrote one.</li><li>Big idea and words.</li><li>Five moments: one disk change, done three ways.</li><li>Sort and quiz, then your lines in chat.</li></ol>
+<h2>Warm-up</h2>
+<div class="quiz" id="quiz-0005-warm"></div>
+<script type="application/json" data-quiz-for="quiz-0005-warm">
+[
+ {
+  "id": "w1",
+  "xp": 10,
+  "stem": "In Kubernetes, what is the desired state?",
+  "options": [
+   "What you wrote should be true",
+   "What really runs at this moment",
+   "The newest container image in store",
+   "The last result of the pipeline"
+  ],
+  "answer": 0,
+  "why": "Desired = written intent (spec). Actual = reality (status). From 0003."
+ },
+ {
+  "id": "w2",
+  "xp": 10,
+  "stem": "What fact about the cloud makes IaC possible?",
+  "options": [
+   "Every resource has an API",
+   "Clouds have many separate regions",
+   "Clouds bill by the hour",
+   "Clouds run many containers today"
+  ],
+  "answer": 0,
+  "why": "If every part comes from an API call, a tool can make the calls from a file. From 0004."
+ },
+ {
+  "id": "w3",
+  "xp": 10,
+  "stem": "Ben scales by hand while Git says 3 copies. What is this?",
+  "options": [
+   "Drift from the desired state",
+   "A blue-green deployment to production",
+   "A canary release to users",
+   "A promotion to production stage"
+  ],
+  "answer": 0,
+  "why": "Reality moved away from what is written: drift. From 0003."
+ },
+ {
+  "id": "w4",
+  "xp": 10,
+  "stem": "CI means what?",
+  "options": [
+   "Small daily merges, each checked automatically",
+   "Every good change deploys without button",
+   "Every good change is production ready",
+   "Two full copies of production exist"
+  ],
+  "answer": 0,
+  "why": "Merge into main at least daily, each merge built and tested. From 0002."
+ }
+]
+</script>
+<h2>Where you are</h2>
+<figure class="fig fig-onion">
+<svg viewBox="0 0 660 660" role="img" aria-labelledby="l5-on-t"><title id="l5-on-t">The course as an onion: layer 0 in the center, layer 6 outside. Layer 5, Infrastructure as Code, is the goal.</title>
+<circle class="r-a ring" cx="330" cy="330" r="314"/>
+<circle class="r-goal ring-here" cx="330" cy="330" r="272"/>
+<circle class="r-a ring" cx="330" cy="330" r="230"/>
+<circle class="r-b ring" cx="330" cy="330" r="188"/>
+<circle class="r-a ring" cx="330" cy="330" r="146"/>
+<circle class="r-b ring" cx="330" cy="330" r="104"/>
+<circle class="r-a ring" cx="330" cy="330" r="62"/>
+<text class="t-ring" x="330" y="252" text-anchor="middle">1 · Delivery lifecycle</text>
+<text class="t-ring" x="330" y="210" text-anchor="middle">2 · Deploy and release</text>
+<text class="t-ring" x="330" y="168" text-anchor="middle">3 · Runtime</text>
+<text class="t-ring" x="330" y="126" text-anchor="middle">4 · Cloud infrastructure</text>
+<text class="t-ring" x="330" y="84" text-anchor="middle">5 · Infrastructure as Code</text>
+<text class="t-ring" x="330" y="42" text-anchor="middle">6 · Platform engineering</text>
+<text class="t-ring" x="330" y="326" text-anchor="middle">0 · The</text><text class="t-ring" x="330" y="344" text-anchor="middle">mental model</text>
+<text class="t-s" x="330" y="588" text-anchor="middle">you are here - the goal</text>
+</svg>
+<figcaption>Layer 5, the goal. Four lessons: why (this one), the engine, living with it, delivering it.</figcaption>
+</figure>
+<section class="idea" aria-labelledby="idea-0005"><h2 id="idea-0005">The big idea</h2><dl><dt>Infrastructure as Code - the one thing</dt><dd>Keep infrastructure in files a tool makes real - instead of clicks and memory.</dd><dt>In a paragraph</dt><dd>IaC treats the floor the way lesson 0001 treated the app. You describe the infrastructure you want in <strong>definition files</strong>. They live in Git: every change has an author, a time, a reason and a review. A tool reads the files, compares them with what really exists, and makes the API calls that close the gap. Fowler sums it up: infrastructure defined through source code that can then be treated just like any software.</dd><dt>Picture</dt><dd>Lesson 0001's book. A hand-made change to the floor is like a reader writing in one copy of the book: nobody else knows, and the next print run loses it. IaC is the manuscript of the building itself - edit the manuscript, then rebuild from it.</dd><dt>Where the picture stops working</dt><dd>A book does not change after printing. Real infrastructure does: people click, systems fail, the cloud changes things. So the files and reality can drift apart, and a tool must keep checking them against each other (lessons 0006 and 0007).</dd></dl></section>
+<section class="words" aria-labelledby="words-0005"><h3 id="words-0005">Words you need</h3><dl><dt><dfn>definition file</dfn></dt><dd>A text file that describes infrastructure: which resources exist, with which settings. It lives in Git.</dd><dt><dfn>ClickOps</dfn></dt><dd>Changing infrastructure by hand in the cloud's web console. Fast once, unknown later.</dd><dt><dfn>script</dfn></dt><dd>A file of steps in order ("create this, then change that"). Imperative.</dd><dt><dfn>declarative</dfn></dt><dd>Describing the end state ("the disk is 100 GB"). A tool works out the steps. From 0003.</dd><dt><dfn>imperative</dfn></dt><dd>Describing the steps ("change the disk to 100 GB"). You must know the start state. From 0003.</dd><dt><dfn>desired state / actual state</dfn></dt><dd>What the files say should exist / what really exists. From 0003.</dd><dt><dfn>idempotent</dfn></dt><dd>Running it again gives the same result and changes nothing if it is already right.</dd><dt><dfn>reproducible</dfn></dt><dd>The same files make the same infrastructure, today or next year, for staging or production.</dd><dt><dfn>drift</dfn></dt><dd>Reality changed, but the files did not. From 0003. Lesson 0007 goes deep.</dd><dt><dfn>intent-based provisioning</dfn></dt><dd>Asking for infrastructure in plain language and letting an AI tool make the API calls - with no definition files (Spacelift Intent). The contrast in moment 5.</dd></dl></section>
+<h2>The answer to lesson 0001's open question</h2>
+<div class="table-wrap"><table><thead><tr><th>Question</th><th>App change: 1.4.1</th><th>Disk change, done by hand</th></tr></thead><tbody><tr><td>Who changed it, and why?</td><td>In Git: author, message, review</td><td>Maybe in a chat message</td></tr><tr><td>What exactly changed?</td><td>The diff, line by line</td><td>Somebody remembers</td></tr><tr><td>Was it tested first?</td><td>Yes, in staging, by the pipeline</td><td>Only if someone did it twice by hand</td></tr><tr><td>Is staging the same?</td><td>Same artifact, own config</td><td>Only if someone remembered</td></tr><tr><td>How do we go back?</td><td>Deploy 1.4.0 again</td><td>Click back, from memory</td></tr><tr><td>Can we rebuild it after a disaster?</td><td>Build and deploy again</td><td>From memory and old screenshots</td></tr></tbody></table></div>
+<p>The app has a recorded, repeatable road. The floor - with the widest blast radius - had none. IaC gives the floor the same road.</p>
+<h2>One disk change, done three ways</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 235" role="img" aria-labelledby="l5-3w-t"><title id="l5-3w-t">Three ways to make the database disk 100 GB: clicks in a console record almost nothing; a script records steps that depend on where you start; a definition records the end state in Git and does nothing the second time.</title><defs><marker id="l5-3w-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><rect class="box" x="5" y="20" width="230" height="200"/><text class="t-b" x="120" y="44" text-anchor="middle">1. Clicks in a console</text><text class="t-s" x="17" y="78" style="font-family:var(--font-code);font-size:12px">open the web console</text><text class="t-s" x="17" y="100" style="font-family:var(--font-code);font-size:12px">find the database</text><text class="t-s" x="17" y="122" style="font-family:var(--font-code);font-size:12px">set disk to 100 GB</text><text class="t-s" x="17" y="144" style="font-family:var(--font-code);font-size:12px">click Save</text><text class="t-s" x="120" y="186" text-anchor="middle">Recorded: almost nothing</text><text class="t-s" x="120" y="206" text-anchor="middle">Repeat for staging: by memory</text><rect class="box" x="245" y="20" width="230" height="200"/><text class="t-b" x="360" y="44" text-anchor="middle">2. A script of steps</text><text class="t-s" x="257" y="78" style="font-family:var(--font-code);font-size:12px">aws rds modify-db-instance</text><text class="t-s" x="257" y="100" style="font-family:var(--font-code);font-size:12px">  --db-instance-identifier</text><text class="t-s" x="257" y="122" style="font-family:var(--font-code);font-size:12px">      nk-prod</text><text class="t-s" x="257" y="144" style="font-family:var(--font-code);font-size:12px">  --allocated-storage 100</text><text class="t-s" x="360" y="186" text-anchor="middle">Recorded: the steps, if kept</text><text class="t-s" x="360" y="206" text-anchor="middle">Run twice: depends on start</text><rect class="box-key" x="485" y="20" width="230" height="200"/><text class="t-b" x="600" y="44" text-anchor="middle">3. A definition</text><text class="t-s" x="497" y="78" style="font-family:var(--font-code);font-size:12px">resource &quot;db&quot; &quot;notes&quot; {</text><text class="t-s" x="497" y="100" style="font-family:var(--font-code);font-size:12px">  size_gb = 100</text><text class="t-s" x="497" y="122" style="font-family:var(--font-code);font-size:12px">}</text><text class="t-s" x="600" y="186" text-anchor="middle">Recorded: the end state, in Git</text><text class="t-s" x="600" y="206" text-anchor="middle">Run twice: no change at all</text></svg>
+<figcaption>The same change, three ways. Only the third one records the end state, in a place the whole team can review.</figcaption>
+</figure>
+<h3>Moment 1 - by hand</h3>
+<p class="story">Ben opens the cloud console on Friday evening and changes the production disk from 20 GB to 100 GB. It works. Staging stays at 20 GB.</p>
+<label class="small" for="bet-0005-m1">Bet: name two things the team will not know next month.</label><textarea class="bet" id="bet-0005-m1" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Any two of: who changed it, why, what the old value was, whether staging matches, how to do it again.</strong> The change works but leaves no record the team can trust.</p><p class="why"><strong>Why:</strong> ClickOps is fine for one change, once. It fails at scale: a floor of 20 resources, three environments and five people turns into snowflakes - systems that are each a little different, and nobody knows how. Fowler calls such a system a Snowflake Server.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m1"> <span>Lost here (moment 1)</span></label>
+<h3>Moment 2 - a script</h3>
+<p class="story">Ben writes a script that changes the disk to 100 GB. A month later, someone runs the same script to build staging from zero.</p>
+<label class="small" for="bet-0005-m2">Bet: what goes wrong when you run "change the disk to 100 GB" on a staging that has no database yet?</label><textarea class="bet" id="bet-0005-m2" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>It fails: there is no disk to change.</strong> The script only works from the start state Ben had in mind. To build from zero you need a different script - and another one for each start state.</p><p class="why"><strong>Why:</strong> a script records steps, and steps only work from one known start. Real infrastructure has many possible starts: new, half-made, changed by hand. That is the main weakness of the imperative approach, and the reason most IaC tools are declarative.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m2"> <span>Lost here (moment 2)</span></label>
+<h3>Moment 3 - a definition</h3>
+<p class="story">The team writes one definition file: the database exists, and its disk is 100 GB. They run an IaC tool on staging (no database yet) and on production (20 GB).</p>
+<label class="small" for="bet-0005-m3">Bet: what does the tool do in staging, and what in production - with the same file?</label><textarea class="bet" id="bet-0005-m3" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Staging: it creates the database with 100 GB. Production: it changes the existing disk from 20 to 100 GB.</strong> One file, two different start states, the same end state.</p><p class="why"><strong>Why:</strong> the file says where to end, not how to get there. The tool reads the actual state and works out the steps for each start. This is what makes the files reproducible: staging and production come from the same description.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m3"> <span>Lost here (moment 3)</span></label>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 250" role="img" aria-labelledby="l5-en-t"><title id="l5-en-t">The declarative loop of IaC: the tool compares the definition files (desired state) with the real infrastructure (actual state), shows the difference as a plan, and after approval applies it through API calls.</title><defs><marker id="l5-en-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><rect class="box-goal" x="20" y="40" width="170" height="70"/><text class="t-b" x="105.0" y="69.0" text-anchor="middle">Definition files</text><text class="t-s" x="105.0" y="89.0" text-anchor="middle">desired state, in Git</text><rect class="box" x="20" y="150" width="170" height="70"/><text class="t-b" x="105.0" y="179.0" text-anchor="middle">Real infrastructure</text><text class="t-s" x="105.0" y="199.0" text-anchor="middle">actual state, via API</text><rect class="box-key" x="270" y="95" width="170" height="70"/><text class="t-b" x="355.0" y="124.0" text-anchor="middle">IaC tool</text><text class="t-s" x="355.0" y="144.0" text-anchor="middle">compares the two</text><rect class="box" x="520" y="40" width="180" height="70"/><text class="t-b" x="610.0" y="69.0" text-anchor="middle">Plan</text><text class="t-s" x="610.0" y="89.0" text-anchor="middle">the difference, as steps</text><rect class="box" x="520" y="150" width="180" height="70"/><text class="t-b" x="610.0" y="179.0" text-anchor="middle">Apply</text><text class="t-s" x="610.0" y="199.0" text-anchor="middle">API calls that close it</text><path class="line" d="M190 75 L266 118" marker-end="url(#l5-en-a)"/><path class="line" d="M190 185 L266 142" marker-end="url(#l5-en-a)"/><path class="line" d="M440 118 L516 80" marker-end="url(#l5-en-a)"/><path class="line" d="M610 110 V146" marker-end="url(#l5-en-a)"/><text class="t-s" x="600" y="134" text-anchor="end">a person approves</text><path class="line-soft" d="M520 190 C420 230 300 230 194 196" marker-end="url(#l5-en-a)"/><text class="t-s" x="360" y="236" text-anchor="middle">actual now matches desired</text></svg>
+<figcaption>The declarative loop: compare, plan, approve, apply. Unlike the Kubernetes controller in 0003, most IaC tools run this loop only when someone or a pipeline starts it.</figcaption>
+</figure>
+<h3>Moment 4 - run it again</h3>
+<p class="story">The next morning someone runs the tool again on production, with the same file. Nothing has changed since yesterday.</p>
+<label class="small" for="bet-0005-m4">Bet: what does the tool do this time?</label><textarea class="bet" id="bet-0005-m4" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Nothing.</strong> Desired (100 GB) equals actual (100 GB), so the plan is empty. The tool is <em>idempotent</em>: you can run it any number of times and it only acts where reality differs.</p><p class="why"><strong>Why:</strong> this makes the tool safe to run often - in a pipeline, on a timer, after an incident. A script that says "add 80 GB" would make the disk 180 GB on the second run. A definition that says "100 GB" cannot.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m4"> <span>Lost here (moment 4)</span></label>
+<h3>Moment 5 - just ask the AI?</h3>
+<p class="story">Ana has heard about Spacelift Intent: you ask an AI in plain language ("give staging a 100 GB database"), and it makes the API calls with no definition files, while policies and an audit trail still apply.</p>
+<label class="small" for="bet-0005-m5">Bet: what does the team give up, compared with definition files in Git?</label><textarea class="bet" id="bet-0005-m5" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>A reviewed, repeatable description of the end state.</strong> There is a record of what was done, but no file that says "this is what staging must look like", that you can review line by line, change in a pull request and apply to a new environment.</p><p class="why"><strong>Why:</strong> Spacelift itself positions Intent for non-critical work (experiments, proofs of concept), next to IaC for production, and lets you export what Intent built as Terraform or OpenTofu code later. So even its makers treat the definition file as the long-term home of important infrastructure.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m5"> <span>Lost here (moment 5)</span></label>
+<h2>What IaC gives you, in Fowler's words, in plain English</h2>
+<div class="table-wrap"><table><thead><tr><th>Practice</th><th>What it means for Notekeeper</th></tr></thead><tbody><tr><td>Use definition files</td><td>The whole floor is described in text files, not in someone's head.</td></tr><tr><td>Self-documenting systems</td><td>The files are the documentation - they cannot be out of date the way a wiki page can.</td></tr><tr><td>Version everything</td><td>Files in Git: who, when, why, and the way back.</td></tr><tr><td>Continuously test</td><td>The files go through a pipeline, like app code (lesson 0008).</td></tr><tr><td>Small changes</td><td>One small change at a time, easy to review and easy to undo.</td></tr><tr><td>Keep services available</td><td>Changes are made so that Notekeeper stays up while they happen.</td></tr></tbody></table></div>
+<p><span class="small">Plain reading of the practices list in <a href="https://www.martinfowler.com/bliki/InfrastructureAsCode.html">Fowler's bliki entry</a>.</span></p>
+<h2>Say the difference - the same words in every lesson</h2>
+<div class="pairs"><div class="pair"><strong>Imperative vs declarative</strong><p>Imperative: you give the steps. Declarative: you give the end result, and a tool works out the steps.</p><p class="small">Steps need a known start. An end result works from any start.</p></div><div class="pair"><strong>Application code vs infrastructure code (settled)</strong><p>Application code says what the app does. Infrastructure code says what the floor is made of.</p><p class="small">Both live in Git, both get reviewed, both go through a pipeline.</p></div><div class="pair"><strong>IaC vs intent-based provisioning</strong><p>IaC keeps a reviewed file of the end state. Intent-based provisioning asks an AI to make the calls, with no such file.</p><p class="small">Spacelift positions Intent for non-critical work, and lets you export to code.</p></div><div class="pair"><strong>Idempotent vs repeatable script</strong><p>Idempotent: running again changes nothing if it is already right. A script repeats its steps every time.</p><p class="small">"Disk is 100 GB" is idempotent. "Add 80 GB" is not.</p></div></div>
+<h2>Imperative or declarative?</h2>
+<p>Steps or end state? The first click counts.</p>
+<div class="sort" id="sort-0005"></div>
+<script type="application/json" data-sort-for="sort-0005">
+{
+ "buckets": [
+  "Imperative (steps)",
+  "Declarative (end state)"
+ ],
+ "xp": 5,
+ "items": [
+  {
+   "id": "s1",
+   "text": "Create a bucket called nk-attachments.",
+   "answer": 0,
+   "why": "\"Create\" is an action. Run it twice and the second run fails: it already exists."
+  },
+  {
+   "id": "s2",
+   "text": "A bucket called nk-attachments exists.",
+   "answer": 1,
+   "why": "A statement about the end state. A tool can check it and do nothing if it is already true."
+  },
+  {
+   "id": "s3",
+   "text": "Add 80 GB to the database disk.",
+   "answer": 0,
+   "why": "A step that depends on where you start. Twice = 180 GB."
+  },
+  {
+   "id": "s4",
+   "text": "The database disk is 100 GB.",
+   "answer": 1,
+   "why": "The end state. Any start ends at 100 GB."
+  },
+  {
+   "id": "s5",
+   "text": "kubectl scale deployment api --replicas=5",
+   "answer": 0,
+   "why": "A command that acts now. From 0003, moment 4."
+  },
+  {
+   "id": "s6",
+   "text": "replicas: 3, in a file you apply.",
+   "answer": 1,
+   "why": "A written end state that a controller or tool makes true."
+  },
+  {
+   "id": "s7",
+   "text": "Open the console, click Databases, click Modify.",
+   "answer": 0,
+   "why": "Hand-made steps - the most imperative of all."
+  },
+  {
+   "id": "s8",
+   "text": "Staging has the same network as production, with 2 zones.",
+   "answer": 1,
+   "why": "A description of how things must be."
+  }
+ ]
+}
+</script>
+<h2>Quiz</h2>
+<div class="quiz" id="quiz-0005"></div>
+<script type="application/json" data-quiz-for="quiz-0005">
+[
+ {
+  "id": "q1",
+  "xp": 10,
+  "stem": "What does IaC record that ClickOps does not?",
+  "options": [
+   "The end state, reviewed, in Git",
+   "The speed of the database disk",
+   "The price of each cloud resource",
+   "The users of the web application"
+  ],
+  "answer": 0,
+  "why": "Files in Git: who, when, why, and the exact end state."
+ },
+ {
+  "id": "q2",
+  "xp": 10,
+  "stem": "Why does a script of steps fail on a new environment?",
+  "options": [
+   "Its steps assume a known start",
+   "Scripts cannot call the cloud API",
+   "Scripts only run on developer laptops",
+   "New environments block every script run"
+  ],
+  "answer": 0,
+  "why": "Steps work from one start state only. A definition works from any."
+ },
+ {
+  "id": "q3",
+  "xp": 10,
+  "stem": "The tool runs twice; nothing changed in between. Result?",
+  "options": [
+   "No changes the second time",
+   "Every resource is made again",
+   "The disk grows once more",
+   "The tool stops with error"
+  ],
+  "answer": 0,
+  "why": "Idempotent: desired already equals actual."
+ },
+ {
+  "id": "q4",
+  "xp": 10,
+  "stem": "One file, staging has no database, production has 20 GB. What happens?",
+  "options": [
+   "Staging creates it, production changes it",
+   "Both environments fail to apply it",
+   "Both environments get new empty databases",
+   "Only production gets any real change"
+  ],
+  "answer": 0,
+  "why": "Declarative: same end state, steps worked out per start state."
+ },
+ {
+  "id": "q5",
+  "xp": 10,
+  "stem": "Which sentence is declarative?",
+  "options": [
+   "The disk is 100 GB",
+   "Add 80 GB to disk",
+   "Click Modify on the disk",
+   "Run the resize script now"
+  ],
+  "answer": 0,
+  "why": "It states the end result, not an action."
+ },
+ {
+  "id": "q6",
+  "xp": 10,
+  "stem": "Where does Spacelift position its Intent tool?",
+  "options": [
+   "Non-critical work, next to IaC",
+   "All production work, replacing IaC",
+   "Only local laptops, without policies",
+   "Only Kubernetes clusters, without state"
+  ],
+  "answer": 0,
+  "why": "Spacelift: IaC and GitOps for critical work, Intent for experiments and proofs of concept."
+ }
+]
+</script>
+<h2>Say it in one line</h2>
+<p>From memory, no scrolling. Then open the model line. Same core = right.</p>
+<label class="small" for="bet-0005-line1">What does IaC really solve?</label><textarea class="bet" id="bet-0005-line1" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Keep infrastructure in files a tool makes real - instead of clicks and memory.</p></details>
+<label class="small" for="bet-0005-line2">Imperative vs declarative, in one line.</label><textarea class="bet" id="bet-0005-line2" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Imperative: you give the steps. Declarative: you give the end result, and a tool works out the steps.</p></details>
+<label class="small" for="bet-0005-line3">What does idempotent mean?</label><textarea class="bet" id="bet-0005-line3" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Running it again changes nothing if it is already right.</p></details>
+<h2>Cards for your deck</h2>
+<div class="cards"><details class="card"><summary>Ben fixed production by hand on Friday. What is missing on Monday?</summary><p>A record: who, why, the old value, and whether staging matches. The change lives only in reality and in Ben's head.</p></details><details class="card"><summary>A script that worked in production fails on a new staging. Why?</summary><p>Its steps assumed production's start state. A definition works from any start.</p></details><details class="card"><summary>Why is "the disk is 100 GB" safer to run twice than "add 80 GB"?</summary><p>It is idempotent: the second run sees 100 = 100 and does nothing.</p></details><details class="card"><summary>Staging and production must have the same floor. What gives you that?</summary><p>One set of definition files applied to both, with per-environment inputs (lesson 0007).</p></details><details class="card"><summary>A colleague says: "With AI we do not need IaC files any more." What do you ask?</summary><p>"Where is the reviewed description of the end state? How do we rebuild staging from it?" Even Spacelift exports Intent to code for important work.</p></details><details class="card"><summary>What is a snowflake server?</summary><p>A system made by hand, a little different from all the others, and nobody knows exactly how.</p></details></div>
+<aside class="note"><strong>HwtP lens - optional, no answer here on purpose.</strong> When HwtP for Infra releases a database, what does it start from: definition files in Git, a form, or something else? Is it declarative? Write it in chat. Lesson 0008 uses it.</aside>
+<div class="source"><h3>Read this next</h3><p><a href="https://www.martinfowler.com/bliki/InfrastructureAsCode.html">Martin Fowler: Infrastructure As Code</a> (3 minutes). Then the free chapter of Kief Morris's book from <a href="https://www.thoughtworks.com/insights/books/infrastructure-as-code-3rd-ed">Thoughtworks</a> - read the first 10 pages: "iron age vs cloud age".</p></div>
+<h2>Done</h2>
+<ul class="checklist"><li><label><input type="checkbox" id="done-0005-0" data-xp="10"> <span>I read Fowler's page</span></label></li><li><label><input type="checkbox" id="done-0005-1" data-xp="10"> <span>I read the first 10 pages of Morris</span></label></li><li><label><input type="checkbox" id="done-0005-2" data-xp="20"> <span>I did the explain-back in chat</span></label></li></ul>
+<h2>Lost here - your line</h2>
+<div class="lost-summary"></div>
+<p class="foot"><strong>Explain-back (10 minutes).</strong> In chat, start with the one line of IaC. Then 3-5 sentences: the disk change three ways, what idempotent means, and why the team keeps definition files even with an AI tool. Paste the result lines and your lost line.<br><br>Questions about anything on this page? Ask in chat - your teacher is there for exactly that, and "this did not land" is welcome.<br><br>Next: <a href="0006-the-iac-engine.html">lesson 0006, the IaC engine</a> - your first hands-on lab, with OpenTofu on your Mac.</p>
+</div>
+</main>
+<script src="../assets/course.js"></script>
+<script src="../assets/quiz.js"></script>
+<script src="../assets/sort.js"></script>
+</body>
+</html>

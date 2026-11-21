@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en" data-page="iac-0003">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>0003 - What actually runs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main class="page">
+<nav class="topnav" aria-label="Course"><a href="0002-the-pipeline.html">Lesson 0002</a><a href="../reference/course-map.html">Course map</a><a href="../reference/iac-in-one-line.html">IaC in one line</a><span>Lesson 3 of 9 · Layer 3</span></nav>
+<div class="col">
+<h1>What actually runs</h1>
+<p class="dek">Lesson 0001 said a running app is an artifact alive in an environment. This lesson opens that box: what is running, what it runs on, and who keeps it running. You meet desired state here for the first time - it is the heart of IaC.</p>
+<div class="xp" data-max="160"><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-text">0 of 160 XP</span></div>
+<aside class="note">Layer 3 of the course map. Facts from Docker's guide <a href="https://docs.docker.com/learn/content/what-is-a-container/">What is a container?</a>, <a href="https://kubernetes.io/docs/concepts/architecture/controller/">Kubernetes: Controllers</a> and <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/object-management/">Kubernetes Object Management</a>.</aside>
+<p>Time: about 35 minutes. You know Kubernetes from work, so this lesson moves fast through it. The goal is not Kubernetes - it is the idea under it: desired state and a loop that makes it true.</p>
+<h2>How to do this lesson</h2>
+<ol><li>Warm-up: lessons 0001 and 0002.</li><li>Read the big idea and the words.</li><li>Five moments with Notekeeper's API. Bet first.</li><li>Sort and quiz.</li><li>Paste your lines in chat.</li></ol>
+<h2>Warm-up</h2>
+<div class="quiz" id="quiz-0003-warm"></div>
+<script type="application/json" data-quiz-for="quiz-0003-warm">
+[
+ {
+  "id": "w1",
+  "xp": 10,
+  "stem": "What is the only difference between Continuous Delivery and Continuous Deployment?",
+  "options": [
+   "Who decides the last step",
+   "How often the team merges",
+   "Which tests the pipeline runs",
+   "Whether an artifact is built"
+  ],
+  "answer": 0,
+  "why": "Same checks in both. Delivery: a person presses the button. Deployment: no button."
+ },
+ {
+  "id": "w2",
+  "xp": 10,
+  "stem": "Staging passed. What goes to production?",
+  "options": [
+   "The same artifact staging tested",
+   "A new build for production",
+   "The latest code on main",
+   "A copy of staging's database"
+  ],
+  "answer": 0,
+  "why": "Promotion: the artifact that collected the proof ships. From 0002."
+ },
+ {
+  "id": "w3",
+  "xp": 10,
+  "stem": "Staging and production differ only in what?",
+  "options": [
+   "Their config values",
+   "Their artifact versions",
+   "Their source code",
+   "Their build steps"
+  ],
+  "answer": 0,
+  "why": "One artifact everywhere, the differences in config. From 0001."
+ }
+]
+</script>
+<h2>Where you are</h2>
+<figure class="fig fig-onion">
+<svg viewBox="0 0 660 660" role="img" aria-labelledby="l3-on-t"><title id="l3-on-t">The course as an onion: layer 0 in the center, layer 6 outside. Layer 5, Infrastructure as Code, is the goal.</title>
+<circle class="r-a ring" cx="330" cy="330" r="314"/>
+<circle class="r-goal ring" cx="330" cy="330" r="272"/>
+<circle class="r-a ring" cx="330" cy="330" r="230"/>
+<circle class="r-here ring-here" cx="330" cy="330" r="188"/>
+<circle class="r-a ring" cx="330" cy="330" r="146"/>
+<circle class="r-b ring" cx="330" cy="330" r="104"/>
+<circle class="r-a ring" cx="330" cy="330" r="62"/>
+<text class="t-ring" x="330" y="252" text-anchor="middle">1 · Delivery lifecycle</text>
+<text class="t-ring" x="330" y="210" text-anchor="middle">2 · Deploy and release</text>
+<text class="t-ring" x="330" y="168" text-anchor="middle">3 · Runtime</text>
+<text class="t-ring" x="330" y="126" text-anchor="middle">4 · Cloud infrastructure</text>
+<text class="t-ring" x="330" y="84" text-anchor="middle">5 · Infrastructure as Code</text>
+<text class="t-ring" x="330" y="42" text-anchor="middle">6 · Platform engineering</text>
+<text class="t-ring" x="330" y="326" text-anchor="middle">0 · The</text><text class="t-ring" x="330" y="344" text-anchor="middle">mental model</text>
+<text class="t-s" x="330" y="588" text-anchor="middle">the goal - taught in depth</text>
+<text class="t-s" x="330" y="504" text-anchor="middle">you are here</text>
+</svg>
+<figcaption>Layer 3: the running app and the box it runs in.</figcaption>
+</figure>
+<section class="idea" aria-labelledby="idea-0003"><h2 id="idea-0003">The big idea</h2><dl><dt>Container - the one thing</dt><dd>Give the app the same predictable box everywhere - instead of "it works on my machine".</dd><dt>In a paragraph</dt><dd>An app needs more than its own code: libraries, a language runtime, files, settings. A <strong>container image</strong> packs all of it into one fixed artifact. A <strong>container</strong> is that image running as an isolated process. A <strong>virtual machine</strong> is heavier: a whole pretend computer with its own operating system. An <strong>orchestrator</strong> such as Kubernetes runs many containers on many machines and keeps the right number of them alive.</dd><dt>Picture</dt><dd>A shipping container. The port does not care what is inside: every container has the same shape, so the same crane moves it onto any ship.</dd><dt>Where the picture stops working</dt><dd>A steel container is closed and does nothing. A software container is a live process that shares the machine's operating system kernel with its neighbours, so the walls are thinner than steel. That is why containers are light, and why a VM is the stronger wall.</dd><dt>Desired state - the one thing</dt><dd>You write what should be true; a loop makes it true and keeps it true - instead of you doing each step.</dd></dl></section>
+<section class="words" aria-labelledby="words-0003"><h3 id="words-0003">Words you need</h3><dl><dt><dfn>process</dfn></dt><dd>A running program. The operating system gives it CPU time and memory.</dd><dt><dfn>operating system (OS)</dfn></dt><dd>The base software of a computer (for example Linux). Its core, the <em>kernel</em>, shares the hardware between processes.</dd><dt><dfn>virtual machine (VM)</dfn></dt><dd>A pretend computer made by software (a hypervisor) on a real one. It boots its own full OS.</dd><dt><dfn>container image</dfn></dt><dd>The artifact form for containers: a fixed, layered package of the app and everything it needs. Example: <code>notekeeper-api:1.4.2</code>.</dd><dt><dfn>container</dfn></dt><dd>A container image while it runs: an isolated process that shares the machine's kernel.</dd><dt><dfn>orchestrator</dfn></dt><dd>Software that runs containers on many machines and keeps them running. Kubernetes is the best-known one.</dd><dt><dfn>desired state</dfn></dt><dd>What you say should be true, written down ("3 copies of the API"). In Kubernetes: the object's <code>spec</code>.</dd><dt><dfn>actual state</dfn></dt><dd>What is really true right now ("2 copies run"). In Kubernetes: the object's <code>status</code>.</dd><dt><dfn>controller</dfn></dt><dd>A loop that watches the actual state and acts to move it toward the desired state, forever.</dd><dt><dfn>imperative / declarative</dfn></dt><dd>Imperative: you give the steps ("start one more"). Declarative: you give the end result ("3 should run") and a tool works out the steps.</dd></dl><p class="small">Kubernetes words you know from work (pod, deployment, service) are not needed for the bets. Where they help, the reveal names them.</p></section>
+<h2>Two ways to share one server</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 275" role="img" aria-labelledby="l3-st-t"><title id="l3-st-t">Left: virtual machines, each with its own guest operating system on a hypervisor. Right: containers, isolated processes that share one operating system kernel.</title><defs><marker id="l3-st-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><text class="t-b" x="170" y="22" text-anchor="middle">Virtual machines</text><rect class="box-key" x="20" y="36" width="95" height="40"/><text class="t-b" x="67.5" y="61.0" text-anchor="middle">API</text><rect class="box-key" x="125" y="36" width="95" height="40"/><text class="t-b" x="172.5" y="61.0" text-anchor="middle">Web app</text><rect class="box-key" x="230" y="36" width="95" height="40"/><text class="t-b" x="277.5" y="61.0" text-anchor="middle">Database</text><rect class="box" x="20" y="80" width="95" height="36"/><text class="t-b" x="67.5" y="103.0" text-anchor="middle">Guest OS</text><rect class="box" x="125" y="80" width="95" height="36"/><text class="t-b" x="172.5" y="103.0" text-anchor="middle">Guest OS</text><rect class="box" x="230" y="80" width="95" height="36"/><text class="t-b" x="277.5" y="103.0" text-anchor="middle">Guest OS</text><rect class="box" x="20" y="122" width="305" height="36"/><text class="t-b" x="172.5" y="145.0" text-anchor="middle">Hypervisor</text><rect class="box" x="20" y="162" width="305" height="36"/><text class="t-b" x="172.5" y="185.0" text-anchor="middle">Host OS (or none)</text><rect class="floor" x="20" y="202" width="305" height="40"/><text class="t-floor" x="172" y="227" text-anchor="middle">Physical server</text><text class="t-b" x="545" y="22" text-anchor="middle">Containers</text><rect class="box-key" x="390" y="80" width="95" height="40"/><text class="t-b" x="437.5" y="105.0" text-anchor="middle">API</text><rect class="box-key" x="495" y="80" width="95" height="40"/><text class="t-b" x="542.5" y="105.0" text-anchor="middle">Web app</text><rect class="box-key" x="600" y="80" width="95" height="40"/><text class="t-b" x="647.5" y="105.0" text-anchor="middle">Database</text><rect class="box" x="390" y="124" width="305" height="36"/><text class="t-b" x="542.5" y="147.0" text-anchor="middle">Container runtime</text><rect class="box" x="390" y="164" width="305" height="34"/><text class="t-b" x="542.5" y="186.0" text-anchor="middle">One shared OS kernel</text><rect class="floor" x="390" y="202" width="305" height="40"/><text class="t-floor" x="542" y="227" text-anchor="middle">Server (often itself a VM)</text><text class="t-s" x="172" y="262" text-anchor="middle">each VM boots its own OS: minutes, GBs</text><text class="t-s" x="542" y="262" text-anchor="middle">each container is a process: about a second, MBs</text></svg>
+<figcaption>A VM brings a whole OS. A container is a process with walls. In the cloud you usually get both: containers running on VMs.</figcaption>
+</figure>
+<h2>Follow Notekeeper's API</h2>
+<h3>Moment 1 - works on my machine</h3>
+<p class="story">1.4.2 of the API runs fine on Ana's laptop. On the staging server it crashes: the server has an older version of a library the API needs.</p>
+<label class="small" for="bet-0003-m1">Bet: how does packing the API as a container image fix this?</label><textarea class="bet" id="bet-0003-m1" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>The image carries its own copy of the library.</strong> The API no longer uses what happens to be installed on the server. It runs with exactly what was packed at build time.</p><p class="why"><strong>Why:</strong> this is lesson 0001's artifact idea, taken one step further. The artifact now includes the app's surroundings, not only its code. Docker's guide puts it this way: because everything the app needs is inside, a container does not depend on what is installed on your machine.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m1"> <span>Lost here (moment 1)</span></label>
+<h3>Moment 2 - VM or container for the API</h3>
+<p class="story">The team needs to run 6 copies of the API. Option A: 6 VMs. Option B: 6 containers on 2 servers.</p>
+<label class="small" for="bet-0003-m2">Bet: which option starts faster and uses less memory - and why?</label><textarea class="bet" id="bet-0003-m2" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Containers.</strong> Each container is a process on a shared kernel. There is no OS to boot, so it starts in about a second, and many fit on one machine. Each VM must boot a full OS of its own.</p><p class="why"><strong>Why:</strong> a VM copies a whole computer, a container copies only the app's box. The price is a thinner wall: containers on one machine share one kernel. When a strong wall matters (different customers, strict security), teams use VMs, or containers inside VMs.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m2"> <span>Lost here (moment 2)</span></label>
+<h3>Moment 3 - a server dies</h3>
+<p class="story">Kubernetes runs 3 copies of the API: 2 on server A, 1 on server B. At 03:00, server A loses power. Nobody is awake.</p>
+<label class="small" for="bet-0003-m3">Bet: what happens next, and who does it?</label><textarea class="bet" id="bet-0003-m3" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>A controller sees 1 copy running where 3 are wanted, and starts 2 more on server B.</strong> First Kubernetes waits a few minutes to be sure server A is really gone. No person acts. In Kubernetes words: the Deployment's ReplicaSet controller creates new pods.</p><p class="why"><strong>Why:</strong> you wrote the desired state (3 copies), not the steps. The controller compares desired with actual all the time, like a thermostat compares the room with the dial. Kubernetes' own docs use that picture. The fix happens whatever broke it, at 03:00 or at noon.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m3"> <span>Lost here (moment 3)</span></label>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 235" role="img" aria-labelledby="l3-lp-t"><title id="l3-lp-t">The control loop: the controller compares the desired state you wrote with the actual state it observes, acts to close the gap, and repeats forever.</title><defs><marker id="l3-lp-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><rect class="box-goal" x="20" y="70" width="170" height="70"/><text class="t-b" x="105.0" y="99.0" text-anchor="middle">Desired state</text><text class="t-s" x="105.0" y="119.0" text-anchor="middle">you write it: 3 copies</text><rect class="box" x="270" y="20" width="180" height="60"/><text class="t-b" x="360.0" y="44.0" text-anchor="middle">Compare</text><text class="t-s" x="360.0" y="64.0" text-anchor="middle">3 wanted, 2 running</text><rect class="box-key" x="270" y="130" width="180" height="60"/><text class="t-b" x="360.0" y="154.0" text-anchor="middle">Act</text><text class="t-s" x="360.0" y="174.0" text-anchor="middle">start 1 more copy</text><rect class="box" x="530" y="70" width="170" height="70"/><text class="t-b" x="615.0" y="99.0" text-anchor="middle">Actual state</text><text class="t-s" x="615.0" y="119.0" text-anchor="middle">what really runs</text><path class="line" d="M190 95 C220 70 240 55 266 50" marker-end="url(#l3-lp-a)"/><path class="line" d="M360 80 V126" marker-end="url(#l3-lp-a)"/><path class="line" d="M450 160 C490 160 510 140 528 125" marker-end="url(#l3-lp-a)"/><path class="line" d="M600 70 C590 30 520 30 454 42" marker-end="url(#l3-lp-a)"/><text class="t-s" x="560" y="26" text-anchor="middle">observe</text><text class="t-s" x="360" y="220" text-anchor="middle">The loop never ends: observe, compare, act, observe again.</text></svg>
+<figcaption>The control loop. Lesson 0005 shows the same loop in IaC tools - with one big difference: the IaC loop usually runs only when someone starts it.</figcaption>
+</figure>
+<h3>Moment 4 - a hand-made change</h3>
+<p class="story">Git says the API runs 3 copies, and Argo CD syncs from Git. During a busy evening, Ben runs <code>kubectl scale --replicas=5</code> by hand.</p>
+<label class="small" for="bet-0003-m4">Bet: what happens to Ben's 5 copies, and why?</label><textarea class="bet" id="bet-0003-m4" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Argo CD sees that the cluster no longer matches Git.</strong> It marks the app OutOfSync. With automatic self-heal on, it sets the count back to 3. Without self-heal, the 5 copies stay until the next sync - and the record in Git is wrong in the meantime.</p><p class="why"><strong>Why:</strong> only one place can say what is true. Here it is Git. A hand-made change makes the actual state drift away from the written desired state. This is <em>drift</em>, and it is one of the main problems IaC must handle (lesson 0007). Kubernetes' docs warn against mixing ways of managing one object for the same reason.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m4"> <span>Lost here (moment 4)</span></label>
+<h3>Moment 5 - where does the database run?</h3>
+<p class="story">Ana asks: should Notekeeper's database also be a container in the cluster, next to the API?</p>
+<label class="small" for="bet-0003-m5">Bet: what is the main extra job a database brings that the API does not have?</label><textarea class="bet" id="bet-0003-m5" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Its data must survive.</strong> The API can be thrown away and started again from the image any time. A database holds the notes: it needs backups, safe disks and careful upgrades. Many teams therefore rent a managed database from the cloud instead of running it in a container.</p><p class="why"><strong>Why:</strong> stateless parts (the API) are easy to replace, so containers and controllers handle them well. Stateful parts (the database) are hard to replace. That is why lesson 0004 puts the database on the floor as a managed service - and why HwtP for Infra releases databases and buckets differently from apps.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m5"> <span>Lost here (moment 5)</span></label>
+<h2>Say the difference - the same words in every lesson</h2>
+<div class="pairs"><div class="pair"><strong>Container vs virtual machine</strong><p>A container is an isolated process on a shared kernel. A VM is a whole pretend computer with its own OS.</p><p class="small">Light and fast vs strong wall. In the cloud, containers often run on VMs.</p></div><div class="pair"><strong>Image vs container</strong><p>The image is the fixed package in the store. The container is that image running.</p><p class="small">The same pair as artifact vs running app, from lesson 0001.</p></div><div class="pair"><strong>Desired state vs actual state</strong><p>Desired is what you wrote should be true. Actual is what really runs now.</p><p class="small">A controller closes the gap. When the gap stays open, that is drift.</p></div><div class="pair"><strong>Imperative vs declarative</strong><p>Imperative: you give the steps. Declarative: you give the end result, and a tool works out the steps.</p><p class="small"><code>kubectl scale</code> is imperative. <code>kubectl apply -f</code> with a file is declarative. Lesson 0005 builds on this.</p></div></div>
+<h2>Sort the sentences</h2>
+<p>Eight sentences about Notekeeper. Which thing is each one about?</p>
+<div class="sort" id="sort-0003"></div>
+<script type="application/json" data-sort-for="sort-0003">
+{
+ "buckets": [
+  "Image",
+  "Container",
+  "Virtual machine",
+  "Controller"
+ ],
+ "xp": 5,
+ "items": [
+  {
+   "id": "s1",
+   "text": "notekeeper-api:1.4.2, stored and never changed.",
+   "answer": 0,
+   "why": "A fixed package in the store - the artifact."
+  },
+  {
+   "id": "s2",
+   "text": "The API, running as process 4211 on server B.",
+   "answer": 1,
+   "why": "An image while it runs: a container."
+  },
+  {
+   "id": "s3",
+   "text": "A pretend computer that boots its own Linux.",
+   "answer": 2,
+   "why": "Its own OS - a VM."
+  },
+  {
+   "id": "s4",
+   "text": "Sees 2 copies where 3 are wanted, and starts one more.",
+   "answer": 3,
+   "why": "Observe, compare, act - a controller."
+  },
+  {
+   "id": "s5",
+   "text": "Built in the CI stage, then promoted to production.",
+   "answer": 0,
+   "why": "The pipeline moves the artifact - here, the image."
+  },
+  {
+   "id": "s6",
+   "text": "Stopped and replaced by a fresh copy after a crash.",
+   "answer": 1,
+   "why": "Containers are thrown away and started again from the image."
+  },
+  {
+   "id": "s7",
+   "text": "Gives each customer a strong wall with its own kernel.",
+   "answer": 2,
+   "why": "Own kernel = VM. Containers share one."
+  },
+  {
+   "id": "s8",
+   "text": "Puts the count back to 3 after a hand-made change.",
+   "answer": 3,
+   "why": "It moves the actual state back to the desired state."
+  }
+ ]
+}
+</script>
+<h2>Quiz</h2>
+<div class="quiz" id="quiz-0003"></div>
+<script type="application/json" data-quiz-for="quiz-0003">
+[
+ {
+  "id": "q1",
+  "xp": 10,
+  "stem": "Why does a container start much faster than a VM?",
+  "options": [
+   "No operating system to boot",
+   "It runs on faster CPUs",
+   "It skips the image download",
+   "It runs without any memory"
+  ],
+  "answer": 0,
+  "why": "A container is a process on a running kernel. A VM boots a full OS."
+ },
+ {
+  "id": "q2",
+  "xp": 10,
+  "stem": "In Kubernetes, where is the desired state written?",
+  "options": [
+   "In the object's spec",
+   "In the object's status",
+   "In the container image",
+   "In the node's kernel"
+  ],
+  "answer": 0,
+  "why": "spec = desired, status = actual, as reported by the system."
+ },
+ {
+  "id": "q3",
+  "xp": 10,
+  "stem": "Ben scales the API by hand while Git says 3. What is this called?",
+  "options": [
+   "Drift from the desired state",
+   "A canary deployment for users",
+   "A blue-green switch to green",
+   "A new release of features"
+  ],
+  "answer": 0,
+  "why": "The actual state moved away from what is written down: drift."
+ },
+ {
+  "id": "q4",
+  "xp": 10,
+  "stem": "Which describes a declarative approach?",
+  "options": [
+   "State the end result; tools find steps",
+   "Write every step in the right order",
+   "Click each setting in a web console",
+   "Ask a colleague to make the change"
+  ],
+  "answer": 0,
+  "why": "Declarative = the result. Imperative = the steps."
+ },
+ {
+  "id": "q5",
+  "xp": 10,
+  "stem": "Why is a database harder to run as a throw-away container?",
+  "options": [
+   "Its data must survive replacement",
+   "It cannot be an image",
+   "Databases never run on Linux",
+   "Containers cannot open network ports"
+  ],
+  "answer": 0,
+  "why": "The API can be replaced any time. The notes in the database must outlive any one process."
+ },
+ {
+  "id": "q6",
+  "xp": 10,
+  "stem": "Which pair is the same idea at two levels?",
+  "options": [
+   "Image vs container, artifact vs running app",
+   "Image vs VM, artifact vs app config",
+   "Container vs VM, build vs user release",
+   "Controller vs image, deploy vs app build"
+  ],
+  "answer": 0,
+  "why": "An image is the artifact, a container is it running. Same pair as in lesson 0001."
+ }
+]
+</script>
+<h2>Say it in one line</h2>
+<p>From memory, no scrolling. Then open the model line. Same core = right.</p>
+<label class="small" for="bet-0003-line1">What does a container really solve?</label><textarea class="bet" id="bet-0003-line1" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Give the app the same predictable box everywhere - instead of "it works on my machine".</p></details>
+<label class="small" for="bet-0003-line2">What is desired state, in one line?</label><textarea class="bet" id="bet-0003-line2" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>You write what should be true; a loop makes it true and keeps it true - instead of you doing each step.</p></details>
+<label class="small" for="bet-0003-line3">Container vs VM, in one line.</label><textarea class="bet" id="bet-0003-line3" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>A container is an isolated process on a shared kernel. A VM is a whole pretend computer with its own OS.</p></details>
+<h2>Cards for your deck</h2>
+<div class="cards"><details class="card"><summary>The API works on a laptop but not on the server. Which idea fixes it, and how?</summary><p>Pack it as a container image: it carries its own libraries, so it no longer depends on the server.</p></details><details class="card"><summary>A node dies at night. Who starts the missing copies?</summary><p>A controller: it sees fewer copies than the desired state says and starts new ones.</p></details><details class="card"><summary>Ben scales by hand; Git says 3. What is the risk if nobody notices?</summary><p>Drift: the written desired state is wrong about reality, and the next sync may undo Ben's change by surprise.</p></details><details class="card"><summary>When would you pick a VM over a container?</summary><p>When you need a strong wall: its own kernel, for example between customers.</p></details><details class="card"><summary>Why is the database often a managed cloud service?</summary><p>Its data must survive: backups, safe disks, careful upgrades. The cloud runs that for you.</p></details><details class="card"><summary>Is <code>kubectl apply -f api.yaml</code> imperative or declarative?</summary><p>Declarative: the file says the end result, and Kubernetes works out the changes.</p></details></div>
+<aside class="note"><strong>HwtP lens - optional, no answer here on purpose.</strong> In HwtP for K8s, where is the desired state written (which repo, which files)? In HwtP for Infra, where is the desired state of a database written? Is it in the same kind of place? Write it in chat.</aside>
+<div class="source"><h3>Read this next</h3><p><a href="https://docs.docker.com/learn/content/what-is-a-container/">Docker: What is a container?</a> (12 minutes, has a short video). Then <a href="https://kubernetes.io/docs/concepts/architecture/controller/">Kubernetes: Controllers</a>, only the first section, "Controller pattern" (5 minutes) - it has the thermostat.</p></div>
+<h2>Done</h2>
+<ul class="checklist"><li><label><input type="checkbox" id="done-0003-0" data-xp="10"> <span>I read the two sources</span></label></li><li><label><input type="checkbox" id="done-0003-1" data-xp="20"> <span>I did the explain-back in chat</span></label></li></ul>
+<h2>Lost here - your line</h2>
+<div class="lost-summary"></div>
+<p class="foot"><strong>Explain-back (10 minutes).</strong> In chat, start with the one line of desired state. Then 3-5 sentences: container vs VM, what a controller does at 03:00, and what Ben's hand-made change did. Paste the result lines and your lost line.<br><br>Questions about anything on this page? Ask in chat - your teacher is there for exactly that, and "this did not land" is welcome.<br><br>Next: <a href="0004-notekeepers-floor.html">lesson 0004, Notekeeper's floor</a> - what the cloud really is, and every part the running app stands on.</p>
+</div>
+</main>
+<script src="../assets/course.js"></script>
+<script src="../assets/quiz.js"></script>
+<script src="../assets/sort.js"></script>
+</body>
+</html>

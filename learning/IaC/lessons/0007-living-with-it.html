@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en" data-page="iac-0007">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>0007 - Living with it</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main class="page">
+<nav class="topnav" aria-label="Course"><a href="0006-the-iac-engine.html">Lesson 0006</a><a href="../reference/course-map.html">Course map</a><a href="../reference/iac-in-one-line.html">IaC in one line</a><span>Lesson 7 of 9 · Layer 5 · part 3 of 4</span></nav>
+<div class="col">
+<h1>Living with it</h1>
+<p class="dek">Lesson 0006 was one person, one folder, one environment. Real teams have five people, three environments and a cloud that people still click in. This lesson is about what goes wrong then - and the four ideas teams use against it.</p>
+<div class="xp" data-max="185"><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-text">0 of 185 XP</span></div>
+<aside class="note">Layer 5 of the course map. Facts from HashiCorp: <a href="https://developer.hashicorp.com/terraform/tutorials/state/resource-drift">Manage resource drift</a>, <a href="https://developer.hashicorp.com/terraform/language/state/purpose">Purpose of Terraform State</a> (remote locking), <a href="https://developer.hashicorp.com/terraform/language/modules">Modules overview</a>; <a href="https://docs.terragrunt.com/features/units/">Terragrunt: Units</a>; Martin Fowler: <a href="https://www.martinfowler.com/bliki/PhoenixServer.html">Phoenix Server</a> (configuration drift); Kief Morris, <em>Infrastructure as Code</em>, 3rd ed., Part 2 (stacks).</aside>
+<p>Time: about 40 minutes. Medium nuance: four problems, four answers. One small optional lab at the end.</p>
+<h2>How to do this lesson</h2>
+<ol><li>Warm-up from 0006 and earlier.</li><li>Big idea and words.</li><li>Five moments, each a real team problem.</li><li>Sort, quiz, lines in chat.</li></ol>
+<h2>Warm-up</h2>
+<div class="quiz" id="quiz-0007-warm"></div>
+<script type="application/json" data-quiz-for="quiz-0007-warm">
+[
+ {
+  "id": "w1",
+  "xp": 10,
+  "stem": "A plan shows <code>-/+</code> on the production database. What does it mean?",
+  "options": [
+   "Destroy first, then create new",
+   "Update the database in place",
+   "Create a copy beside it",
+   "Read it and change nothing"
+  ],
+  "answer": 0,
+  "why": "Replace, destroy before create - the data goes with the old one. From 0006."
+ },
+ {
+  "id": "w2",
+  "xp": 10,
+  "stem": "What is the state file for?",
+  "options": [
+   "Binding each address to one real object",
+   "Storing a copy of the provider plugins",
+   "Keeping the history of every Git commit",
+   "Holding the passwords for the cloud account"
+  ],
+  "answer": 0,
+  "why": "The mapping to the real world. From 0006."
+ },
+ {
+  "id": "w3",
+  "xp": 10,
+  "stem": "Before every plan, the tool does what first?",
+  "options": [
+   "Reads the real objects",
+   "Deletes the old state",
+   "Downloads new provider plugins",
+   "Applies the last plan"
+  ],
+  "answer": 0,
+  "why": "Refresh: it reads reality through the providers. From 0006."
+ },
+ {
+  "id": "w4",
+  "xp": 10,
+  "stem": "Which sentence is declarative?",
+  "options": [
+   "Staging has exactly two zones",
+   "Add a zone to staging",
+   "Click Add zone in staging",
+   "Run the zone script now"
+  ],
+  "answer": 0,
+  "why": "An end state, not an action. From 0005."
+ }
+]
+</script>
+<h2>Where you are</h2>
+<figure class="fig fig-onion">
+<svg viewBox="0 0 660 660" role="img" aria-labelledby="l7-on-t"><title id="l7-on-t">The course as an onion: layer 0 in the center, layer 6 outside. Layer 5, Infrastructure as Code, is the goal.</title>
+<circle class="r-a ring" cx="330" cy="330" r="314"/>
+<circle class="r-goal ring-here" cx="330" cy="330" r="272"/>
+<circle class="r-a ring" cx="330" cy="330" r="230"/>
+<circle class="r-b ring" cx="330" cy="330" r="188"/>
+<circle class="r-a ring" cx="330" cy="330" r="146"/>
+<circle class="r-b ring" cx="330" cy="330" r="104"/>
+<circle class="r-a ring" cx="330" cy="330" r="62"/>
+<text class="t-ring" x="330" y="252" text-anchor="middle">1 · Delivery lifecycle</text>
+<text class="t-ring" x="330" y="210" text-anchor="middle">2 · Deploy and release</text>
+<text class="t-ring" x="330" y="168" text-anchor="middle">3 · Runtime</text>
+<text class="t-ring" x="330" y="126" text-anchor="middle">4 · Cloud infrastructure</text>
+<text class="t-ring" x="330" y="84" text-anchor="middle">5 · Infrastructure as Code</text>
+<text class="t-ring" x="330" y="42" text-anchor="middle">6 · Platform engineering</text>
+<text class="t-ring" x="330" y="326" text-anchor="middle">0 · The</text><text class="t-ring" x="330" y="344" text-anchor="middle">mental model</text>
+<text class="t-s" x="330" y="588" text-anchor="middle">you are here - the goal</text>
+</svg>
+<figcaption>Layer 5, part 3: IaC with a team, over time.</figcaption>
+</figure>
+<section class="idea" aria-labelledby="idea-0007"><h2 id="idea-0007">The big idea</h2><dl><dt>Drift - the one thing</dt><dd>Reality changed outside the code - so code, state and reality no longer agree.</dd><dt>Remote state with a lock - the one thing</dt><dd>One shared state, one apply at a time - instead of two people changing the same floor at once.</dd><dt>Module - the one thing</dt><dd>Write a group of resources once and use it with different inputs - instead of copying folders.</dd><dt>Stack - the one thing</dt><dd>A piece of infrastructure you apply as one unit, with its own state - so one mistake cannot reach everything.</dd><dt>Picture</dt><dd>A shared building plan for a chain of shops. One master plan (module), one site book per shop (state per stack), one key to the site office (lock), and a weekly walk around each shop to spot changes nobody wrote down (drift checks).</dd><dt>Where the picture stops working</dt><dd>A shop changes slowly and you can see it. Cloud infrastructure can change in seconds, by a script, a colleague or the provider itself, and you only see it when the tool reads it through the API.</dd></dl></section>
+<section class="words" aria-labelledby="words-0007"><h3 id="words-0007">Words you need</h3><dl><dt><dfn>drift</dfn></dt><dd>Reality changed, but the configuration and the state did not. From 0003 and 0005.</dd><dt><dfn>refresh-only plan</dfn></dt><dd><code>plan -refresh-only</code>: shows what changed outside the tool, without proposing changes to the infrastructure.</dd><dt><dfn>remote state (backend)</dfn></dt><dd>The state file kept in a shared, safe place (for example an S3 bucket) instead of on one laptop.</dd><dt><dfn>state lock</dfn></dt><dd>While one apply runs, the state is locked. A second apply on the same state must wait or stop.</dd><dt><dfn>module</dfn></dt><dd>A container for several resources that are used together. You call it with inputs, and you can call it many times.</dd><dt><dfn>input variable</dfn></dt><dd>A value the caller gives to a module or a stack, for example <code>size_gb</code> or the environment name.</dd><dt><dfn>stack</dfn></dt><dd>A set of resources applied together, with one state (Kief Morris's word). Terragrunt calls this a unit.</dd><dt><dfn>blast radius</dfn></dt><dd>How much can break if one apply goes wrong. A smaller stack has a smaller blast radius.</dd><dt><dfn>import</dfn></dt><dd>Telling the tool that an existing, hand-made object belongs to one of its addresses, so it can manage it from now on.</dd><dt><dfn>Terragrunt</dfn></dt><dd>A wrapper around OpenTofu/Terraform for many stacks: it keeps shared settings in one place and runs stacks in dependency order.</dd></dl></section>
+<h2>Three things that must agree</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 300" role="img" aria-labelledby="l7-tr-t"><title id="l7-tr-t">Three things the tool compares: configuration (what you want), state (what the tool made) and reality (what exists). A code change not yet applied is a gap between configuration and the others. Drift is a gap between reality and the others.</title><defs><marker id="l7-tr-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><rect class="box-goal" x="270" y="20" width="180" height="64"/><text class="t-b" x="360.0" y="46.0" text-anchor="middle">Configuration</text><text class="t-s" x="360.0" y="66.0" text-anchor="middle">what you want (Git)</text><rect class="box" x="40" y="190" width="180" height="64"/><text class="t-b" x="130.0" y="216.0" text-anchor="middle">State</text><text class="t-s" x="130.0" y="236.0" text-anchor="middle">what the tool made</text><rect class="box-key" x="500" y="190" width="180" height="64"/><text class="t-b" x="590.0" y="216.0" text-anchor="middle">Reality</text><text class="t-s" x="590.0" y="236.0" text-anchor="middle">what exists now</text><path class="line" d="M300 84 L180 186"/><path class="line" d="M420 84 L540 186"/><path class="line" d="M220 222 H496"/><text class="t-s" x="205" y="128" text-anchor="middle">code changed,</text><text class="t-s" x="205" y="146" text-anchor="middle">not applied yet</text><text class="t-s" x="530" y="128" text-anchor="middle">drift: someone</text><text class="t-s" x="530" y="146" text-anchor="middle">changed reality</text><text class="t-s" x="358" y="212" text-anchor="middle">refresh updates state from reality</text><text class="t-s" x="360" y="285" text-anchor="middle">All three agree = nothing to do. Any two disagree = a plan with work in it.</text></svg>
+<figcaption>The engine from lesson 0006 compares these three on every plan. Today's lesson is about what makes them disagree.</figcaption>
+</figure>
+<h2>Five team problems</h2>
+<h3>Moment 1 - the Friday fix</h3>
+<p class="story">On Friday, during an incident, Ben makes the production disk 200 GB in the console. The code still says 100 GB. On Tuesday, Ana applies an unrelated change in the same stack.</p>
+<label class="small" for="bet-0007-m1">Bet: what will Ana's plan propose for the disk - and why is that dangerous?</label><textarea class="bet" id="bet-0007-m1" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>To set the disk back to 100 GB</strong> (or to fail, if the cloud cannot make disks smaller). The tool sees reality (200) differ from the desired state (100) and closes the gap - towards the code, not towards Ben's fix.</p><p class="why"><strong>Why:</strong> the tool trusts the configuration, not the cloud. A hand-made fix that nobody puts into the code will be undone the next time anyone applies. Fowler names it: drift is the street that leads to snowflake servers. The fix is a habit: after an emergency change in the console, change the code the same day.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m1"> <span>Lost here (moment 1)</span></label>
+<h3>Moment 2 - spot drift before it bites</h3>
+<p class="story">The team wants to know about Friday fixes before Tuesday's apply, without changing anything.</p>
+<label class="small" for="bet-0007-m2">Bet: which kind of plan shows only what changed outside the tool?</label><textarea class="bet" id="bet-0007-m2" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>A refresh-only plan: <code>tofu plan -refresh-only</code>.</strong> It reads reality and shows how the state would change. It proposes no changes to the infrastructure.</p><p class="why"><strong>Why:</strong> HashiCorp's drift tutorial uses this exact command to find changes made outside the workflow. Many teams run it on a schedule in a pipeline and alert when it finds drift. Then a person decides: put the change into the code, or apply to remove it.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m2"> <span>Lost here (moment 2)</span></label>
+<h3>Moment 3 - two applies at once</h3>
+<p class="story">Ana and Ben both run apply on the production stack at 10:00, from their laptops. Each has the state file on their own disk.</p>
+<label class="small" for="bet-0007-m3">Bet: what can go wrong, and what two things stop it?</label><textarea class="bet" id="bet-0007-m3" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Each one plans from an old copy of the truth, and the second apply can undo or break the first.</strong> The fix: keep one shared state in a remote backend, and use a lock, so the second apply must wait until the first is done.</p><p class="why"><strong>Why:</strong> HashiCorp's docs say remote locking makes sure two people do not run at the same time, so each run starts with the newest state. Also: state can hold secrets in plain text, so the shared place must be private and encrypted - never Git.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m3"> <span>Lost here (moment 3)</span></label>
+<h3>Moment 4 - copy the folder for staging</h3>
+<p class="story">To make staging, Ben copies the production folder and changes 12 values by hand. Six months later, staging and production differ in ways nobody chose.</p>
+<label class="small" for="bet-0007-m4">Bet: what should the team write once, and what should differ per environment?</label><textarea class="bet" id="bet-0007-m4" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Write the resources once, as a module. Give each environment only its inputs: name, size, number of zones.</strong> Staging and production then call the same module version with different inputs.</p><p class="why"><strong>Why:</strong> copies drift apart: a fix goes into one folder and is forgotten in the other. Terragrunt's docs give the rule: anything that should differ between environments should be an input variable. Then the only differences are the ones you wrote on purpose.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m4"> <span>Lost here (moment 4)</span></label>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 285" role="img" aria-labelledby="l7-md-t"><title id="l7-md-t">One module, notekeeper-floor, used at the same version by a staging stack and a production stack. Each stack has its own inputs and its own state, and a lock makes sure only one apply runs at a time.</title><defs><marker id="l7-md-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><rect class="box-goal" x="260" y="20" width="200" height="70"/><text class="t-b" x="360.0" y="49.0" text-anchor="middle">Module: notekeeper-floor</text><text class="t-s" x="360.0" y="69.0" text-anchor="middle">network, API, database ...</text><rect class="box" x="40" y="160" width="200" height="80"/><text class="t-b" x="140.0" y="186.0" text-anchor="middle">Staging stack</text><text class="t-s" x="140.0" y="206.0" text-anchor="middle">size_gb = 20</text><text class="t-s" x="140.0" y="224.0" text-anchor="middle">own state file</text><rect class="box" x="480" y="160" width="200" height="80"/><text class="t-b" x="580.0" y="186.0" text-anchor="middle">Production stack</text><text class="t-s" x="580.0" y="206.0" text-anchor="middle">size_gb = 100, 2 zones</text><text class="t-s" x="580.0" y="224.0" text-anchor="middle">own state file</text><path class="line" d="M300 90 L160 156" marker-end="url(#l7-md-a)"/><text class="t-s" x="210" y="118" text-anchor="middle">v1.3.0</text><path class="line" d="M420 90 L560 156" marker-end="url(#l7-md-a)"/><text class="t-s" x="510" y="118" text-anchor="middle">v1.3.0</text><rect class="box" x="270" y="170" width="180" height="60"/><text class="t-b" x="360.0" y="194.0" text-anchor="middle">Lock</text><text class="t-s" x="360.0" y="214.0" text-anchor="middle">one apply at a time</text><path class="line-soft" d="M450 200 H476" marker-end="url(#l7-md-a)"/><text class="t-s" x="360" y="270" text-anchor="middle">One module, two stacks, two states. Differences are inputs, not copied code.</text></svg>
+<figcaption>One module, two stacks. Each stack pins the module version, has its own inputs and its own state. Production can wait at v1.3.0 while staging tries v1.4.0.</figcaption>
+</figure>
+<h3>Moment 5 - one big stack</h3>
+<p class="story">All of Notekeeper's floor - network, database, API servers, DNS - is one stack with one state. Ana changes a DNS record. The plan also shows a change to the database, because of an old drift.</p>
+<label class="small" for="bet-0007-m5">Bet: how would splitting the floor into smaller stacks help here?</label><textarea class="bet" id="bet-0007-m5" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>A DNS change would only plan the DNS stack.</strong> The database lives in its own stack with its own state, so a DNS change cannot touch it - and its drift waits for a careful, separate review.</p><p class="why"><strong>Why:</strong> one state = one blast radius. Split along how often things change and how bad a mistake is: the network changes rarely, the database is precious, DNS changes often. The price: stacks depend on each other (the API stack needs the network's IDs), so a tool such as Terragrunt runs them in dependency order.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m5"> <span>Lost here (moment 5)</span></label>
+<h2>Say the difference - the same words in every lesson</h2>
+<div class="pairs"><div class="pair"><strong>Drift vs a code change not yet applied</strong><p>Drift: reality changed, the code did not. Unapplied change: the code changed, reality did not.</p><p class="small">Both show up in a plan. Only drift needs "who did this, and do we keep it?"</p></div><div class="pair"><strong>Module vs stack</strong><p>A module is reusable code. A stack is one applied piece with its own state.</p><p class="small">A stack calls modules. Two stacks can call the same module.</p></div><div class="pair"><strong>Remote state vs Git</strong><p>State goes in a private, locked, shared store. Code goes in Git.</p><p class="small">State can hold secrets and changes on every apply - never commit it.</p></div><div class="pair"><strong>Refresh-only plan vs normal plan</strong><p>Refresh-only shows what changed outside the tool. A normal plan shows what the tool will change.</p><p class="small">First see the drift, then decide.</p></div></div>
+<h2>Which idea solves it?</h2>
+<p>Eight team problems. Pick the idea that solves each one.</p>
+<div class="sort" id="sort-0007"></div>
+<script type="application/json" data-sort-for="sort-0007">
+{
+ "buckets": [
+  "Refresh-only plan",
+  "Remote state + lock",
+  "Module",
+  "Smaller stacks"
+ ],
+ "xp": 5,
+ "items": [
+  {
+   "id": "s1",
+   "text": "Find out what was clicked in the console last week, changing nothing.",
+   "answer": 0,
+   "why": "Read reality, show the difference, propose nothing."
+  },
+  {
+   "id": "s2",
+   "text": "Two pipelines must never apply to production at the same moment.",
+   "answer": 1,
+   "why": "A lock: one apply at a time."
+  },
+  {
+   "id": "s3",
+   "text": "Staging must have exactly the same database setup as production, but smaller.",
+   "answer": 2,
+   "why": "Same code, different inputs."
+  },
+  {
+   "id": "s4",
+   "text": "A DNS change must never be able to touch the database.",
+   "answer": 3,
+   "why": "Separate state = separate blast radius."
+  },
+  {
+   "id": "s5",
+   "text": "The state is on Ben's laptop, and Ben is on holiday.",
+   "answer": 1,
+   "why": "A shared backend: everyone and the pipeline use one state."
+  },
+  {
+   "id": "s6",
+   "text": "Three teams want the same \"bucket with backups and encryption\".",
+   "answer": 2,
+   "why": "Write it once, call it three times."
+  },
+  {
+   "id": "s7",
+   "text": "Every night, check production and alert if it no longer matches.",
+   "answer": 0,
+   "why": "A scheduled refresh-only plan is the usual drift check."
+  },
+  {
+   "id": "s8",
+   "text": "The network changes twice a year, the API servers twice a day.",
+   "answer": 3,
+   "why": "Split by rate of change: each stack its own pace and risk."
+  }
+ ]
+}
+</script>
+<h2>Optional lab - a module, two environments (20 minutes)</h2>
+<p>In <code>~/iac-lab</code>, make a module and call it twice. Same honest note as 0006: the outputs are what the docs describe - paste what you really see.</p>
+<pre data-copy><code>mkdir -p ~/iac-lab/modules/floor ~/iac-lab/envs &amp;&amp; cd ~/iac-lab
+cat &gt; modules/floor/main.tf &lt;&lt;&#x27;EOF&#x27;
+variable &quot;env&quot;     { type = string }
+variable &quot;size_gb&quot; { type = number }
+
+resource &quot;local_file&quot; &quot;database&quot; {
+  filename = &quot;${path.root}/floor-${var.env}/database.conf&quot;
+  content  = &quot;env = ${var.env}\nsize_gb = ${var.size_gb}\n&quot;
+}
+EOF
+cat &gt; envs/main.tf &lt;&lt;&#x27;EOF&#x27;
+module &quot;staging&quot; {
+  source  = &quot;../modules/floor&quot;
+  env     = &quot;staging&quot;
+  size_gb = 20
+}
+module &quot;production&quot; {
+  source  = &quot;../modules/floor&quot;
+  env     = &quot;production&quot;
+  size_gb = 100
+}
+EOF
+cd envs &amp;&amp; tofu init &amp;&amp; tofu plan</code></pre>
+<label class="small" for="bet-0007-lab">Bet: how many resources will the plan add, and what are their addresses?</label><textarea class="bet" id="bet-0007-lab" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>2 to add: <code>module.staging.local_file.database</code> and <code>module.production.local_file.database</code>.</strong> One resource block in the module, two calls, two real files.</p><p class="why"><strong>Why:</strong> the address now includes the module call's name. That is how the state keeps the two apart. Note one shortcut in this lab: both calls share one state here. In real work each environment would be its own stack with its own state, as in the figure.</p></details>
+<label class="lost"><input type="checkbox" data-lost="lab"> <span>Lost here (lab)</span></label>
+<h2>Quiz</h2>
+<div class="quiz" id="quiz-0007"></div>
+<script type="application/json" data-quiz-for="quiz-0007">
+[
+ {
+  "id": "q1",
+  "xp": 10,
+  "stem": "Ben fixed production in the console; the code was not changed. What will the next apply do?",
+  "options": [
+   "Set it back to the code",
+   "Keep Ben's fix, update the code",
+   "Stop and ask Ben about it",
+   "Ignore that resource from now on"
+  ],
+  "answer": 0,
+  "why": "The tool closes the gap towards the configuration. Put fixes in the code."
+ },
+ {
+  "id": "q2",
+  "xp": 10,
+  "stem": "Which command shows drift without proposing infrastructure changes?",
+  "options": [
+   "plan -refresh-only",
+   "apply -auto-approve",
+   "init -upgrade",
+   "destroy -target"
+  ],
+  "answer": 0,
+  "why": "The refresh-only mode reads reality and shows state differences only."
+ },
+ {
+  "id": "q3",
+  "xp": 10,
+  "stem": "Why keep state remote, with a lock?",
+  "options": [
+   "One shared truth, one apply at once",
+   "Remote state makes all the applies faster",
+   "Locks hide the secrets in the state",
+   "Git cannot store files over 1 MB"
+  ],
+  "answer": 0,
+  "why": "Everyone plans from the newest state, and two applies cannot collide."
+ },
+ {
+  "id": "q4",
+  "xp": 10,
+  "stem": "Staging and production should differ only in size. How?",
+  "options": [
+   "One module, different input values",
+   "Two copied folders, edited manually",
+   "One stack for both environments",
+   "A script that edits files"
+  ],
+  "answer": 0,
+  "why": "Terragrunt's rule: what differs between environments becomes an input."
+ },
+ {
+  "id": "q5",
+  "xp": 10,
+  "stem": "What does splitting into smaller stacks reduce?",
+  "options": [
+   "The blast radius of one apply",
+   "The number of providers you need",
+   "The size of each provider plugin",
+   "The need for state at all"
+  ],
+  "answer": 0,
+  "why": "One state, one blast radius. A DNS change cannot reach the database."
+ },
+ {
+  "id": "q6",
+  "xp": 10,
+  "stem": "Where should a state file never be kept?",
+  "options": [
+   "Inside the shared Git repository",
+   "In a private, encrypted bucket",
+   "In a backend with locking",
+   "In a managed state service"
+  ],
+  "answer": 0,
+  "why": "State changes every apply and can hold secrets in plain text."
+ }
+]
+</script>
+<h2>Say it in one line</h2>
+<p>From memory, no scrolling. Then open the model line. Same core = right.</p>
+<label class="small" for="bet-0007-line1">What is drift, in one line?</label><textarea class="bet" id="bet-0007-line1" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Reality changed outside the code - so code, state and reality no longer agree.</p></details>
+<label class="small" for="bet-0007-line2">Module vs stack, in one line.</label><textarea class="bet" id="bet-0007-line2" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>A module is reusable code. A stack is one applied piece with its own state.</p></details>
+<label class="small" for="bet-0007-line3">Why remote state with a lock?</label><textarea class="bet" id="bet-0007-line3" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>One shared state, one apply at a time - instead of two people changing the same floor at once.</p></details>
+<h2>Cards for your deck</h2>
+<div class="cards"><details class="card"><summary>An incident fix was made in the console. What must happen the same day?</summary><p>Put it into the code (or remove it). Otherwise the next apply undoes it.</p></details><details class="card"><summary>A nightly job runs a refresh-only plan. What is it for?</summary><p>To find drift early and alert, before someone's apply undoes or trips over it.</p></details><details class="card"><summary>Why is the state never committed to Git?</summary><p>It changes every apply, it can hold secrets in plain text, and Git cannot lock it.</p></details><details class="card"><summary>Ben copied the prod folder to make staging. What is the long-term risk?</summary><p>The copies drift apart. Fixes reach one and not the other.</p></details><details class="card"><summary>Why split the database into its own stack?</summary><p>Smaller blast radius: changes to other parts cannot plan anything on the database.</p></details><details class="card"><summary>A bucket was made by hand two years ago. How does it come under IaC?</summary><p>Write its resource block, then import it, so the state binds the address to the real bucket.</p></details></div>
+<aside class="note"><strong>HwtP lens - optional, no answer here on purpose.</strong> For HwtP for Infra: where does the state of a released database live? Is one database one stack? How would HwtP notice drift, and who decides what to do with it? Write what you find.</aside>
+<div class="source"><h3>Read this next</h3><p><a href="https://developer.hashicorp.com/terraform/tutorials/state/resource-drift">HashiCorp: Manage resource drift</a> (15 minutes, a tutorial you can read without running). Then <a href="https://www.martinfowler.com/bliki/PhoenixServer.html">Fowler: Phoenix Server</a> (3 minutes) for where the word drift comes from.</p></div>
+<h2>Done</h2>
+<ul class="checklist"><li><label><input type="checkbox" id="done-0007-0" data-xp="10"> <span>I read the drift tutorial</span></label></li><li><label><input type="checkbox" id="done-0007-1" data-xp="15"> <span>I did the optional lab</span></label></li><li><label><input type="checkbox" id="done-0007-2" data-xp="20"> <span>I did the explain-back in chat</span></label></li></ul>
+<h2>Lost here - your line</h2>
+<div class="lost-summary"></div>
+<p class="foot"><strong>Explain-back (10 minutes).</strong> In chat, start with the one line of drift. Then 3-5 sentences: what happens to Ben's Friday fix, why two applies need a lock, and module vs stack with Notekeeper. Paste the result lines and your lost line.<br><br>Questions about anything on this page? Ask in chat - your teacher is there for exactly that, and "this did not land" is welcome.<br><br>Next: <a href="0008-delivering-infrastructure-code.html">lesson 0008, delivering infrastructure code</a> - the pipeline from lesson 0002, now for the floor.</p>
+</div>
+</main>
+<script src="../assets/course.js"></script>
+<script src="../assets/quiz.js"></script>
+<script src="../assets/sort.js"></script>
+</body>
+</html>

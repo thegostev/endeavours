@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en" data-page="iac-0004">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>0004 - Notekeeper&#x27;s floor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main class="page">
+<nav class="topnav" aria-label="Course"><a href="0003-what-actually-runs.html">Lesson 0003</a><a href="../reference/course-map.html">Course map</a><a href="../reference/iac-in-one-line.html">IaC in one line</a><span>Lesson 4 of 9 · Layer 4</span></nav>
+<div class="col">
+<h1>Notekeeper&#x27;s floor</h1>
+<p class="dek">Lesson 0001 drew the infrastructure as one brown bar: "the floor". Now we open it. What is the cloud, really, and which parts does Notekeeper stand on? At the end you will count the parts - and see why nobody should make them by hand.</p>
+<div class="xp" data-max="170"><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-text">0 of 170 XP</span></div>
+<aside class="note">Layer 4 of the course map. Facts from <a href="https://doi.org/10.6028/NIST.SP.800-145">NIST SP 800-145</a> (the definition of cloud computing), AWS docs on <a href="https://docs.aws.amazon.com/global-infrastructure/latest/regions/aws-regions-availability-zones.html">Regions and Availability Zones</a> and <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction">What is IAM?</a>. AWS is the example cloud because Jamf uses it. Azure and Google Cloud have the same parts under other names.</aside>
+<p>Time: about 40 minutes. Many new words, but each one is one part of one picture. Keep the figure open while you read.</p>
+<h2>How to do this lesson</h2>
+<ol><li>Warm-up: lessons 0001-0003.</li><li>Read the big idea and the words, with the figure next to them.</li><li>Five moments: a user visits, a zone fails, access, a private database, the count.</li><li>Sort and quiz.</li><li>Paste your lines in chat.</li></ol>
+<h2>Warm-up</h2>
+<div class="quiz" id="quiz-0004-warm"></div>
+<script type="application/json" data-quiz-for="quiz-0004-warm">
+[
+ {
+  "id": "w1",
+  "xp": 10,
+  "stem": "A server dies at 03:00. Who starts the missing API copies?",
+  "options": [
+   "A controller comparing desired and actual",
+   "The on-call engineer, working by hand",
+   "The CI stage of the pipeline",
+   "The load balancer, from its cache"
+  ],
+  "answer": 0,
+  "why": "The controller loop closes the gap between desired and actual state. From 0003."
+ },
+ {
+  "id": "w2",
+  "xp": 10,
+  "stem": "Which one is a canary?",
+  "options": [
+   "5% of users get it first",
+   "All users switch to green together",
+   "A feature switch for staff only",
+   "The old artifact is deployed again"
+  ],
+  "answer": 0,
+  "why": "Canary grows the share step by step. From 0002."
+ },
+ {
+  "id": "w3",
+  "xp": 10,
+  "stem": "Which change has no new artifact?",
+  "options": [
+   "Giving the database a bigger disk",
+   "Fixing a typo on the page",
+   "Updating a library in the API",
+   "Adding a new API endpoint now"
+  ],
+  "answer": 0,
+  "why": "Disk size is the floor, not the app. From 0001."
+ }
+]
+</script>
+<h2>Where you are</h2>
+<figure class="fig fig-onion">
+<svg viewBox="0 0 660 660" role="img" aria-labelledby="l4-on-t"><title id="l4-on-t">The course as an onion: layer 0 in the center, layer 6 outside. Layer 5, Infrastructure as Code, is the goal.</title>
+<circle class="r-a ring" cx="330" cy="330" r="314"/>
+<circle class="r-goal ring" cx="330" cy="330" r="272"/>
+<circle class="r-here ring-here" cx="330" cy="330" r="230"/>
+<circle class="r-b ring" cx="330" cy="330" r="188"/>
+<circle class="r-a ring" cx="330" cy="330" r="146"/>
+<circle class="r-b ring" cx="330" cy="330" r="104"/>
+<circle class="r-a ring" cx="330" cy="330" r="62"/>
+<text class="t-ring" x="330" y="252" text-anchor="middle">1 · Delivery lifecycle</text>
+<text class="t-ring" x="330" y="210" text-anchor="middle">2 · Deploy and release</text>
+<text class="t-ring" x="330" y="168" text-anchor="middle">3 · Runtime</text>
+<text class="t-ring" x="330" y="126" text-anchor="middle">4 · Cloud infrastructure</text>
+<text class="t-ring" x="330" y="84" text-anchor="middle">5 · Infrastructure as Code</text>
+<text class="t-ring" x="330" y="42" text-anchor="middle">6 · Platform engineering</text>
+<text class="t-ring" x="330" y="326" text-anchor="middle">0 · The</text><text class="t-ring" x="330" y="344" text-anchor="middle">mental model</text>
+<text class="t-s" x="330" y="588" text-anchor="middle">the goal - taught in depth</text>
+<text class="t-s" x="330" y="546" text-anchor="middle">you are here</text>
+</svg>
+<figcaption>Layer 4: the floor itself.</figcaption>
+</figure>
+<section class="idea" aria-labelledby="idea-0004"><h2 id="idea-0004">The big idea</h2><dl><dt>Cloud - the one thing</dt><dd>Rent servers, networks and storage by API in minutes - instead of buying hardware for months.</dd><dt>In a paragraph</dt><dd>NIST, the standard definition, says cloud resources can be "rapidly provisioned and released with minimal management effort". It names five traits: you serve yourself, over the network, from a shared pool, you can grow and shrink fast, and you pay for what you use. For IaC, the most important fact is hidden in the first trait: <strong>everything is made by calling an API</strong>. The web console is only a friendly face on those API calls.</dd><dt>Picture</dt><dd>A hotel instead of building a house. You ask at the desk (the API) and get a room (a server) in minutes. You pay per night. Cleaning, power and repairs are the hotel's job.</dd><dt>Where the picture stops working</dt><dd>A hotel gives you a finished room. The cloud gives you parts - network, servers, disks, doors - and you must connect them correctly yourself. Most cloud outages and leaks come from wrong connections, not broken parts.</dd></dl></section>
+<section class="words" aria-labelledby="words-0004"><h3 id="words-0004">Words you need</h3><dl><dt><dfn>API (in the cloud)</dfn></dt><dd>The interface the cloud provider offers for every action: create a server, delete a disk, open a port. The web console calls it for you.</dd><dt><dfn>region</dfn></dt><dd>A separate geographic area with its own data centers, for example <code>eu-north-1</code> (Stockholm). Regions are isolated from each other.</dd><dt><dfn>availability zone (AZ)</dfn></dt><dd>An isolated location inside a region: one or more data centers with their own power and network. A region has three or more.</dd><dt><dfn>private network (VPC)</dfn></dt><dd>Your own network inside the cloud. It decides which parts can talk to each other.</dd><dt><dfn>subnet</dfn></dt><dd>A part of the VPC in one AZ. A public subnet has a door to the internet, a private subnet has none.</dd><dt><dfn>firewall rule (security group)</dfn></dt><dd>A rule that says which traffic may reach a part, from where, on which port.</dd><dt><dfn>load balancer</dfn></dt><dd>One front door that spreads users across the API copies and skips copies that are not healthy.</dd><dt><dfn>DNS</dfn></dt><dd>The internet's phone book: it turns a name (<code>notekeeper.app</code>) into an address.</dd><dt><dfn>managed service</dfn></dt><dd>A part the cloud runs for you, for example a managed database with backups and patches done by the provider.</dd><dt><dfn>object storage (S3)</dfn></dt><dd>Storage for files ("objects") in "buckets", reached over HTTP. No disk to size.</dd><dt><dfn>IAM</dfn></dt><dd>Identity and Access Management: who may do which action on which resource. Default: nothing is allowed.</dd><dt><dfn>resource</dfn></dt><dd>Any one thing you create in the cloud: a VPC, a subnet, a database, a bucket, a DNS record, a rule.</dd></dl></section>
+<h2>The floor, opened</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 420" role="img" aria-labelledby="l4-fl-t"><title id="l4-fl-t">Notekeeper&#x27;s floor: DNS points the name to a load balancer in a region. Inside a private network, two availability zones each run an API copy. The database has a primary in zone A and a standby in zone B. An S3 bucket holds attachments, and IAM controls who may do what.</title><defs><marker id="l4-fl-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><rect class="box" x="10" y="20" width="120" height="50"/><text class="t-b" x="70.0" y="39.0" text-anchor="middle">User</text><text class="t-s" x="70.0" y="59.0" text-anchor="middle">notekeeper.app</text><rect class="box" x="10" y="110" width="120" height="50"/><text class="t-b" x="70.0" y="129.0" text-anchor="middle">DNS</text><text class="t-s" x="70.0" y="149.0" text-anchor="middle">name -> address</text><path class="line-soft" d="M70 70 V106" marker-end="url(#l4-fl-a)"/><rect class="frame" x="160" y="10" width="550" height="400"/><text class="t-b" x="175" y="32" text-anchor="start">Region: eu-north-1</text><rect class="frame" x="175" y="45" width="520" height="330"/><text class="t-b" x="685" y="66" text-anchor="end">Private network (VPC)</text><rect class="box-key" x="330" y="78" width="210" height="48"/><text class="t-b" x="435.0" y="96.0" text-anchor="middle">Load balancer</text><text class="t-s" x="435.0" y="116.0" text-anchor="middle">the one front door</text><path class="line" d="M130 40 C250 40 300 70 326 92" marker-end="url(#l4-fl-a)"/><rect class="line-soft" x="190" y="145" width="240" height="205" style="fill:none"/><text class="t-s" x="310" y="165" text-anchor="middle">Availability zone A</text><rect class="line-soft" x="445" y="145" width="240" height="205" style="fill:none"/><text class="t-s" x="565" y="165" text-anchor="middle">Availability zone B</text><rect class="box" x="220" y="180" width="180" height="44"/><text class="t-b" x="310.0" y="207.0" text-anchor="middle">API copy 1</text><rect class="box" x="475" y="180" width="180" height="44"/><text class="t-b" x="565.0" y="207.0" text-anchor="middle">API copy 2</text><path class="line" d="M400 126 L320 176" marker-end="url(#l4-fl-a)"/><path class="line" d="M470 126 L560 176" marker-end="url(#l4-fl-a)"/><rect class="box" x="220" y="290" width="180" height="50"/><text class="t-b" x="310.0" y="309.0" text-anchor="middle">Database</text><text class="t-s" x="310.0" y="329.0" text-anchor="middle">primary</text><rect class="box" x="475" y="290" width="180" height="50"/><text class="t-b" x="565.0" y="309.0" text-anchor="middle">Database</text><text class="t-s" x="565.0" y="329.0" text-anchor="middle">standby</text><path class="line" d="M310 224 V286" marker-end="url(#l4-fl-a)"/><path class="line-soft" d="M560 224 L340 288" marker-end="url(#l4-fl-a)"/><path class="line-soft" d="M400 315 H471" marker-end="url(#l4-fl-a)"/><text class="t-s" x="437" y="307" text-anchor="middle">copies data</text><text class="t-s" x="435" y="366" text-anchor="middle">API and database: private subnets, no door to the internet</text><rect class="box" x="10" y="250" width="120" height="56"/><text class="t-b" x="70.0" y="272.0" text-anchor="middle">S3 bucket</text><text class="t-s" x="70.0" y="292.0" text-anchor="middle">attachments</text><rect class="box-goal" x="10" y="340" width="120" height="56"/><text class="t-b" x="70.0" y="362.0" text-anchor="middle">IAM</text><text class="t-s" x="70.0" y="382.0" text-anchor="middle">who may do what</text><text class="t-s" x="435" y="398" text-anchor="middle">Every box is made by an API call. Lesson 0005 asks: who makes those calls, and how?</text></svg>
+<figcaption>Notekeeper in production, one region, two zones. Dashed lines: copies of data or the way back. Your browser never reaches the API or the database directly - only the front door.</figcaption>
+</figure>
+<h2>Five moments on the floor</h2>
+<h3>Moment 1 - a user visits</h3>
+<p class="story">Maria types <code>notekeeper.app</code> in her browser and opens her notes.</p>
+<label class="small" for="bet-0004-m1">Bet: put these four in the order her request meets them: API, DNS, database, load balancer.</label><textarea class="bet" id="bet-0004-m1" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>DNS, load balancer, API, database.</strong> DNS gives the browser the load balancer's address. The load balancer picks a healthy API copy. The API reads Maria's notes from the database.</p><p class="why"><strong>Why:</strong> each part does one job, so each can be changed or doubled without touching the others. That is why one user visit already touches four kinds of resources - and why a mistake in any one of them stops everything after it (lesson 0001: the floor holds everything).</p></details>
+<label class="lost"><input type="checkbox" data-lost="m1"> <span>Lost here (moment 1)</span></label>
+<h3>Moment 2 - a zone goes dark</h3>
+<p class="story">A power failure takes down availability zone A in the middle of the day.</p>
+<label class="small" for="bet-0004-m2">Bet: which parts of the figure keep Notekeeper running, and what must happen to the database?</label><textarea class="bet" id="bet-0004-m2" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>API copy 2 in zone B keeps serving, because the load balancer stops sending users to zone A. The database standby in zone B takes over as primary.</strong> Users may see a short pause during the database switch, but no lost notes.</p><p class="why"><strong>Why:</strong> AWS designs zones to fail separately, and its own docs warn: if all your servers are in one zone and that zone fails, none of them are available. Two copies in two zones turn a zone failure into a short pause. That safety exists only because someone created the second copy, the standby and the health checks - correctly - on the floor.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m2"> <span>Lost here (moment 2)</span></label>
+<h3>Moment 3 - the API wants the bucket</h3>
+<p class="story">The API must save attachments in the S3 bucket. Ben suggests pasting an access key with full admin rights into the API's config.</p>
+<label class="small" for="bet-0004-m3">Bet: what is wrong with Ben's idea, and what does IAM offer instead?</label><textarea class="bet" id="bet-0004-m3" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>A full admin key in config is a stolen key waiting to happen, and it allows far more than the API needs.</strong> Instead, give the API a role that may only read and write that one bucket. That is least privilege.</p><p class="why"><strong>Why:</strong> in IAM, nothing is allowed until a policy allows it, and AWS's advice is to grant only the permissions a task needs. If the API is ever broken into, the attacker gets one bucket, not the whole account. Access rules are resources too - they are part of the floor and need the same care as servers.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m3"> <span>Lost here (moment 3)</span></label>
+<h3>Moment 4 - where the database lives</h3>
+<p class="story">Someone asks why the database is in a private subnet. "It would be simpler if it had a public address, then we could connect from our laptops."</p>
+<label class="small" for="bet-0004-m4">Bet: what does the private subnet protect the database from?</label><textarea class="bet" id="bet-0004-m4" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>From the whole internet.</strong> In a private subnet, nobody outside the VPC can even reach the database's door. Only the API, inside the network, may connect - and a firewall rule says exactly that.</p><p class="why"><strong>Why:</strong> layers of walls: the network decides who can reach a part, IAM decides who may act on it. A public database depends on one password alone. Many real data leaks come from storage or databases that were public by mistake.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m4"> <span>Lost here (moment 4)</span></label>
+<h3>Moment 5 - count the parts</h3>
+<p class="story">Count the resources in the figure. Include the ones you cannot see: subnets (2 private, plus public ones for the load balancer), firewall rules, the DNS record, the IAM role and its policy.</p>
+<label class="small" for="bet-0004-m5">Bet: about how many resources is Notekeeper's floor - and how would the team make the same floor again for staging?</label><textarea class="bet" id="bet-0004-m5" placeholder="Your guess..."></textarea>
+<aside class="note"><strong>No answer here on purpose.</strong> Your count is the answer - something like 15 to 25, depending on how you count. Now picture making all of them by hand in a web console for staging, with the same settings, in the right order. Then once more, after a disaster. Write in chat how you would do it. Lesson 0005 starts from your answer.</aside>
+<label class="lost"><input type="checkbox" data-lost="m5"> <span>Lost here (moment 5)</span></label>
+<h2>Say the difference - the same words in every lesson</h2>
+<div class="pairs"><div class="pair"><strong>Region vs availability zone</strong><p>A region is a separate area of the world. An availability zone is an isolated location inside one region.</p><p class="small">Copies in two zones survive a zone failure. Copies in two regions survive a region failure, at a higher cost.</p></div><div class="pair"><strong>Network vs IAM</strong><p>The network decides who can reach a part. IAM decides who may act on it.</p><p class="small">Two different walls. A good floor has both.</p></div><div class="pair"><strong>Public vs private subnet</strong><p>A public subnet has a door to the internet. A private subnet has none.</p><p class="small">Front doors (the load balancer) go public. Data stays private.</p></div><div class="pair"><strong>Infrastructure vs environment (from 0001)</strong><p>Infrastructure is the floor. An environment is one use of it: infrastructure plus config, for one purpose.</p><p class="small">Staging needs its own copy of this floor - or a share of one.</p></div></div>
+<h2>Which part answers the question?</h2>
+<p>Each part of the floor answers one kind of question.</p>
+<div class="sort" id="sort-0004"></div>
+<script type="application/json" data-sort-for="sort-0004">
+{
+ "buckets": [
+  "Where is it?",
+  "Who can reach it?",
+  "Who may change it?",
+  "How do users find it?"
+ ],
+ "xp": 5,
+ "items": [
+  {
+   "id": "s1",
+   "text": "eu-north-1, zones A and B.",
+   "answer": 0,
+   "why": "Region and zones are about place."
+  },
+  {
+   "id": "s2",
+   "text": "Only the API may connect to the database, on port 5432.",
+   "answer": 1,
+   "why": "A firewall rule: who can reach what."
+  },
+  {
+   "id": "s3",
+   "text": "The API's role may read and write one bucket, nothing else.",
+   "answer": 2,
+   "why": "IAM: who may act on what."
+  },
+  {
+   "id": "s4",
+   "text": "notekeeper.app points to the load balancer.",
+   "answer": 3,
+   "why": "DNS turns the name into an address."
+  },
+  {
+   "id": "s5",
+   "text": "The database sits in a private subnet.",
+   "answer": 1,
+   "why": "No door to the internet: reachability."
+  },
+  {
+   "id": "s6",
+   "text": "Only the platform team may delete databases.",
+   "answer": 2,
+   "why": "An IAM rule about an action."
+  },
+  {
+   "id": "s7",
+   "text": "The load balancer spreads users over healthy API copies.",
+   "answer": 3,
+   "why": "The front door users meet."
+  },
+  {
+   "id": "s8",
+   "text": "The standby database is in another zone.",
+   "answer": 0,
+   "why": "Its location is what lets it survive a zone failure."
+  }
+ ]
+}
+</script>
+<h2>Quiz</h2>
+<div class="quiz" id="quiz-0004"></div>
+<script type="application/json" data-quiz-for="quiz-0004">
+[
+ {
+  "id": "q1",
+  "xp": 10,
+  "stem": "Why put API copies in two availability zones?",
+  "options": [
+   "One zone can fail alone",
+   "Zones make the API faster",
+   "Each zone runs separate builds",
+   "DNS needs two different addresses"
+  ],
+  "answer": 0,
+  "why": "Zones fail separately. Two zones turn a zone failure into a short pause."
+ },
+ {
+  "id": "q2",
+  "xp": 10,
+  "stem": "What does a load balancer do for Notekeeper?",
+  "options": [
+   "Spreads users over healthy copies",
+   "Turns names into network addresses",
+   "Stores the attachments of users",
+   "Decides who may delete databases"
+  ],
+  "answer": 0,
+  "why": "One front door that skips unhealthy copies. Names are DNS, files are S3, rights are IAM."
+ },
+ {
+  "id": "q3",
+  "xp": 10,
+  "stem": "The API needs one bucket. Which access is right?",
+  "options": [
+   "A role for that bucket only",
+   "A full admin key in config",
+   "A public bucket for every user",
+   "A shared password for the team"
+  ],
+  "answer": 0,
+  "why": "Least privilege: only what the task needs."
+ },
+ {
+  "id": "q4",
+  "xp": 10,
+  "stem": "What keeps the internet away from the database?",
+  "options": [
+   "A private subnet and firewall rules",
+   "A strong and secret DNS record",
+   "The canary deployment of the API",
+   "The container image of the database"
+  ],
+  "answer": 0,
+  "why": "The network decides who can reach it at all."
+ },
+ {
+  "id": "q5",
+  "xp": 10,
+  "stem": "What fact about the cloud makes IaC possible?",
+  "options": [
+   "Every resource has an API",
+   "Clouds have many separate regions",
+   "Clouds bill by the hour",
+   "Clouds run many containers today"
+  ],
+  "answer": 0,
+  "why": "If every part comes from an API call, a tool can make the calls from a file."
+ },
+ {
+  "id": "q6",
+  "xp": 10,
+  "stem": "Which pair is about place, not access?",
+  "options": [
+   "Region and availability zone",
+   "IAM role and policy",
+   "Firewall rule and subnet",
+   "Role and access key"
+  ],
+  "answer": 0,
+  "why": "Region and zone say where. The others say who can reach or act."
+ }
+]
+</script>
+<h2>Say it in one line</h2>
+<p>From memory, no scrolling. Then open the model line. Same core = right.</p>
+<label class="small" for="bet-0004-line1">What does the cloud really solve?</label><textarea class="bet" id="bet-0004-line1" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Rent servers, networks and storage by API in minutes - instead of buying hardware for months.</p></details>
+<label class="small" for="bet-0004-line2">Region vs availability zone, in one line.</label><textarea class="bet" id="bet-0004-line2" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>A region is a separate area of the world. An availability zone is an isolated location inside one region.</p></details>
+<label class="small" for="bet-0004-line3">Network vs IAM, in one line.</label><textarea class="bet" id="bet-0004-line3" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>The network decides who can reach a part. IAM decides who may act on it.</p></details>
+<h2>Cards for your deck</h2>
+<div class="cards"><details class="card"><summary>All API copies run in zone A. Zone A fails. What do users see?</summary><p>Nothing works: no copy is left. Copies in two zones would have kept Notekeeper up.</p></details><details class="card"><summary>Why does the database have a standby in another zone?</summary><p>To take over as primary if its zone fails, with no lost notes.</p></details><details class="card"><summary>Ben wants an admin key in the API's config. What do you offer instead?</summary><p>An IAM role that may use only the one bucket the API needs - least privilege.</p></details><details class="card"><summary>Why is the database in a private subnet?</summary><p>No door from the internet: only parts inside the network, allowed by a firewall rule, can reach it.</p></details><details class="card"><summary>Which part should be public: the load balancer or the API copies?</summary><p>The load balancer - the one front door. The copies stay private behind it.</p></details><details class="card"><summary>What does the web console really do when you click "create"?</summary><p>It calls the cloud's API for you. Every resource is made by an API call.</p></details></div>
+<aside class="note"><strong>HwtP lens - optional, no answer here on purpose.</strong> HwtP for Infra releases databases and S3 buckets. Which of today's parts come with one database release: a subnet, a firewall rule, an IAM role, a standby? Ask one Delta engineer, or look at one release. Write what you found.</aside>
+<div class="source"><h3>Read this next</h3><p><a href="https://docs.aws.amazon.com/global-infrastructure/latest/regions/aws-regions-availability-zones.html">AWS: Regions and Availability Zones</a> (5 minutes, the first section). Optional: <a href="https://doi.org/10.6028/NIST.SP.800-145">NIST SP 800-145</a> - only page 2, the five traits of cloud (5 minutes).</p></div>
+<h2>Done</h2>
+<ul class="checklist"><li><label><input type="checkbox" id="done-0004-0" data-xp="10"> <span>I read the AWS page</span></label></li><li><label><input type="checkbox" id="done-0004-1" data-xp="10"> <span>I posted my count and my answer for moment 5</span></label></li><li><label><input type="checkbox" id="done-0004-2" data-xp="20"> <span>I did the explain-back in chat</span></label></li></ul>
+<h2>Lost here - your line</h2>
+<div class="lost-summary"></div>
+<p class="foot"><strong>Explain-back (10 minutes).</strong> In chat, start with the one line of cloud. Then 3-5 sentences: Maria's request from DNS to database, what two zones buy, and network vs IAM. Add your count from moment 5. Paste the result lines and your lost line.<br><br>Questions about anything on this page? Ask in chat - your teacher is there for exactly that, and "this did not land" is welcome.<br><br>Next: <a href="0005-why-iac.html">lesson 0005, why Infrastructure as Code</a> - the goal layer starts here.</p>
+</div>
+</main>
+<script src="../assets/course.js"></script>
+<script src="../assets/quiz.js"></script>
+<script src="../assets/sort.js"></script>
+</body>
+</html>

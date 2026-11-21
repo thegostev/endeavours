@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en" data-page="iac-0001">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>0001 - From a code change to a user</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main class="page">
+
+<nav class="topnav" aria-label="Course">
+  <a href="../reference/course-map.html">Course map</a>
+  <a href="../reference/iac-in-one-line.html">IaC in one line</a>
+  <span>Lesson 1 of 9 · Layer 0</span>
+</nav>
+
+<div class="col">
+<h1>From a code change to a user</h1>
+<p class="dek">What actually happens between a developer writing code and a user using it? Four things, three steps, and one floor under them. This is the core of the onion. Every later layer adds detail to this picture - it never replaces it.</p>
+<div class="xp" data-max="140"><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-text">0 of 140 XP</span></div>
+
+<aside class="note">Layer 0 of the course map. Facts from <a href="https://12factor.net/build-release-run">Twelve-Factor: Build, release, run</a>, <a href="https://martinfowler.com/articles/feature-toggles.html">Feature Toggles</a> (Pete Hodgson, martinfowler.com) and <a href="https://www.martinfowler.com/bliki/InfrastructureAsCode.html">Infrastructure As Code</a> (Martin Fowler). No tools and no vendors on this page, on purpose.</aside>
+<p>Time: about 35 minutes. No lab today - this layer is the map you will hang every lab on.</p>
+
+<h2>How to do this lesson</h2>
+<ol>
+<li>Look at the onion. Find where you are and where the goal is.</li>
+<li>Read the big idea and the words. Every word in a bet is in that box.</li>
+<li>Follow one change through Notekeeper, our running example. Five moments. At each one: type your bet, then open the reveal.</li>
+<li>Sort 10 events. Then the quiz.</li>
+<li>If a moment makes no sense, tick its "Lost here" box and go on. That is useful data, not a fail.</li>
+<li>Paste your result lines and your answer to the open question in chat.</li>
+</ol>
+
+<h2>Where you are</h2>
+<figure class="fig fig-onion">
+<svg viewBox="0 0 660 660" role="img" aria-labelledby="l1-on-t"><title id="l1-on-t">The course as an onion: layer 0 in the center, layer 6 outside. Layer 5, Infrastructure as Code, is the goal.</title>
+<circle class="r-a ring" cx="330" cy="330" r="314"/>
+<circle class="r-goal ring" cx="330" cy="330" r="272"/>
+<circle class="r-a ring" cx="330" cy="330" r="230"/>
+<circle class="r-b ring" cx="330" cy="330" r="188"/>
+<circle class="r-a ring" cx="330" cy="330" r="146"/>
+<circle class="r-b ring" cx="330" cy="330" r="104"/>
+<circle class="r-here ring-here" cx="330" cy="330" r="62"/>
+<text class="t-ring" x="330" y="252" text-anchor="middle">1 · Delivery lifecycle</text>
+<text class="t-ring" x="330" y="210" text-anchor="middle">2 · Deploy and release</text>
+<text class="t-ring" x="330" y="168" text-anchor="middle">3 · Runtime</text>
+<text class="t-ring" x="330" y="126" text-anchor="middle">4 · Cloud infrastructure</text>
+<text class="t-ring" x="330" y="84" text-anchor="middle">5 · Infrastructure as Code</text>
+<text class="t-ring" x="330" y="42" text-anchor="middle">6 · Platform engineering</text>
+<text class="t-ring" x="330" y="326" text-anchor="middle">0 · The</text><text class="t-ring" x="330" y="344" text-anchor="middle">mental model</text>
+<text class="t-s" x="330" y="588" text-anchor="middle">the goal - taught in depth</text>
+<text class="t-s" x="330" y="420" text-anchor="middle">you are here: center</text>
+</svg>
+<figcaption>The whole course as an onion. You start in the center. Layer 5, Infrastructure as Code, is the goal, so it gets the most lessons. Layers 1-4 get "enough for IaC" depth. The <a href="../reference/course-map.html">course map</a> has the one line of every layer and the lesson plan.</figcaption>
+</figure>
+
+<section class="idea" aria-labelledby="idea-0001">
+<h2 id="idea-0001">The big idea</h2>
+<dl>
+<dt>Software delivery - the one thing</dt>
+<dd>Get a code change to users safely and repeatably - instead of by hand and hope.</dd>
+<dt>In a paragraph</dt>
+<dd>A developer records a <strong>change</strong>. A <strong>build</strong> turns the code into a packed, fixed <strong>artifact</strong>. A <strong>deployment</strong> puts that artifact, with its <strong>config</strong>, into an <strong>environment</strong>, where it becomes a <strong>running app</strong>. A <strong>release</strong> lets users use the new feature. Under all of it is the <strong>infrastructure</strong>: the servers, network and storage that every environment stands on.</dd>
+<dt>Picture</dt>
+<dd>Publishing a book. The manuscript edit is the change. Printing makes identical copies that nobody can edit (the artifact - a fix needs a new print run with a new edition number). Putting copies on the shelf of one shop is the deployment. Launch day, when buyers may take it, is the release. The shop building and its shelves are the infrastructure.</dd>
+<dt>Where the picture stops working</dt>
+<dd>A running app is not a book on a shelf. It is a live process that uses CPU and memory every second, and it can crash. Copies cost nothing, so teams deploy many times a day and can take a version back in minutes. And in software, the building itself can be written down in files and rebuilt. That last point is the whole reason for Infrastructure as Code (Layer 5).</dd>
+</dl>
+</section>
+
+<section class="words" aria-labelledby="words-0001">
+<h3 id="words-0001">Words you need</h3>
+<dl>
+<dt><dfn>repo</dfn></dt><dd>Short for repository. The place where code is kept with its full history (version control, for example Git).</dd>
+<dt><dfn>change</dfn></dt><dd>One recorded edit to code, with an author, a time and a reason. In Git: a commit.</dd>
+<dt><dfn>build</dfn></dt><dd>The step that turns code from the repo into an artifact.</dd>
+<dt><dfn>artifact</dfn></dt><dd>What a build makes: a packed, versioned app that nobody edits after it is made. Example: <code>notekeeper-api:1.4.0</code>.</dd>
+<dt><dfn>store</dfn></dt><dd>The place where artifacts are kept until they are used (an artifact repository or image registry).</dd>
+<dt><dfn>environment</dfn></dt><dd>One place where a copy of the app runs for one purpose: dev, staging or production. It is infrastructure plus its own config.</dd>
+<dt><dfn>config</dfn></dt><dd>Values that change between environments: the database address, keys, switches. Kept outside the artifact.</dd>
+<dt><dfn>deployment</dfn></dt><dd>Putting one artifact into one environment, so it runs there.</dd>
+<dt><dfn>running app</dfn></dt><dd>The artifact while it runs as processes in an environment, with that environment's config.</dd>
+<dt><dfn>release</dfn></dt><dd>Letting users use a change.</dd>
+<dt><dfn>switch</dfn></dt><dd>A config value that turns a feature on or off inside a running app. The usual name is feature flag or feature toggle.</dd>
+<dt><dfn>infrastructure</dfn></dt><dd>The computers, networks and storage that environments are built on.</dd>
+</dl>
+<p class="small">Word flag: <a href="https://12factor.net/build-release-run">Twelve-Factor</a> uses "release" for "build plus config, ready to run". In this course, "release" always means the step to users. When you read Twelve-Factor, read its "release" as "the artifact plus config of one deployment".</p>
+</section>
+
+<h2>The journey, on one screen</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 750 300" role="img" aria-labelledby="l1-jy-t"><title id="l1-jy-t">The journey: a change is built into an artifact, the artifact is deployed with config into an environment where it runs, and a release lets users use it. The running app stands on infrastructure.</title>
+<defs><marker id="l1-jy-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<text class="t-s" x="75" y="44" text-anchor="middle">a developer edits code</text>
+<rect class="box" x="10" y="60" width="130" height="74"/><text class="t-b" x="75.0" y="91" text-anchor="middle">Change</text><text class="t-s" x="75.0" y="113" text-anchor="middle">in the repo</text>
+<rect class="box" x="210" y="60" width="130" height="74"/><text class="t-b" x="275.0" y="91" text-anchor="middle">Artifact</text><text class="t-s" x="275.0" y="113" text-anchor="middle">in the store</text>
+<rect class="box-key" x="410" y="60" width="140" height="74"/><text class="t-b" x="480.0" y="91" text-anchor="middle">Running app</text><text class="t-s" x="480.0" y="113" text-anchor="middle">in an environment</text>
+<rect class="box" x="620" y="60" width="125" height="74"/><text class="t-b" x="682.5" y="91" text-anchor="middle">Users use it</text><text class="t-s" x="682.5" y="113" text-anchor="middle">the feature is on</text>
+<path class="line" d="M140 97 H206" marker-end="url(#l1-jy-a)"/><text class="t-verb" x="175" y="86" text-anchor="middle">build</text>
+<path class="line" d="M340 97 H406" marker-end="url(#l1-jy-a)"/><text class="t-verb" x="375" y="86" text-anchor="middle">deploy</text>
+<path class="line" d="M550 97 H616" marker-end="url(#l1-jy-a)"/><text class="t-verb" x="585" y="86" text-anchor="middle">release</text>
+<path class="line-soft" d="M330 182 C360 182 372 150 375 104"/>
+<rect class="box" x="200" y="158" width="130" height="48"/><text class="t-b" x="265" y="179" text-anchor="middle">+ config</text><text class="t-s" x="265" y="197" text-anchor="middle">per environment</text>
+<path class="line-soft" d="M480 134 V226"/>
+<rect class="floor" x="395" y="226" width="350" height="58"/><text class="t-floor" x="570" y="251" text-anchor="middle">Infrastructure</text><text class="t-s" x="570" y="271" text-anchor="middle">the floor every environment stands on</text>
+</svg>
+<figcaption>Four things (boxes), three steps (blue verbs), one floor. The green box is what users actually touch: never the repo, never the store - only a running app.</figcaption>
+</figure>
+
+<div class="table-wrap"><table>
+<thead><tr><th>Step</th><th>It takes</th><th>It gives</th><th>What you can trust after it</th></tr></thead>
+<tbody>
+<tr><td><strong>build</strong></td><td>a change in the repo</td><td>an artifact in the store</td><td>"1.4.0" means the same bytes, today and in a year</td></tr>
+<tr><td><strong>deploy</strong></td><td>an artifact + an environment's config</td><td>a running app</td><td>you know which version runs where</td></tr>
+<tr><td><strong>release</strong></td><td>a running app with the feature off</td><td>users who can use it</td><td>you chose the moment users get it</td></tr>
+</tbody></table></div>
+
+<h2>The running example: Notekeeper</h2>
+<p>We use one small system in every lesson, so each new layer changes something you already know. Notekeeper lets people write and keep notes. It has three parts.</p>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 680 320" role="img" aria-labelledby="l1-nk-t"><title id="l1-nk-t">Notekeeper: a user's browser talks to the web app, the web app to the API, the API to the database. All three run in the production environment, which stands on infrastructure rented from a cloud.</title>
+<defs><marker id="l1-nk-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<rect class="box" x="8" y="97" width="92" height="56"/><text class="t-b" x="54" y="122" text-anchor="middle">User</text><text class="t-s" x="54" y="141" text-anchor="middle">a browser</text>
+<rect class="frame" x="130" y="18" width="540" height="200"/>
+<text class="t-b" x="146" y="44">Production environment</text><text class="t-s" x="654" y="44" text-anchor="end">+ config: production values</text>
+<rect class="box" x="158" y="90" width="140" height="70"/><text class="t-b" x="228" y="118" text-anchor="middle">Web app</text><text class="t-s" x="228" y="139" text-anchor="middle">the pages users see</text>
+<rect class="box" x="342" y="90" width="140" height="70"/><text class="t-b" x="412" y="118" text-anchor="middle">API</text><text class="t-s" x="412" y="139" text-anchor="middle">rules and data access</text>
+<rect class="box" x="526" y="90" width="128" height="70"/><text class="t-b" x="590" y="118" text-anchor="middle">Database</text><text class="t-s" x="590" y="139" text-anchor="middle">the stored notes</text>
+<path class="line" d="M100 125 H154" marker-end="url(#l1-nk-a)"/><path class="line" d="M298 125 H338" marker-end="url(#l1-nk-a)"/><path class="line" d="M482 125 H522" marker-end="url(#l1-nk-a)"/>
+<path class="line-soft" d="M228 160 V244"/><path class="line-soft" d="M412 160 V244"/><path class="line-soft" d="M590 160 V244"/>
+<rect class="floor" x="130" y="244" width="540" height="62"/>
+<text class="t-floor" x="400" y="271" text-anchor="middle">Infrastructure</text><text class="t-s" x="400" y="292" text-anchor="middle">servers, network, storage - rented from a cloud</text>
+</svg>
+<figcaption>Notekeeper in production. Each part (web app, API, database) is a running app or a data store. Staging has the same shape, with its own config. Lesson 0004 opens the floor and shows what is inside it.</figcaption>
+</figure>
+
+<h2>Follow one change: "pin a note"</h2>
+<p>Ana, a developer, adds a "pin note" button to the web app and the API code behind it. Five moments. At each one, type a bet first - a guess of "?" counts - then open the reveal.</p>
+
+<h3>Moment 1 - the merge</h3>
+<p class="story">Ana's change is reviewed and merged into the main branch of the repo. Production still runs version 1.3.9.</p>
+<label class="small" for="bet-0001-m1">Bet: the merge is done. Can any user pin a note now? Why, or why not?</label>
+<textarea class="bet" id="bet-0001-m1" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary>
+<p><strong>No.</strong> A change is text in the repo. Nothing runs from the repo. Users only touch a running app, and the running app is still 1.3.9.</p>
+<p class="why"><strong>Why:</strong> what runs must be fixed and known. If production ran straight from the repo, every new merge would change production at once, with no check and no way to say "this exact version is live". Twelve-Factor says it directly: you cannot change code at runtime - any change must go through a new build.</p>
+</details>
+<label class="lost"><input type="checkbox" data-lost="m1"> <span>Lost here (moment 1)</span></label>
+
+<h3>Moment 2 - the build</h3>
+<p class="story">The merge starts a build. It makes <code>notekeeper-api:1.4.0</code> and <code>notekeeper-web:1.4.0</code> and puts them in the store. A tester then finds a small bug in the API.</p>
+<label class="small" for="bet-0001-m2">Bet: can the tester fix the bug by editing <code>notekeeper-api:1.4.0</code> in the store?</label>
+<textarea class="bet" id="bet-0001-m2" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary>
+<p><strong>No.</strong> Nobody edits an artifact after the build. The fix is a new change in the repo, and a new build: <code>1.4.1</code>.</p>
+<p class="why"><strong>Why:</strong> if an artifact could change, "1.4.0" would mean different bytes on different days. Then nobody could say what was tested, what runs, or which version to go back to. A fixed artifact is what makes "go back to 1.3.9" safe: 1.3.9 is still in the store, exactly as it was.</p>
+</details>
+<label class="lost"><input type="checkbox" data-lost="m2"> <span>Lost here (moment 2)</span></label>
+
+<h3>Moment 3 - two environments, one artifact</h3>
+<p class="story">1.4.1 is deployed to staging. Testers try it. Then the same 1.4.1 is deployed to production. Staging uses a test database. Production uses the real one.</p>
+<label class="small" for="bet-0001-m3">Bet: the artifact is the same in both places. So where does the database difference come from?</label>
+<textarea class="bet" id="bet-0001-m3" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary>
+<p><strong>From config.</strong> Each environment gives the running app its own values (the database address, keys, switches) at deployment. The artifact does not know where it runs.</p>
+<p class="why"><strong>Why:</strong> the point of staging is to test the thing that will go live. If each environment had its own build, staging would test a different thing from what production runs. So: one artifact for every environment, and the differences live in config.</p>
+</details>
+<label class="lost"><input type="checkbox" data-lost="m3"> <span>Lost here (moment 3)</span></label>
+
+<h3>Moment 4 - deployed, but off</h3>
+<p class="story">1.4.1 runs in production. The pin button is behind a switch, and the switch is off. Marketing wants the feature on Monday at 09:00.</p>
+<label class="small" for="bet-0001-m4">Bet: is "pin note" deployed? Is it released?</label>
+<textarea class="bet" id="bet-0001-m4" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary>
+<p><strong>Deployed: yes. Released: no.</strong> The code runs in production, but no user can use it. On Monday someone turns the switch on. That is the release - and it needs no new deployment.</p>
+<p class="why"><strong>Why:</strong> deploying and releasing have different risks and different owners. Deploying is a technical step: do it when it is quiet and easy to undo. Releasing is a product decision: do it when users, support and marketing are ready. If the feature goes wrong, turn the switch off - a config change, faster than a new deployment. (<a href="https://martinfowler.com/articles/feature-toggles.html">Feature Toggles</a>: release toggles separate deployment from release.)</p>
+</details>
+<label class="lost"><input type="checkbox" data-lost="m4"> <span>Lost here (moment 4)</span></label>
+
+<h3>Moment 5 - the floor changes</h3>
+<p class="story">A month later, the database disk is almost full: 20 GB, and the notes keep coming. The team must give the database 100 GB.</p>
+<label class="small" for="bet-0001-m5">Bet: which of the four things changes - the change, the artifact, the running app, or none of them?</label>
+<textarea class="bet" id="bet-0001-m5" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary>
+<p><strong>None of the four.</strong> No code changes, no new artifact, no new deployment. The <em>floor</em> changes: the infrastructure under the production environment.</p>
+<p class="why"><strong>Why:</strong> the four things describe the life of the app. Infrastructure has its own life: it gets bigger, it gets new parts, it breaks. And every environment stands on it, so a mistake here can hurt every version at once.</p>
+</details>
+<label class="lost"><input type="checkbox" data-lost="m5"> <span>Lost here (moment 5)</span></label>
+
+<aside class="note"><strong>The open question - no answer here on purpose.</strong> For 1.4.1 the team knows who changed what, why, when, and how to go back. Now the disk change: how would a person make it today, if the team had no special tool? Afterwards, what would the team know about that change - and what would it not know? Compare it with what they know about 1.4.1. Write 2-3 sentences in chat. Your answer opens lesson 0005.</aside>
+
+<h2>Say the difference - the same words in every lesson</h2>
+<div class="pairs">
+<div class="pair"><strong>Build vs deploy vs release</strong><p>Build makes the thing. Deploy puts the thing in a place. Release lets users use it.</p><p class="small">They can happen at three different times. Moment 4 is the proof.</p></div>
+<div class="pair"><strong>Artifact vs running app</strong><p>The artifact is the packed, fixed thing in the store. The running app is that artifact alive in an environment, with that environment's config.</p><p class="small">One artifact, many running apps: one per environment.</p></div>
+<div class="pair"><strong>Infrastructure vs environment</strong><p>Infrastructure is the floor: servers, network, storage. An environment is one use of it for one purpose: infrastructure plus config.</p><p class="small">Several environments can share one infrastructure, or each can have its own. "Platform" is a third word, for Layer 6 - not the same as either.</p></div>
+<div class="pair"><strong>Application code vs infrastructure code (a first look)</strong><p>Application code says what the app does. Infrastructure code says what the floor is made of.</p><p class="small">Moment 5 had no infrastructure code - that is the open question. Layer 5 is about it.</p></div>
+</div>
+
+<h2>What breaks where</h2>
+<p>Cause and effect, the way an engineer thinks about it in an incident.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>What fails</th><th>What users notice</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>The build (a test fails, the code does not compile)</td><td>Nothing. Production still runs 1.3.9</td><td>No new artifact, so there is nothing new to deploy</td></tr>
+<tr><td>A deployment to production</td><td>It depends on how you deploy (Layer 2). With a safe method: little or nothing</td><td>Going back means deploying the last good artifact. It is still in the store, unchanged</td></tr>
+<tr><td>A release (the pin feature has a bug)</td><td>Users see the bug, until the switch goes off</td><td>Turning a switch off is a config change - no new build, no new deployment</td></tr>
+<tr><td>The infrastructure (the disk is full, a server is gone)</td><td>Everything on that floor can stop - every version</td><td>Every running app in that environment stands on it</td></tr>
+</tbody></table></div>
+<p>Look at the last row. It is the widest blast radius, and in moment 5 it was the one change with no recorded, repeatable path. Keep that in mind.</p>
+
+<h2>Sort the events</h2>
+<p>Ten events from Notekeeper's month. Put each one in its bucket. The first click counts.</p>
+<div class="sort" id="sort-0001"></div>
+<script type="application/json" data-sort-for="sort-0001">
+{"buckets":["Build","Deployment","Release","Infrastructure change"],"xp":5,
+ "items":[
+  {"id":"s1","text":"Make notekeeper-api:1.4.2 from the newest commit and put it in the store.","answer":0,"why":"It turns code into a new artifact. Nothing runs yet."},
+  {"id":"s2","text":"Start version 1.4.2 on the production servers.","answer":1,"why":"One artifact goes into one environment and runs there."},
+  {"id":"s3","text":"Turn the pin-note switch on for all users.","answer":2,"why":"The code was already running. Now users can use it. No new artifact, no new deployment."},
+  {"id":"s4","text":"Make the database disk 100 GB instead of 20 GB.","answer":3,"why":"The floor changes. The app's code and artifact stay the same."},
+  {"id":"s5","text":"Put 1.4.2 in staging, so testers can try it.","answer":1,"why":"Staging is an environment too. Deploying there is still a deployment - only the place differs."},
+  {"id":"s6","text":"Turn the pin-note switch on for 5% of users first.","answer":2,"why":"Who may use the feature is a release decision. The running app does not change."},
+  {"id":"s7","text":"Add a second server, so the web app can handle more users.","answer":3,"why":"More floor. Later, running more copies of the app on it is a deployment matter - but the new server itself is infrastructure."},
+  {"id":"s8","text":"Production has a bug: go back to 1.4.1.","answer":1,"why":"Going back (rollback) means deploying an older artifact. It works because 1.4.1 is still in the store, unchanged."},
+  {"id":"s9","text":"Users complain: turn the pin-note switch off.","answer":2,"why":"Taking a feature away from users is the release step in reverse. No deployment needed."},
+  {"id":"s10","text":"Package the web app's new code as notekeeper-web:2.0.0.","answer":0,"why":"A new artifact from code. A build, even with a big new version number."}
+ ]}
+</script>
+
+<h2>Quiz</h2>
+<div class="quiz" id="quiz-0001"></div>
+<script type="application/json" data-quiz-for="quiz-0001">
+[
+ {"id":"q1","xp":10,
+  "stem":"A build of Notekeeper's API has just finished. What exists now that did not exist before?",
+  "options":["A stored, versioned artifact","A new production server","A feature users see","A changed database schema"],
+  "answer":0,
+  "why":"A build takes code and gives an artifact in the store. It does not touch any environment or any user."},
+ {"id":"q2","xp":10,
+  "stem":"The pin-note code runs in production, but its switch is off. Which step has happened?",
+  "options":["Deployment, but not release","Release, but not deployment","Build, but not deployment","Release and deployment both"],
+  "answer":0,
+  "why":"The code runs in production (deployed), but no user can use it (not released). Moment 4."},
+ {"id":"q3","xp":10,
+  "stem":"Staging and production run the same artifact. Why does staging use a different database?",
+  "options":["Each environment gives different config","Each build bakes in addresses","The artifact detects its location","Production runs a newer build"],
+  "answer":0,
+  "why":"One artifact everywhere, so staging tests what goes live. The differences come from each environment's config."},
+ {"id":"q4","xp":10,
+  "stem":"On Monday the build fails: one test breaks. What do production users notice?",
+  "options":["Nothing; the old version runs","The site stops at once","Half the users see errors","The database rolls back automatically"],
+  "answer":0,
+  "why":"A failed build makes no artifact, so nothing new reaches any environment. Production keeps running the last version."},
+ {"id":"q5","xp":10,
+  "stem":"The database disk is full. Which thing must change?",
+  "options":["The infrastructure under the environment","The artifact of the API","The release switch for users","The web app's source code"],
+  "answer":0,
+  "why":"No code, no artifact, no switch. The floor changes. Moment 5."},
+ {"id":"q6","xp":10,
+  "stem":"Which sentence about infrastructure and environments is right?",
+  "options":["Several environments can share the same servers","One environment always equals one server","Environments exist only inside a cloud","Infrastructure and environment mean the same thing"],
+  "answer":0,
+  "why":"An environment is one use of infrastructure for one purpose. Dev and staging often share servers. One environment can also use many servers."}
+]
+</script>
+
+<h2>Say it in one line</h2>
+<p>From memory, no scrolling. Then open the model line. Same core = right.</p>
+<label class="small" for="bet-0001-line1">What does software delivery really solve?</label>
+<textarea class="bet" id="bet-0001-line1" placeholder="One line..."></textarea>
+<details><summary>Show the model line</summary><p>Get a code change to users safely and repeatably - instead of by hand and hope.</p></details>
+<label class="small" for="bet-0001-line2">Build vs deploy vs release, in one line.</label>
+<textarea class="bet" id="bet-0001-line2" placeholder="One line..."></textarea>
+<details><summary>Show the model line</summary><p>Build makes the thing. Deploy puts the thing in a place. Release lets users use it.</p></details>
+<label class="small" for="bet-0001-line3">Infrastructure vs environment, in one line.</label>
+<textarea class="bet" id="bet-0001-line3" placeholder="One line..."></textarea>
+<details><summary>Show the model line</summary><p>Infrastructure is the floor. An environment is one use of it: infrastructure plus config, for one purpose.</p></details>
+
+<h2>Cards for your deck</h2>
+<div class="cards">
+<details class="card"><summary>Ana merges her change. A user asks why the new button is not there. What is the first question you ask?</summary><p>"Was it built and deployed - and is the switch on?" A merge only changes the repo. Users touch a running app.</p></details>
+<details class="card"><summary>A tester finds a bug in 1.4.0, which is in the store. What does the fix look like?</summary><p>A new change and a new build: 1.4.1. Nobody edits an artifact, so 1.4.0 stays a fixed, known version to go back to.</p></details>
+<details class="card"><summary>Staging passed. Someone wants to make a "production build" for go-live. What is wrong with that?</summary><p>Production would run something staging never tested. One artifact for all environments. Differences go in config.</p></details>
+<details class="card"><summary>A new feature causes complaints an hour after release. What is the fastest safe step, if it is behind a switch?</summary><p>Turn the switch off. That is a config change - no build, no deployment.</p></details>
+<details class="card"><summary>Production broke after a deployment. How do you go back?</summary><p>Deploy the last good artifact. It is still in the store, unchanged. Rollback is a deployment.</p></details>
+<details class="card"><summary>Why can one infrastructure problem hurt more than one bad deployment?</summary><p>A bad deployment hits one version in one environment. The floor holds every running app on it, whatever the version.</p></details>
+</div>
+
+<aside class="note"><strong>HwtP lens - optional, 15 minutes, no answer here on purpose.</strong> Open one release in HwtP for K8s. Find the four things: which change (commit), which artifact (image tag), which environment, and what lets users use it. Then think about HwtP for Infra: when it releases a database or an S3 bucket, what plays the part of the artifact? Is there a build at all? Write what you found in chat. It feeds lessons 0005 and 0008.</aside>
+
+<div class="source">
+<h3>Read this next (5 minutes)</h3>
+<p><a href="https://12factor.net/build-release-run">Twelve-Factor: V. Build, release, run</a>. The short, precise source of today's split - read it with the word flag above in mind. Then, as a 2-minute preview of the goal: <a href="https://www.martinfowler.com/bliki/InfrastructureAsCode.html">Martin Fowler: Infrastructure As Code</a>.</p>
+</div>
+
+<h2>Done</h2>
+<ul class="checklist">
+<li><label><input type="checkbox" id="done-0001-read" data-xp="10"> <span>I read the Twelve-Factor page</span></label></li>
+<li><label><input type="checkbox" id="done-0001-explain" data-xp="20"> <span>I did the explain-back in chat</span></label></li>
+</ul>
+
+<h2>Lost here - your line</h2>
+<div class="lost-summary"></div>
+
+<p class="foot"><strong>Explain-back (10 minutes).</strong> In chat, start with the one line of software delivery. Then 3-5 sentences as if to a new colleague: the four things and three steps, using Notekeeper, and what breaks where. Paste the "IaC sort" and "IaC result" lines, your lost line, and your answer to the open question in moment 5.<br><br>Questions about anything on this page? Ask in chat - your teacher is there for exactly that, and a "this did not land" is welcome.<br><br>Next: <a href="0002-the-pipeline.html">lesson 0002, the pipeline</a> - CI vs Continuous Delivery vs Continuous Deployment, and why every change takes the same road.</p>
+</div>
+</main>
+<script src="../assets/course.js"></script>
+<script src="../assets/quiz.js"></script>
+<script src="../assets/sort.js"></script>
+</body>
+</html>

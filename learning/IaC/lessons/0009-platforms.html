@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en" data-page="iac-0009">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>0009 - Platforms - and the whole picture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main class="page">
+<nav class="topnav" aria-label="Course"><a href="0008-delivering-infrastructure-code.html">Lesson 0008</a><a href="../reference/course-map.html">Course map</a><a href="../reference/iac-in-one-line.html">IaC in one line</a><span>Lesson 9 of 9 · Layer 6</span></nav>
+<div class="col">
+<h1>Platforms - and the whole picture</h1>
+<p class="dek">The outer ring. A platform takes everything from lessons 0001-0008 and offers it to app teams as self-service, so that each team does not build its own road. This is the layer you work in every day. The lesson ends with the whole journey on one page.</p>
+<div class="xp" data-max="210"><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-text">0 of 210 XP</span></div>
+<aside class="note">Layer 6 of the course map. Facts from the CNCF Platforms working group (<a href="https://tag-app-delivery.cncf.io/wgs/platforms/glossary/">glossary</a> and <a href="https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/">maturity model</a>), Spotify Engineering: <a href="https://engineering.atspotify.com/2020/8/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem">How we use Golden Paths</a> and <a href="https://www.infoq.com/news/2021/03/spotify-paved-paths">InfoQ on Spotify's paths</a>.</aside>
+<p>Time: about 35 minutes, plus the final explain-back. Low new nuance - this lesson ties the others together.</p>
+<h2>How to do this lesson</h2>
+<ol><li>Warm-up from across the course.</li><li>Big idea and words.</li><li>Five moments: a platform seen by the teams who use it.</li><li>The whole picture, and the final explain-back - your mission test.</li><li>Sort, quiz, lines in chat.</li></ol>
+<h2>Warm-up - one question per layer</h2>
+<div class="quiz" id="quiz-0009-warm"></div>
+<script type="application/json" data-quiz-for="quiz-0009-warm">
+[
+ {
+  "id": "w1",
+  "xp": 10,
+  "stem": "Build vs deploy vs release - which is right?",
+  "options": [
+   "Make it, place it, let users use it",
+   "Place it, make it, let users use it",
+   "Let users use it, make it, place it",
+   "Make it, let users use it, place it"
+  ],
+  "answer": 0,
+  "why": "Layer 0, lesson 0001."
+ },
+ {
+  "id": "w2",
+  "xp": 10,
+  "stem": "Continuous Deployment means what?",
+  "options": [
+   "Every good change reaches production with no button",
+   "Every good change waits for a person's button",
+   "Every developer merges into the main line daily",
+   "Every release goes to 5% of users first"
+  ],
+  "answer": 0,
+  "why": "Layers 1-2, lesson 0002."
+ },
+ {
+  "id": "w3",
+  "xp": 10,
+  "stem": "Desired state vs actual state?",
+  "options": [
+   "Written intent vs what really runs",
+   "What really runs vs written intent",
+   "The old version vs new version",
+   "Staging values vs the production values"
+  ],
+  "answer": 0,
+  "why": "Layer 3, lesson 0003."
+ },
+ {
+  "id": "w4",
+  "xp": 10,
+  "stem": "What makes IaC possible in the cloud?",
+  "options": [
+   "Every resource has an API",
+   "Every region has three zones",
+   "Every bucket has a version",
+   "Every server has an image"
+  ],
+  "answer": 0,
+  "why": "Layer 4, lesson 0004."
+ },
+ {
+  "id": "w5",
+  "xp": 10,
+  "stem": "What is promoted from staging to production for infrastructure?",
+  "options": [
+   "The same code version",
+   "The same plan file",
+   "The same state file",
+   "The same live database"
+  ],
+  "answer": 0,
+  "why": "Layer 5, lesson 0008: each environment gets its own fresh plan."
+ }
+]
+</script>
+<h2>Where you are</h2>
+<figure class="fig fig-onion">
+<svg viewBox="0 0 660 660" role="img" aria-labelledby="l9-on-t"><title id="l9-on-t">The course as an onion: layer 0 in the center, layer 6 outside. Layer 5, Infrastructure as Code, is the goal.</title>
+<circle class="r-here ring-here" cx="330" cy="330" r="314"/>
+<circle class="r-goal ring" cx="330" cy="330" r="272"/>
+<circle class="r-a ring" cx="330" cy="330" r="230"/>
+<circle class="r-b ring" cx="330" cy="330" r="188"/>
+<circle class="r-a ring" cx="330" cy="330" r="146"/>
+<circle class="r-b ring" cx="330" cy="330" r="104"/>
+<circle class="r-a ring" cx="330" cy="330" r="62"/>
+<text class="t-ring" x="330" y="252" text-anchor="middle">1 · Delivery lifecycle</text>
+<text class="t-ring" x="330" y="210" text-anchor="middle">2 · Deploy and release</text>
+<text class="t-ring" x="330" y="168" text-anchor="middle">3 · Runtime</text>
+<text class="t-ring" x="330" y="126" text-anchor="middle">4 · Cloud infrastructure</text>
+<text class="t-ring" x="330" y="84" text-anchor="middle">5 · Infrastructure as Code</text>
+<text class="t-ring" x="330" y="42" text-anchor="middle">6 · Platform engineering</text>
+<text class="t-ring" x="330" y="326" text-anchor="middle">0 · The</text><text class="t-ring" x="330" y="344" text-anchor="middle">mental model</text>
+<text class="t-s" x="330" y="588" text-anchor="middle">the goal - taught in depth</text>
+<text class="t-s" x="330" y="630" text-anchor="middle">you are here</text>
+</svg>
+<figcaption>Layer 6, the outer ring. It wraps all the others.</figcaption>
+</figure>
+<section class="idea" aria-labelledby="idea-0009"><h2 id="idea-0009">The big idea</h2><dl><dt>Platform - the one thing</dt><dd>Self-service delivery and infrastructure for app teams - instead of every team building its own.</dd><dt>Golden path - the one thing</dt><dd>The supported, easiest way to do a common job - instead of each team finding its own.</dd><dt>In a paragraph</dt><dd>The CNCF platforms group describes platforms as curating and presenting common capabilities to internal users, and platform engineering as planning and providing them - people, processes, policies and technology. In this course's words: a platform team builds the road once (pipelines, IaC modules, runtime, guardrails) and offers it as <strong>self-service</strong>. App teams follow <strong>golden paths</strong>: ready, supported ways to do common jobs, such as "a new web service" or "a new database".</dd><dt>Picture</dt><dd>A city's roads and bus lines. The city builds them once, signs them and keeps them safe. You can walk your own way through a field - but the road is faster, lit, and someone fixes it when it breaks.</dd><dt>Where the picture stops working</dt><dd>City roads are free to use and nobody asks if you like them. An internal platform has customers who can choose not to use it, and it is built for them. That is why platform engineering treats the platform as a product, with product managers (the CNCF maturity model names the role).</dd></dl></section>
+<section class="words" aria-labelledby="words-0009"><h3 id="words-0009">Words you need</h3><dl><dt><dfn>platform</dfn></dt><dd>Shared capabilities - pipelines, IaC modules, runtime, guardrails - offered to app teams as self-service. Also called an internal developer platform.</dd><dt><dfn>platform engineering</dfn></dt><dd>The practice of planning and providing platforms: the people, processes, policies and technology.</dd><dt><dfn>self-service</dfn></dt><dd>A team gets what it needs (a database, a new service) by itself, through a template or a portal, without a ticket and a wait.</dd><dt><dfn>golden path</dfn></dt><dd>The opinionated and supported way to do a common job (Spotify's term; Netflix says "paved road"). Teams may leave it, but then they own the extra work.</dd><dt><dfn>guardrails</dfn></dt><dd>Rules the platform enforces behind the self-service: policy as code, IAM, cost limits.</dd><dt><dfn>developer portal</dfn></dt><dd>The front door of a platform: a catalog and forms (Backstage is one). Not the whole platform.</dd><dt><dfn>platform as a product</dfn></dt><dd>Running the platform for its users - the app teams - with research, a roadmap and measures of success.</dd><dt><dfn>observability</dfn></dt><dd>Knowing what a running system does from outside, through logs (events as text), metrics (numbers over time) and traces (one request's path).</dd></dl></section>
+<h2>The platform, as one picture</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 345" role="img" aria-labelledby="l9-pf-t"><title id="l9-pf-t">A platform: app teams use a front door (portal, templates, API) to follow golden paths, which use shared capabilities - app pipeline, infrastructure pipeline with IaC modules, runtime, observability, policy and IAM - on top of the cloud floor.</title><defs><marker id="l9-pf-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><rect class="box" x="20" y="15" width="210" height="50"/><text class="t-b" x="125.0" y="45.0" text-anchor="middle">Notekeeper team</text><rect class="box" x="255" y="15" width="210" height="50"/><text class="t-b" x="360.0" y="45.0" text-anchor="middle">Payments team</text><rect class="box" x="490" y="15" width="210" height="50"/><text class="t-b" x="595.0" y="45.0" text-anchor="middle">Search team</text><path class="line" d="M125 65 V88" marker-end="url(#l9-pf-a)"/><path class="line" d="M360 65 V88" marker-end="url(#l9-pf-a)"/><path class="line" d="M595 65 V88" marker-end="url(#l9-pf-a)"/><rect class="box-key" x="20" y="92" width="680" height="50"/><text class="t-b" x="360.0" y="122.0" text-anchor="middle">Front door: portal, templates, API (for example Backstage)</text><rect class="box-goal" x="20" y="152" width="680" height="44"/><text class="t-b" x="360.0" y="179.0" text-anchor="middle">Golden paths: "new web service", "new database", "new bucket"</text><rect class="box" x="20" y="206" width="128" height="58"/><text class="t-b" x="84.0" y="229.0" text-anchor="middle">App pipeline</text><text class="t-s" x="84.0" y="249.0" text-anchor="middle">0002</text><rect class="box" x="158" y="206" width="128" height="58"/><text class="t-b" x="222.0" y="229.0" text-anchor="middle">Infra pipeline</text><text class="t-s" x="222.0" y="249.0" text-anchor="middle">+ IaC modules</text><rect class="box" x="296" y="206" width="128" height="58"/><text class="t-b" x="360.0" y="229.0" text-anchor="middle">Runtime</text><text class="t-s" x="360.0" y="249.0" text-anchor="middle">Kubernetes</text><rect class="box" x="434" y="206" width="128" height="58"/><text class="t-b" x="498.0" y="229.0" text-anchor="middle">Observability</text><text class="t-s" x="498.0" y="249.0" text-anchor="middle">logs, metrics</text><rect class="box" x="572" y="206" width="128" height="58"/><text class="t-b" x="636.0" y="229.0" text-anchor="middle">Policy + IAM</text><text class="t-s" x="636.0" y="249.0" text-anchor="middle">guardrails</text><rect class="floor" x="20" y="274" width="680" height="40"/><text class="t-floor" x="360" y="299" text-anchor="middle">The floor: cloud resources (Layer 4)</text><text class="t-s" x="360" y="334" text-anchor="middle">The platform is everything between the teams and the floor - not only the front door.</text></svg>
+<figcaption>Teams at the top, the floor at the bottom. Everything in between is the platform: the road from 0001-0008, built once and offered as self-service.</figcaption>
+</figure>
+<h2>Five moments with app teams</h2>
+<h3>Moment 1 - a database in two weeks</h3>
+<p class="story">The Search team needs a database. Today they open a ticket. The platform team writes the definition files by hand, reviews and applies them. It takes two weeks.</p>
+<label class="small" for="bet-0009-m1">Bet: what would self-service change - and what would stay the same behind it?</label><textarea class="bet" id="bet-0009-m1" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>The Search team picks "new database" in a template, fills in a size and a name, and gets it in an hour.</strong> Behind the form, nothing new: the same IaC module (0007), the same pipeline with a plan and policy checks (0008), the same IAM rules.</p><p class="why"><strong>Why:</strong> self-service does not remove the checks - it removes the waiting. The platform team builds the road once, and every request takes it. Their work moves from doing requests to improving the road.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m1"> <span>Lost here (moment 1)</span></label>
+<h3>Moment 2 - off the path</h3>
+<p class="story">The Payments team wants a different database engine that the golden path does not offer.</p>
+<label class="small" for="bet-0009-m2">Bet: must the Payments team use the golden path?</label><textarea class="bet" id="bet-0009-m2" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>No.</strong> They may leave it. Then they own the extra work: their own module, their own runbooks, no support from the platform team.</p><p class="why"><strong>Why:</strong> Spotify describes golden paths as the "opinionated and supported" way, and still lets teams stray when they need to. A golden path wins by being the easiest road, not by being the only road. If many teams leave it for the same reason, that is a signal for the platform's roadmap.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m2"> <span>Lost here (moment 2)</span></label>
+<h3>Moment 3 - "we bought a portal"</h3>
+<p class="story">A director says: "We set up Backstage last quarter, so now we have a platform."</p>
+<label class="small" for="bet-0009-m3">Bet: what is the difference between a developer portal and a platform?</label><textarea class="bet" id="bet-0009-m3" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>A portal is the front door. The platform is what the door leads to:</strong> golden paths, IaC modules, pipelines, runtime, guardrails. A portal with nothing reliable behind it is a nice catalog of tickets.</p><p class="why"><strong>Why:</strong> the CNCF glossary lists many names for platforms, and a portal is one way to present one. Value comes from the capabilities behind it. Look at the platform figure: the front door is one row of five.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m3"> <span>Lost here (moment 3)</span></label>
+<h3>Moment 4 - nobody uses the new feature</h3>
+<p class="story">The platform team spent a quarter building automatic database cloning. Two teams use it. Most teams still copy data by hand.</p>
+<label class="small" for="bet-0009-m4">Bet: what would a platform product manager have done first?</label><textarea class="bet" id="bet-0009-m4" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Talked to the app teams first:</strong> what slows them down, which job they do most often, what they would stop doing if the platform did it. Then built the smallest thing that removed that pain, and measured whether teams used it.</p><p class="why"><strong>Why:</strong> the CNCF maturity model treats the platform as a product with internal customers, and names platform product managers. A platform nobody chooses has failed, however good its engineering is.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m4"> <span>Lost here (moment 4)</span></label>
+<h3>Moment 5 - an AI front door</h3>
+<p class="story">Someone proposes to add an AI chat (like Spacelift Intent) to the portal: "just ask for a database".</p>
+<label class="small" for="bet-0009-m5">Bet: where would you put it: on the golden path for production, or somewhere else?</label><textarea class="bet" id="bet-0009-m5" placeholder="Your guess..."></textarea>
+<aside class="note"><strong>No answer here on purpose.</strong> Your answer, and your reason. Think about lesson 0005: what a reviewed definition file gives, and where Spacelift itself places Intent. Then think about your own HwtP for Infra users. Write 3-4 sentences in chat.</aside>
+<label class="lost"><input type="checkbox" data-lost="m5"> <span>Lost here (moment 5)</span></label>
+<h2>Say the difference - the same words in every lesson</h2>
+<div class="pairs"><div class="pair"><strong>Infrastructure vs platform vs environment (settled)</strong><p>Infrastructure is the floor. A platform is the road on top of it, offered as self-service. An environment is one use of the floor: infrastructure plus config, for one purpose.</p><p class="small">The platform makes environments on the floor for teams.</p></div><div class="pair"><strong>Portal vs platform</strong><p>The portal is the front door. The platform is what the door leads to.</p><p class="small">Backstage is a portal. The golden paths behind it are the platform.</p></div><div class="pair"><strong>Golden path vs the only path</strong><p>A golden path is the easiest supported road. Teams may leave it and own the extra work.</p><p class="small">If many leave it for one reason, change the path.</p></div><div class="pair"><strong>Self-service vs no checks</strong><p>Self-service removes the waiting, not the review.</p><p class="small">The same module, plan and policy run behind every request.</p></div></div>
+<h2>The whole picture</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 280" role="img" aria-labelledby="l9-wh-t"><title id="l9-wh-t">The whole course on one picture: app and infrastructure changes go through a pipeline. App changes become artifacts that are deployed and released. Infrastructure changes become the floor through reviewed plans. A platform wraps the whole road as self-service.</title><defs><marker id="l9-wh-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><rect class="box" x="10" y="30" width="120" height="60"/><text class="t-b" x="70.0" y="54.0" text-anchor="middle">Change</text><text class="t-s" x="70.0" y="74.0" text-anchor="middle">app or infra code</text><path class="line" d="M130 60 H160" marker-end="url(#l9-wh-a)"/><rect class="box-key" x="160" y="30" width="140" height="60"/><text class="t-b" x="230.0" y="54.0" text-anchor="middle">Pipeline</text><text class="t-s" x="230.0" y="74.0" text-anchor="middle">checks + promotion</text><path class="line" d="M300 50 H330" marker-end="url(#l9-wh-a)"/><text class="t-s" x="315" y="42" text-anchor="middle">app</text><path class="line" d="M300 76 C320 120 330 170 344 196" marker-end="url(#l9-wh-a)"/><text class="t-s" x="290" y="150" text-anchor="middle">infra</text><rect class="box" x="330" y="20" width="160" height="60"/><text class="t-b" x="410.0" y="44.0" text-anchor="middle">Artifact -> deploy</text><text class="t-s" x="410.0" y="64.0" text-anchor="middle">running app (0003)</text><path class="line" d="M490 50 H520" marker-end="url(#l9-wh-a)"/><rect class="box-goal" x="520" y="20" width="180" height="60"/><text class="t-b" x="610.0" y="44.0" text-anchor="middle">Release</text><text class="t-s" x="610.0" y="64.0" text-anchor="middle">users use it (0001)</text><rect class="box-goal" x="330" y="190" width="370" height="60"/><text class="t-b" x="515.0" y="214.0" text-anchor="middle">The floor, from definition files</text><text class="t-s" x="515.0" y="234.0" text-anchor="middle">plan, review, apply per environment (0006-0008)</text><path class="line-soft" d="M410 80 V186"/><path class="line-soft" d="M610 80 V186"/><rect class="frame" x="0" y="5" width="715" height="265"/><text class="t-s" x="150" y="230" text-anchor="middle">Platform (0009): this whole road,</text><text class="t-s" x="150" y="248" text-anchor="middle">as self-service for teams</text></svg>
+<figcaption>Every lesson on one page. App code and infrastructure code take the same kind of road. They differ in what comes out: an artifact to deploy, or a reviewed plan per environment.</figcaption>
+</figure>
+<div class="table-wrap"><table><thead><tr><th>Layer</th><th>The one thing</th><th>Lesson</th></tr></thead><tbody><tr><td>0 · Mental model</td><td>Get a code change to users safely and repeatably - instead of by hand and hope.</td><td>0001</td></tr><tr><td>1-2 · Delivery</td><td>Every change takes the same checked road to production - instead of each person's own way.</td><td>0002</td></tr><tr><td>3 · Runtime</td><td>Give the app the same predictable box everywhere - instead of "it works on my machine".</td><td>0003</td></tr><tr><td>4 · Cloud</td><td>Rent servers, networks and storage by API in minutes - instead of buying hardware for months.</td><td>0004</td></tr><tr class="goal"><td>5 · IaC</td><td>Keep infrastructure in files a tool makes real - instead of clicks and memory.</td><td>0005-0008</td></tr><tr><td>6 · Platform</td><td>Self-service delivery and infrastructure for app teams - instead of every team building its own.</td><td>0009</td></tr></tbody></table></div>
+<h2>Which layer answers the question?</h2>
+<p>Eight questions you might hear at work. Which layer of the course answers each?</p>
+<div class="sort" id="sort-0009"></div>
+<script type="application/json" data-sort-for="sort-0009">
+{
+ "buckets": [
+  "Delivery (0002)",
+  "Runtime (0003)",
+  "Floor and IaC (0004-0008)",
+  "Platform (0009)"
+ ],
+ "xp": 5,
+ "items": [
+  {
+   "id": "s1",
+   "text": "How does a merge reach production the same way every time?",
+   "answer": 0,
+   "why": "The pipeline: the checked road."
+  },
+  {
+   "id": "s2",
+   "text": "Who restarts the API when a node dies?",
+   "answer": 1,
+   "why": "A controller in the orchestrator."
+  },
+  {
+   "id": "s3",
+   "text": "How do we make staging's network equal to production's?",
+   "answer": 2,
+   "why": "One module, per-environment inputs, a plan per environment."
+  },
+  {
+   "id": "s4",
+   "text": "How does a new team get a database without a ticket?",
+   "answer": 3,
+   "why": "Self-service on a golden path."
+  },
+  {
+   "id": "s5",
+   "text": "Should 1.4.2 go to 5% of users first?",
+   "answer": 0,
+   "why": "A deployment strategy: canary."
+  },
+  {
+   "id": "s6",
+   "text": "Why did the API crash on the server but not on the laptop?",
+   "answer": 1,
+   "why": "Missing libraries - fixed by packing it as an image."
+  },
+  {
+   "id": "s7",
+   "text": "Who changed the database disk on Friday, and is it in the code?",
+   "answer": 2,
+   "why": "Drift: reality changed outside the code."
+  },
+  {
+   "id": "s8",
+   "text": "Why do only two teams use the cloning feature?",
+   "answer": 3,
+   "why": "Platform as a product: build what the users need."
+  }
+ ]
+}
+</script>
+<h2>Quiz</h2>
+<div class="quiz" id="quiz-0009"></div>
+<script type="application/json" data-quiz-for="quiz-0009">
+[
+ {
+  "id": "q1",
+  "xp": 10,
+  "stem": "What does a platform really give app teams?",
+  "options": [
+   "Self-service on a supported road",
+   "A portal with service catalog",
+   "A separate cloud account each",
+   "A ticket queue to ops"
+  ],
+  "answer": 0,
+  "why": "Self-service delivery and infrastructure, built once. A portal is only the front door."
+ },
+ {
+  "id": "q2",
+  "xp": 10,
+  "stem": "A team leaves the golden path. What follows?",
+  "options": [
+   "They own the extra work",
+   "The platform blocks their deploys",
+   "They lose all cloud access",
+   "Nothing changes for anyone else"
+  ],
+  "answer": 0,
+  "why": "The path is the easiest supported road, not a wall."
+ },
+ {
+  "id": "q3",
+  "xp": 10,
+  "stem": "With self-service, what happens to the plan review and policy checks?",
+  "options": [
+   "They still run behind every request",
+   "They are removed to save time",
+   "They move to app team laptops",
+   "They run monthly in a batch"
+  ],
+  "answer": 0,
+  "why": "Self-service removes the waiting, not the checks."
+ },
+ {
+  "id": "q4",
+  "xp": 10,
+  "stem": "Which is a developer portal, not a whole platform?",
+  "options": [
+   "Backstage alone, with nothing behind",
+   "A golden path with modules",
+   "A pipeline with policy checks",
+   "A runtime with strong guardrails"
+  ],
+  "answer": 0,
+  "why": "Backstage is a front door. The platform is what it leads to."
+ },
+ {
+  "id": "q5",
+  "xp": 10,
+  "stem": "What does treating a platform as a product mean first?",
+  "options": [
+   "Learn what app teams need",
+   "Build the newest tools first",
+   "Make every team use it",
+   "Write it in one language"
+  ],
+  "answer": 0,
+  "why": "Internal customers, real needs, measured use."
+ },
+ {
+  "id": "q6",
+  "xp": 10,
+  "stem": "Infrastructure vs platform vs environment - which is right?",
+  "options": [
+   "Floor; road on floor; one use of floor",
+   "Road on floor; floor; one use of floor",
+   "One use of floor; road on floor; floor",
+   "Floor; one use of floor; road on floor"
+  ],
+  "answer": 0,
+  "why": "Infrastructure = floor. Platform = road as self-service. Environment = infrastructure plus config, for one purpose."
+ }
+]
+</script>
+<h2>Say it in one line</h2>
+<p>From memory, no scrolling. Then open the model line. Same core = right.</p>
+<label class="small" for="bet-0009-line1">What does a platform really solve?</label><textarea class="bet" id="bet-0009-line1" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Self-service delivery and infrastructure for app teams - instead of every team building its own.</p></details>
+<label class="small" for="bet-0009-line2">What is a golden path?</label><textarea class="bet" id="bet-0009-line2" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>The supported, easiest way to do a common job - instead of each team finding its own.</p></details>
+<label class="small" for="bet-0009-line3">Infrastructure vs platform vs environment, in one line.</label><textarea class="bet" id="bet-0009-line3" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Infrastructure is the floor. A platform is the road on top of it, as self-service. An environment is one use of the floor.</p></details>
+<h2>Cards for your deck</h2>
+<div class="cards"><details class="card"><summary>"We installed a portal, so we have a platform." What do you ask?</summary><p>"What does the portal lead to? Which golden paths, modules, pipelines and guardrails are behind it?"</p></details><details class="card"><summary>A team needs a non-standard database. What are their options?</summary><p>Leave the golden path and own the work, or ask the platform team to add it to the path if many need it.</p></details><details class="card"><summary>Self-service made databases appear in an hour. What still runs behind it?</summary><p>The same module, plan, policy and IAM - only the waiting is gone.</p></details><details class="card"><summary>How do you know if a platform feature works?</summary><p>App teams choose to use it, and it saves them time. Measure use, not shipping.</p></details><details class="card"><summary>Where does IaC sit in a platform?</summary><p>Under the golden paths: modules and an infrastructure pipeline that every self-service request goes through.</p></details><details class="card"><summary>Say the whole course in three sentences.</summary><p>A change takes a checked road to users. The floor it runs on is kept in reviewed files that a tool makes real. A platform offers that whole road as self-service.</p></details></div>
+<h2>Your mission test</h2>
+<p>This is the explain-back for the whole course. It matches the success list in <code>MISSION.md</code>. Take 20-30 minutes, in chat.</p>
+<ol><li>The journey from a commit to production in <strong>one line</strong>, then a <strong>paragraph</strong>, then a <strong>sketch</strong> (a photo of paper is fine) - for app code and for infrastructure code.</li><li>The one line of: desired state, actual state, state file, plan, apply, drift, idempotency, provider, module.</li><li>Where HwtP for Infra sits on the platform picture: which row, which golden path, which capabilities it uses, and one gap you now see.</li></ol>
+<label class="lost"><input type="checkbox" data-lost="mission"> <span>Lost here (mission test)</span></label>
+<div class="source"><h3>Read this next</h3><p><a href="https://engineering.atspotify.com/2020/8/how-we-use-golden-paths-to-solve-fragmentation-in-our-software-ecosystem">Spotify: How we use Golden Paths</a> (8 minutes). Then the <a href="https://tag-app-delivery.cncf.io/whitepapers/platform-eng-maturity-model/">CNCF Platform Engineering Maturity Model</a> - only the introduction and the "Investment" row (10 minutes).</p></div>
+<h2>Done</h2>
+<ul class="checklist"><li><label><input type="checkbox" id="done-0009-0" data-xp="10"> <span>I read the Spotify post</span></label></li><li><label><input type="checkbox" id="done-0009-1" data-xp="10"> <span>I wrote the moment 5 answer</span></label></li><li><label><input type="checkbox" id="done-0009-2" data-xp="40"> <span>I did the mission test in chat</span></label></li></ul>
+<h2>Lost here - your line</h2>
+<div class="lost-summary"></div>
+<p class="foot"><strong>Explain-back (10 minutes).</strong> The mission test above is this lesson's explain-back. Paste the result lines and your lost line with it.<br><br>Questions about anything on this page? Ask in chat - your teacher is there for exactly that, and "this did not land" is welcome.<br><br>That is the whole map. Next steps are your choice: go deeper on one layer (for example a real AWS lab, or Terragrunt with several stacks), or turn your HwtP lens notes into a product review. Say which in chat. Back to the <a href="../reference/course-map.html">course map</a>.</p>
+</div>
+</main>
+<script src="../assets/course.js"></script>
+<script src="../assets/quiz.js"></script>
+<script src="../assets/sort.js"></script>
+</body>
+</html>

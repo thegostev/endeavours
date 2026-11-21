@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en" data-page="iac-0008">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>0008 - Delivering infrastructure code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main class="page">
+<nav class="topnav" aria-label="Course"><a href="0007-living-with-it.html">Lesson 0007</a><a href="../reference/course-map.html">Course map</a><a href="../reference/iac-in-one-line.html">IaC in one line</a><span>Lesson 8 of 9 · Layer 5 · part 4 of 4</span></nav>
+<div class="col">
+<h1>Delivering infrastructure code</h1>
+<p class="dek">In lesson 0002 every app change took one checked road. Infrastructure code is code, so it can take a road too - but its "artifact" is different, and so are its risks. This lesson builds that road, and sorts out three pairs of words that people mix up all the time.</p>
+<div class="xp" data-max="190"><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-text">0 of 190 XP</span></div>
+<aside class="note">Layer 5 of the course map. Facts from HashiCorp <a href="https://developer.hashicorp.com/terraform/intro/core-workflow">Core workflow</a> (working as a team), Martin Fowler: <a href="https://www.martinfowler.com/bliki/ConfigurationSynchronization.html">Configuration Synchronization</a>, <a href="https://martinfowler.com/bliki/ImmutableServer.html">Immutable Server</a>, <a href="https://martinfowler.com/bliki/SnowflakeServer.html">Snowflake Server</a>; Kubernetes <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/object-management/">Object Management</a>; Spacelift docs on <a href="https://docs.spacelift.io/concepts/intelligence/intent">policies</a>. This is the lesson closest to HwtP for Infra.</aside>
+<p>Time: about 40 minutes. High nuance: three look-alike pairs. Each one is said the same way in the box, the reveals, the cards and the next lesson.</p>
+<h2>How to do this lesson</h2>
+<ol><li>Warm-up.</li><li>Big idea and words.</li><li>Five moments: one infrastructure change from pull request to production.</li><li>Then the three pairs: provisioning vs configuration management, mutable vs immutable, IaC vs configuration as code.</li><li>Sort, quiz, lines in chat.</li></ol>
+<h2>Warm-up</h2>
+<div class="quiz" id="quiz-0008-warm"></div>
+<script type="application/json" data-quiz-for="quiz-0008-warm">
+[
+ {
+  "id": "w1",
+  "xp": 10,
+  "stem": "Ben fixed production in the console; the code is unchanged. Next apply?",
+  "options": [
+   "It sets it back to code",
+   "It keeps Ben's change for good",
+   "It updates the code for Ben",
+   "It deletes the resource right away"
+  ],
+  "answer": 0,
+  "why": "The tool closes the gap towards the configuration. From 0007."
+ },
+ {
+  "id": "w2",
+  "xp": 10,
+  "stem": "Staging passed. What should go to production in an app pipeline?",
+  "options": [
+   "The same artifact staging tested",
+   "A new build for production",
+   "The newest commit on main",
+   "A copy of staging data"
+  ],
+  "answer": 0,
+  "why": "Promotion. From 0002 - and the idea today's infra pipeline must adapt."
+ },
+ {
+  "id": "w3",
+  "xp": 10,
+  "stem": "Module vs stack - which is right?",
+  "options": [
+   "Module: reusable code. Stack: one applied piece.",
+   "Module: one applied piece. Stack: reusable code.",
+   "Both mean one applied piece with state.",
+   "Both mean the same reusable code block."
+  ],
+  "answer": 0,
+  "why": "From 0007."
+ },
+ {
+  "id": "w4",
+  "xp": 10,
+  "stem": "What does a <code>-/+</code> in a plan mean?",
+  "options": [
+   "Destroy first, then create new",
+   "Update the object in place",
+   "Read it without any change",
+   "Create first, keep the old"
+  ],
+  "answer": 0,
+  "why": "Replace, destroy before create. From 0006."
+ }
+]
+</script>
+<h2>Where you are</h2>
+<figure class="fig fig-onion">
+<svg viewBox="0 0 660 660" role="img" aria-labelledby="l8-on-t"><title id="l8-on-t">The course as an onion: layer 0 in the center, layer 6 outside. Layer 5, Infrastructure as Code, is the goal.</title>
+<circle class="r-a ring" cx="330" cy="330" r="314"/>
+<circle class="r-goal ring-here" cx="330" cy="330" r="272"/>
+<circle class="r-a ring" cx="330" cy="330" r="230"/>
+<circle class="r-b ring" cx="330" cy="330" r="188"/>
+<circle class="r-a ring" cx="330" cy="330" r="146"/>
+<circle class="r-b ring" cx="330" cy="330" r="104"/>
+<circle class="r-a ring" cx="330" cy="330" r="62"/>
+<text class="t-ring" x="330" y="252" text-anchor="middle">1 · Delivery lifecycle</text>
+<text class="t-ring" x="330" y="210" text-anchor="middle">2 · Deploy and release</text>
+<text class="t-ring" x="330" y="168" text-anchor="middle">3 · Runtime</text>
+<text class="t-ring" x="330" y="126" text-anchor="middle">4 · Cloud infrastructure</text>
+<text class="t-ring" x="330" y="84" text-anchor="middle">5 · Infrastructure as Code</text>
+<text class="t-ring" x="330" y="42" text-anchor="middle">6 · Platform engineering</text>
+<text class="t-ring" x="330" y="326" text-anchor="middle">0 · The</text><text class="t-ring" x="330" y="344" text-anchor="middle">mental model</text>
+<text class="t-s" x="330" y="588" text-anchor="middle">you are here - the goal</text>
+</svg>
+<figcaption>Layer 5, part 4: infrastructure code on its own checked road.</figcaption>
+</figure>
+<section class="idea" aria-labelledby="idea-0008"><h2 id="idea-0008">The big idea</h2><dl><dt>Infrastructure pipeline - the one thing</dt><dd>Every infrastructure change gets a reviewed plan, per environment, before apply - instead of applies from laptops.</dd><dt>In a paragraph</dt><dd>The road looks like the app road: pull request, checks, merge, staging, production. Two things differ. First, an infrastructure change has no artifact that works everywhere: its plan depends on the environment's state and reality. So each environment gets its own fresh plan, from the same code version. Second, a plan can destroy data. So the review step reads the plan, not only the code - and rules written as code (policy) check every plan automatically.</dd><dt>Picture</dt><dd>A building permit. You submit the drawing (the pull request). The office checks it against the rules (policy) and a person signs (review). Then the builder checks the actual site again before digging (a fresh plan), because the ground may have changed since the drawing was made.</dd><dt>Where the picture stops working</dt><dd>A permit takes weeks. A good infrastructure pipeline takes minutes, and runs for every small change - small changes are what make it safe (Fowler: small changes rather than batches).</dd></dl></section>
+<section class="words" aria-labelledby="words-0008"><h3 id="words-0008">Words you need</h3><dl><dt><dfn>pull request (PR)</dfn></dt><dd>A proposed change to the repo that others review before it is merged.</dd><dt><dfn>speculative plan</dfn></dt><dd>A plan made from the PR's code, only to review. It is never applied.</dd><dt><dfn>policy as code</dfn></dt><dd>Rules written as code that check every plan automatically, for example "no public buckets" (in Spacelift: OPA/Rego).</dd><dt><dfn>provisioning</dfn></dt><dd>Creating and changing the floor's parts: networks, servers, databases, buckets.</dd><dt><dfn>configuration management</dfn></dt><dd>Setting up what is inside a server: packages, files, users, services. Ansible is the usual example.</dd><dt><dfn>mutable infrastructure</dfn></dt><dd>Servers are changed in place while they run.</dd><dt><dfn>immutable infrastructure</dfn></dt><dd>Servers are never changed. A change means a new image and a new server, and the old one is removed.</dd><dt><dfn>configuration as code</dfn></dt><dd>Keeping the settings of apps and tools in Git as files: pipeline definitions, Argo CD Applications, feature switches.</dd><dt><dfn>GitOps</dfn></dt><dd>A way of working where an agent in the target system keeps it equal to a Git repo (Argo CD is one such agent).</dd></dl><p class="small">Word flag: "configuration as code" is used loosely in the field. In this course it means app and tool settings kept in Git - not infrastructure definitions, and not configuration management.</p></section>
+<h2>The road for infrastructure</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 185" role="img" aria-labelledby="l8-ip-t"><title id="l8-ip-t">The infrastructure pipeline: a pull request gets a speculative plan, people and policy review it, it is merged, then planned and applied to staging, then planned again and applied to production.</title><defs><marker id="l8-ip-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><rect class="box" x="10" y="60" width="100" height="70"/><text class="t-b" x="60.0" y="89.0" text-anchor="middle">Pull request</text><text class="t-s" x="60.0" y="109.0" text-anchor="middle">code change</text><path class="line" d="M110 95 H126" marker-end="url(#l8-ip-a)"/><rect class="box" x="130" y="60" width="100" height="70"/><text class="t-b" x="180.0" y="89.0" text-anchor="middle">Plan</text><text class="t-s" x="180.0" y="109.0" text-anchor="middle">speculative</text><path class="line" d="M230 95 H246" marker-end="url(#l8-ip-a)"/><rect class="box-key" x="250" y="60" width="100" height="70"/><text class="t-b" x="300.0" y="89.0" text-anchor="middle">Review</text><text class="t-s" x="300.0" y="109.0" text-anchor="middle">people + policy</text><path class="line" d="M350 95 H366" marker-end="url(#l8-ip-a)"/><rect class="box" x="370" y="60" width="100" height="70"/><text class="t-b" x="420.0" y="89.0" text-anchor="middle">Merge</text><text class="t-s" x="420.0" y="109.0" text-anchor="middle">to main</text><path class="line" d="M470 95 H486" marker-end="url(#l8-ip-a)"/><rect class="box" x="490" y="60" width="100" height="70"/><text class="t-b" x="540.0" y="89.0" text-anchor="middle">Plan + apply</text><text class="t-s" x="540.0" y="109.0" text-anchor="middle">staging</text><path class="line" d="M590 95 H606" marker-end="url(#l8-ip-a)"/><rect class="box-goal" x="610" y="60" width="100" height="70"/><text class="t-b" x="660.0" y="89.0" text-anchor="middle">Plan + apply</text><text class="t-s" x="660.0" y="109.0" text-anchor="middle">production</text><text class="t-s" x="60" y="150" text-anchor="middle">like app code</text><text class="t-s" x="180" y="150" text-anchor="middle">"what would change"</text><text class="t-s" x="300" y="150" text-anchor="middle">a person reads -/+</text><text class="t-s" x="540" y="150" text-anchor="middle">same code version,</text><text class="t-s" x="540" y="168" text-anchor="middle">staging inputs</text><text class="t-s" x="660" y="150" text-anchor="middle">a fresh plan,</text><text class="t-s" x="660" y="168" text-anchor="middle">then approval</text><text class="t-s" x="360" y="30" text-anchor="middle">The "artifact" of an infrastructure change is a reviewed plan for one environment.</text></svg>
+<figcaption>Six stages. The green box is the human step that matters most: someone reads the plan, with policy checks beside them.</figcaption>
+</figure>
+<h2>Follow one change: "turn on versioning for the attachments bucket"</h2>
+<h3>Moment 1 - the pull request</h3>
+<p class="story">Ana opens a PR that turns on versioning for the S3 bucket of attachments, so that a deleted or overwritten file can be brought back. The pipeline runs a speculative plan and posts it on the PR.</p>
+<label class="small" for="bet-0008-m1">Bet: what should the reviewer read: the code diff, the plan, or both - and why?</label><textarea class="bet" id="bet-0008-m1" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Both - and the plan matters more.</strong> The code says what Ana meant. The plan says what the tool will actually do in this environment: update in place, or replace the bucket with all its files.</p><p class="why"><strong>Why:</strong> HashiCorp's team workflow does exactly this: review the speculative plan next to the code, to check that the intent is achieved. A one-line code change can produce a <code>-/+</code> (lesson 0006). Only the plan shows it.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m1"> <span>Lost here (moment 1)</span></label>
+<h3>Moment 2 - the policy says no</h3>
+<p class="story">Ben's PR, in the same week, makes a bucket public so that a partner can download a report. The plan is fine. The policy check fails: "no public buckets".</p>
+<label class="small" for="bet-0008-m2">Bet: why have a policy check at all, if a person reviews every plan?</label><textarea class="bet" id="bet-0008-m2" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>People miss things, rules do not get tired.</strong> The policy checks every plan, every time, for the few things that must never happen - public data, missing encryption, a deleted database - and leaves judgement to the people.</p><p class="why"><strong>Why:</strong> policy as code is the infrastructure version of an automatic test. It turns "we agreed never to..." into a check that runs before apply. Ben can still get his report out, but by a safer road the policy allows - for example a link that expires.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m2"> <span>Lost here (moment 2)</span></label>
+<h3>Moment 3 - merge, then plan again</h3>
+<p class="story">Ana's PR is approved and merged. The pipeline plans again against main, for staging.</p>
+<label class="small" for="bet-0008-m3">Bet: the PR already had a plan. Why plan again after the merge?</label><textarea class="bet" id="bet-0008-m3" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Because the world moved.</strong> Other PRs may have merged first, and reality may have drifted since the PR's plan was made. The final plan, made from main and the newest state, is the one that gets applied.</p><p class="why"><strong>Why:</strong> HashiCorp's docs warn that the final plan can differ from the one reviewed on the PR, because of merge order or recent infrastructure changes. A plan is a snapshot. Apply only the plan you just made - and read it if it differs.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m3"> <span>Lost here (moment 3)</span></label>
+<h3>Moment 4 - promotion, the infra way</h3>
+<p class="story">Staging applied fine. Now production.</p>
+<label class="small" for="bet-0008-m4">Bet: in lesson 0002, production got the same artifact as staging. What is "the same" here?</label><textarea class="bet" id="bet-0008-m4" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>The same code version (the same commit), with production's inputs.</strong> Not the same plan: production has its own state and its own reality, so it gets its own fresh plan, which a person approves.</p><p class="why"><strong>Why:</strong> this is the big difference from app delivery. An app artifact behaves the same everywhere. An infrastructure plan is only true for the one environment it was made for. What you promote is the code version and the proof that it worked in staging.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m4"> <span>Lost here (moment 4)</span></label>
+<h3>Moment 5 - inside the server</h3>
+<p class="story">Notekeeper also has one old reporting server (a VM). It needs a security patch. Option A: run Ansible to patch the running server. Option B: build a new server image with the patch and replace the server.</p>
+<label class="small" for="bet-0008-m5">Bet: which option can let drift build up over time - and why?</label><textarea class="bet" id="bet-0008-m5" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Option A, the in-place change.</strong> Each run changes a live server. Anything not covered by the Ansible tasks - a hand fix, a package someone added - stays and grows. Option B starts each server from a known image, so drift has nowhere to live.</p><p class="why"><strong>Why:</strong> Fowler: configuration synchronization tries to keep long-lived servers in line, but it can only fix drift in the areas the tool controls. Immutable servers start from scratch every time. Containers (lesson 0003) are the immutable way by default - one reason teams moved to them.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m5"> <span>Lost here (moment 5)</span></label>
+<h2>The three pairs</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 235" role="img" aria-labelledby="l8-ly-t"><title id="l8-ly-t">Three layers: the floor is provisioned, the inside of a server is configured, and the application is deployed. The middle layer can be changed in place (mutable, for example with Ansible) or by replacing the server from a new image (immutable).</title><defs><marker id="l8-ly-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><rect class="box-key" x="20" y="20" width="330" height="60"/><text class="t-b" x="185.0" y="44.0" text-anchor="middle">Application</text><text class="t-s" x="185.0" y="64.0" text-anchor="middle">deployed by the app pipeline (0002)</text><rect class="box" x="20" y="90" width="330" height="60"/><text class="t-b" x="185.0" y="114.0" text-anchor="middle">Inside the server</text><text class="t-s" x="185.0" y="134.0" text-anchor="middle">packages, files, users - configuration management</text><rect class="box-goal" x="20" y="160" width="330" height="60"/><text class="t-b" x="185.0" y="184.0" text-anchor="middle">The floor</text><text class="t-s" x="185.0" y="204.0" text-anchor="middle">network, servers, database - provisioning</text><text class="t-b" x="540" y="40" text-anchor="middle">Two ways to change the middle layer</text><rect class="box" x="390" y="60" width="150" height="70"/><text class="t-b" x="465.0" y="81.0" text-anchor="middle">Mutable</text><text class="t-s" x="465.0" y="101.0" text-anchor="middle">change the live server</text><text class="t-s" x="465.0" y="119.0" text-anchor="middle">(Ansible run)</text><rect class="box-key" x="560" y="60" width="150" height="70"/><text class="t-b" x="635.0" y="81.0" text-anchor="middle">Immutable</text><text class="t-s" x="635.0" y="101.0" text-anchor="middle">build a new image,</text><text class="t-s" x="635.0" y="119.0" text-anchor="middle">replace the server</text><text class="t-s" x="465" y="155" text-anchor="middle">drift can build up</text><text class="t-s" x="635" y="155" text-anchor="middle">drift cannot build up</text><text class="t-s" x="550" y="200" text-anchor="middle">Containers (0003) are the immutable way, by default.</text></svg>
+<figcaption>Provisioning builds the floor, configuration management sets up the inside of a server, the app pipeline deploys the app. The middle layer can be changed in place or by replacement.</figcaption>
+</figure>
+<h2>Say the difference - the same words in every lesson</h2>
+<div class="pairs"><div class="pair"><strong>Provisioning vs configuration management</strong><p>Provisioning creates the floor's parts: networks, servers, databases. Configuration management sets up what is inside a server: packages, files, services.</p><p class="small">OpenTofu/Terraform provision. Ansible configures. They often work together.</p></div><div class="pair"><strong>Mutable vs immutable infrastructure</strong><p>Mutable: change the live server in place. Immutable: never change it - build a new one and remove the old.</p><p class="small">Immutable leaves no room for drift. Mutable is sometimes the only choice for old systems.</p></div><div class="pair"><strong>IaC vs configuration as code</strong><p>IaC describes the infrastructure itself. Configuration as code keeps app and tool settings in Git.</p><p class="small">Both live in Git and both are reviewed. An Argo CD Application file is configuration as code - and so is a pipeline definition.</p></div><div class="pair"><strong>App pipeline vs infrastructure pipeline</strong><p>An app pipeline promotes one artifact. An infrastructure pipeline promotes one code version and makes a fresh plan per environment.</p><p class="small">Because a plan is only true for one environment's state and reality.</p></div></div>
+<h2>Which pair, which side?</h2>
+<p>Eight jobs around Notekeeper. Which one is each?</p>
+<div class="sort" id="sort-0008"></div>
+<script type="application/json" data-sort-for="sort-0008">
+{
+ "buckets": [
+  "Provisioning",
+  "Configuration management",
+  "Configuration as code"
+ ],
+ "xp": 5,
+ "items": [
+  {
+   "id": "s1",
+   "text": "Create a private network with two subnets.",
+   "answer": 0,
+   "why": "A part of the floor - provisioning."
+  },
+  {
+   "id": "s2",
+   "text": "Install a security patch on a running VM.",
+   "answer": 1,
+   "why": "Inside a server - configuration management."
+  },
+  {
+   "id": "s3",
+   "text": "An Argo CD Application file in Git that says which app goes where.",
+   "answer": 2,
+   "why": "Tool settings in Git - configuration as code."
+  },
+  {
+   "id": "s4",
+   "text": "Create the managed database with a standby in zone B.",
+   "answer": 0,
+   "why": "A floor part, made through the cloud API."
+  },
+  {
+   "id": "s5",
+   "text": "Make sure every server has user deploy and the right SSH key.",
+   "answer": 1,
+   "why": "Users and files inside servers."
+  },
+  {
+   "id": "s6",
+   "text": "The CI pipeline definition, kept in the repo next to the code.",
+   "answer": 2,
+   "why": "Tool settings as files in Git."
+  },
+  {
+   "id": "s7",
+   "text": "Add an IAM role that may read one bucket.",
+   "answer": 0,
+   "why": "Access rules are floor parts too (0004)."
+  },
+  {
+   "id": "s8",
+   "text": "The feature switch list, changed by pull request.",
+   "answer": 2,
+   "why": "App settings, reviewed in Git."
+  }
+ ]
+}
+</script>
+<h2>Quiz</h2>
+<div class="quiz" id="quiz-0008"></div>
+<script type="application/json" data-quiz-for="quiz-0008">
+[
+ {
+  "id": "q1",
+  "xp": 10,
+  "stem": "In an infrastructure PR, what shows whether the bucket will be replaced?",
+  "options": [
+   "The speculative plan output",
+   "The code diff alone",
+   "The commit message text",
+   "The policy rule file"
+  ],
+  "answer": 0,
+  "why": "Only the plan says update in place or replace, for this environment."
+ },
+ {
+  "id": "q2",
+  "xp": 10,
+  "stem": "Why plan again after the merge?",
+  "options": [
+   "Other merges and drift change it",
+   "The first plan was a draft",
+   "Merging always deletes the state file",
+   "Policies only run after a merge"
+  ],
+  "answer": 0,
+  "why": "HashiCorp: the final plan can differ because of merge order or recent infrastructure changes."
+ },
+ {
+  "id": "q3",
+  "xp": 10,
+  "stem": "What is promoted from staging to production for infrastructure?",
+  "options": [
+   "The same code version",
+   "The same plan file",
+   "The same state file",
+   "The same real database"
+  ],
+  "answer": 0,
+  "why": "Each environment gets its own fresh plan from the same commit."
+ },
+ {
+  "id": "q4",
+  "xp": 10,
+  "stem": "Which job is configuration management?",
+  "options": [
+   "Patch packages on a running VM",
+   "Create a new private cloud network",
+   "Add a DNS record for API",
+   "Make a new managed cloud database"
+  ],
+  "answer": 0,
+  "why": "Inside a server = configuration management. The rest are floor parts."
+ },
+ {
+  "id": "q5",
+  "xp": 10,
+  "stem": "Why does immutable infrastructure leave no room for drift?",
+  "options": [
+   "Every change starts from a known image",
+   "Servers lock all of their files forever",
+   "The cloud blocks every change in console",
+   "Ansible runs on every server every hour"
+  ],
+  "answer": 0,
+  "why": "No live server is ever changed, so nothing unrecorded can pile up."
+ },
+ {
+  "id": "q6",
+  "xp": 10,
+  "stem": "What does a policy check add to human review?",
+  "options": [
+   "The same rules on every plan",
+   "A much faster apply to production",
+   "A second copy of the state",
+   "A test of the application code"
+  ],
+  "answer": 0,
+  "why": "People judge; policy guards the few things that must never happen."
+ }
+]
+</script>
+<h2>Say it in one line</h2>
+<p>From memory, no scrolling. Then open the model line. Same core = right.</p>
+<label class="small" for="bet-0008-line1">What does an infrastructure pipeline really solve?</label><textarea class="bet" id="bet-0008-line1" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Every infrastructure change gets a reviewed plan, per environment, before apply - instead of applies from laptops.</p></details>
+<label class="small" for="bet-0008-line2">Provisioning vs configuration management, in one line.</label><textarea class="bet" id="bet-0008-line2" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Provisioning creates the floor's parts. Configuration management sets up what is inside a server.</p></details>
+<label class="small" for="bet-0008-line3">Mutable vs immutable, in one line.</label><textarea class="bet" id="bet-0008-line3" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Mutable: change the live server in place. Immutable: never change it - build a new one and remove the old.</p></details>
+<h2>Cards for your deck</h2>
+<div class="cards"><details class="card"><summary>A reviewer approves an infrastructure PR after reading only the code. What did they skip?</summary><p>The plan - the only place that shows a replace or a destroy for this environment.</p></details><details class="card"><summary>The PR plan showed 1 change. The plan after merge shows 3. What do you do?</summary><p>Stop and read the 2 extra changes: another merge or drift caused them. Apply only a plan you understand.</p></details><details class="card"><summary>Why can't you promote the staging plan to production?</summary><p>A plan is true only for one environment's state and reality. Production gets its own fresh plan from the same commit.</p></details><details class="card"><summary>Ben wants a public bucket. The policy blocks it. What is the policy for?</summary><p>To guard the few things that must never happen, on every plan, even when a reviewer is tired.</p></details><details class="card"><summary>Ansible or a new image to patch 50 servers - which avoids drift?</summary><p>A new image and replacement (immutable). In-place runs only fix what the tasks cover.</p></details><details class="card"><summary>Is an Argo CD Application file IaC or configuration as code?</summary><p>Configuration as code: settings of a tool, in Git. It deploys apps; it does not describe the floor.</p></details></div>
+<aside class="note"><strong>HwtP lens - the big one, optional, no answer here on purpose.</strong> Draw HwtP for Infra as today's six stages. Which stages does it have? Who reads the plan, and where? Is there a policy check? What is promoted from staging to production - a commit, a plan, something else? Write 5-10 lines in chat. This is the core of your product, seen through the course.</aside>
+<div class="source"><h3>Read this next</h3><p><a href="https://developer.hashicorp.com/terraform/intro/core-workflow">HashiCorp: Core workflow</a> - read "Working as a team" (10 minutes). Then <a href="https://martinfowler.com/bliki/ImmutableServer.html">Fowler: Immutable Server</a> (4 minutes).</p></div>
+<h2>Done</h2>
+<ul class="checklist"><li><label><input type="checkbox" id="done-0008-0" data-xp="10"> <span>I read the team workflow part</span></label></li><li><label><input type="checkbox" id="done-0008-1" data-xp="20"> <span>I wrote the HwtP lens in chat</span></label></li><li><label><input type="checkbox" id="done-0008-2" data-xp="20"> <span>I did the explain-back in chat</span></label></li></ul>
+<h2>Lost here - your line</h2>
+<div class="lost-summary"></div>
+<p class="foot"><strong>Explain-back (10 minutes).</strong> In chat, start with the one line of an infrastructure pipeline. Then 3-5 sentences: why the plan matters more than the diff, why production gets its own plan, and the three pairs. Paste the result lines and your lost line.<br><br>Questions about anything on this page? Ask in chat - your teacher is there for exactly that, and "this did not land" is welcome.<br><br>Next: <a href="0009-platforms.html">lesson 0009, platforms</a> - the outer ring, and where HwtP for Infra fits.</p>
+</div>
+</main>
+<script src="../assets/course.js"></script>
+<script src="../assets/quiz.js"></script>
+<script src="../assets/sort.js"></script>
+</body>
+</html>
