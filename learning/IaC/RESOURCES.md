@@ -13,6 +13,8 @@ High-trust sources only. Lessons cite these. Checked Nov 21, 2026.
 ### Delivery (Layers 0-2)
 - [The Twelve-Factor App: V. Build, release, run](https://12factor.net/build-release-run)
   Short, precise split of build (code to bundle), release (bundle plus config) and run. Use for: Layer 0, build vs deploy vs release, artifact vs config.
+- [Martin Fowler: Continuous Integration](https://martinfowler.com/articles/continuousIntegration.html) (2000, rewritten 2006, revised 18 Jan 2024), with bliki posts [Frequency Reduces Difficulty](https://martinfowler.com/bliki/FrequencyReducesDifficulty.html) (2011) and [Continuous Integration Certification](https://martinfowler.com/bliki/ContinuousIntegrationCertification.html) (2017)
+  The long-form source of CI: 11 practices, three styles of integration, benefits, when not to use it, how to start, common questions. Use for: bonus lesson 0002b. Added Nov 22, on Alex's ask.
 - [Martin Fowler: Continuous Delivery](https://martinfowler.com/bliki/ContinuousDelivery.html) and [Deployment Pipeline](https://martinfowler.com/bliki/DeploymentPipeline.html)
   Definitions of CD and of the pipeline. Use for: Layer 1-2, CI vs CD.
 - [Jez Humble: Continuous Delivery vs Continuous Deployment (2010)](https://continuousdelivery.com/2010/08/continuous-delivery-vs-continuous-deployment)

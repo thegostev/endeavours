@@ -462,3 +462,23 @@ li.is-shown .fill-msg { color: var(--seq); }
   .fig-wide { overflow-x: auto; }
   @media (max-width: 40rem) { .fig-wide svg { min-inline-size: 40rem; } .fig-wide figcaption { position: sticky; left: 0; max-inline-size: calc(100vw - 2 * var(--gutter)); } }
 }
+@layer base {
+  /* Pull quote: short, exact, sourced. One per source page. */
+  .pull-quote { margin: 2rem 0; padding: 1.1rem 1.4rem; border-inline-start: 6px solid var(--link); background: color-mix(in srgb, var(--link) 7%, var(--bg)); }
+  .pull-quote blockquote { margin: 0; }
+  .pull-quote blockquote p { font: 600 var(--step-1)/1.35 var(--font-head); margin: 0; }
+  .pull-quote figcaption { margin-top: .6rem; font: .95rem/1.4 var(--font-ui); color: var(--text-muted); }
+  .pull-quote .pq-ctx { display: block; margin-top: .3rem; }
+  /* Practice grid: numbered cards */
+  .practice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: .8rem; margin: 1.25rem 0 2rem; list-style: none; padding: 0; counter-reset: pr; }
+  .practice-grid li { counter-increment: pr; border: 2px solid var(--rule); background: var(--bg); padding: .8rem .9rem .9rem; position: relative; }
+  .practice-grid li::before { content: counter(pr); position: absolute; inset-block-start: .55rem; inset-inline-end: .7rem; font: 700 1.6rem/1 var(--font-code); color: var(--text-muted); opacity: .5; }
+  .practice-grid li strong { display: block; font-family: var(--font-head); padding-inline-end: 2rem; margin-bottom: .3rem; }
+  .practice-grid li .band { display: inline-block; font: 600 .8rem/1.2 var(--font-ui); padding: .15rem .45rem; margin-bottom: .4rem; border: 1px solid var(--rule); }
+  .practice-grid li .num { display: block; margin-top: .4rem; font: .9rem/1.4 var(--font-ui); color: var(--text-muted); }
+  .band-a { background: color-mix(in srgb, var(--link) 12%, var(--bg)); }
+  .band-b { background: var(--good-soft); }
+  .band-c { background: color-mix(in srgb, var(--seq) 16%, var(--bg)); }
+  /* Self-check verdict */
+  .verdict { margin: .8rem 0 1.6rem; padding: .7rem 1rem; border: 2px dashed var(--rule); font-weight: 600; }
+}

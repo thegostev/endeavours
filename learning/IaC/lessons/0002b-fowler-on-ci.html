@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en" data-page="iac-0002b">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>0002b - Bonus: Fowler on Continuous Integration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main class="page">
+<nav class="topnav" aria-label="Course"><a href="0002-the-pipeline.html">Lesson 0002</a><a href="../reference/course-map.html">Course map</a><a href="../reference/iac-in-one-line.html">IaC in one line</a><span>Bonus lesson · Layers 1-2</span></nav>
+<div class="col">
+<h1>Bonus: Fowler on Continuous Integration</h1>
+<p class="dek">The source behind lesson 0002, in one sitting. Martin Fowler's long article on CI - first written in 2000, rewritten in 2006, revised in January 2024 - taken apart into its ideas, practices, comparisons and advice. Everything here is Fowler's, paraphrased and arranged; nothing is added by the teacher.</p>
+<div class="xp" data-max="175"><div class="xp-bar"><div class="xp-fill"></div></div><span class="xp-text">0 of 175 XP</span></div>
+<aside class="note">Source: Martin Fowler, <a href="https://martinfowler.com/articles/continuousIntegration.html">Continuous Integration</a> (2000, rewritten 2006, revised 18 January 2024), plus two of his short bliki posts it builds on: <a href="https://martinfowler.com/bliki/FrequencyReducesDifficulty.html">Frequency Reduces Difficulty</a> (2011) and <a href="https://martinfowler.com/bliki/ContinuousIntegrationCertification.html">Continuous Integration Certification</a> (2017). Text on this page is a plain-English reading. Direct quotes are short and marked.</aside>
+<p>Time: about 45 minutes, or two sittings: sections 1-4 (ideas and pictures), then 5-8 (practices, comparisons, advice). Best done after lesson 0002.</p>
+<h2>How to do this lesson</h2>
+<ol><li>Warm-up from lesson 0002.</li><li>The big idea and the four pictures: history, the three styles, the pain curve, a developer's day.</li><li>The 11 practices, in three groups. Then the comparisons.</li><li>Benefits, when not to use CI, how to start, and Humble's three-question test.</li><li>Sort, quiz, cards, and your one lines in chat.</li></ol>
+<h2>Warm-up from lesson 0002</h2>
+<div class="quiz" id="quiz-0002b-warm"></div>
+<script type="application/json" data-quiz-for="quiz-0002b-warm">
+[
+ {
+  "id": "w1",
+  "xp": 10,
+  "stem": "Ana's feature needs two weeks. How does she still merge daily?",
+  "options": [
+   "Behind a flag switched off",
+   "On a branch two weeks",
+   "In a separate fork repo",
+   "Only after the feature ends"
+  ],
+  "answer": 0,
+  "why": "Trunk-based development: unfinished work merges daily, hidden behind a feature flag."
+ },
+ {
+  "id": "w2",
+  "xp": 10,
+  "stem": "What does Continuous Deployment add on top of Continuous Delivery?",
+  "options": [
+   "No human step before production",
+   "Daily merges into main line",
+   "Automatic tests on every merge",
+   "A second production copy exists"
+  ],
+  "answer": 0,
+  "why": "Same checks. Deployment removes the button."
+ },
+ {
+  "id": "w3",
+  "xp": 10,
+  "stem": "Which DORA number measures stability?",
+  "options": [
+   "Change fail rate",
+   "Weekly deployment frequency",
+   "Change lead time",
+   "Number of merges"
+  ],
+  "answer": 0,
+  "why": "Fail rate and recovery time are stability; frequency and lead time are speed."
+ }
+]
+</script>
+<h2>1 · The big idea</h2>
+<section class="idea" aria-labelledby="idea-0002b"><h2 id="idea-0002b">The big idea</h2><dl><dt>Continuous Integration - the one thing (course line)</dt><dd>Merge small changes daily, each checked automatically - instead of one painful merge weeks later.</dd><dt>Fowler's definition, in plain words</dt><dd>Everyone on the team merges their work into one shared codebase at least once a day, and an automatic build with tests checks each merge, so integration errors show up fast.</dd><dt>The promise</dt><dd>Less risk that delivery runs late, less time lost to integration, and a healthy codebase that lets the team add features fast.</dd><dt>Fowler's opening memory</dt><dd>A warehouse of programmers who had spent months integrating code that had taken years to write. His lesson from it: integrating many developers' work, done late, is long and unpredictable.</dd></dl></section>
+<figure class="pull-quote"><blockquote><p>Integration is primarily about communication.</p></blockquote><figcaption>Martin Fowler, <em>Continuous Integration</em> (2024), <a href="https://martinfowler.com/articles/continuousIntegration.html">source</a><span class="pq-ctx">From the practice "Everyone pushes commits to the mainline every day": pushing tells your teammates what you changed.</span></figcaption></figure>
+<h2>2 · Thirty years in one line</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 190" role="img" aria-labelledby="lb-hi-t"><title id="lb-hi-t">History of Continuous Integration: Kent Beck in the 1990s as part of Extreme Programming, Fowler&#x27;s article in 2000, rewritten 2006, Duvall&#x27;s book 2007, Humble and Farley&#x27;s Continuous Delivery 2010, Humble&#x27;s certification test 2017, Fowler&#x27;s Branching Patterns 2020, and the article&#x27;s revision in January 2024.</title><defs><marker id="lb-hi-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><path class="line" d="M20 90 H700"/><circle class="box-key" cx="80" cy="90" r="6"/><path class="line-soft" d="M80 84 V60"/><text class="t-b" x="80" y="30" text-anchor="middle">1990s</text><text class="t-s" x="80" y="47" text-anchor="middle">Kent Beck</text><text class="t-s" x="80" y="63" text-anchor="middle">CI in XP</text><circle class="box-key" cx="160" cy="90" r="6"/><path class="line-soft" d="M160 96 V120"/><text class="t-b" x="160" y="140" text-anchor="middle">2000</text><text class="t-s" x="160" y="157" text-anchor="middle">Fowler's article</text><text class="t-s" x="160" y="173" text-anchor="middle">first version</text><circle class="box-key" cx="240" cy="90" r="6"/><path class="line-soft" d="M240 84 V60"/><text class="t-b" x="240" y="30" text-anchor="middle">2006</text><text class="t-s" x="240" y="47" text-anchor="middle">full rewrite</text><circle class="box-key" cx="320" cy="90" r="6"/><path class="line-soft" d="M320 96 V120"/><text class="t-b" x="320" y="140" text-anchor="middle">2007</text><text class="t-s" x="320" y="157" text-anchor="middle">Duvall et al.</text><text class="t-s" x="320" y="173" text-anchor="middle">CI book</text><circle class="box-key" cx="400" cy="90" r="6"/><path class="line-soft" d="M400 84 V60"/><text class="t-b" x="400" y="30" text-anchor="middle">2010</text><text class="t-s" x="400" y="47" text-anchor="middle">Humble & Farley</text><text class="t-s" x="400" y="63" text-anchor="middle">Cont. Delivery</text><circle class="box-key" cx="480" cy="90" r="6"/><path class="line-soft" d="M480 96 V120"/><text class="t-b" x="480" y="140" text-anchor="middle">2017</text><text class="t-s" x="480" y="157" text-anchor="middle">Humble's test</text><text class="t-s" x="480" y="173" text-anchor="middle">3 questions</text><circle class="box-key" cx="560" cy="90" r="6"/><path class="line-soft" d="M560 84 V60"/><text class="t-b" x="560" y="30" text-anchor="middle">2020</text><text class="t-s" x="560" y="47" text-anchor="middle">Branching</text><text class="t-s" x="560" y="63" text-anchor="middle">Patterns</text><circle class="box-key" cx="640" cy="90" r="6"/><path class="line-soft" d="M640 96 V120"/><text class="t-b" x="640" y="140" text-anchor="middle">2024</text><text class="t-s" x="640" y="157" text-anchor="middle">revised</text><text class="t-s" x="640" y="173" text-anchor="middle">Jan 18</text></svg>
+<figcaption>CI started with Kent Beck in Extreme Programming in the 1990s, when integrating just before a release was normal. Microsoft had daily builds then, but without the testing discipline that makes CI. Fowler's article came in 2000 and was rewritten in 2006 and again in 2023-24.</figcaption>
+</figure>
+<h2>3 · Three styles of integration</h2>
+<p>Fowler compares three ways a team can bring its work together. Read the picture first, then the table.</p>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 310" role="img" aria-labelledby="lb-st-t"><title id="lb-st-t">Three styles of integration. Pre-release integration: three developers work apart and merge once at the end. Feature branches: each feature merges when finished. Continuous Integration: everyone merges small pieces into the mainline at least daily.</title><defs><marker id="lb-st-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><text class="t-b" x="10" y="40" text-anchor="start">Pre-release integration</text><text class="t-s" x="10" y="60" text-anchor="start">once, near the end</text><path class="line" d="M200 25 H705"/><text class="t-s" x="200" y="18" text-anchor="start">mainline</text><path class="line-soft" d="M200 45 H690"/><path class="line-soft" d="M200 63 H690"/><path class="line-soft" d="M200 81 H690"/><text class="t-b" x="10" y="140" text-anchor="start">Feature branches</text><text class="t-s" x="10" y="160" text-anchor="start">once per finished feature</text><path class="line" d="M200 125 H705"/><text class="t-s" x="200" y="118" text-anchor="start">mainline</text><path class="line-soft" d="M200 145 H690"/><path class="line-soft" d="M200 163 H690"/><path class="line-soft" d="M200 181 H690"/><text class="t-b" x="10" y="240" text-anchor="start">Continuous Integration</text><text class="t-s" x="10" y="260" text-anchor="start">everyone, at least daily</text><path class="line" d="M200 225 H705"/><text class="t-s" x="200" y="218" text-anchor="start">mainline</text><path class="line-soft" d="M200 245 H690"/><path class="line-soft" d="M200 263 H690"/><path class="line-soft" d="M200 281 H690"/><path class="line" d="M640 45 L670 25"/><path class="line" d="M640 63 L670 25"/><path class="line" d="M640 81 L670 25"/><circle class="box-goal" cx="670" cy="25" r="9"/><path class="line" d="M330 145 L345 125"/><circle class="box-key" cx="345" cy="125" r="6"/><path class="line" d="M470 163 L485 125"/><circle class="box-key" cx="485" cy="125" r="6"/><path class="line" d="M600 181 L615 125"/><circle class="box-key" cx="615" cy="125" r="6"/><path class="line" d="M650 145 L665 125"/><circle class="box-key" cx="665" cy="125" r="6"/><path class="line" d="M230 245 L238 225"/><circle class="box-key" cx="238" cy="225" r="4"/><path class="line" d="M268 263 L276 225"/><circle class="box-key" cx="276" cy="225" r="4"/><path class="line" d="M306 281 L314 225"/><circle class="box-key" cx="314" cy="225" r="4"/><path class="line" d="M344 245 L352 225"/><circle class="box-key" cx="352" cy="225" r="4"/><path class="line" d="M382 263 L390 225"/><circle class="box-key" cx="390" cy="225" r="4"/><path class="line" d="M420 281 L428 225"/><circle class="box-key" cx="428" cy="225" r="4"/><path class="line" d="M458 245 L466 225"/><circle class="box-key" cx="466" cy="225" r="4"/><path class="line" d="M496 263 L504 225"/><circle class="box-key" cx="504" cy="225" r="4"/><path class="line" d="M534 281 L542 225"/><circle class="box-key" cx="542" cy="225" r="4"/><path class="line" d="M572 245 L580 225"/><circle class="box-key" cx="580" cy="225" r="4"/><path class="line" d="M610 263 L618 225"/><circle class="box-key" cx="618" cy="225" r="4"/><path class="line" d="M648 281 L656 225"/><circle class="box-key" cx="656" cy="225" r="4"/><path class="line" d="M686 245 L694 225"/><circle class="box-key" cx="694" cy="225" r="4"/><text class="t-s" x="450" y="300" text-anchor="middle">Same work, three rhythms. Fewer merges means bigger merges.</text></svg>
+<figcaption>Lines are developers; dots are merges into the mainline. The amount of work is the same in all three - only the rhythm differs.</figcaption>
+</figure>
+<div class="table-wrap"><table><thead><tr><th>Style</th><th>When work is merged</th><th>What each merge is like</th><th>Fowler's view</th></tr></thead><tbody><tr><td>Pre-release integration</td><td>Once, near the release - months or years apart</td><td>Huge, late, hard to predict</td><td>The old normal that CI was made to replace</td></tr><tr><td>Feature branches</td><td>When a feature is finished</td><td>A batch of changes; each push makes integration work for everyone else</td><td>"Semi-integration": you pull from mainline, but your work is not shared until the end</td></tr><tr><td>Continuous Integration</td><td>Everyone pushes and pulls at least daily</td><td>Many merges, each small: hours of work, not days</td><td>Combining a few hours of work is much easier than combining several days</td></tr></tbody></table></div>
+<p><span class="small">Fowler notes that feature branches become CI if every feature takes less than a day. Otherwise the two are mostly exclusive.</span></p>
+<h2>4 · Why more often hurts less</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 275" role="img" aria-labelledby="lb-pc-t"><title id="lb-pc-t">A sketch of Fowler&#x27;s idea: the pain of one integration rises much faster than the time between integrations. CI keeps the gap at hours, where the pain is small. Shape only - not measured data.</title><defs><marker id="lb-pc-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><path class="line" d="M70 230 H690"/><path class="line" d="M70 230 V20"/><text class="t-s" x="380" y="262" text-anchor="middle">time between integrations</text><text class="t-s" x="30" y="125" text-anchor="middle" transform="rotate(-90 30 125)">pain of one integration</text><polyline class="line" style="stroke:var(--bad);stroke-width:3;fill:none" points="70.0,230.0 80.2,229.8 90.3,229.5 100.5,229.3 110.7,229.0 120.8,228.7 131.0,228.4 141.2,228.1 151.3,227.7 161.5,227.3 171.7,226.9 181.8,226.5 192.0,226.0 202.2,225.5 212.3,224.9 222.5,224.3 232.7,223.7 242.8,223.0 253.0,222.3 263.2,221.5 273.3,220.7 283.5,219.8 293.7,218.8 303.8,217.8 314.0,216.7 324.2,215.5 334.3,214.3 344.5,212.9 354.7,211.4 364.8,209.9 375.0,208.2 385.2,206.4 395.3,204.4 405.5,202.4 415.7,200.1 425.8,197.8 436.0,195.2 446.2,192.5 456.3,189.5 466.5,186.4 476.7,183.0 486.8,179.3 497.0,175.5 507.2,171.3 517.3,166.8 527.5,162.0 537.7,156.8 547.8,151.3 558.0,145.4 568.2,139.0 578.3,132.2 588.5,124.9 598.7,117.1 608.8,108.7 619.0,99.6 629.2,90.0 639.3,79.6 649.5,68.5 659.7,56.5 669.8,43.7 680.0,30.0"/><text class="t-s" x="110" y="248" text-anchor="middle">hours</text><text class="t-s" x="300" y="248" text-anchor="middle">days</text><text class="t-s" x="520" y="248" text-anchor="middle">weeks</text><text class="t-s" x="660" y="248" text-anchor="middle">months</text><circle class="box-key" cx="110" cy="227" r="7"/><text class="t-b" x="120" y="205" text-anchor="start">CI lives here</text><rect class="box" x="150" y="40" width="260" height="56"/><text class="t-b" x="280" y="63" text-anchor="middle">2x the code to merge</text><text class="t-s" x="280" y="83" text-anchor="middle">about 4x the integration work</text></svg>
+<figcaption>Fowler's argument: integration work grows faster than the amount of code - about twice the code, about four times the work. So shrinking the gap between merges shrinks the pain much more than in proportion.</figcaption>
+</figure>
+<figure class="pull-quote"><blockquote><p>if it hurts, do it more often</p></blockquote><figcaption>Martin Fowler, <em>Frequency Reduces Difficulty</em> (2011), <a href="https://martinfowler.com/bliki/FrequencyReducesDifficulty.html">source</a><span class="pq-ctx">His three reasons: small steps are easier to get right (chunking), you learn sooner (feedback), and repetition makes the process better and easier to automate (practice).</span></figcaption></figure>
+<p>Fowler also warns about the wrong lesson: after a painful integration, a team may decide to integrate <em>less</em> often - which makes the next one worse.</p>
+<h3>Check - read the curve</h3>
+<p class="story">A team merges every two weeks. Each merge takes two days to sort out. Someone says: "Let's merge monthly, then we only lose two days a month."</p>
+<label class="small" for="bet-0002b-m1">Bet: by Fowler's argument, what happens to the monthly merge?</label><textarea class="bet" id="bet-0002b-m1" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>It gets much worse than two days.</strong> A month of changes is about twice the code of two weeks, so by his rule of thumb about four times the integration work - and more surprises.</p><p class="why"><strong>Why:</strong> the pain grows faster than the gap. Fowler's answer runs the other way: merge more often, so each merge is small enough to take minutes.</p></details>
+<label class="lost"><input type="checkbox" data-lost="m1"> <span>Lost here (check)</span></label>
+<h2>A developer's day with CI</h2>
+<p>Fowler opens the article with a small story: he adds a feature to a system and walks through each step. Here it is as a picture.</p>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 750 265" role="img" aria-labelledby="lb-dy-t"><title id="lb-dy-t">Fowler&#x27;s walk-through of one feature: pull the mainline, build and test, work in small tested steps, pull again and find that a teammate&#x27;s earlier push breaks a test, fix and build green, push, and the CI service builds it and tells everyone the result.</title><defs><marker id="lb-dy-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><path class="line-soft" d="M140 50 H745"/><text class="t-b" x="10" y="54" text-anchor="start">Local machine</text><path class="line-soft" d="M140 140 H745"/><text class="t-b" x="10" y="144" text-anchor="start">Central repo + CI</text><path class="line-soft" d="M140 230 H745"/><text class="t-b" x="10" y="234" text-anchor="start">Teammates</text><rect class="box" x="150" y="25" width="92" height="52"/><text class="t-b" x="196.0" y="45.0" text-anchor="middle">1 pull</text><text class="t-s" x="196.0" y="65.0" text-anchor="middle">mainline</text><rect class="box" x="253" y="25" width="92" height="52"/><text class="t-b" x="299.0" y="45.0" text-anchor="middle">2 build</text><text class="t-s" x="299.0" y="65.0" text-anchor="middle">+ tests</text><rect class="box" x="356" y="25" width="92" height="52"/><text class="t-b" x="402.0" y="45.0" text-anchor="middle">3 work</text><text class="t-s" x="402.0" y="65.0" text-anchor="middle">small steps</text><rect class="box-goal" x="459" y="25" width="92" height="52"/><text class="t-b" x="505.0" y="45.0" text-anchor="middle">4 pull</text><text class="t-s" x="505.0" y="65.0" text-anchor="middle">a test breaks</text><rect class="box" x="562" y="25" width="92" height="52"/><text class="t-b" x="608.0" y="45.0" text-anchor="middle">5 fix</text><text class="t-s" x="608.0" y="65.0" text-anchor="middle">build green</text><rect class="box-key" x="650" y="115" width="92" height="52"/><text class="t-b" x="696.0" y="135.0" text-anchor="middle">6 push</text><text class="t-s" x="696.0" y="155.0" text-anchor="middle">CI builds it</text><rect class="box" x="650" y="205" width="92" height="52"/><text class="t-b" x="696.0" y="225.0" text-anchor="middle">7 everyone</text><text class="t-s" x="696.0" y="245.0" text-anchor="middle">sees result</text><path class="line" d="M242 51 H252" marker-end="url(#lb-dy-a)"/><path class="line" d="M345 51 H355" marker-end="url(#lb-dy-a)"/><path class="line" d="M448 51 H458" marker-end="url(#lb-dy-a)"/><path class="line" d="M551 51 H561" marker-end="url(#lb-dy-a)"/><path class="line" d="M640 57 L680 118" marker-end="url(#lb-dy-a)"/><path class="line" d="M696 167 V208" marker-end="url(#lb-dy-a)"/><rect class="box" x="459" y="200" width="92" height="52"/><text class="t-b" x="505.0" y="220.0" text-anchor="middle">teammate</text><text class="t-s" x="505.0" y="240.0" text-anchor="middle">pushed earlier</text><path class="line-soft" d="M505 200 L505 80" marker-end="url(#lb-dy-a)"/></svg>
+<figcaption>The key moment is step 4: pulling again just before pushing shows that a teammate's push breaks one of his tests. He fixes it on his own machine, gets the build green, and only then pushes.</figcaption>
+</figure>
+<p>What makes this work, by Fowler's account: <strong>self-testing code</strong>. Version control can merge two changes that both compile and still conflict in meaning. Only the tests catch that kind of conflict - Fowler calls it a semantic conflict - so he calls self-testing code a necessary prerequisite for CI.</p>
+<h2>5 · The eleven practices</h2>
+<p>Fowler lists eleven practices, in this order. The colour groups are added here only to make them easier to remember: <span class="band band-a">Codebase</span> what you build from, <span class="band band-b">Rhythm</span> how often and how fast, <span class="band band-c">Safety</span> how you stay safe while moving fast.</p>
+<ol class="practice-grid"><li><span class="band band-a">Codebase</span><strong>Put everything in a version-controlled mainline</strong>Everything needed to build and run the product is in source control. A clean machine can rebuild it. One shared mainline is the next production version.</li><li><span class="band band-a">Codebase</span><strong>Automate the build</strong>Scripts or a build tool do every step. Anyone can check out on a clean machine, run one command, and get a running system.<span class="num">Key number: one command</span></li><li><span class="band band-a">Codebase</span><strong>Make the build self-testing</strong>An automatic test suite runs on every build and any failing test fails the build. A bug put in on purpose must turn the build red.<span class="num">Key number: any failing test fails the build</span></li><li><span class="band band-b">Rhythm</span><strong>Everyone pushes to the mainline every day</strong>Pull, fix conflicts, build locally, push - at least daily; experienced teams more often. Kent Beck's guideline: no code stays unintegrated more than a couple of hours.<span class="num">Key number: at least daily</span></li><li><span class="band band-b">Rhythm</span><strong>Every push to mainline triggers a build</strong>A CI service builds the mainline head after every push, so a failure points to the latest push. Watch the mainline, not feature branches.<span class="num">Key number: every push</span></li><li><span class="band band-b">Rhythm</span><strong>Fix broken builds immediately</strong>A red mainline comes before other work. The usual fix is to revert the last commit. A "pending head" can stop bad commits from landing at all.<span class="num">Key number: revert first</span></li><li><span class="band band-b">Rhythm</span><strong>Keep the build fast</strong>The XP guideline is ten minutes; an hour is not reasonable. A deployment pipeline splits a fast commit build from slower secondary builds.<span class="num">Key number: 10 minutes</span></li><li><span class="band band-c">Safety</span><strong>Hide work-in-progress</strong>Unfinished work goes into the mainline but stays hidden from users: keystone interface, feature flags, dark launching, branch by abstraction, parallel change.<span class="num">Key number: latent code is still production quality</span></li><li><span class="band band-c">Safety</span><strong>Test in a clone of production</strong>Same database versions, OS, libraries, addresses and ports as production. Containers make this practical.</li><li><span class="band band-c">Safety</span><strong>Everyone can see what is happening</strong>Build status on dashboards, chat and even red/green lights. Show success too, so people learn the normal rhythm.</li><li><span class="band band-c">Safety</span><strong>Automate deployment</strong>Scripts deploy to any environment, ideally building it from scratch. This enables automatic rollback, blue-green and canary. Show the build ID in the running app.<span class="num">Key number: several times a day</span></li></ol>
+<h3>Practice 8 up close: five ways to hide work in progress</h3>
+<div class="table-wrap"><table><thead><tr><th>Technique</th><th>How it hides unfinished work</th><th>Course link</th></tr></thead><tbody><tr><td>Keystone interface</td><td>Build everything behind the scenes first; add the user-facing entry point last.</td><td>-</td></tr><tr><td>Feature flag</td><td>The code is there, switched off per environment until it is ready.</td><td><a href="0002-the-pipeline.html">0002</a>, moment 2</td></tr><tr><td>Dark launching</td><td>Run the new code in production before users can see its results.</td><td>-</td></tr><tr><td>Branch by abstraction</td><td>An internal interface routes calls to the old or the new logic while the new one is built.</td><td>named in 0002's flag table</td></tr><tr><td>Parallel change</td><td>Change in small, reversible expand-then-contract steps.</td><td>-</td></tr></tbody></table></div>
+<p><span class="small">Fowler's two conditions: latent code must still be production quality, and flags are removed once the feature is fully released.</span></p>
+<h3>Practice 7 up close: two builds, one pipeline</h3>
+<div class="table-wrap"><table><thead><tr><th></th><th>Commit build</th><th>Secondary build</th></tr></thead><tbody><tr><td>Runs</td><td>On every push to mainline</td><td>After the commit build passes</td></tr><tr><td>Speed</td><td>Fast - inside the ten-minute guideline</td><td>Slow - can take a couple of hours</td></tr><tr><td>Tests</td><td>Uses test doubles and shortcuts</td><td>End-to-end tests with real external services</td></tr><tr><td>Purpose</td><td>Fast feedback for the developer who pushed</td><td>Deeper confidence before release</td></tr></tbody></table></div>
+<h2>6 · The comparisons Fowler draws</h2>
+<div class="table-wrap"><table><thead><tr><th>Pair</th><th>Fowler's answer, in plain words</th></tr></thead><tbody><tr><td>CI vs trunk-based development</td><td>Treated as the same thing. The name trunk-based development came up because people ran CI services on feature branches and called that CI. Fowler keeps the name CI, partly so Kent Beck's work is not renamed away.</td></tr><tr><td>A CI service on feature branches vs CI</td><td>That is not CI - it is semi-integration. He suggests such tools are really "continuous build services".</td></tr><tr><td>CI vs feature branching, together?</td><td>Generally no - unless every feature takes less than a day. Personal branches are fine if you still push to mainline continuously.</td></tr><tr><td>CI vs Continuous Delivery</td><td>CI is about integrating in the team's own environment. Continuous Delivery keeps the product releasable at any time, so release becomes a business decision. The separate idea grew from complicated paths to production in early-2000s projects.</td></tr><tr><td>Continuous Delivery vs Continuous Deployment</td><td>Continuous Deployment releases every commit that passes the pipeline. Continuous Delivery is its prerequisite.</td></tr><tr><td>Pull requests vs CI's rhythm</td><td>Review before merge adds waiting that can break the daily rhythm. Teams keep the flow with pair programming, Ship/Show/Ask, or reviews that refine code after it is merged.</td></tr><tr><td>Databases</td><td>Pramod Sadalage's Evolutionary Database Design: small, version-controlled migration scripts that run on test and production databases alike.</td></tr></tbody></table></div>
+<h2>7 · What CI gives - and when it does not fit</h2>
+<div class="table-wrap"><table><thead><tr><th>Benefit</th><th>Why, in Fowler's argument</th></tr></thead><tbody><tr><td>Less risk of late delivery</td><td>Small, frequent merges rarely bring surprises. A late integration phase is hard to predict and pushes the release.</td></tr><tr><td>Less time lost to integration</td><td>Routine small merges take minutes, not days. The cost of big merges is what makes people merge less.</td></tr><tr><td>Fewer bugs</td><td>Tests catch conflicts in meaning, and a small diff is easy to debug. He points to DORA research that links frequent integration to better delivery.</td></tr><tr><td>Refactoring stays possible</td><td>Without long, risky merges, the team can keep cleaning the code, so cruft does not pile up.</td></tr><tr><td>Release becomes a business decision</td><td>A mainline that is always ready means shipping is running a pipeline, not a project.</td></tr></tbody></table></div>
+<h3>When not to use CI</h3>
+<ul><li><strong>Classic open source</strong> - occasional contributors and busy maintainers. Pull requests and feature branches fit that model better.</li><li><strong>No safety net yet</strong> - without a strong test suite, automation and the discipline to keep the build green, CI turns into constant breakage.</li><li><strong>Not a talent filter</strong> - Fowler says CI does not need exceptional developers; steady habits matter more than brilliance.</li></ul>
+<p>His final thought ties it back: most work is changing existing code, a messy codebase slows every change, and CI together with self-testing code is what makes regular refactoring - and so a codebase that keeps improving - possible.</p>
+<h2>8 · How to start - Fowler's advice</h2>
+<ol><li><strong>Know why.</strong> Pick the benefits that matter in your context. Less integration waste shows early; the refactoring benefit takes longer.</li><li><strong>Build the skills.</strong> Self-testing code helps even before you merge more often.</li><li><strong>Set a concrete goal,</strong> such as halving how long feature branches live. Reaching it may need better build and test automation and smaller pieces of work.</li><li><strong>Use review before merge on purpose:</strong> to check tests and to push for smaller commits.</li><li><strong>New project?</strong> Start with CI from day one, and act fast if the build grows past about ten minutes.</li><li><strong>Get help</strong> from someone who has done it before - even if it costs money.</li></ol>
+<h3>Jez Humble's three-question test</h3>
+<p>Fowler's 2017 post tells how Humble asks a room who does CI. Most hands go up. Then three questions. After the first, more than half the hands go down; after the second, about half of the rest; after the third, only a few remain. Try it on a team you know - for example a team that builds HwtP.</p>
+<div class="selfcheck" id="humble-test" data-pass="All three: this team passes Humble's test - it does CI." data-fail="Not CI yet by Humble's test. Missing:">
+<label class="lost"><input type="checkbox" data-q="daily pushes to a shared mainline"> <span>Does every person push to one shared mainline at least once a day?</span></label>
+<label class="lost"><input type="checkbox" data-q="a build and tests on every push"> <span>Does every one of those pushes start an automatic build with tests?</span></label>
+<label class="lost"><input type="checkbox" data-q="green again within 10 minutes"> <span>When the build breaks, is it usually green again within 10 minutes?</span></label>
+<p class="verdict" aria-live="polite"></p>
+</div>
+<h2>Sort it: CI or not?</h2>
+<p>Eight team habits. Which ones are CI in Fowler's sense?</p>
+<div class="sort" id="sort-0002b"></div>
+<script type="application/json" data-sort-for="sort-0002b">
+{
+ "buckets": [
+  "CI, as Fowler means it",
+  "Not CI (semi-integration or worse)"
+ ],
+ "xp": 5,
+ "items": [
+  {
+   "id": "s1",
+   "text": "Every developer pushes to the mainline at least once a day.",
+   "answer": 0,
+   "why": "The core practice: daily pushes to one mainline."
+  },
+  {
+   "id": "s2",
+   "text": "A CI server builds every feature branch; branches merge after two weeks.",
+   "answer": 1,
+   "why": "A CI service on branches is semi-integration - a \"continuous build service\", in Fowler's words."
+  },
+  {
+   "id": "s3",
+   "text": "The mainline is red; the last commit is reverted at once.",
+   "answer": 0,
+   "why": "Fix broken builds immediately - reverting is the usual way."
+  },
+  {
+   "id": "s4",
+   "text": "Developers pull from mainline daily but push only when a feature is done.",
+   "answer": 1,
+   "why": "Pulling without pushing is semi-integration: your work is not shared."
+  },
+  {
+   "id": "s5",
+   "text": "The commit build takes 8 minutes; end-to-end tests run in a later build.",
+   "answer": 0,
+   "why": "Keep the build fast: a fast commit build plus a secondary build in a pipeline."
+  },
+  {
+   "id": "s6",
+   "text": "One build takes 70 minutes, so people push twice a week.",
+   "answer": 1,
+   "why": "An hour is not reasonable for Fowler; slow builds kill the daily rhythm."
+  },
+  {
+   "id": "s7",
+   "text": "Unfinished work is in the mainline behind a keystone interface.",
+   "answer": 0,
+   "why": "Hide work-in-progress: integrate it, keep it away from users."
+  },
+  {
+   "id": "s8",
+   "text": "All teams merge their work in the two weeks before release.",
+   "answer": 1,
+   "why": "Pre-release integration - the style CI replaced."
+  }
+ ]
+}
+</script>
+<h2>Quiz</h2>
+<div class="quiz" id="quiz-0002b"></div>
+<script type="application/json" data-quiz-for="quiz-0002b">
+[
+ {
+  "id": "q1",
+  "xp": 10,
+  "stem": "What does Fowler call running a CI service on feature branches?",
+  "options": [
+   "Semi-integration, not real CI",
+   "Continuous Delivery done early",
+   "Trunk-based development in practice",
+   "The best CI approach"
+  ],
+  "answer": 0,
+  "why": "Pulling from mainline without pushing your work is only half of integration."
+ },
+ {
+  "id": "q2",
+  "xp": 10,
+  "stem": "What is Fowler's guideline for build length?",
+  "options": [
+   "About ten minutes",
+   "About one hour",
+   "About one day",
+   "Whatever it takes"
+  ],
+  "answer": 0,
+  "why": "The XP guideline. A deployment pipeline moves the slow tests to a secondary build."
+ },
+ {
+  "id": "q3",
+  "xp": 10,
+  "stem": "Why does Fowler call self-testing code a prerequisite for CI?",
+  "options": [
+   "Only tests catch conflicts in meaning",
+   "Tests make the build run faster",
+   "Version control needs tests to merge",
+   "Tests replace the need for review"
+  ],
+  "answer": 0,
+  "why": "Two changes can merge and compile and still break each other. Tests find that."
+ },
+ {
+  "id": "q4",
+  "xp": 10,
+  "stem": "Twice as much code waiting to be merged means what, by Fowler?",
+  "options": [
+   "About four times the work",
+   "About two times the work",
+   "About the same total work",
+   "About half the total work"
+  ],
+  "answer": 0,
+  "why": "Integration effort grows faster than code size."
+ },
+ {
+  "id": "q5",
+  "xp": 10,
+  "stem": "How does Fowler relate CI and trunk-based development?",
+  "options": [
+   "The same practice, two names",
+   "Trunk-based development replaced CI entirely",
+   "CI is only one part",
+   "They are two opposite practices"
+  ],
+  "answer": 0,
+  "why": "He treats them as synonyms and keeps Kent Beck's name, CI."
+ },
+ {
+  "id": "q6",
+  "xp": 10,
+  "stem": "When does Fowler say CI fits badly?",
+  "options": [
+   "Classic open source with occasional contributors",
+   "Full-time teams working on one product",
+   "Projects that use feature flags often",
+   "Teams with a fast, green build"
+  ],
+  "answer": 0,
+  "why": "Occasional contributors and busy maintainers fit pull requests and branches better."
+ }
+]
+</script>
+<h2>Say it in one line</h2>
+<p>From memory, no scrolling. Then open the model line. Same core = right.</p>
+<label class="small" for="bet-0002b-line1">What is CI, in Fowler's plain definition?</label><textarea class="bet" id="bet-0002b-line1" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Everyone merges into one shared codebase at least daily, and an automatic build with tests checks each merge, so integration errors show up fast.</p></details>
+<label class="small" for="bet-0002b-line2">Why does merging more often hurt less?</label><textarea class="bet" id="bet-0002b-line2" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>Integration work grows faster than the amount of code - so many small merges cost far less than a few big ones.</p></details>
+<label class="small" for="bet-0002b-line3">Semi-integration, in one line.</label><textarea class="bet" id="bet-0002b-line3" placeholder="One line..."></textarea><details><summary>Show the model line</summary><p>You pull from the mainline, but your own work is not shared until the end - a feature branch, even with a CI service on it.</p></details>
+<h2>Cards for your deck</h2>
+<div class="cards"><details class="card"><summary>A team says "we do CI - Jenkins builds every branch". Merges happen every two weeks. What is it really?</summary><p>Semi-integration. A build service on branches is not CI; the work is not shared until the merge.</p></details><details class="card"><summary>The mainline is red and the fix will take an hour. What does Fowler's practice say?</summary><p>Revert the last commit now to get back to green, then fix it calmly.</p></details><details class="card"><summary>Your build takes an hour. What is Fowler's way out?</summary><p>A deployment pipeline: a fast commit build with test doubles, and a slower secondary build for end-to-end tests.</p></details><details class="card"><summary>Why pull again just before you push?</summary><p>To find a teammate's change that breaks your code - on your machine, not on the mainline (step 4 of the day).</p></details><details class="card"><summary>Name three of the five ways to hide work in progress.</summary><p>Any three of: keystone interface, feature flags, dark launching, branch by abstraction, parallel change.</p></details><details class="card"><summary>What are Humble's three questions?</summary><p>Daily pushes to a shared mainline? A build with tests on every push? Green again within 10 minutes when it breaks?</p></details></div>
+<aside class="note"><strong>HwtP lens - optional, no answer here on purpose.</strong> Run Humble's three questions on the team that builds HwtP for Infra - and then on its users: do infrastructure changes reach their mainline daily, with a plan and checks on every push? Write what you find.</aside>
+<h2>Things to learn next - from Fowler's further reading</h2>
+<div class="table-wrap"><table><thead><tr><th>Read</th><th>What it adds</th></tr></thead><tbody><tr><td><a href="https://martinfowler.com/articles/continuousIntegration.html">The full article</a></td><td>The original, with Fowler's own diagrams. The "Common Questions" part is the best 15 minutes of it.</td></tr><tr><td><a href="https://martinfowler.com/articles/branching-patterns.html">Fowler: Patterns for Managing Source Code Branches</a> (2020)</td><td>Places CI among all branching strategies: mainline, feature branches, release branches.</td></tr><tr><td>Paul Duvall, Steve Matyas, Andrew Glover: <em>Continuous Integration</em> (2007)</td><td>The book on CI; won a Jolt award.</td></tr><tr><td>Jez Humble, David Farley: <em>Continuous Delivery</em> (2010)</td><td>The next step: always releasable. Lesson 0002's other half.</td></tr><tr><td>Clare Sudbery: report on trunk-based development (O'Reilly)</td><td>A practical, recent look at the same practice under its other name.</td></tr><tr><td><a href="https://trunkbaseddevelopment.com/">trunkbaseddevelopment.com</a></td><td>Already in lesson 0002: feature flags, short-lived branches, branch by abstraction.</td></tr><tr><td>Pramod Sadalage: Evolutionary Database Design</td><td>How databases change in small migrations - useful later for HwtP for Infra.</td></tr></tbody></table></div>
+<h2>Done</h2>
+<ul class="checklist"><li><label><input type="checkbox" id="done-0002b-0" data-xp="15"> <span>I read the "Common Questions" part of the article</span></label></li><li><label><input type="checkbox" id="done-0002b-1" data-xp="10"> <span>I tried Humble's test on a real team</span></label></li><li><label><input type="checkbox" id="done-0002b-2" data-xp="20"> <span>I did the explain-back in chat</span></label></li></ul>
+<h2>Lost here - your line</h2>
+<div class="lost-summary"></div>
+<p class="foot"><strong>Explain-back (10 minutes).</strong> In chat, start with Fowler's plain definition of CI. Then 3-5 sentences: the three styles of integration, why more often hurts less, and what semi-integration is. Add your Humble test result. Paste the result lines and your lost line.<br><br>Questions about anything on this page? Ask in chat - your teacher is there for exactly that, and "this did not land" is welcome.<br><br>Back to the road: <a href="0003-what-actually-runs.html">lesson 0003, what actually runs</a>.</p>
+</div>
+</main>
+<script src="../assets/course.js"></script>
+<script src="../assets/quiz.js"></script>
+<script src="../assets/sort.js"></script>
+<script src="../assets/selfcheck.js"></script>
+</body>
+</html>

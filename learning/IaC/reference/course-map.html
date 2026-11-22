@@ -44,7 +44,7 @@
 <thead><tr><th>Layer</th><th>The one thing - what it really solves, instead of what</th><th>Depth</th><th>Lessons</th></tr></thead>
 <tbody>
 <tr class="here"><td><strong>0 · The mental model</strong></td><td>Get a code change to users safely and repeatably - instead of by hand and hope.</td><td class="depth">●●●●●</td><td><a href="../lessons/0001-from-commit-to-user.html">0001</a></td></tr>
-<tr><td><strong>1 · Delivery lifecycle</strong></td><td>Every change takes the same checked road to production - instead of each person's own way.</td><td class="depth">●●○○○</td><td><a href="../lessons/0002-the-pipeline.html">0002</a></td></tr>
+<tr><td><strong>1 · Delivery lifecycle</strong></td><td>Every change takes the same checked road to production - instead of each person's own way.</td><td class="depth">●●○○○</td><td><a href="../lessons/0002-the-pipeline.html">0002</a>, <a href="../lessons/0002b-fowler-on-ci.html">0002b</a></td></tr>
 <tr><td><strong>2 · Deploy and release</strong></td><td>Make shipping small, boring and reversible - instead of rare, risky launch days.</td><td class="depth">●●○○○</td><td><a href="../lessons/0002-the-pipeline.html">0002</a></td></tr>
 <tr><td><strong>3 · Runtime</strong></td><td>Give the app the same predictable box everywhere - instead of "it works on my machine".</td><td class="depth">●●○○○</td><td><a href="../lessons/0003-what-actually-runs.html">0003</a></td></tr>
 <tr><td><strong>4 · Cloud infrastructure</strong></td><td>Rent servers, networks and storage by API in minutes - instead of buying hardware for months.</td><td class="depth">●●●○○</td><td><a href="../lessons/0004-notekeepers-floor.html">0004</a></td></tr>
@@ -60,6 +60,7 @@
 <tbody>
 <tr class="here"><td>0001</td><td><a href="../lessons/0001-from-commit-to-user.html">From a code change to a user</a> - four things, three steps, one floor</td><td>0</td><td>Ready</td></tr>
 <tr><td>0002</td><td><a href="../lessons/0002-the-pipeline.html">The pipeline: one checked road</a> - CI vs Continuous Delivery vs Continuous Deployment, trunk-based development and feature flags, promotion, rollback</td><td>1-2</td><td>Ready</td></tr>
+<tr><td>0002b</td><td><a href="../lessons/0002b-fowler-on-ci.html">Bonus: Fowler on Continuous Integration</a> - three styles of integration, the eleven practices, semi-integration, Humble's test</td><td>1-2</td><td>Ready (bonus)</td></tr>
 <tr><td>0003</td><td><a href="../lessons/0003-what-actually-runs.html">What actually runs</a> - process, virtual machine, container, image; desired state in Kubernetes</td><td>3</td><td>Ready</td></tr>
 <tr><td>0004</td><td><a href="../lessons/0004-notekeepers-floor.html">Notekeeper's floor</a> - network, compute, database, DNS, load balancer, access (IAM), regions</td><td>4</td><td>Ready</td></tr>
 <tr class="goal"><td>0005</td><td><a href="../lessons/0005-why-iac.html">Why Infrastructure as Code</a> - clicks vs scripts vs definitions; declarative vs imperative; desired vs actual state</td><td>5</td><td>Ready</td></tr>
@@ -81,6 +82,7 @@
 <tr><td>Infrastructure vs platform vs environment</td><td>Infrastructure is the floor. A platform is the road on top of it, as self-service. An environment is one use of the floor: infrastructure plus config, for one purpose.</td><td>0001, 0009</td></tr>
 <tr><td>CI vs Continuous Delivery vs Continuous Deployment</td><td>CI: merge daily, checked automatically. Delivery: always ready, a person presses the button. Deployment: no button.</td><td>0002</td></tr>
 <tr><td>Feature branch vs feature flag</td><td>A long-lived feature branch hides unfinished work outside trunk. A feature flag hides it inside trunk, switched off.</td><td>0002</td></tr>
+<tr><td>CI vs semi-integration</td><td>CI: everyone shares their work in the mainline at least daily. Semi-integration: you pull from the mainline but share your work only at the end.</td><td>0002b</td></tr>
 <tr><td>Container vs virtual machine</td><td>A container is an isolated process on a shared kernel. A VM is a whole pretend computer with its own OS.</td><td>0003</td></tr>
 <tr><td>Desired state vs actual state</td><td>Desired is what you wrote should be true. Actual is what really runs now. A gap that stays open is drift.</td><td>0003, 0005</td></tr>
 <tr><td>Provisioning vs configuration management</td><td>Provisioning creates the floor's parts. Configuration management sets up what is inside a server.</td><td>0008</td></tr>

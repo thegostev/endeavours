@@ -80,8 +80,44 @@ Flags that nobody removed after their state was settled. Each one adds dead code
 **Branch by abstraction** (heard, not taught):
 Putting the old and new way behind one abstraction in trunk and switching between them, instead of a long-lived branch. The next page on trunkbaseddevelopment.com.
 
+### Added from Fowler's "Continuous Integration" (bonus lesson 0002b)
+
+**Mainline**:
+The one shared branch that is the next production version. Fowler's word; the same thing as trunk and main line.
+
+**Self-testing code**:
+An automatic test suite that runs on every build, strong enough that a bug put in on purpose turns the build red. Fowler calls it a prerequisite for CI: only tests catch conflicts in meaning.
+
+**Semantic conflict**:
+Two changes that merge and compile cleanly but break each other's behaviour. Version control cannot see it; tests can.
+
+**Semi-integration**:
+Pulling from the mainline without pushing your own work until a feature is done - a feature branch, even with a CI service building it.
+_Avoid_: calling a CI service on feature branches "CI" (Fowler: that is a "continuous build service")
+
+**Pre-release integration**:
+Everyone works apart and merges once, near the release. The style CI replaced.
+
+**Commit build / secondary build**:
+The fast build on every push (test doubles, inside the ten-minute guideline) / the slower build after it with end-to-end tests. Together: a deployment pipeline.
+
+**Pending head**:
+A set-up that holds a commit off the mainline until its build passes, so the mainline cannot go red.
+
+**Keystone interface / dark launching / parallel change** (ways to hide work in progress):
+Add the user-facing entry point last / run new code in production before users see its results / change in small, reversible expand-then-contract steps. With feature flags and branch by abstraction, Fowler's five ways to hide work in progress.
+
+**Humble's CI test**:
+Three questions: does everyone push to a shared mainline at least daily, does every push start a build with tests, and is a broken build usually green again within 10 minutes? (Fowler's 2017 bliki post.)
+
+**Frequency reduces difficulty**:
+Fowler's idea that pain grows faster than the gap between painful actions, so doing them more often makes each one small. His three reasons: chunking, feedback, practice.
+
+Heard, not taught: Ship/Show/Ask (a pull-request style that keeps CI's rhythm), Evolutionary Database Design (Pramod Sadalage: small, versioned database migrations).
+
 Course rulings (apply in every lesson):
 - "CD" alone is not used. Say Continuous Delivery or Continuous Deployment.
+- "Mainline", "trunk" and "main line" are the same thing. Lessons say "main line" or "trunk"; the bonus lesson uses Fowler's "mainline".
 - "Feature flag" is the course word from lesson 0002 on. "Switch" stays only in lesson 0001.
 - "Provider" alone = the plugin. The company is the "cloud provider".
 - "Configuration as code" = app and tool settings in Git. Not infrastructure definitions, not configuration management.
