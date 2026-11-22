@@ -13,7 +13,7 @@
 
 <nav class="topnav" aria-label="Course">
   <a href="../reference/course-map.html">Course map</a>
-  <a href="../reference/iac-in-one-line.html">IaC in one line</a>
+  <a href="../reference/iac-in-one-line.html">IaC in one line</a><a href="../reference/the-real-chain.html">The real chain</a>
   <span>Lesson 1 of 9 · Layer 0</span>
 </nav>
 
@@ -193,8 +193,11 @@
 
 <aside class="note"><strong>The open question - no answer here on purpose.</strong> For 1.4.1 the team knows who changed what, why, when, and how to go back. Now the disk change: how would a person make it today, if the team had no special tool? Afterwards, what would the team know about that change - and what would it not know? Compare it with what they know about 1.4.1. Write 2-3 sentences in chat. Your answer opens lesson 0005.</aside>
 
+<h2 id="k8s-shop">In a Kubernetes shop</h2>
+<p>The four things and three steps of this lesson, as a Kubernetes company runs them.</p><div class="reality"><h3>Four things, three steps - for real</h3><p class="r-sub">This lesson's idea in a real Kubernetes company. Common practice, not every company. The whole chain, with figures: <a href="../reference/the-real-chain.html">The real chain</a>.</p><dl><dt>Change</dt><dd>A Git commit in the <strong>app repo</strong></dd><dt>Build</dt><dd>A CI job (GitHub Actions, GitLab CI): tests on the code, then <code>docker build</code></dd><dt>Artifact</dt><dd>A container image: <code>notekeeper-api:1.4.2@sha256:9f2c…</code></dd><dt>Store</dt><dd>An image registry, for example Amazon ECR</dd><dt>Deployment</dt><dd>A commit to the <strong>config repo</strong> ("prod runs 1.4.2"), then an Argo CD sync</dd><dt>Release</dt><dd>A feature flag turned on, or a canary with Argo Rollouts</dd><dt>Floor</dt><dd>VPC, EKS cluster, RDS database - built with OpenTofu or Terraform, on their own road</dd><dt>Not everyone</dt><dd>Serverless shops ship a zip to Lambda; VM shops ship a machine image (AMI). Same four things, different box.</dd><dt>Sources</dt><dd class="r-check"><a href="https://kubernetes.io/docs/concepts/containers/images/">Kubernetes: Images</a>, <a href="https://argo-cd.readthedocs.io/en/stable/">Argo CD: overview</a></dd></dl></div>
+<div class="wrongpic"><p class="wp-label">Claim to test</p><p class="wp-claim">"The container moves from the laptop to CI, to the registry, to Kubernetes."</p><label class="small" for="bet-0001-k1">Bet: true or false? Say why in one line.</label><textarea class="bet" id="bet-0001-k1" placeholder="Your guess..."></textarea><details><summary>Reveal</summary><p><strong>The image moves. A container never moves.</strong> The image is copied from CI to the registry and pulled by each node. A container is one running copy of it, on one node.</p><p class="why"><strong>Why:</strong> image vs container is this lesson's pair, artifact vs running app, one level down. The artifact travels; the running app lives in one place.</p></details><label class="lost"><input type="checkbox" data-lost="k1"> <span>Lost here (claim 1)</span></label></div>
 <h2>Say the difference - the same words in every lesson</h2>
-<div class="pairs">
+<div class="pairs"><div class="pair"><strong>Image vs container</strong><p>The image is the fixed package in the store. The container is that image running.</p><p class="small">The image moves (CI → registry → node). A container never moves.</p></div>
 <div class="pair"><strong>Build vs deploy vs release</strong><p>Build makes the thing. Deploy puts the thing in a place. Release lets users use it.</p><p class="small">They can happen at three different times. Moment 4 is the proof.</p></div>
 <div class="pair"><strong>Artifact vs running app</strong><p>The artifact is the packed, fixed thing in the store. The running app is that artifact alive in an environment, with that environment's config.</p><p class="small">One artifact, many running apps: one per environment.</p></div>
 <div class="pair"><strong>Infrastructure vs environment</strong><p>Infrastructure is the floor: servers, network, storage. An environment is one use of it for one purpose: infrastructure plus config.</p><p class="small">Several environments can share one infrastructure, or each can have its own. "Platform" is a third word, for Layer 6 - not the same as either.</p></div>

@@ -10,11 +10,12 @@
 </head>
 <body>
 <main class="page">
-<nav class="topnav" aria-label="Course"><span>IaC reference</span><a href="iac-in-one-line.html">IaC in one line</a><a href="../lessons/0001-from-commit-to-user.html">Start: lesson 0001</a></nav>
+<nav class="topnav" aria-label="Course"><span>IaC reference</span><a href="iac-in-one-line.html">IaC in one line</a><a href="the-real-chain.html">The real chain</a><a href="../lessons/0001-from-commit-to-user.html">Start: lesson 0001</a></nav>
 <div class="col">
 <h1>Course map</h1>
 <p class="dek">How software and infrastructure get from code to a running, reliable system - as seven layers, from the core out. The goal is a strong, whole picture of Infrastructure as Code.</p>
-<aside class="note">How to use it: before each lesson, find the layer you are in. After each lesson, cover the "one thing" column and say each line you have learned. Last update: Nov 21, 2026 (lessons 0001-0009 built).</aside>
+<aside class="note">How to use it: before each lesson, find the layer you are in. After each lesson, cover the "one thing" column and say each line you have learned. Last update: Nov 22, 2026 (the real chain added; every lesson now has an "In a Kubernetes shop" box).</aside>
+<a class="keyref" href="the-real-chain.html"><strong>Key reference: the real chain - from code to a running Pod</strong><span>What every lesson word means in a real Kubernetes company: the six-line summary, the whole chain on one screen (app lane and infra lane), Helm, rolling updates, containerd, the infra lane, and eight claims to test - true or false.</span></a>
 
 <figure class="fig fig-onion">
 <svg viewBox="0 0 660 660" role="img" aria-labelledby="mp-on-t"><title id="mp-on-t">The course as an onion: layer 0 in the center, layer 6 outside. Layer 5, Infrastructure as Code, is the goal.</title>
@@ -67,6 +68,7 @@
 <tr class="goal"><td>0006</td><td><a href="../lessons/0006-the-iac-engine.html">The IaC engine</a> - resource, provider, state, plan, apply, idempotency. First hands-on lab</td><td>5</td><td>Ready</td></tr>
 <tr class="goal"><td>0007</td><td><a href="../lessons/0007-living-with-it.html">Living with it</a> - drift, state storage and locks, modules, one code for many environments</td><td>5</td><td>Ready</td></tr>
 <tr class="goal"><td>0008</td><td><a href="../lessons/0008-delivering-infrastructure-code.html">Delivering infrastructure code</a> - infra pipelines; provisioning vs configuration management; IaC vs config as code</td><td>5</td><td>Ready</td></tr>
+<tr><td>Ref</td><td><a href="the-real-chain.html">The real chain: from code to a running Pod</a> - the lesson words in a real Kubernetes company; Helm, rolling updates, containerd, the infra lane, eight claims to test</td><td>0-6</td><td>Ready (reference - use with every lesson)</td></tr>
 <tr><td>0009</td><td><a href="../lessons/0009-platforms.html">Platforms - and the whole picture</a> - golden paths, self-service, and where HwtP for Infra fits</td><td>6</td><td>Ready</td></tr>
 </tbody></table></div>
 
@@ -92,6 +94,15 @@
 <tr><td>Module vs stack</td><td>A module is reusable code. A stack is one applied piece with its own state.</td><td>0007</td></tr>
 <tr><td>Mutable vs immutable infrastructure</td><td>Mutable: change the live server in place. Immutable: never change it - build a new one and remove the old.</td><td>0008</td></tr>
 <tr><td>Portal vs platform</td><td>The portal is the front door. The platform is what the door leads to.</td><td>0009</td></tr>
+<tr><td>Image vs container</td><td>The image is the fixed package in the store. The container is that image running.</td><td>0001, 0003, real chain</td></tr>
+<tr><td>Tag vs digest</td><td>A tag is a name people read, and it can be moved. A digest is a hash of the content, and it never changes.</td><td>0002, real chain</td></tr>
+<tr><td>Container vs Pod</td><td>A container is one isolated process from an image. A Pod is Kubernetes' wrapper around one or more containers that share a network address.</td><td>0003, real chain</td></tr>
+<tr><td>Restart vs replace</td><td>Restart: the kubelet starts a crashed container again on the same node. Replace: a new Pod is made, often on another node.</td><td>0003, real chain</td></tr>
+<tr><td>Docker vs containerd</td><td>Docker builds images (and runs them on a laptop). containerd runs containers on Kubernetes nodes.</td><td>0003, real chain</td></tr>
+<tr><td>On-demand loop vs continuous loop</td><td>An IaC tool compares and acts when someone runs it. A controller (Argo CD, a ReplicaSet) compares and acts all the time.</td><td>0006</td></tr>
+<tr><td>helm install vs helm template</td><td>helm install puts a chart into the cluster and Helm owns its life cycle. helm template only prints the YAML; another tool applies it.</td><td>0008, real chain</td></tr>
+<tr><td>App repo vs config repo</td><td>The app repo holds the code and the Dockerfile. The config repo holds what runs where: charts, values, Argo CD Applications.</td><td>0008, real chain</td></tr>
+<tr><td>Readiness vs liveness</td><td>Readiness: can it take traffic now? A failing Pod gets no traffic. Liveness: is it still working? A failing container is restarted.</td><td>Real chain, 0003</td></tr>
 </tbody></table></div>
 
 <h2>The running example</h2>

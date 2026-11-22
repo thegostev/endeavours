@@ -123,6 +123,70 @@ Course rulings (apply in every lesson):
 - "Configuration as code" = app and tool settings in Git. Not infrastructure definitions, not configuration management.
 - "Stack" = one applied piece with its own state (Kief Morris). Terragrunt's word for it is "unit".
 
+### Added with the real chain (reference page, Nov 22) - promote after explain-back
+What the lesson words are in a real Kubernetes company. Full text: `reference/the-real-chain.html`. Every lesson 0001-0009 has an "In a Kubernetes shop" box that uses these words.
+
+**Container image / image**:
+The artifact form in a Kubernetes shop: layers plus a manifest, in the standard OCI format. Built by CI, stored in a registry, pulled by each node.
+_Avoid_: "container" when you mean the image. The image moves; a container never moves.
+
+**Registry**:
+The store for images (Amazon ECR, GitHub Container Registry, Docker Hub). Lesson 0001's "store".
+
+**Tag**:
+A name people read for an image (`1.4.2`). It can be pushed again with other bytes, unless the registry has immutable tags on.
+_Avoid_: treating a tag as proof of "the same artifact".
+
+**Digest**:
+A hash of the image content (`sha256:…`). Always means the same image. The safe way to say "the same artifact" in promotion.
+
+**App repo / config repo**:
+App repo: the code and the Dockerfile. Config repo: what runs where - Helm charts, values files, Argo CD Applications. Common practice, not a rule.
+
+**Helm chart / values file**:
+Chart: Kubernetes YAML templates with blanks, versioned (can be stored in an OCI registry). Values file: the blanks for one environment.
+_Flag_: with Argo CD, Helm only renders (`helm template`). Argo CD owns the life cycle, so `helm list` shows nothing.
+
+**Argo CD Application**:
+A file (configuration as code) that says: this repo and path, into this cluster and namespace.
+
+**Argo CD Image Updater** (named, not taught):
+An add-on that watches a registry for new tags and writes them to Git (or to the Application). Then the normal Argo CD flow runs.
+
+**Pod**:
+Kubernetes' wrapper around one or more containers that share a network address. Kubernetes schedules Pods, not single containers.
+
+**ReplicaSet**:
+Keeps N copies of one Pod version. A Deployment makes one ReplicaSet per version.
+
+**Scheduler**:
+Picks a node for each new Pod.
+
+**kubelet**:
+The agent on each node. It asks the container runtime to pull images and start the Pod's containers, and restarts a crashed container on the same node.
+
+**Container runtime / containerd**:
+The software on a node that pulls images and runs containers. On current clusters, usually containerd. Kubernetes removed the dockershim (Docker Engine support) in 1.24.
+_Avoid_: "Docker runs the containers in the cluster". Docker builds; containerd runs.
+
+**Service**:
+One stable address in front of a set of Pods; spreads traffic across them.
+
+**Readiness probe / liveness probe**:
+Readiness: can this Pod take traffic now? A failing Pod gets no traffic, and a rolling update waits. Liveness: is this container still working? A failing container is restarted by the kubelet.
+
+**Rolling update**:
+A Deployment moves from the old ReplicaSet to a new one a few Pods at a time. Defaults: maxSurge 25% (rounded up), maxUnavailable 25% (rounded down) - with 3 replicas, 1 extra Pod and 0 unavailable.
+
+**Restart vs replace**:
+Restart: same node, same Pod, the kubelet starts a crashed container again. Replace: a new Pod, often on another node (a lost node always means replace).
+
+Course rulings (added Nov 22):
+- "Image" = the package; "container" = it running. Never "the registry holds the container".
+- "Same artifact" = same digest (or an immutable tag).
+- "Argo CD watches Git." Say "registry" only for Image Updater, as an add-on.
+- "Docker" = the build tool on laptops and in CI. On nodes, say "container runtime" or "containerd".
+
 ## Field vocabulary - heard, not yet taught
 Added Nov 21, 2026 from Alex's notes on the Software Architecture Insights episode of Jan 13, 2026 (Lee Atchison with Marcin Wyszyński, Spacelift), checked against docs.spacelift.io and spacelift.io/intent. Words to recognise, not yet established. Each moves up when the lesson that teaches it is done. Tools are listed as one example of a concept - the concept is what you learn.
 

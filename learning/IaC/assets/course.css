@@ -482,3 +482,52 @@ li.is-shown .fill-msg { color: var(--seq); }
   /* Self-check verdict */
   .verdict { margin: .8rem 0 1.6rem; padding: .7rem 1rem; border: 2px dashed var(--rule); font-weight: 600; }
 }
+@layer base {
+  /* Reality layer (Nov 22): theory word -> what it is in a Kubernetes shop. */
+  .reality { margin: 1.75rem 0 2rem; padding: 1rem 1.1rem 1.1rem 1.25rem; border: 2px solid var(--par); border-inline-start-width: 10px; background: color-mix(in srgb, var(--par) 7%, var(--bg)); }
+  .reality > h3, .reality > h4 { margin: 0 0 .2rem; font-family: var(--font-head); }
+  .reality > .r-sub { font: 1rem/1.45 var(--font-ui); color: var(--text-muted); margin: 0 0 .8rem; }
+  .reality dl { margin: 0; display: grid; grid-template-columns: minmax(8.5rem, 11rem) minmax(0, 1fr); gap: .45rem 1rem; }
+  .reality dt { font: 700 1rem/1.45 var(--font-ui); color: var(--par); }
+  .reality dd { margin: 0; }
+  .reality dd code { overflow-wrap: anywhere; }
+  .reality .r-check { font: 1rem/1.45 var(--font-ui); color: var(--text-muted); }
+  @media (max-width: 34rem) { .reality dl { grid-template-columns: minmax(0, 1fr); gap: .1rem; } .reality dd { margin-block-end: .55rem; } }
+  /* Claim to test: true or false is not given away - neutral colour, neutral label. */
+  .wrongpic { margin: 1.5rem 0 1.75rem; padding: .9rem 1.1rem 1rem 1.25rem; border: 2px dashed var(--text-muted); }
+  .wrongpic > .wp-label { font: 700 1rem/1.4 var(--font-ui); color: var(--text-muted); margin: 0 0 .3rem; }
+  .wrongpic > .wp-claim { font: 600 var(--step-1)/1.35 var(--font-head); margin: 0 0 .8rem; }
+  /* Key reference banner on the map and the one-line page */
+  .keyref { display: block; margin: 1.5rem 0 2rem; padding: 1rem 1.1rem 1.1rem 1.25rem; border: 2px solid var(--text); border-inline-start: 10px solid var(--par); background: color-mix(in srgb, var(--par) 9%, var(--bg)); text-decoration: none; color: var(--text); }
+  .keyref strong { display: block; font: 700 var(--step-1)/1.3 var(--font-head); color: var(--link); text-decoration: underline; text-underline-offset: .15em; }
+  .keyref span { display: block; margin-top: .35rem; font: 1rem/1.5 var(--font-ui); }
+  .keyref:hover strong { color: var(--link-hover); }
+  /* Figure tokens for the reality layer */
+  .fig .box-par { fill: color-mix(in srgb, var(--par) 14%, var(--bg)); stroke: var(--par); stroke-width: 2; }
+  .fig .box-bad { fill: var(--bad-soft); stroke: var(--bad); stroke-width: 2; stroke-dasharray: 6 4; }
+  .fig .t-n { font: 700 13px var(--font-code); fill: var(--par); }
+  .fig .t-par { fill: var(--par); font-weight: 700; }
+  .fig .t-bad { fill: var(--bad); font-weight: 700; }
+  .fig .line-par { fill: none; stroke: var(--par); stroke-width: 2; }
+  .fig .arrowhead-par { fill: var(--par); }
+  /* Verdict marks in the draft-check table */
+  .v-ok, .v-part, .v-no { font-weight: 700; white-space: nowrap; }
+  .v-ok { color: var(--good); } .v-part { color: var(--seq); } .v-no { color: var(--bad); }
+  /* Six-hop summary list */
+  .hops { list-style: none; padding: 0; margin: 1.25rem 0 1.75rem; display: grid; gap: .5rem; counter-reset: hop; }
+  .hops li { counter-increment: hop; display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: .6rem; align-items: baseline; padding: .55rem .8rem; border: 2px solid var(--rule); background: var(--bg); }
+  .hops li::before { content: counter(hop); font: 700 1.3rem/1 var(--font-code); color: var(--par); }
+  .hops li.new { border-color: var(--par); }
+}
+@layer base { .col p strong, .col li strong, .col dd strong { overflow-wrap: anywhere; } }
+@layer base {
+  .fig .t-tag { font-size: 12.5px; font-style: italic; fill: var(--par); }
+  .fig .t-code { font-family: var(--font-code); font-size: 13px; }
+  .fig .t-seq { fill: var(--seq); font-weight: 700; }
+  .fig .box-seq { fill: color-mix(in srgb, var(--seq) 12%, var(--bg)); stroke: var(--seq); stroke-width: 2; }
+  .fig .box-start { fill: var(--bg); stroke: var(--good); stroke-width: 2; stroke-dasharray: 5 4; }
+  /* Code with a caption line above it */
+  .code-label { font: 700 1rem/1.4 var(--font-ui); margin: 1rem 0 .3rem; color: var(--text-muted); }
+  pre .add { color: var(--good); font-weight: 600; }
+  pre .del { color: var(--bad); text-decoration: line-through; }
+}

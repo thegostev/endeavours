@@ -10,11 +10,12 @@
 </head>
 <body>
 <main class="page">
-<nav class="topnav" aria-label="Course"><span>IaC reference</span><a href="course-map.html">Course map</a><a href="../lessons/0001-from-commit-to-user.html">Start: lesson 0001</a></nav>
+<nav class="topnav" aria-label="Course"><span>IaC reference</span><a href="course-map.html">Course map</a><a href="the-real-chain.html">The real chain</a><a href="../lessons/0001-from-commit-to-user.html">Start: lesson 0001</a></nav>
 <div class="col">
 <h1>IaC in one line</h1>
 <p class="dek">What each concept really solves - and instead of what. Know the one thing, and the details follow from it.</p>
 <aside class="note">How to use it: cover the "one thing" column, say the line for each row, then compare. Same core = right. The lessons and cards use these exact words. The page grows with each lesson. Last update: Nov 21, 2026 (lessons 0001-0009).</aside>
+<a class="keyref" href="the-real-chain.html"><strong>Key reference: the real chain - from code to a running Pod</strong><span>What every lesson word means in a real Kubernetes company: the six-line summary, the whole chain on one screen (app lane and infra lane), Helm, rolling updates, containerd, the infra lane, and eight claims to test - true or false.</span></a>
 
 <h2>Layer 0 - the mental model</h2>
 <div class="table-wrap"><table>
@@ -67,6 +68,10 @@
 <div class="table-wrap"><table>
 <thead><tr><th>Concept</th><th>The one thing</th><th>Lesson</th></tr></thead>
 <tbody><tr><td><strong>Platform</strong></td><td>Self-service delivery and infrastructure for app teams - instead of every team building its own.</td><td><a href="../lessons/0009-platforms.html">0009</a></td></tr><tr><td><strong>Golden path</strong></td><td>The supported, easiest way to do a common job - instead of each team finding its own.</td><td><a href="../lessons/0009-platforms.html">0009</a></td></tr></tbody></table></div>
+<h2>The real chain - Kubernetes shop</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Concept</th><th>The one thing</th><th>Where</th></tr></thead>
+<tbody><tr><td><strong>The chain</strong></td><td>One fixed image travels from CI to the cluster; Git says which image runs where - instead of people copying apps onto servers.</td><td><a href="the-real-chain.html">Real chain</a></td></tr><tr><td><strong>Registry</strong></td><td>The store for images: every node pulls from one place - instead of copying files to servers.</td><td>Real chain, 0001</td></tr><tr><td><strong>Digest</strong></td><td>A hash that names exact image content - instead of a tag that can be moved.</td><td>Real chain, 0002</td></tr><tr><td><strong>Config repo</strong></td><td>One Git place that says what runs where - instead of deploy decisions hidden in pipelines.</td><td>Real chain, 0008</td></tr><tr><td><strong>Argo CD</strong></td><td>A controller that keeps the cluster equal to Git, all the time - instead of someone running deploy commands.</td><td>Real chain, 0003, 0008</td></tr><tr><td><strong>Helm chart</strong></td><td>YAML templates plus values per environment - instead of copied YAML per environment.</td><td>Real chain, 0007</td></tr><tr><td><strong>Pod</strong></td><td>The unit Kubernetes places on a node: one or more containers that share an address.</td><td>Real chain, 0003</td></tr><tr><td><strong>kubelet</strong></td><td>The agent on each node that makes its Pods real: pull the image, start, restart.</td><td>Real chain, 0003</td></tr><tr><td><strong>containerd</strong></td><td>The runtime that runs containers on a node - Docker builds, containerd runs.</td><td>Real chain, 0003</td></tr></tbody></table></div>
 <h2>The pairs</h2>
 <div class="table-wrap"><table>
 <thead><tr><th>Pair</th><th>The difference</th></tr></thead>
@@ -83,6 +88,15 @@
 <tr><td>Provisioning vs configuration management</td><td>Provisioning creates the floor's parts. Configuration management sets up what is inside a server.</td></tr>
 <tr><td>IaC vs configuration as code</td><td>IaC describes the infrastructure itself. Configuration as code keeps app and tool settings in Git.</td></tr>
 <tr><td>Infrastructure vs platform vs environment</td><td>Infrastructure is the floor. A platform is the road on top of it, as self-service. An environment is one use of the floor.</td></tr>
+<tr><td>Image vs container</td><td>The image is the fixed package in the store. The container is that image running.</td></tr>
+<tr><td>Tag vs digest</td><td>A tag is a name people read, and it can be moved. A digest is a hash of the content, and it never changes.</td></tr>
+<tr><td>Container vs Pod</td><td>A container is one isolated process from an image. A Pod is Kubernetes' wrapper around one or more containers that share a network address.</td></tr>
+<tr><td>Restart vs replace</td><td>Restart: the kubelet starts a crashed container again on the same node. Replace: a new Pod is made, often on another node.</td></tr>
+<tr><td>Docker vs containerd</td><td>Docker builds images (and runs them on a laptop). containerd runs containers on Kubernetes nodes.</td></tr>
+<tr><td>On-demand loop vs continuous loop</td><td>An IaC tool compares and acts when someone runs it. A controller (Argo CD, a ReplicaSet) compares and acts all the time.</td></tr>
+<tr><td>helm install vs helm template</td><td>helm install puts a chart into the cluster and Helm owns its life cycle. helm template only prints the YAML; another tool applies it.</td></tr>
+<tr><td>App repo vs config repo</td><td>The app repo holds the code and the Dockerfile. The config repo holds what runs where: charts, values, Argo CD Applications.</td></tr>
+<tr><td>Readiness vs liveness</td><td>Readiness: can it take traffic now? A failing Pod gets no traffic. Liveness: is it still working? A failing container is restarted.</td></tr>
 </tbody></table></div>
 <p class="small">"Infrastructure" has no "instead of" on purpose: it is the floor itself; the cloud line (Layer 4) says what renting it replaced. The lines are plain readings of the sources in each lesson, not quotes. If a line sounds wrong to you, say so in chat.</p>
 </div>

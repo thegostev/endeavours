@@ -30,6 +30,15 @@ High-trust sources only. Lessons cite these. Checked Nov 21, 2026.
 - [NIST SP 800-145: The NIST Definition of Cloud Computing](https://doi.org/10.6028/NIST.SP.800-145)
   The standard definition: five essential characteristics, three service models. Use for: Layer 4 "what cloud really is".
 
+### Kubernetes shop - the real chain (added Nov 22)
+Checked Nov 22, 2026, for `reference/the-real-chain.html` and the "In a Kubernetes shop" boxes.
+- Kubernetes docs: [Controllers](https://kubernetes.io/docs/concepts/architecture/controller/), [Components](https://kubernetes.io/docs/concepts/overview/components/), [Pods](https://kubernetes.io/docs/concepts/workloads/pods/), [kube-scheduler](https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/), [Images](https://kubernetes.io/docs/concepts/containers/images/) (tag vs digest, the kubelet pull), [Service](https://kubernetes.io/docs/concepts/services-networking/service/), [Dockershim removal FAQ](https://kubernetes.io/blog/2022/02/17/dockershim-faq/)
+- Argo CD: [Overview](https://argo-cd.readthedocs.io/en/stable/) (Git is the source of truth), [Helm](https://argo-cd.readthedocs.io/en/stable/user-guide/helm/) (helm template only), [ApplicationSet](https://argo-cd.readthedocs.io/en/stable/user-guide/application-set/); [Argo CD Image Updater: update methods](https://argocd-image-updater.readthedocs.io/en/stable/basics/update-methods/); [Argo Rollouts](https://argo-rollouts.readthedocs.io/en/stable/)
+- Helm: [Use OCI-based registries](https://helm.sh/docs/topics/registries/). Flux: [helm-controller](https://fluxcd.io/flux/components/helm/). Docker: [BuildKit](https://docs.docker.com/build/buildkit/)
+- AWS: [ECR tag mutability](https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html), [Moving to containerd on EKS](https://aws.amazon.com/blogs/containers/all-you-need-to-know-about-moving-to-containerd-on-amazon-eks/), [AWS Load Balancer Controller](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html), [EKS Pod Identity](https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html); [Terraform S3 backend](https://developer.hashicorp.com/terraform/language/backend/s3)
+- Named only: [Backstage software templates](https://backstage.io/docs/features/software-templates/), [Crossplane](https://docs.crossplane.io/), [AWS Controllers for Kubernetes](https://aws-controllers-k8s.github.io/community/)
+- Adoption: [CNCF Annual Cloud Native Survey, Jan 2026](https://www.cncf.io/announcements/2026/01/20/kubernetes-established-as-the-de-facto-operating-system-for-ai-as-production-use-hits-82-in-2025-cncf-annual-cloud-native-survey/) - 82% of container users run Kubernetes in production (of container users, not of all companies).
+
 ### IaC tools (Layer 5 - only after the concepts)
 - [HashiCorp: What is Terraform?](https://developer.hashicorp.com/terraform/intro) and [Core workflow](https://developer.hashicorp.com/terraform/intro/core-workflow)
   Write, plan, apply. Providers talk to platform APIs. Use for: the IaC engine lesson.

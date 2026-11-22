@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en" data-page="iac-chain">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The real chain - from code to a running Pod</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main class="page">
+<nav class="topnav" aria-label="Course"><span>IaC reference</span><a href="course-map.html">Course map</a><a href="iac-in-one-line.html">IaC in one line</a><a href="../lessons/0001-from-commit-to-user.html">Start: lesson 0001</a></nav>
+<div class="col">
+<h1>The real chain: from code to a running Pod</h1>
+<p class="dek">The lessons teach the ideas: artifact, deployment, desired state, the floor. This page shows what those ideas are in a real Kubernetes company - which file, which tool, which step. You follow one change, "pin a note" in Notekeeper's API, from a laptop to a user, with the infrastructure under it.</p>
+<aside class="note"><strong>How to read this page.</strong> Every step names its lesson word. "Sources" under a step names the doc a fact comes from. "Common practice" marks what many companies do but no single doc defines. This is the usual set-up in a Kubernetes shop, not the only one - see "Not every company works like this".</aside>
+
+<section class="idea" aria-labelledby="idea-chain"><h2 id="idea-chain">The big idea</h2><dl><dt>The chain - the one thing</dt><dd>One fixed image travels from CI to the cluster; Git says which image runs where - instead of people copying apps onto servers.</dd><dt>In a paragraph</dt><dd>A developer pushes code. <strong>CI</strong> tests it, builds a <strong>container image</strong> and pushes it to a <strong>registry</strong>. Then a one-line commit to <strong>Git</strong> says "production runs this image now". <strong>Argo CD</strong> sees that commit, turns the <strong>Helm chart</strong> into plain Kubernetes YAML, and makes the cluster match it. Inside the cluster, a chain of <strong>controllers</strong> turns that YAML into <strong>Pods</strong>, and the <strong>kubelet</strong> on each node pulls the image and starts the <strong>containers</strong>. Under all of it is the floor - network, cluster, database - built with IaC on its own, slower road.</dd><dt>Picture</dt><dd>A parcel and a delivery note. The parcel (the image) is packed once and never opened. The delivery note (Git) says which parcel goes to which address. The courier (Argo CD) reads only the note.</dd><dt>Where the picture stops working</dt><dd>A courier carries the parcel. Argo CD never carries the image: it writes the desired state into the cluster, and each node fetches the image from the registry itself.</dd></dl></section>
+
+<h2>The chain in six lines</h2>
+<p>Say these from memory. Line 4 is the one people most often forget.</p>
+<ol class="hops">
+<li><span>The <strong>developer</strong> writes the code and the Dockerfile.</span></li>
+<li><span><strong>CI</strong> builds the <strong>image</strong> and pushes it.</span></li>
+<li><span>The <strong>registry</strong> stores the image.</span></li>
+<li class="new"><span><strong>Git</strong> says which image version runs where, with which settings (Helm values).</span></li>
+<li><span><strong>Argo CD</strong> makes the cluster match Git.</span></li>
+<li><span><strong>Kubernetes</strong> runs <strong>containers</strong> from that image, inside <strong>Pods</strong>.</span></li>
+</ol>
+<p class="small">Two words to keep apart: the registry holds the <em>image</em>. A <em>container</em> exists only while an image runs, on one node. Claim 2 below tests this.</p>
+
+<h2>The whole chain, on one screen</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 760 590" role="img" aria-labelledby="ch-all-t"><title id="ch-all-t">Two lanes. App lane, twelve steps, each with its lesson word: code and Dockerfile (change), CI (build), registry (artifact), config repo in Git (desired state), Argo CD (deployment), API server, controllers, scheduler, kubelet with containerd, container in a Pod (running app), Service (load balancer), user (release). Infra lane at the bottom, the floor: main.tf (definition file), pull request with plan, review and apply, then the floor itself - VPC, EKS, RDS, S3. Dashed lines show the app standing on the floor.</title><defs><marker id="ch-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs><text class="t-b" x="20" y="20">App lane - changes many times a day</text>
+<text class="t-tag" x="95.0" y="45" text-anchor="middle">change · 0001</text><rect class="box" x="20" y="52" width="150" height="58"/><text class="t-n" x="28" y="67">1</text><text class="t-b" x="95.0" y="82" text-anchor="middle">Code + Dockerfile</text><text class="t-s" x="95.0" y="100" text-anchor="middle">pushed to the app repo</text>
+<text class="t-tag" x="285.0" y="45" text-anchor="middle">build · 0002</text><rect class="box" x="210" y="52" width="150" height="58"/><text class="t-n" x="218" y="67">2</text><text class="t-b" x="285.0" y="82" text-anchor="middle">CI: test, build</text><text class="t-s" x="285.0" y="100" text-anchor="middle">then scan and push</text>
+<text class="t-tag" x="475.0" y="45" text-anchor="middle">artifact · 0001</text><rect class="box-key" x="400" y="52" width="150" height="58"/><text class="t-n" x="408" y="67">3</text><text class="t-b" x="475.0" y="82" text-anchor="middle">Registry</text><text class="t-s" x="475.0" y="100" text-anchor="middle">stores the image</text>
+<text class="t-tag" x="665.0" y="45" text-anchor="middle">desired state · 0003</text><rect class="box-par" x="590" y="52" width="150" height="58"/><text class="t-n" x="598" y="67">4</text><text class="t-b" x="665.0" y="82" text-anchor="middle">Config repo (Git)</text><text class="t-s" x="665.0" y="100" text-anchor="middle">one line: the new tag</text>
+<path class="line" d="M170 81.0 H206" marker-end="url(#ch-a)"/><path class="line" d="M360 81.0 H396" marker-end="url(#ch-a)"/><path class="line" d="M550 81.0 H586" marker-end="url(#ch-a)"/>
+<path class="line" d="M730 110 V156" marker-end="url(#ch-a)"/>
+<text class="t-tag" x="665.0" y="163" text-anchor="middle">deployment · 0001</text><rect class="box-par" x="590" y="170" width="150" height="58"/><text class="t-n" x="598" y="185">5</text><text class="t-b" x="665.0" y="200" text-anchor="middle">Argo CD</text><text class="t-s" x="665.0" y="218" text-anchor="middle">renders, compares, syncs</text>
+<text class="t-tag" x="475.0" y="163" text-anchor="middle">desired state · 0003</text><rect class="box" x="400" y="170" width="150" height="58"/><text class="t-n" x="408" y="185">6</text><text class="t-b" x="475.0" y="200" text-anchor="middle">API server</text><text class="t-s" x="475.0" y="218" text-anchor="middle">stores the new spec</text>
+<text class="t-tag" x="285.0" y="163" text-anchor="middle">controller · 0003</text><rect class="box" x="210" y="170" width="150" height="58"/><text class="t-n" x="218" y="185">7</text><text class="t-b" x="285.0" y="200" text-anchor="middle">Controllers</text><text class="t-s" x="285.0" y="218" text-anchor="middle">make the new Pods</text>
+<text class="t-tag" x="95.0" y="163" text-anchor="middle">controller · 0003</text><rect class="box" x="20" y="170" width="150" height="58"/><text class="t-n" x="28" y="185">8</text><text class="t-b" x="95.0" y="200" text-anchor="middle">Scheduler</text><text class="t-s" x="95.0" y="218" text-anchor="middle">picks a node per Pod</text>
+<path class="line" d="M210 199.0 H174" marker-end="url(#ch-a)"/><path class="line" d="M400 199.0 H364" marker-end="url(#ch-a)"/><path class="line" d="M590 199.0 H554" marker-end="url(#ch-a)"/>
+<path class="line" d="M30 228 V274" marker-end="url(#ch-a)"/>
+<text class="t-tag" x="95.0" y="281" text-anchor="middle">running app · 0003</text><rect class="box" x="20" y="288" width="150" height="58"/><text class="t-n" x="28" y="303">9</text><text class="t-b" x="95.0" y="318" text-anchor="middle">kubelet</text><text class="t-s" x="95.0" y="336" text-anchor="middle">has containerd pull</text>
+<text class="t-tag" x="285.0" y="281" text-anchor="middle">running app · 0001</text><rect class="box-key" x="210" y="288" width="150" height="58"/><text class="t-n" x="218" y="303">10</text><text class="t-b" x="285.0" y="318" text-anchor="middle">Container runs</text><text class="t-s" x="285.0" y="336" text-anchor="middle">inside a Pod</text>
+<text class="t-tag" x="475.0" y="281" text-anchor="middle">load balancer · 0004</text><rect class="box" x="400" y="288" width="150" height="58"/><text class="t-n" x="408" y="303">11</text><text class="t-b" x="475.0" y="318" text-anchor="middle">Service</text><text class="t-s" x="475.0" y="336" text-anchor="middle">traffic to ready Pods</text>
+<text class="t-tag" x="665.0" y="281" text-anchor="middle">release · 0001</text><rect class="box-goal" x="590" y="288" width="150" height="58"/><text class="t-n" x="598" y="303">12</text><text class="t-b" x="665.0" y="318" text-anchor="middle">User</text><text class="t-s" x="665.0" y="336" text-anchor="middle">uses the change</text>
+<path class="line" d="M170 317.0 H206" marker-end="url(#ch-a)"/><path class="line" d="M360 317.0 H396" marker-end="url(#ch-a)"/><path class="line" d="M550 317.0 H586" marker-end="url(#ch-a)"/>
+<path class="line-soft" d="M95 346 V394"/><text class="t-s" x="101" y="378">node VMs</text><path class="line-soft" d="M285 346 V394"/><text class="t-s" x="291" y="378">the database</text><path class="line-soft" d="M475 346 V394"/><text class="t-s" x="481" y="378">load balancer</text>
+<rect class="floor" x="10" y="394" width="740" height="186"/><text class="t-floor" x="24" y="416">Infra lane, the floor - changes rarely, built first</text>
+<text class="t-tag" x="95.0" y="443" text-anchor="middle">definition file · 0005</text><rect class="box" x="20" y="450" width="150" height="58"/><text class="t-n" x="28" y="465">a</text><text class="t-b" x="95.0" y="480" text-anchor="middle">main.tf in Git</text><text class="t-s" x="95.0" y="498" text-anchor="middle">the floor, as code</text>
+<text class="t-tag" x="285.0" y="443" text-anchor="middle">plan · 0006, 0008</text><rect class="box" x="210" y="450" width="150" height="58"/><text class="t-n" x="218" y="465">b</text><text class="t-b" x="285.0" y="480" text-anchor="middle">Pull request</text><text class="t-s" x="285.0" y="498" text-anchor="middle">+ speculative plan</text>
+<text class="t-tag" x="475.0" y="443" text-anchor="middle">apply · 0006</text><rect class="box" x="400" y="450" width="150" height="58"/><text class="t-n" x="408" y="465">c</text><text class="t-b" x="475.0" y="480" text-anchor="middle">Review, apply</text><text class="t-s" x="475.0" y="498" text-anchor="middle">OpenTofu / Terraform</text>
+<text class="t-tag" x="665.0" y="443" text-anchor="middle">infrastructure · 0004</text><rect class="box-key" x="590" y="450" width="150" height="58"/><text class="t-n" x="598" y="465">d</text><text class="t-b" x="665.0" y="480" text-anchor="middle">The floor</text><text class="t-s" x="665.0" y="498" text-anchor="middle">VPC · EKS · RDS · S3</text>
+<path class="line" d="M170 479.0 H206" marker-end="url(#ch-a)"/><path class="line" d="M360 479.0 H396" marker-end="url(#ch-a)"/><path class="line" d="M550 479.0 H586" marker-end="url(#ch-a)"/>
+<text class="t-s" x="24" y="538">The IaC tool keeps its state file in a shared, locked place (often an S3 bucket) - lesson 0007.</text><text class="t-s" x="24" y="560">HwtP for Infra releases parts of this lane: databases, buckets and more.</text>
+</svg>
+<figcaption>Each box has its lesson word above it, in teal, with the lesson that teaches it. Teal boxes are the Git-and-Argo-CD hop. Green boxes are the artifact and the running copy of it. The bottom lane is the floor from lesson 0001: the app lane stands on it.</figcaption>
+</figure>
+
+<h2>Step by step</h2>
+<p>Each step: what happens, a real file or command, then the step in lesson words.</p>
+
+<h3>Steps 1-2: the inner loop and CI</h3>
+<p>The developer writes code and a <code>Dockerfile</code>, the recipe for the image. Each line of the recipe makes one <strong>layer</strong>. Layers are why images are fast to rebuild and to pull: a layer that did not change is reused.</p>
+<p class="code-label">Notekeeper's API: Dockerfile (app repo)</p>
+<pre><code>FROM node:22-slim              <span class="c"># base layer: a small Linux + the Node.js runtime</span>
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --omit=dev          <span class="c"># the libraries - reused while package.json is the same</span>
+COPY . .                       <span class="c"># the code - the layer that changes on most commits</span>
+CMD ["node", "server.js"]      <span class="c"># what runs when a container starts</span></code></pre>
+<p>The push (or a pull request) starts a <strong>CI workflow</strong>. Fast checks run on the code first: lint and unit tests. Then CI builds the image, and checks that need the image run after it: a security scan, integration tests. Only an image that passed is pushed.</p>
+<div class="reality"><h4>In lesson words</h4><dl>
+<dt>Theory word</dt><dd>Change (0001), build and the CI stage (0002)</dd>
+<dt>Real files</dt><dd><code>Dockerfile</code>, <code>.github/workflows/ci.yaml</code> (or <code>.gitlab-ci.yml</code>, a <code>Jenkinsfile</code>)</dd>
+<dt>Real tools</dt><dd>GitHub Actions, GitLab CI, Jenkins. Docker with BuildKit builds the image.</dd>
+<dt>Sources</dt><dd class="r-check"><a href="https://docs.docker.com/build/buildkit/">Docker: BuildKit</a>. The test order (code first, image after) is common practice.</dd>
+</dl></div>
+
+<h3>Step 3: the registry - and the name of an image</h3>
+<p>CI pushes the image to a <strong>registry</strong>: Amazon ECR, GitHub Container Registry, Docker Hub. A full image reference has four parts:</p>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 740 175" role="img" aria-labelledby="ch-ref-t"><title id="ch-ref-t">An image reference in four parts: the registry host, the repository, the tag and the digest. The tag is a name that can move. The digest is a hash of the content and never moves.</title>
+<rect class="box" x="10" y="20" width="372" height="38"/><text class="t-code" x="18" y="44" textLength="356" lengthAdjust="spacingAndGlyphs">123456789012.dkr.ecr.eu-north-1.amazonaws.com</text>
+<rect class="box" x="386" y="20" width="128" height="38"/><text class="t-code" x="394" y="44" textLength="112" lengthAdjust="spacingAndGlyphs">/notekeeper-api</text>
+<rect class="box-seq" x="518" y="20" width="60" height="38"/><text class="t-code" x="525" y="44" textLength="46" lengthAdjust="spacingAndGlyphs">:1.4.2</text>
+<rect class="box-key" x="582" y="20" width="128" height="38"/><text class="t-code" x="590" y="44" textLength="112" lengthAdjust="spacingAndGlyphs">@sha256:9f2c…</text>
+<text class="t-b" x="196" y="86" text-anchor="middle">Registry</text><text class="t-s" x="196" y="104" text-anchor="middle">where the image is stored</text>
+<text class="t-b" x="450" y="86" text-anchor="middle">Repository</text><text class="t-s" x="450" y="104" text-anchor="middle">which app</text>
+<path class="line-soft" d="M548 58 V122"/><text class="t-seq" x="574" y="140" text-anchor="end">Tag</text><text class="t-s" x="574" y="158" text-anchor="end">a name people read - can move</text>
+<path class="line-soft" d="M646 58 V122"/><text class="t-b" x="590" y="140">Digest</text><text class="t-s" x="590" y="158">the exact bytes - fixed</text>
+</svg>
+<figcaption>Read it left to right: where, which app, which version for people, which exact bytes. Kubernetes pulls by digest when you give one.</figcaption>
+</figure>
+<p>The <strong>tag</strong> is a name people read. Someone can push other bytes under the same tag, unless the registry blocks it (ECR has an "immutable tags" setting). The <strong>digest</strong> is a hash of the image's manifest - the list of its layers - so a digest always means the same bytes.</p>
+<div class="reality"><h4>In lesson words</h4><dl>
+<dt>Theory word</dt><dd>Artifact and the store (0001)</dd>
+<dt>Why it matters</dt><dd>Lesson 0001 says an artifact is never changed. That is always true for a digest. For a tag, it is true only with immutable tags on.</dd>
+<dt>Sources</dt><dd class="r-check"><a href="https://kubernetes.io/docs/concepts/containers/images/">Kubernetes: Images</a>, <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html">Amazon ECR: image tag mutability</a></dd>
+</dl></div>
+
+<h3>Step 4: the Git hop</h3>
+<p>The new image sits in the registry, and nothing runs it yet. Something must change <strong>Git</strong> to say "production now runs <code>1.4.2</code>". Usually that is one line in a Helm values file in a separate <strong>config repo</strong>:</p>
+<p class="code-label">Config repo: envs/prod/values.yaml - the whole deploy decision</p>
+<pre><code>image:
+  repository: 123456789012.dkr.ecr.eu-north-1.amazonaws.com/notekeeper-api
+<span class="del">  tag: "1.4.1"</span>
+<span class="add">  tag: "1.4.2"</span></code></pre>
+<p>Who writes that line decides which lesson 0002 word applies:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Who writes the line</th><th>How</th><th>Lesson word</th></tr></thead>
+<tbody>
+<tr><td>A person</td><td>Opens a pull request; a reviewer merges it - the button</td><td>Continuous Delivery</td></tr>
+<tr><td>CI</td><td>Commits the new tag after the image passed</td><td>Continuous Deployment</td></tr>
+<tr><td>A bot</td><td>Argo CD Image Updater or Renovate watches the registry and commits the new tag</td><td>Continuous Deployment, with the trigger in the registry</td></tr>
+</tbody></table></div>
+<p><strong>Promotion</strong> is the same line in another file: the tag that passed in <code>envs/staging/values.yaml</code> is copied to <code>envs/prod/values.yaml</code>. Same artifact, different config.</p>
+<div class="reality"><h4>In lesson words</h4><dl>
+<dt>Theory word</dt><dd>Desired state (0003), promotion and Continuous Delivery vs Deployment (0002)</dd>
+<dt>Sources</dt><dd class="r-check"><a href="https://argo-cd.readthedocs.io/en/stable/">Argo CD docs</a> (Git is the source of truth), <a href="https://argocd-image-updater.readthedocs.io/en/stable/basics/update-methods/">Argo CD Image Updater: update methods</a>. App repo vs config repo: common practice.</dd>
+</dl></div>
+
+<h3>Step 5: Argo CD and Helm</h3>
+<p><strong>Argo CD</strong> checks the config repo about every 3 minutes by default, or at once when the Git server sends it a webhook. It renders the Helm chart with the values file (<code>helm template</code>) and compares the result with the live cluster. A difference = <strong>OutOfSync</strong>. With automated sync on, Argo CD sends the new desired state to the Kubernetes API server at once. With it off, the app stays OutOfSync until a person presses Sync - one more place for the Continuous Delivery button.</p>
+<p class="code-label">Config repo: the Argo CD Application for production</p>
+<pre><code>apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: notekeeper-api-prod
+spec:
+  source:
+    repoURL: https://github.com/acme/notekeeper-config   <span class="c"># which repo</span>
+    path: charts/notekeeper-api                         <span class="c"># which chart</span>
+    helm:
+      valueFiles: [../../envs/prod/values.yaml]         <span class="c"># which values</span>
+  destination:
+    server: https://kubernetes.default.svc              <span class="c"># which cluster</span>
+    namespace: notekeeper
+  syncPolicy:
+    automated: { selfHeal: true }                       <span class="c"># sync by itself, undo hand edits</span></code></pre>
+<div class="reality"><h4>In lesson words</h4><dl>
+<dt>Theory word</dt><dd>Deployment (0001), desired state and drift (0003), configuration as code and GitOps (0008)</dd>
+<dt>Sources</dt><dd class="r-check"><a href="https://argo-cd.readthedocs.io/en/stable/">Argo CD: overview</a>, <a href="https://argo-cd.readthedocs.io/en/stable/faq/">Argo CD: FAQ</a> (the 3-minute default), <a href="https://argo-cd.readthedocs.io/en/stable/user-guide/helm/">Argo CD: Helm</a></dd>
+</dl></div>
+
+<h3>Steps 6-10: inside the cluster</h3>
+<p>The API server stores the new spec. Then a chain of loops does the work, each one watching one kind of object (see "Who watches what" below). The Deployment sees a new image and starts a <strong>rolling update</strong>: it makes a new ReplicaSet for v2 and moves Pods from the old ReplicaSet to the new one, a few at a time. For each new Pod, the scheduler picks a node, and the <strong>kubelet</strong> on that node has <strong>containerd</strong> pull the image by digest and start the containers.</p>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 330" role="img" aria-labelledby="ch-ru-t"><title id="ch-ru-t">A rolling update of 3 copies with the default settings: at most one extra Pod at a time, and never fewer than 3 ready Pods. Five moments, from 3 v1 Pods to 3 v2 Pods.</title><text class="t-s" x="20" y="18">replicas: 3 · maxSurge 25% → 1 (rounded up) · maxUnavailable 25% → 0 (rounded down)</text><text class="t-b" x="20" y="60">t0</text><rect class="box" x="60" y="36" width="68" height="38"/><text class="t-b" x="94" y="60" text-anchor="middle">v1</text><rect class="box" x="138" y="36" width="68" height="38"/><text class="t-b" x="172" y="60" text-anchor="middle">v1</text><rect class="box" x="216" y="36" width="68" height="38"/><text class="t-b" x="250" y="60" text-anchor="middle">v1</text><text class="t-s" x="390" y="60">Before the sync: 3 × v1, all ready</text><text class="t-b" x="20" y="114">t1</text><rect class="box" x="60" y="90" width="68" height="38"/><text class="t-b" x="94" y="114" text-anchor="middle">v1</text><rect class="box" x="138" y="90" width="68" height="38"/><text class="t-b" x="172" y="114" text-anchor="middle">v1</text><rect class="box" x="216" y="90" width="68" height="38"/><text class="t-b" x="250" y="114" text-anchor="middle">v1</text><rect class="box-start" x="294" y="90" width="68" height="38"/><text class="t-b" x="328" y="114" text-anchor="middle">v2 …</text><text class="t-s" x="390" y="114">One v2 Pod starts: 4 Pods = 3 + surge 1</text><text class="t-b" x="20" y="168">t2</text><rect class="box" x="60" y="144" width="68" height="38"/><text class="t-b" x="94" y="168" text-anchor="middle">v1</text><rect class="box" x="138" y="144" width="68" height="38"/><text class="t-b" x="172" y="168" text-anchor="middle">v1</text><rect class="box-key" x="216" y="144" width="68" height="38"/><text class="t-b" x="250" y="168" text-anchor="middle">v2</text><rect class="box-start" x="294" y="144" width="68" height="38"/><text class="t-b" x="328" y="168" text-anchor="middle">v2 …</text><text class="t-s" x="390" y="168">v2 is ready → one v1 removed, next v2 starts</text><text class="t-b" x="20" y="222">t3</text><rect class="box" x="60" y="198" width="68" height="38"/><text class="t-b" x="94" y="222" text-anchor="middle">v1</text><rect class="box-key" x="138" y="198" width="68" height="38"/><text class="t-b" x="172" y="222" text-anchor="middle">v2</text><rect class="box-key" x="216" y="198" width="68" height="38"/><text class="t-b" x="250" y="222" text-anchor="middle">v2</text><rect class="box-start" x="294" y="198" width="68" height="38"/><text class="t-b" x="328" y="222" text-anchor="middle">v2 …</text><text class="t-s" x="390" y="222">The same swap again</text><text class="t-b" x="20" y="276">t4</text><rect class="box-key" x="60" y="252" width="68" height="38"/><text class="t-b" x="94" y="276" text-anchor="middle">v2</text><rect class="box-key" x="138" y="252" width="68" height="38"/><text class="t-b" x="172" y="276" text-anchor="middle">v2</text><rect class="box-key" x="216" y="252" width="68" height="38"/><text class="t-b" x="250" y="276" text-anchor="middle">v2</text><text class="t-s" x="390" y="276">Done: 3 × v2. Never fewer than 3 ready</text><rect class="box" x="60" y="312" width="16" height="12"/><text class="t-s" x="82" y="322">old, ready</text><rect class="box-key" x="170" y="312" width="16" height="12"/><text class="t-s" x="192" y="322">new, ready</text><rect class="box-start" x="280" y="312" width="16" height="12"/><text class="t-s" x="302" y="322">new, starting - gets no traffic yet</text></svg>
+<figcaption>A rolling update of Notekeeper's API with the default settings. Users never see fewer than 3 ready copies, and the cluster never runs more than 4. Source: <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">Kubernetes: Deployments</a> (maxSurge rounds up, maxUnavailable rounds down; both default to 25%).</figcaption>
+</figure>
+<p>What does "ready" mean? Two health checks, called <strong>probes</strong>, run by the kubelet:</p>
+<ul>
+<li><strong>Readiness probe</strong> - "can this Pod take traffic now?" Until it passes, the Service sends no traffic to the Pod, and the rolling update waits. This is how a bad v2 stops the rollout before users see it.</li>
+<li><strong>Liveness probe</strong> - "is this container still working?" When it fails, the kubelet restarts the container.</li>
+</ul>
+<div class="reality"><h4>In lesson words</h4><dl>
+<dt>Theory word</dt><dd>Controller, desired state vs actual state (0003), running app (0001)</dd>
+<dt>Real objects</dt><dd><code>Deployment</code> → <code>ReplicaSet</code> (one per version) → <code>Pod</code> (one or more containers). <code>kubectl get deploy,rs,pods</code> shows all three.</dd>
+<dt>Sources</dt><dd class="r-check"><a href="https://kubernetes.io/docs/concepts/architecture/controller/">Kubernetes: Controllers</a>, <a href="https://kubernetes.io/docs/concepts/workloads/pods/">Pods</a>, <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">Deployments</a>, <a href="https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/">Probes</a>, <a href="https://kubernetes.io/docs/concepts/containers/images/">Images</a></dd>
+</dl></div>
+
+<h3>Steps 11-12: to the user</h3>
+<p>A <strong>Service</strong> gives the API's Pods one stable address and spreads traffic across the ready ones. An Ingress and a cloud load balancer bring traffic in from the internet. Now the change is <em>deployed</em>. It is <em>released</em> when users can use the pin button - the same moment, or later, with a feature flag or a canary (Argo Rollouts).</p>
+<div class="reality"><h4>In lesson words</h4><dl>
+<dt>Theory word</dt><dd>Deployment vs release (0001, 0002), load balancer (0004)</dd>
+<dt>Real objects</dt><dd><code>Service</code>, <code>Ingress</code>. On AWS, the AWS Load Balancer Controller makes an ALB from an Ingress.</dd>
+<dt>Sources</dt><dd class="r-check"><a href="https://kubernetes.io/docs/concepts/services-networking/service/">Kubernetes: Service</a>, <a href="https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html">Amazon EKS: AWS Load Balancer Controller</a></dd>
+</dl></div>
+
+<h2>The same change, a new name at each step</h2>
+<p>The content stays the same; the name changes at every step. That is why these words get mixed up.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Where</th><th>It is called</th><th>Real example</th><th>Lesson word</th></tr></thead>
+<tbody>
+<tr><td>App repo</td><td>Commit</td><td><code>a1b2c3d</code> "pin a note"</td><td>Change</td></tr>
+<tr><td>CI</td><td>Workflow run</td><td>run #812: lint, test, build, scan, push</td><td>Build</td></tr>
+<tr><td>Registry</td><td>Image (tag + digest)</td><td><code>notekeeper-api:1.4.2</code> = <code>sha256:9f2c…</code></td><td>Artifact</td></tr>
+<tr><td>Config repo</td><td>A values line</td><td><code>tag: "1.4.2"</code> in <code>envs/prod/values.yaml</code></td><td>Desired state</td></tr>
+<tr><td>Argo CD</td><td>Application, sync</td><td><code>notekeeper-api-prod</code>: Synced, Healthy</td><td>Deployment</td></tr>
+<tr><td>API server</td><td>Deployment, ReplicaSet, Pod</td><td>ReplicaSet <code>notekeeper-api-7d9f8c</code>, Pod <code>notekeeper-api-7d9f8c-x2kqp</code></td><td>Desired and actual state</td></tr>
+<tr><td>Node</td><td>Container (a process)</td><td>PID 4211 on node B</td><td>Running app</td></tr>
+<tr><td>Users</td><td>A feature they can use</td><td>the pin button</td><td>Release</td></tr>
+</tbody></table></div>
+
+<h2>Inside the cluster: who watches what</h2>
+<p>Lesson 0003's controller, one loop at a time. Each part watches one kind of object and moves the actual state toward the desired state.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Part</th><th>Watches</th><th>Does</th></tr></thead>
+<tbody>
+<tr><td>Argo CD (an add-on)</td><td>The config repo and the live cluster</td><td>Sends the rendered YAML to the API server when they differ</td></tr>
+<tr><td>API server</td><td>- (it is the front door)</td><td>Checks and stores every object in etcd. Every other part talks only to it</td></tr>
+<tr><td>Deployment controller</td><td>Deployments</td><td>Makes one ReplicaSet per version; runs the rolling update</td></tr>
+<tr><td>ReplicaSet controller</td><td>ReplicaSets</td><td>Keeps N Pods; makes a new Pod when one is lost</td></tr>
+<tr><td>Scheduler</td><td>Pods with no node</td><td>Picks a node for each Pod</td></tr>
+<tr><td>kubelet (one per node)</td><td>Pods placed on its node</td><td>Has containerd pull images and start containers; runs the probes; restarts a crashed container on the same node; reports status</td></tr>
+<tr><td>containerd</td><td>Requests from the kubelet</td><td>Pulls image layers and runs the containers</td></tr>
+</tbody></table></div>
+<p class="small">Sources: <a href="https://kubernetes.io/docs/concepts/architecture/controller/">Kubernetes: Controllers</a>, <a href="https://kubernetes.io/docs/concepts/overview/components/">Kubernetes components</a>.</p>
+
+<h2>Helm: where the YAML comes from</h2>
+<p><strong>What it really solves:</strong> one set of Kubernetes YAML for many environments - instead of copying 300 lines per environment and editing them by hand. A <strong>chart</strong> is YAML templates with blanks. A <strong>values file</strong> fills the blanks for one environment.</p>
+<p class="code-label">1 · A line in the chart (templates/deployment.yaml)</p>
+<pre><code>image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+replicas: {{ .Values.replicas }}</code></pre>
+<p class="code-label">2 · The blanks for production (envs/prod/values.yaml)</p>
+<pre><code>image: { repository: …/notekeeper-api, tag: "1.4.2" }
+replicas: 3</code></pre>
+<p class="code-label">3 · What <code>helm template</code> prints - plain YAML that Kubernetes reads</p>
+<pre><code>image: "…/notekeeper-api:1.4.2"
+replicas: 3</code></pre>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 270" role="img" aria-labelledby="ch-helm-t"><title id="ch-helm-t">The Helm chart and the production values file go into helm template, which Argo CD runs. The result is plain YAML, which Argo CD compares with the cluster and applies. Helm install is crossed out: Argo CD does not use it.</title>
+<defs><marker id="ch-h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<rect class="box" x="20" y="30" width="175" height="62"/><text class="t-b" x="107" y="56" text-anchor="middle">1 · Helm chart</text><text class="t-s" x="107" y="76" text-anchor="middle">templates with blanks</text>
+<rect class="box" x="20" y="140" width="175" height="62"/><text class="t-b" x="107" y="166" text-anchor="middle">2 · values-prod.yaml</text><text class="t-s" x="107" y="186" text-anchor="middle">the blanks, for production</text>
+<rect class="box-par" x="270" y="85" width="180" height="62"/><text class="t-b" x="360" y="111" text-anchor="middle">helm template</text><text class="t-s" x="360" y="131" text-anchor="middle">run by Argo CD</text>
+<rect class="box-key" x="525" y="30" width="175" height="62"/><text class="t-b" x="612" y="56" text-anchor="middle">3 · Plain YAML</text><text class="t-s" x="612" y="76" text-anchor="middle">Deployment, Service…</text>
+<rect class="box-par" x="525" y="140" width="175" height="62"/><text class="t-b" x="612" y="166" text-anchor="middle">Compare, sync</text><text class="t-s" x="612" y="186" text-anchor="middle">Argo CD owns the app</text>
+<rect class="box-bad" x="270" y="190" width="180" height="56"/><text class="t-bad" x="360" y="214" text-anchor="middle">helm install - not used</text><text class="t-s" x="360" y="234" text-anchor="middle">so helm list shows nothing</text>
+<path class="line" d="M195 61 C230 61 240 100 266 108" marker-end="url(#ch-h)"/><path class="line" d="M195 171 C230 171 240 130 266 124" marker-end="url(#ch-h)"/>
+<path class="line" d="M450 108 C480 100 495 66 521 62" marker-end="url(#ch-h)"/><path class="line" d="M612 92 V136" marker-end="url(#ch-h)"/>
+</svg>
+<figcaption>With Argo CD, Helm is only a template engine. The life cycle - install, upgrade, roll back - belongs to Argo CD. Source: <a href="https://argo-cd.readthedocs.io/en/stable/user-guide/helm/">Argo CD: Helm</a>.</figcaption>
+</figure>
+<ul>
+<li><strong>A second artifact.</strong> A chart has its own version and can be pushed to the same registry as the image (an OCI registry). So one release often has two artifacts: the image version and the chart version. Source: <a href="https://helm.sh/docs/topics/registries/">Helm: Use OCI-based registries</a>.</li>
+<li><strong>Helm and IaC.</strong> A chart is to Kubernetes YAML what a module is to Terraform code (lesson 0007): reusable code with inputs. A values file per environment is like a set of input variables per environment.</li>
+<li><strong>The look-alike: Helm vs Kustomize.</strong> Helm: templates with blanks, packaged and versioned. Kustomize: plain YAML plus patches, no templates. Many teams use one, some use both.</li>
+</ul>
+
+<h2>Docker builds, containerd runs</h2>
+<p>"Docker" names two things: the tool that builds images, and the engine that once ran them in clusters. Since Kubernetes 1.24 (May 2022), the kubelet no longer talks to Docker Engine - the adapter for it, the dockershim, was removed. On a current cluster the runtime is usually <strong>containerd</strong>; EKS node images from 1.24 on have containerd only. An image built with Docker still runs, because both sides use the same standard image format (OCI).</p>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 240" role="img" aria-labelledby="ch-rt-t"><title id="ch-rt-t">Build side, on a laptop or in CI: Docker with BuildKit builds the image. The image, in the standard OCI format, goes to a registry. Run side, on each node: the kubelet asks containerd, containerd pulls the image and runs the container.</title>
+<defs><marker id="ch-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<rect class="frame" x="10" y="44" width="195" height="120"/><text class="t-b" x="18" y="34">Build side: laptop, CI</text>
+<rect class="box" x="22" y="76" width="170" height="62"/><text class="t-b" x="107" y="102" text-anchor="middle">Docker (BuildKit)</text><text class="t-s" x="107" y="122" text-anchor="middle">builds the image</text>
+<rect class="box-key" x="270" y="76" width="175" height="62"/><text class="t-b" x="357" y="102" text-anchor="middle">OCI image</text><text class="t-s" x="357" y="122" text-anchor="middle">in the registry</text>
+<rect class="frame" x="515" y="20" width="195" height="212"/><text class="t-b" x="523" y="14">Run side: each node</text>
+<rect class="box" x="527" y="30" width="170" height="52"/><text class="t-b" x="612" y="52" text-anchor="middle">kubelet</text><text class="t-s" x="612" y="70" text-anchor="middle">"start this Pod"</text>
+<rect class="box-par" x="527" y="102" width="170" height="52"/><text class="t-b" x="612" y="124" text-anchor="middle">containerd</text><text class="t-s" x="612" y="142" text-anchor="middle">pulls, then runs</text>
+<rect class="box-key" x="527" y="174" width="170" height="48"/><text class="t-b" x="612" y="203" text-anchor="middle">Container</text>
+<path class="line" d="M192 107 H266" marker-end="url(#ch-r)"/><text class="t-s" x="229" y="98" text-anchor="middle">push</text>
+<path class="line" d="M445 107 C480 107 495 128 523 128" marker-end="url(#ch-r)"/><text class="t-s" x="482" y="100" text-anchor="middle">pull</text>
+<path class="line" d="M612 82 V98" marker-end="url(#ch-r)"/><path class="line" d="M612 154 V170" marker-end="url(#ch-r)"/>
+</svg>
+<figcaption>One image format, two sides, different tools. Sources: <a href="https://kubernetes.io/blog/2022/02/17/dockershim-faq/">Kubernetes: Dockershim removal FAQ</a>, <a href="https://aws.amazon.com/blogs/containers/all-you-need-to-know-about-moving-to-containerd-on-amazon-eks/">AWS: moving to containerd on Amazon EKS</a>.</figcaption>
+</figure>
+
+<h2>The infra lane: who builds the floor</h2>
+<p>Before any Pod runs, the floor must exist: a network, a cluster, a database, buckets. In most Kubernetes shops an IaC tool builds it, on its own road - the infrastructure pipeline of lesson 0008. That road is slower and more careful, because a mistake can destroy data.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Part of the floor</th><th>Real thing on AWS</th><th>Usually built by</th><th>Lesson</th></tr></thead>
+<tbody>
+<tr><td>Private network</td><td>VPC, subnets, security groups</td><td>OpenTofu / Terraform</td><td>0004</td></tr>
+<tr><td>The cluster</td><td>EKS: AWS runs the control plane; node groups are EC2 VMs</td><td>OpenTofu / Terraform</td><td>0004</td></tr>
+<tr><td>Database</td><td>RDS (managed)</td><td>OpenTofu / Terraform; at Jamf, released through HwtP for Infra</td><td>0003, 0004</td></tr>
+<tr><td>Buckets</td><td>S3</td><td>OpenTofu / Terraform; HwtP for Infra</td><td>0004, 0008</td></tr>
+<tr><td>Access</td><td>IAM roles, also per app (EKS Pod Identity)</td><td>OpenTofu / Terraform</td><td>0004</td></tr>
+<tr><td>The IaC tool's own record</td><td>State file in an S3 bucket, with a lock</td><td>Set up once, by the platform team</td><td>0006, 0007</td></tr>
+</tbody></table></div>
+<p class="small">"Usually built by" is common practice. Source for Pod Identity: <a href="https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html">Amazon EKS Pod Identity</a>.</p>
+
+<h3>Where the two lanes meet</h3>
+<p>The app needs facts from the floor: the database address, the bucket name, the IAM role. The IaC tool knows them after apply, as <strong>outputs</strong>. They reach the app as config:</p>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 190" role="img" aria-labelledby="ch-hand-t"><title id="ch-hand-t">The hand-off between the lanes: tofu apply gives an output, db_endpoint. It is written into the config repo or a Kubernetes Secret, Argo CD syncs it, and the API Pod reads it as an environment variable. If the floor changes and this value does not, the app breaks.</title>
+<defs><marker id="ch-ho" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<rect class="floor" x="10" y="30" width="160" height="70"/><text class="t-b" x="90" y="56" text-anchor="middle">tofu apply</text><text class="t-code" x="90" y="80" text-anchor="middle">db_endpoint</text>
+<rect class="box-par" x="195" y="30" width="160" height="70"/><text class="t-b" x="275" y="56" text-anchor="middle">Config repo</text><text class="t-s" x="275" y="80" text-anchor="middle">or a Kubernetes Secret</text>
+<rect class="box-par" x="380" y="30" width="150" height="70"/><text class="t-b" x="455" y="56" text-anchor="middle">Argo CD sync</text><text class="t-s" x="455" y="80" text-anchor="middle">into the cluster</text>
+<rect class="box-key" x="555" y="30" width="155" height="70"/><text class="t-b" x="632" y="56" text-anchor="middle">API Pod</text><text class="t-code" x="632" y="80" text-anchor="middle">DATABASE_HOST</text>
+<path class="line" d="M170 65 H191" marker-end="url(#ch-ho)"/><path class="line" d="M355 65 H376" marker-end="url(#ch-ho)"/><path class="line" d="M530 65 H551" marker-end="url(#ch-ho)"/>
+<text class="t-floor" x="90" y="20" text-anchor="middle">infra lane</text><text class="t-par" x="455" y="20" text-anchor="middle">app lane</text>
+<rect class="box-bad" x="150" y="128" width="420" height="44"/><text class="t-bad" x="360" y="155" text-anchor="middle">New database address, old line in config = broken app</text>
+</svg>
+<figcaption>A fact made in one lane, used in the other. Platform teams automate this hand-off because people forget it. Common practice.</figcaption>
+</figure>
+
+<h3>The blurry middle</h3>
+<p>Some tools make the infra lane work like the app lane. Named here, not taught:</p>
+<ul>
+<li><strong>Crossplane</strong> and <strong>AWS Controllers for Kubernetes (ACK)</strong>: you write a Kubernetes object ("a database"), and a controller creates the cloud resource. The floor gets a control loop, like a Deployment. Docs: <a href="https://docs.crossplane.io/">Crossplane</a>, <a href="https://aws-controllers-k8s.github.io/community/">ACK</a>.</li>
+<li><strong>Spacelift Intent</strong>: a plain-language request becomes cloud API calls, with policies and state around it (lesson 0005, moment 5).</li>
+<li><strong>HwtP for Infra</strong>: releases floor parts - databases, buckets - through a checked road. Think: where would it sit on the chain figure, and does it make the infra lane run more like the app lane?</li>
+</ul>
+
+<h2>Claims to test</h2>
+<p>Eight claims you will hear at work. Some are true, some are false. Bet first - true or false, and why - then open the reveal.</p>
+
+<div class="wrongpic"><p class="wp-label">Claim 1</p><p class="wp-claim">"Argo CD deploys when a new image lands in the registry."</p>
+<label class="small" for="bet-ch-c1">Bet: true or false? Say why in one line.</label><textarea class="bet" id="bet-ch-c1" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>False. Argo CD watches Git.</strong> A new image in the registry changes nothing until Git says to use it. Argo CD compares the desired state in Git with the live cluster.</p><p class="why"><strong>Why:</strong> Git is the one place that says what is true (lesson 0003, moment 4). Registry watching exists only as an add-on: Argo CD Image Updater sees a new tag and writes it to Git, and then the normal Argo CD flow runs. Sources: <a href="https://argo-cd.readthedocs.io/en/stable/">Argo CD docs</a>, <a href="https://argocd-image-updater.readthedocs.io/en/stable/basics/update-methods/">Image Updater docs</a>.</p></details>
+<label class="lost"><input type="checkbox" data-lost="c1"> <span>Lost here (claim 1)</span></label></div>
+
+<div class="wrongpic"><p class="wp-label">Claim 2</p><p class="wp-claim">"The container moves from the laptop to CI, to the registry, to Kubernetes."</p>
+<label class="small" for="bet-ch-c2">Bet: true or false? Say why in one line.</label><textarea class="bet" id="bet-ch-c2" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>The image moves. A container never moves.</strong> The image is the fixed package: CI pushes it to the registry, and each node pulls a copy. A container is one running copy of that image: it starts, runs and stops on one node.</p><p class="why"><strong>Why:</strong> this is lesson 0001's pair, artifact vs running app, one level down: image vs container. Keeping them apart shows where to fix a problem - a bad image is fixed in CI, a bad container in its config or on its node.</p></details>
+<label class="lost"><input type="checkbox" data-lost="c2"> <span>Lost here (claim 2)</span></label></div>
+
+<div class="wrongpic"><p class="wp-label">Claim 3</p><p class="wp-claim">"To roll production back, revert one line in Git."</p>
+<label class="small" for="bet-ch-c3">Bet: true or false? Say why in one line.</label><textarea class="bet" id="bet-ch-c3" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>True, in a GitOps shop.</strong> <code>git revert</code> puts <code>tag: "1.4.1"</code> back in the production values file. Argo CD sees the change and syncs, and the Deployment rolls back to the old image the same way it rolled forward.</p><p class="why"><strong>Why:</strong> Git holds the desired state, so changing Git is how you change what runs - forward or back. Two conditions: the old image must still be in the registry (watch the clean-up rules), and the app must sync, either by itself (automated sync) or when a person presses Sync. A database change that v1.4.2 made is not undone by this - that is the floor's problem, not the image's.</p></details>
+<label class="lost"><input type="checkbox" data-lost="c3"> <span>Lost here (claim 3)</span></label></div>
+
+<div class="wrongpic"><p class="wp-label">Claim 4</p><p class="wp-claim">"<code>notekeeper-api:1.4.2</code> always means the same bytes."</p>
+<label class="small" for="bet-ch-c4">Bet: true or false? Say why in one line.</label><textarea class="bet" id="bet-ch-c4" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>False, unless the registry blocks it.</strong> A tag is a label. Someone can push other bytes under <code>1.4.2</code>. The digest (<code>sha256:…</code>) is a hash of the content, so it always means the same image.</p><p class="why"><strong>Why:</strong> promotion (lesson 0002) needs the same artifact in staging and production. Teams get that with a digest, or with immutable tags - an ECR setting that refuses a push to a tag that exists. Sources: <a href="https://kubernetes.io/docs/concepts/containers/images/">Kubernetes: Images</a>, <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html">Amazon ECR: tag mutability</a>.</p></details>
+<label class="lost"><input type="checkbox" data-lost="c4"> <span>Lost here (claim 4)</span></label></div>
+
+<div class="wrongpic"><p class="wp-label">Claim 5</p><p class="wp-claim">"When a node dies, Kubernetes restarts the container on another node."</p>
+<label class="small" for="bet-ch-c5">Bet: true or false? Say why in one line.</label><textarea class="bet" id="bet-ch-c5" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Nothing moves or restarts. A new Pod is made.</strong> The ReplicaSet sees fewer Pods than wanted and makes a new one. The scheduler puts it on a healthy node, and that node's kubelet starts fresh containers from the image.</p><p class="why"><strong>Why:</strong> a restart is a different thing - the kubelet restarts a crashed container on the <em>same</em> node. Lost node = replace; crashed process = restart. This is why containers must be throw-away (lesson 0003, moments 3 and 5).</p></details>
+<label class="lost"><input type="checkbox" data-lost="c5"> <span>Lost here (claim 5)</span></label></div>
+
+<div class="wrongpic"><p class="wp-label">Claim 6</p><p class="wp-claim">"If v2 starts but never becomes ready, users keep getting v1."</p>
+<label class="small" for="bet-ch-c6">Bet: true or false? Say why in one line.</label><textarea class="bet" id="bet-ch-c6" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>True.</strong> The Service sends traffic only to ready Pods, so the failing v2 Pod gets none. With 3 replicas and the defaults (surge 1, unavailable 0), no v1 Pod is removed until a v2 Pod is ready - so the rollout stops at "3 × v1 + 1 v2 not ready".</p><p class="why"><strong>Why:</strong> the readiness probe is the gate. Two limits: Kubernetes does not roll back by itself - the Deployment is only marked as stuck after its progress deadline (10 minutes by default), and a person or a tool must act. And with no readiness probe at all, a Pod counts as ready as soon as its containers start. Source: <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">Kubernetes: Deployments</a>.</p></details>
+<label class="lost"><input type="checkbox" data-lost="c6"> <span>Lost here (claim 6)</span></label></div>
+
+<div class="wrongpic"><p class="wp-label">Claim 7</p><p class="wp-claim">"Run <code>helm list</code> to see what Argo CD deployed."</p>
+<label class="small" for="bet-ch-c7">Bet: true or false? Say why in one line.</label><textarea class="bet" id="bet-ch-c7" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>Nothing from Argo CD.</strong> Argo CD runs <code>helm template</code> only, then applies the plain YAML itself. No Helm release is made, so Helm has nothing to list. Look in Argo CD instead (<code>argocd app list</code>, or the UI).</p><p class="why"><strong>Why:</strong> only one tool can own an app's life cycle. With Argo CD, it is Argo CD - Helm is only the template engine. Source: <a href="https://argo-cd.readthedocs.io/en/stable/user-guide/helm/">Argo CD: Helm</a>.</p></details>
+<label class="lost"><input type="checkbox" data-lost="c7"> <span>Lost here (claim 7)</span></label></div>
+
+<div class="wrongpic"><p class="wp-label">Claim 8</p><p class="wp-claim">"Kubernetes nodes run containers with Docker."</p>
+<label class="small" for="bet-ch-c8">Bet: true or false? Say why in one line.</label><textarea class="bet" id="bet-ch-c8" placeholder="Your guess..."></textarea>
+<details><summary>Reveal</summary><p><strong>False for a current cluster.</strong> Kubernetes removed the dockershim in 1.24. EKS node images from 1.24 on use containerd only. Docker still builds the images.</p><p class="why"><strong>Why:</strong> build and run are separate jobs that share one image format (OCI). That is why an image built with Docker runs fine under containerd. Sources: <a href="https://kubernetes.io/blog/2022/02/17/dockershim-faq/">Dockershim removal FAQ</a>, <a href="https://aws.amazon.com/blogs/containers/all-you-need-to-know-about-moving-to-containerd-on-amazon-eks/">AWS containers blog</a>.</p></details>
+<label class="lost"><input type="checkbox" data-lost="c8"> <span>Lost here (claim 8)</span></label></div>
+
+<h2>Not every company works like this</h2>
+<p>The chain above is common, not universal. The ideas stay the same; the tools and the trigger change.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Variant</th><th>What changes</th><th>What stays</th></tr></thead>
+<tbody>
+<tr><td>Push-based delivery</td><td>CI runs <code>helm upgrade</code> or <code>kubectl apply</code> itself. No Argo CD; the pipeline is the trigger, not a Git commit.</td><td>Image in a registry, desired state in YAML</td></tr>
+<tr><td>Flux instead of Argo CD</td><td>Another GitOps agent. Flux uses Helm's own install for charts, so <code>helm list</code> does show them.</td><td>Git is the source of truth</td></tr>
+<tr><td>Kustomize instead of Helm</td><td>Plain YAML plus patches per environment, no templates</td><td>One base, small differences per environment</td></tr>
+<tr><td>A bot writes the tag</td><td>Argo CD Image Updater or Renovate makes step 4, not CI</td><td>The change still goes through Git</td></tr>
+<tr><td>No Kubernetes (ECS, serverless, VMs)</td><td>The artifact is a task image, a zip for Lambda, or a machine image (AMI)</td><td>Build once, store, deploy the same artifact everywhere</td></tr>
+</tbody></table></div>
+<p class="small">Source for Flux: <a href="https://fluxcd.io/flux/components/helm/">Flux helm-controller</a>. How common Kubernetes is: in the CNCF survey published January 2026, 82% of container users run it in production - of container users, not of all companies (<a href="https://www.cncf.io/announcements/2026/01/20/kubernetes-established-as-the-de-facto-operating-system-for-ai-as-production-use-hits-82-in-2025-cncf-annual-cloud-native-survey/">CNCF</a>).</p>
+
+<h2>Say the difference - the same words in every lesson</h2>
+<div class="pairs">
+<div class="pair"><strong>Image vs container</strong><p>The image is the fixed package in the store. The container is that image running.</p><p class="small">The image moves (CI → registry → node). A container never moves.</p></div>
+<div class="pair"><strong>Container vs Pod</strong><p>A container is one isolated process from an image. A Pod is Kubernetes' wrapper around one or more containers that share a network address.</p><p class="small">Kubernetes schedules Pods, not single containers.</p></div>
+<div class="pair"><strong>Tag vs digest</strong><p>A tag is a name people read, and it can be moved. A digest is a hash of the content, and it never changes.</p><p class="small">"The same artifact" needs a digest, or tags that the registry keeps fixed.</p></div>
+<div class="pair"><strong>Docker vs containerd</strong><p>Docker builds images (and runs them on a laptop). containerd runs containers on Kubernetes nodes.</p><p class="small">Both use the same OCI image format.</p></div>
+<div class="pair"><strong>helm install vs helm template</strong><p>helm install puts a chart into the cluster and Helm owns its life cycle. helm template only prints the YAML; another tool applies it.</p><p class="small">Argo CD uses helm template. So helm list shows nothing.</p></div>
+<div class="pair"><strong>App repo vs config repo</strong><p>The app repo holds the code and the Dockerfile. The config repo holds what runs where: charts, values, Argo CD Applications.</p><p class="small">Common practice: a code change and a deploy decision get separate commits.</p></div>
+<div class="pair"><strong>Restart vs replace</strong><p>Restart: the kubelet starts a crashed container again on the same node. Replace: a new Pod is made, often on another node.</p><p class="small">A lost node always means replace.</p></div>
+<div class="pair"><strong>Readiness vs liveness</strong><p>Readiness: "can it take traffic now?" - a failing Pod gets no traffic. Liveness: "is it still working?" - a failing container is restarted.</p><p class="small">Readiness also gates a rolling update: no ready v2, no next step.</p></div>
+</div>
+
+<h2>Cards for your deck</h2>
+<div class="cards">
+<details class="card"><summary>A new image is in ECR. Why is nothing deployed yet?</summary><p>Git still says the old tag. Argo CD watches Git, not the registry.</p></details>
+<details class="card"><summary>What makes "the same artifact" really the same in staging and production?</summary><p>The digest - or immutable tags in the registry.</p></details>
+<details class="card"><summary>Which one line is the deploy decision in a GitOps shop?</summary><p>The image tag in the environment's values file in the config repo.</p></details>
+<details class="card"><summary>Who pulls the image onto a node?</summary><p>The kubelet on that node, through the container runtime (containerd).</p></details>
+<details class="card"><summary>3 replicas, default rolling update. Most Pods at once? Fewest ready?</summary><p>4 at most (surge 1). Never fewer than 3 ready (unavailable 0).</p></details>
+<details class="card"><summary>v2 starts but never becomes ready. What do users see?</summary><p>Nothing new: the readiness probe keeps traffic on v1, and the rollout stops.</p></details>
+<details class="card"><summary>Why does <code>helm list</code> show nothing in an Argo CD cluster?</summary><p>Argo CD runs only helm template and applies the YAML itself. No Helm release exists.</p></details>
+<details class="card"><summary>A node dies. Is the container restarted elsewhere?</summary><p>No. A new Pod is made and scheduled on a healthy node.</p></details>
+<details class="card"><summary>Who usually builds the EKS cluster and the RDS database?</summary><p>An IaC tool (OpenTofu / Terraform) on the infra road - not the app pipeline.</p></details>
+<details class="card"><summary>The six lines of the chain?</summary><p>Developer writes code. CI builds the image. Registry stores it. Git says what runs where. Argo CD makes the cluster match Git. Kubernetes runs containers in Pods.</p></details>
+</div>
+
+<h2>Lost here - your line</h2>
+<div class="lost-summary"></div>
+
+<div class="source"><h3>Sources</h3><ul>
+<li>Kubernetes docs: <a href="https://kubernetes.io/docs/concepts/architecture/controller/">Controllers</a>, <a href="https://kubernetes.io/docs/concepts/overview/components/">Components</a>, <a href="https://kubernetes.io/docs/concepts/workloads/pods/">Pods</a>, <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">Deployments</a>, <a href="https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/">Probes</a>, <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/">kube-scheduler</a>, <a href="https://kubernetes.io/docs/concepts/containers/images/">Images</a>, <a href="https://kubernetes.io/docs/concepts/services-networking/service/">Service</a>, <a href="https://kubernetes.io/blog/2022/02/17/dockershim-faq/">Dockershim removal FAQ</a></li>
+<li>Argo CD: <a href="https://argo-cd.readthedocs.io/en/stable/">Overview</a>, <a href="https://argo-cd.readthedocs.io/en/stable/faq/">FAQ</a>, <a href="https://argo-cd.readthedocs.io/en/stable/user-guide/helm/">Helm</a>; <a href="https://argocd-image-updater.readthedocs.io/en/stable/basics/update-methods/">Argo CD Image Updater: update methods</a></li>
+<li>Helm: <a href="https://helm.sh/docs/topics/registries/">Use OCI-based registries</a>. Flux: <a href="https://fluxcd.io/flux/components/helm/">helm-controller</a>. Docker: <a href="https://docs.docker.com/build/buildkit/">BuildKit</a></li>
+<li>AWS: <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html">ECR tag mutability</a>, <a href="https://aws.amazon.com/blogs/containers/all-you-need-to-know-about-moving-to-containerd-on-amazon-eks/">Moving to containerd on EKS</a>, <a href="https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html">AWS Load Balancer Controller</a>, <a href="https://docs.aws.amazon.com/eks/latest/userguide/pod-identities.html">EKS Pod Identity</a></li>
+<li><a href="https://www.cncf.io/announcements/2026/01/20/kubernetes-established-as-the-de-facto-operating-system-for-ai-as-production-use-hits-82-in-2025-cncf-annual-cloud-native-survey/">CNCF Annual Cloud Native Survey, January 2026</a></li>
+</ul></div>
+</div>
+</main>
+<script src="../assets/course.js"></script>
+</body>
+</html>
