@@ -10,7 +10,7 @@
 </head>
 <body>
 <main class="page">
-<nav class="topnav" aria-label="Course"><span>IaC reference</span><a href="course-map.html">Course map</a><a href="iac-in-one-line.html">IaC in one line</a><a href="../lessons/0001-from-commit-to-user.html">Start: lesson 0001</a></nav>
+<nav class="topnav" aria-label="Course"><span>IaC reference</span><a href="course-map.html">Course map</a><a href="iac-in-one-line.html">IaC in one line</a><a href="kubernetes-yaml-helm-argocd.html">Helm + Argo CD</a><a href="../lessons/0001-from-commit-to-user.html">Start: lesson 0001</a></nav>
 <div class="col">
 <h1>The real chain: from code to a running Pod</h1>
 <p class="dek">The lessons teach the ideas: artifact, deployment, desired state, the floor. This page shows what those ideas are in a real Kubernetes company - which file, which tool, which step. You follow one change, "pin a note" in Notekeeper's API, from a laptop to a user, with the infrastructure under it.</p>
@@ -204,6 +204,7 @@ spec:
 <p class="small">Sources: <a href="https://kubernetes.io/docs/concepts/architecture/controller/">Kubernetes: Controllers</a>, <a href="https://kubernetes.io/docs/concepts/overview/components/">Kubernetes components</a>.</p>
 
 <h2>Helm: where the YAML comes from</h2>
+<a class="keyref" href="kubernetes-yaml-helm-argocd.html"><strong>Deep dive: Kubernetes YAML, Helm and Argo CD</strong><span>The full path from chart templates and merged values to rendered manifests, Argo CD sync, API objects and Kubernetes reconciliation - with diagrams, complete examples and review cards.</span></a>
 <p><strong>What it really solves:</strong> one set of Kubernetes YAML for many environments - instead of copying 300 lines per environment and editing them by hand. A <strong>chart</strong> is YAML templates with blanks. A <strong>values file</strong> fills the blanks for one environment.</p>
 <p class="code-label">1 · A line in the chart (templates/deployment.yaml)</p>
 <pre><code>image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

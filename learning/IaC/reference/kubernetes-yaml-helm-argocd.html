@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en" data-page="iac-helm-argocd-deepdive">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kubernetes YAML, Helm and Argo CD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../assets/course.css">
+</head>
+<body>
+<main class="page">
+<nav class="topnav" aria-label="Course"><span>IaC reference</span><a href="course-map.html">Course map</a><a href="the-real-chain.html">The real chain</a><a href="kubernetes-yaml-helm-argocd.html">Helm + Argo CD</a><a href="iac-in-one-line.html">IaC in one line</a><a href="../lessons/0001-from-commit-to-user.html">Start: lesson 0001</a></nav>
+<div class="col">
+<h1>Kubernetes YAML, Helm and Argo CD</h1>
+<p class="dek">What this sentence really means: <strong>Kubernetes YAML, rendered from a Helm chart and a values file, applied by Argo CD.</strong> Follow one chart value through rendering, synchronization and Kubernetes reconciliation.</p>
+<aside class="note"><strong>Scope.</strong> The main example uses a chart in Git and Argo CD's built-in Helm support. A chart fetched directly from a Helm repository has different source fields. Other delivery tools and custom Argo CD plugins can behave differently.</aside>
+
+<section class="idea" aria-labelledby="one-thing">
+<h2 id="one-thing">The big idea</h2>
+<dl>
+<dt>The one thing</dt>
+<dd>One reusable definition, one environment-specific choice and one delivery loop - instead of copied YAML and manual deploy commands.</dd>
+<dt>In a paragraph</dt>
+<dd>A <strong>Helm chart</strong> supplies parameterized templates. A <strong>values file</strong> supplies chart-specific settings. Helm <strong>renders</strong> them into concrete Kubernetes manifests. <strong>Argo CD</strong> compares those manifests with the destination cluster and synchronizes differences through the Kubernetes API. Kubernetes <strong>controllers</strong> then work continuously to make actual state match the requested state.</dd>
+<dt>Picture</dt>
+<dd>A form with blanks, a sheet of answers, a courier and a building supervisor. Helm fills in the form. The values file supplies the answers. Argo CD delivers the completed form and checks for later changes. Kubernetes supervises the building after accepting the form.</dd>
+<dt>Where the picture stops working</dt>
+<dd>Kubernetes does not execute a form like a script. It stores API objects, and independent control loops keep reacting to them. Also, a successful delivery does not prove that the application is healthy.</dd>
+</dl>
+</section>
+
+<section class="idea" aria-labelledby="wait-what-helm">
+<h2 id="wait-what-helm">Wait, what? Start with one image tag</h2>
+<dl>
+<dt>Helm chart - the one thing</dt>
+<dd>YAML templates plus values per environment - instead of copied YAML per environment.</dd>
+<dt>Picture</dt>
+<dd>Think of one paper form with blank boxes. The chart contains the form. Each environment has an answer sheet. Rendering copies the answers into a fresh form. The template file stays unchanged.</dd>
+<dt>Where the picture stops working</dt>
+<dd>Helm templates can do more than fill blanks: they can use conditions, loops and functions. And Helm does not deliver the finished form in Argo CD's built-in flow. It only renders it.</dd>
+</dl>
+</section>
+
+<div class="reality"><h3>Words you need</h3><dl>
+<dt><dfn>Manifest</dfn></dt><dd>A YAML representation of a Kubernetes API object.</dd>
+<dt><dfn>Template</dfn></dt><dd>A file containing fixed text and expressions that Helm evaluates.</dd>
+<dt><dfn>Parameter</dfn></dt><dd>A named input used by a template, such as <code>image.tag</code>.</dd>
+<dt><dfn>Values</dfn></dt><dd>The data Helm uses for those inputs.</dd>
+<dt><dfn>Render</dfn></dt><dd>Evaluate templates with values and produce manifests.</dd>
+</dl></div>
+
+<h3>Why Helm exists in this example</h3>
+<p>You want the same web application in test and production. Test needs one replica. Production needs three. Without templates, you could copy the Deployment YAML and edit each copy. Helm lets you keep one template and give each environment different inputs.</p>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 800 300" role="img" aria-labelledby="reuse-title">
+<title id="reuse-title">One shared Deployment template is used in two separate Helm rendering operations. Test values produce a test manifest with one replica. Production values produce a production manifest with three replicas. The template file is unchanged.</title>
+<defs><marker id="reuse-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<rect class="box" x="20" y="105" width="180" height="90"/><text class="t-b" x="110" y="135" text-anchor="middle">Shared template</text><text class="t-code" x="110" y="160" text-anchor="middle">deployment.yaml</text><text class="t-s" x="110" y="181" text-anchor="middle">same file both times</text>
+<rect class="box" x="245" y="30" width="175" height="72"/><text class="t-b" x="332" y="55" text-anchor="middle">Test values</text><text class="t-code" x="332" y="80" text-anchor="middle">replicaCount: 1</text>
+<rect class="box" x="245" y="198" width="175" height="72"/><text class="t-b" x="332" y="223" text-anchor="middle">Production values</text><text class="t-code" x="332" y="248" text-anchor="middle">replicaCount: 3</text>
+<rect class="box-par" x="470" y="30" width="135" height="72"/><text class="t-b" x="537" y="55" text-anchor="middle">Render test</text><text class="t-code" x="537" y="80" text-anchor="middle">helm template</text>
+<rect class="box-par" x="470" y="198" width="135" height="72"/><text class="t-b" x="537" y="223" text-anchor="middle">Render prod</text><text class="t-code" x="537" y="248" text-anchor="middle">helm template</text>
+<rect class="box-key" x="650" y="30" width="130" height="72"/><text class="t-b" x="715" y="55" text-anchor="middle">Test YAML</text><text class="t-code" x="715" y="80" text-anchor="middle">replicas: 1</text>
+<rect class="box-key" x="650" y="198" width="130" height="72"/><text class="t-b" x="715" y="223" text-anchor="middle">Prod YAML</text><text class="t-code" x="715" y="248" text-anchor="middle">replicas: 3</text>
+<path class="line" d="M110 105 V12 H537 V26" marker-end="url(#reuse-arrow)"/><path class="line" d="M110 195 V288 H537 V274" marker-end="url(#reuse-arrow)"/>
+<path class="line" d="M420 66 H466" marker-end="url(#reuse-arrow)"/><path class="line" d="M420 234 H466" marker-end="url(#reuse-arrow)"/>
+<path class="line" d="M605 66 H646" marker-end="url(#reuse-arrow)"/><path class="line" d="M605 234 H646" marker-end="url(#reuse-arrow)"/>
+</svg>
+<figcaption>Two separate rendering operations. The template is reused; the values and output differ. Neither rendering operation changes a cluster.</figcaption>
+</figure>
+<p>These are only the two lines that matter inside a larger Deployment template:</p>
+<pre data-copy><code>replicas: {{ .Values.replicaCount }}
+image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"</code></pre>
+<p><strong>Parameterized template</strong> means exactly this: the output depends on named inputs. Here the inputs are <code>replicaCount</code>, <code>image.repository</code> and <code>image.tag</code>.</p>
+<ul>
+<li><code>{{ ... }}</code> marks an expression for Helm to evaluate.</li>
+<li><code>.Values</code> means "look in the combined values data".</li>
+<li><code>.Values.image.tag</code> means "find <code>image</code>, then find <code>tag</code> inside it".</li>
+</ul>
+
+<h3>What "a values file supplies configuration" means</h3>
+<p>The chart has default values in <code>values.yaml</code>:</p>
+<pre data-copy><code>replicaCount: 1
+
+image:
+  repository: ghcr.io/example/web
+  tag: "1.0.0"</code></pre>
+<p>A delivery engineer also keeps <code>values-production.yaml</code> in Git. This warm-up shows it <strong>after</strong> the tag change to <code>1.5.0</code>; section 3 shows the same file <strong>before</strong>, at <code>1.4.2</code>.</p>
+<pre data-copy><code>replicaCount: 3
+
+image:
+  tag: "1.5.0"</code></pre>
+<p>Helm reads both files. The production file overrides two defaults. It does not specify <code>image.repository</code>, so the default repository remains.</p>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 960 340" role="img" aria-labelledby="merge-title">
+<title id="merge-title">Default values and production values are separate inputs. Helm merges them. Production supplies replica count three and image tag 1.5.0. The nested image repository is inherited from defaults. The template uses the combined values to render replicas three and the production image reference.</title>
+<defs><marker id="merge-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<rect class="box" x="20" y="20" width="240" height="160"/><text class="t-b" x="34" y="46">values.yaml - defaults</text><text class="t-code" x="34" y="76">replicaCount: 1</text><text class="t-code" x="34" y="102">image:</text><text class="t-code" x="46" y="128">repository: …/web</text><text class="t-code" x="46" y="154">tag: "1.0.0"</text>
+<rect class="box" x="20" y="205" width="240" height="115"/><text class="t-b" x="34" y="231">values-production.yaml</text><text class="t-code" x="34" y="260">replicaCount: 3</text><text class="t-code" x="34" y="284">image:</text><text class="t-code" x="46" y="308">tag: "1.5.0"</text>
+<rect class="box-par" x="360" y="45" width="270" height="250"/><text class="t-b" x="374" y="72">Combined .Values</text><text class="t-code" x="374" y="104">replicaCount: 3</text><text class="t-s" x="374" y="125">overridden by production</text><text class="t-code" x="374" y="153">image:</text><text class="t-code" x="386" y="181">repository: …/web</text><text class="t-s" x="386" y="202">inherited from defaults</text><text class="t-code" x="386" y="230">tag: "1.5.0"</text><text class="t-s" x="386" y="251">overridden by production</text>
+<rect class="box-key" x="720" y="110" width="220" height="120"/><text class="t-b" x="734" y="137">Rendered YAML</text><text class="t-code" x="734" y="168">replicas: 3</text><text class="t-code" x="734" y="195">image: "…/web:1.5.0"</text><text class="t-s" x="734" y="217">no Helm expressions left</text>
+<path class="line" d="M260 100 C305 100 312 125 356 130" marker-end="url(#merge-arrow)"/><path class="line" d="M260 260 C305 260 312 205 356 195" marker-end="url(#merge-arrow)"/><path class="line" d="M630 170 H716" marker-end="url(#merge-arrow)"/>
+<text class="t-par" x="308" y="86" text-anchor="middle">merge</text><text class="t-verb" x="674" y="155" text-anchor="middle">render</text>
+</svg>
+<figcaption>The ellipsis shortens the repository only in this figure; the complete value is in the code below. Production overrides two values. The repository survives from the defaults. Template expressions read the combined result.</figcaption>
+</figure>
+<p>Helm uses the combined values to produce these plain YAML lines:</p>
+<pre data-copy><code>replicas: 3
+image: "ghcr.io/example/web:1.5.0"</code></pre>
+<aside class="note"><strong>No automatic connection.</strong> A value does not go directly to Kubernetes or into the application. It has an effect only where a template uses it. Writing <code>replicaCount: 3</code> in a values file does nothing if no template or dependency consumes <code>replicaCount</code>.</aside>
+
+<h3>Where the files live, and who changes them</h3>
+<pre data-copy><code>platform/
+├── applications/
+│   └── web-production.yaml
+└── charts/
+    └── web/
+        ├── Chart.yaml
+        ├── values.yaml
+        ├── values-test.yaml
+        ├── values-production.yaml
+        └── templates/
+            └── deployment.yaml</code></pre>
+<div class="table-wrap"><table>
+<thead><tr><th>Who</th><th>What they do</th><th>Where</th></tr></thead>
+<tbody>
+<tr><td>Chart maintainer</td><td>Writes the templates and default values.</td><td><code>templates/</code> and <code>values.yaml</code></td></tr>
+<tr><td>Application or delivery engineer</td><td>Chooses production inputs, often through a reviewed Git change.</td><td><code>values-production.yaml</code></td></tr>
+<tr><td>Delivery engineer or CI</td><td>Updates the image tag after a new image is ready.</td><td>Usually the environment's values file</td></tr>
+<tr><td>Argo CD administrator</td><td>Connects the source and destination through an Application.</td><td><code>applications/web-production.yaml</code></td></tr>
+<tr><td>Application end user</td><td>None of these steps.</td><td>The running application, not this delivery process</td></tr>
+</tbody></table></div>
+<p>One person can hold several of these roles. The roles are separate so you can see which file each decision changes.</p>
+
+<h3>Where Helm takes over</h3>
+<p>Helm takes over for <strong>rendering only</strong>: after Argo CD has the source files and before Argo CD compares the rendered manifests with the live cluster.</p>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 900 260" role="img" aria-labelledby="boundary-title">
+<title id="boundary-title">Git supplies chart and values. Inside Argo CD, the repository server uses helm template to generate manifests. Helm's job ends there. The Argo CD application controller compares and syncs those manifests to the Kubernetes API server. Kubernetes controllers then reconcile.</title>
+<defs><marker id="boundary-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<rect class="box" x="20" y="90" width="155" height="82"/><text class="t-b" x="97" y="118" text-anchor="middle">Git revision</text><text class="t-s" x="97" y="142" text-anchor="middle">chart + values</text><text class="t-s" x="97" y="161" text-anchor="middle">source files</text>
+<rect class="frame" x="225" y="22" width="410" height="215"/><text class="t-par" x="241" y="48">Argo CD</text>
+<rect class="box-par" x="250" y="65" width="165" height="150"/><text class="t-b" x="332" y="91" text-anchor="middle">Repository server</text><text class="t-s" x="332" y="112" text-anchor="middle">generates manifests</text><rect class="box" x="267" y="128" width="131" height="43"/><text class="t-code" x="332" y="154" text-anchor="middle">helm template</text><text class="t-s" x="332" y="194" text-anchor="middle">Helm's job ends here</text>
+<rect class="box-par" x="455" y="83" width="155" height="95"/><text class="t-b" x="532" y="109" text-anchor="middle">Application</text><text class="t-b" x="532" y="130" text-anchor="middle">controller</text><text class="t-s" x="532" y="153" text-anchor="middle">compares + syncs</text>
+<rect class="box-key" x="710" y="75" width="170" height="112"/><text class="t-b" x="795" y="103" text-anchor="middle">Kubernetes</text><text class="t-s" x="795" y="128" text-anchor="middle">API server</text><text class="t-s" x="795" y="150" text-anchor="middle">then controllers</text><text class="t-s" x="795" y="171" text-anchor="middle">then node components</text>
+<path class="line" d="M175 131 H246" marker-end="url(#boundary-arrow)"/><path class="line" d="M415 131 H451" marker-end="url(#boundary-arrow)"/><path class="line" d="M610 131 H706" marker-end="url(#boundary-arrow)"/>
+<text class="t-s" x="210" y="116" text-anchor="middle">fetch</text><text class="t-s" x="434" y="116" text-anchor="middle">YAML</text><text class="t-s" x="658" y="116" text-anchor="middle">API operations</text>
+<path class="line-soft" d="M795 187 V222 H532 V182" marker-end="url(#boundary-arrow)"/><text class="t-s" x="670" y="213" text-anchor="middle">live state for comparison</text>
+<text class="t-s" x="420" y="253" text-anchor="middle">No Helm release is created in this built-in flow.</text>
+</svg>
+<figcaption>Helm runs inside manifest generation. Argo CD owns source resolution, comparison and sync. Kubernetes owns what happens after the API server accepts the objects.</figcaption>
+</figure>
+<ol>
+<li>An engineer changes <code>image.tag</code> in <code>values-production.yaml</code> and merges the Git change.</li>
+<li>Argo CD refreshes the Application and resolves its configured Git revision.</li>
+<li>Argo CD's <strong>repository server</strong> gets the chart and values for that revision.</li>
+<li>The repository server invokes Helm's template-rendering operation. Helm reads the defaults and overrides, evaluates the templates and returns manifests.</li>
+<li>That rendering operation finishes. No Helm process stays behind to watch the files or the workload.</li>
+<li>Argo CD's <strong>application controller</strong> compares the returned manifests with live objects. A relevant difference makes the Application <code>OutOfSync</code>.</li>
+<li>A manual or automated sync sends the required API operations to the destination cluster.</li>
+<li>The Kubernetes API server accepts and stores the updated Deployment object if the request passes its checks.</li>
+<li>The Deployment controller sees the changed Pod template and manages a rollout through ReplicaSets and Pods.</li>
+</ol>
+
+<h3>The same rendering step on your laptop</h3>
+<pre data-copy><code>helm template web ./charts/web \
+  --values ./charts/web/values-production.yaml</code></pre>
+<p>This prints the rendered manifests. It does not change a cluster and does not create a Helm release. With Argo CD, you do not follow it with <code>helm install</code>: Argo CD performs the sync.</p>
+<div class="pairs">
+<div class="pair"><strong>helm install vs helm template</strong><p>helm install puts a chart into the cluster and Helm owns its life cycle. helm template only prints the YAML; another tool applies it.</p><p class="small">Argo CD uses helm template. So helm list shows nothing for this built-in flow.</p></div>
+<div class="pair"><strong>Template change vs values change</strong><p>A template change alters the reusable resource definition. A values change supplies different input to that definition.</p><p class="small">Changing only the image tag leaves the template file untouched.</p></div>
+</div>
+
+<h3>Warm-up for Nov 24</h3>
+<div class="cards"><details class="card"><summary>Argo CD has fetched a chart and a values file. What does Helm do next - and what does it not do?</summary><p>Helm combines the values, evaluates the templates and returns concrete manifests. It does not apply those manifests or keep watching the workload in Argo CD's built-in flow. Argo CD compares and syncs; Kubernetes controllers reconcile.</p></details></div>
+
+<details>
+<summary>Jump to a section</summary>
+<ol>
+<li><a href="#wait-what-helm">Wait, what? Start with one image tag</a></li>
+<li><a href="#whole-flow">The whole flow</a></li>
+<li><a href="#kubernetes-yaml">Kubernetes YAML</a></li>
+<li><a href="#helm-chart">The Helm chart</a></li>
+<li><a href="#values-file">The values file</a></li>
+<li><a href="#argocd">Argo CD</a></li>
+<li><a href="#sequence">The complete sequence</a></li>
+<li><a href="#success">Synced vs Healthy</a></li>
+<li><a href="#review">Review cards and sources</a></li>
+</ol>
+</details>
+
+<h2 id="whole-flow">The whole flow</h2>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 300" role="img" aria-labelledby="yaml-flow-title">
+<title id="yaml-flow-title">A Helm chart and values file enter Helm rendering. Rendering produces concrete Kubernetes manifests but makes no cluster change. Argo CD compares and syncs the manifests. The Kubernetes API server stores objects. Controllers reconcile them into running workloads.</title>
+<defs><marker id="yaml-flow-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<rect class="box" x="20" y="28" width="170" height="64"/><text class="t-b" x="105" y="54" text-anchor="middle">Helm chart</text><text class="t-s" x="105" y="76" text-anchor="middle">templates + defaults</text>
+<rect class="box" x="20" y="128" width="170" height="64"/><text class="t-b" x="105" y="154" text-anchor="middle">Values file</text><text class="t-s" x="105" y="176" text-anchor="middle">environment settings</text>
+<rect class="box-par" x="270" y="78" width="165" height="64"/><text class="t-b" x="352" y="104" text-anchor="middle">helm template</text><text class="t-s" x="352" y="126" text-anchor="middle">renders the chart</text>
+<rect class="box-key" x="515" y="78" width="175" height="64"/><text class="t-b" x="602" y="104" text-anchor="middle">Kubernetes YAML</text><text class="t-s" x="602" y="126" text-anchor="middle">concrete manifests</text>
+<rect class="box-par" x="515" y="210" width="175" height="64"/><text class="t-b" x="602" y="236" text-anchor="middle">Argo CD</text><text class="t-s" x="602" y="258" text-anchor="middle">compares and syncs</text>
+<rect class="box" x="270" y="210" width="165" height="64"/><text class="t-b" x="352" y="236" text-anchor="middle">API server</text><text class="t-s" x="352" y="258" text-anchor="middle">stores object state</text>
+<rect class="box-goal" x="20" y="210" width="170" height="64"/><text class="t-b" x="105" y="236" text-anchor="middle">Controllers</text><text class="t-s" x="105" y="258" text-anchor="middle">reconcile the workload</text>
+<path class="line" d="M190 60 C230 60 232 92 266 100" marker-end="url(#yaml-flow-arrow)"/><path class="line" d="M190 160 C230 160 232 128 266 120" marker-end="url(#yaml-flow-arrow)"/>
+<path class="line" d="M435 110 H511" marker-end="url(#yaml-flow-arrow)"/><path class="line" d="M602 142 V206" marker-end="url(#yaml-flow-arrow)"/>
+<path class="line" d="M515 242 H439" marker-end="url(#yaml-flow-arrow)"/><path class="line" d="M270 242 H194" marker-end="url(#yaml-flow-arrow)"/>
+<text class="t-par" x="352" y="34" text-anchor="middle">Rendering: no cluster change yet</text><text class="t-s" x="352" y="54" text-anchor="middle">the template expressions become YAML values</text>
+</svg>
+<figcaption>Helm generates configuration. Argo CD delivers it. Kubernetes reconciles it. The arrows cross a tool boundary at each step.</figcaption>
+</figure>
+
+<h3>The short version</h3>
+<ol>
+<li>A <strong>Helm chart</strong> provides parameterized templates for Kubernetes resources.</li>
+<li>A <strong>values file</strong> supplies configuration for those templates.</li>
+<li>Helm <strong>renders</strong> the templates into concrete Kubernetes manifests.</li>
+<li><strong>Argo CD</strong> compares those manifests with the destination cluster and synchronizes differences through the Kubernetes API.</li>
+<li>Kubernetes controllers then work continuously to make the actual workload match the requested state.</li>
+</ol>
+
+<div class="table-wrap"><table>
+<thead><tr><th>Layer</th><th>Question it answers</th></tr></thead>
+<tbody>
+<tr><td><strong>Helm chart</strong></td><td>What Kubernetes resources should exist, and how are they parameterized?</td></tr>
+<tr><td><strong>Values file</strong></td><td>Which concrete settings should this deployment use?</td></tr>
+<tr><td><strong>Argo CD</strong></td><td>How does that desired configuration get delivered and kept synchronized?</td></tr>
+<tr><td><strong>Kubernetes</strong></td><td>How is requested object state turned into and maintained as running infrastructure?</td></tr>
+</tbody></table></div>
+
+<h2 id="kubernetes-yaml">1. What Kubernetes YAML actually is</h2>
+<p><strong>What it really solves:</strong> a portable description of desired API objects - instead of a person issuing a private sequence of server commands.</p>
+<p>Kubernetes YAML is usually a <strong>manifest</strong>: a YAML representation of one or more Kubernetes API objects.</p>
+<pre data-copy><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 3</code></pre>
+<ul>
+<li><code>apiVersion</code>: which Kubernetes API group and version to use.</li>
+<li><code>kind</code>: the object type - here, a <code>Deployment</code>.</li>
+<li><code>metadata</code>: identity, such as the object's name and namespace.</li>
+<li><code>spec</code>: the desired state you are requesting, for object kinds that have a <code>spec</code>.</li>
+</ul>
+<p>A live object commonly also has <code>status</code>, which Kubernetes components update to report <strong>observed state</strong>. Desired state and observed state are different.</p>
+<div class="reality"><h3>The declaration, not a script</h3><p>The example says: "I want a Deployment named <code>web</code>, with three desired replicas." It does not say that three Pods already run. Submitting the declaration asks the API server to create or update an object. Controllers do the later work.</p><p>YAML is an input format. Kubernetes persists <strong>API object state</strong>, not necessarily your YAML bytes. Live objects can contain defaults, system-generated metadata and observed status.</p></div>
+
+<h2 id="helm-chart">2. What a Helm chart is</h2>
+<p><strong>What it really solves:</strong> one reusable set of Kubernetes resources with inputs - instead of copied manifests for every environment.</p>
+<p>A <strong>Helm chart</strong> is Helm's packaging format: a collection of files describing a related set of Kubernetes resources.</p>
+<pre data-copy><code>web/
+├── Chart.yaml
+├── values.yaml
+└── templates/
+    ├── deployment.yaml
+    └── service.yaml</code></pre>
+<ul>
+<li><code>Chart.yaml</code> contains required chart metadata, including its name and chart version.</li>
+<li><code>values.yaml</code> contains the chart's default configuration values.</li>
+<li><code>templates/</code> contains parameterized templates for Kubernetes manifests.</li>
+</ul>
+<aside class="note"><strong>Chart is not image.</strong> A container image contains software that can run. A chart contains templates and configuration for requesting Kubernetes resources. A chart often refers to a container image through its values. The chart version, the chart's informational <code>appVersion</code> and the container-image tag are separate concepts.</aside>
+
+<h3>A template contains expressions</h3>
+<p>For example, <code>templates/deployment.yaml</code> might contain:</p>
+<pre data-copy><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"</code></pre>
+<p>The <code>{{ ... }}</code> expressions are Helm template syntax, built around Go templates. Helm evaluates them during rendering.</p>
+
+<h2 id="values-file">3. What the values file does</h2>
+<p><strong>What it really solves:</strong> environment-specific choices without editing the reusable templates - instead of maintaining a copied chart per environment.</p>
+<p>A <strong>values file is plain YAML containing chart-specific configuration data</strong>. Start with the chart's defaults in <code>values.yaml</code>:</p>
+<pre data-copy><code>replicaCount: 1
+
+image:
+  repository: ghcr.io/example/web
+  tag: "1.0.0"</code></pre>
+<p>Then provide <code>values-production.yaml</code>:</p>
+<pre data-copy><code>replicaCount: 3
+
+image:
+  tag: "1.4.2"</code></pre>
+<p>Helm combines these values. Your values override matching defaults; unrelated defaults remain available. Nested mappings are merged rather than treating your file as a wholesale replacement for the defaults file.</p>
+<aside class="note"><strong>Three merge traps.</strong><ul><li><strong>Lists are replaced, not merged.</strong> If the defaults have <code>env: [A, B]</code> and production sets <code>env: [C]</code>, the result is only <code>[C]</code>. Only mappings (key: value blocks) merge.</li><li><strong><code>null</code> removes a default.</strong> <code>resources: null</code> in an override deletes the chart default key.</li><li><strong>Quote version-like values.</strong> YAML reads <code>tag: 1.10</code> as the number 1.1. <code>tag: "1.10"</code> stays a string. That is why the examples quote tags.</li></ul></aside>
+<p>The effective values here are therefore:</p>
+<pre data-copy><code>replicaCount: 3
+
+image:
+  repository: ghcr.io/example/web  # inherited default
+  tag: "1.4.2"                     # overridden</code></pre>
+<p>After rendering, the Deployment includes:</p>
+<pre data-copy><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web
+          image: "ghcr.io/example/web:1.4.2"</code></pre>
+<div class="reality"><h3>Two consequences</h3><ul>
+<li><strong>Rendering produces configuration; it does not itself deploy anything.</strong></li>
+<li>Values have an effect only where the chart uses them. The key <code>replicaCount</code> is not intrinsically meaningful to Kubernetes. It matters here because this chart passes <code>.Values.replicaCount</code> into the Deployment.</li>
+</ul><p>Different charts expose different value names and structures. Read the particular chart's <code>values.yaml</code>, documentation and optional values schema. With multiple values files, later files have higher precedence for duplicate keys. On the Helm CLI, <code>--set</code> beats every <code>--values</code> file.</p><p>In Argo CD the order is: <code>parameters</code> &gt; <code>valuesObject</code> &gt; <code>values</code> &gt; <code>valueFiles</code> &gt; the chart's own <code>values.yaml</code>. Within <code>valueFiles</code>, the last file listed wins.</p></div>
+
+<h3>Render it locally</h3>
+<p>You can reproduce basic rendering with:</p>
+<pre data-copy><code>helm template web ./charts/web \
+  --values ./charts/web/values-production.yaml \
+  --namespace production</code></pre>
+<p>This prints rendered manifests. Despite accepting a name argument, <code>helm template</code> does <strong>not</strong> install a Helm release.</p>
+
+<h2 id="argocd">4. Where Argo CD fits</h2>
+<p><strong>What it really solves:</strong> continuous delivery from a declared source to a cluster - instead of people remembering when and where to run deploy commands.</p>
+<p><strong>Argo CD is a GitOps continuous-delivery tool implemented as a Kubernetes controller.</strong> It compares desired application configuration with resources in a destination cluster and performs synchronization.</p>
+<p>You normally define an Argo CD <strong><code>Application</code> custom resource</strong>. For a Git-hosted chart:</p>
+<pre data-copy><code>apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: web
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/example/platform.git
+    targetRevision: main
+    path: charts/web
+    helm:
+      valueFiles:
+        - values-production.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: production
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true</code></pre>
+<aside class="note">This <code>Application</code> is <strong>configuration for Argo CD</strong>, not one of the rendered workload manifests. Its <code>metadata.namespace: argocd</code> assumes the usual Argo CD installation namespace.</aside>
+<div class="table-wrap"><table>
+<thead><tr><th>Field</th><th>What it selects in this example</th></tr></thead>
+<tbody>
+<tr><td><code>source.repoURL</code></td><td>The Git repository containing the desired configuration.</td></tr>
+<tr><td><code>source.targetRevision</code></td><td>The Git branch <code>main</code>. It could also identify a tag or commit.</td></tr>
+<tr><td><code>source.path</code></td><td>The chart directory <code>charts/web</code> inside the repository.</td></tr>
+<tr><td><code>source.helm.valueFiles</code></td><td>The values files used for Helm rendering. Paths here are relative to <code>source.path</code>.</td></tr>
+<tr><td><code>destination.server</code></td><td>The destination cluster's API endpoint.</td></tr>
+<tr><td><code>destination.namespace</code></td><td>The namespace for namespace-scoped resources whose manifests omit <code>metadata.namespace</code>.</td></tr>
+</tbody></table></div>
+<p>The values-file path therefore resolves to <code>charts/web/values-production.yaml</code>. <code>destination.namespace</code> does not blindly replace every explicit namespace in every manifest.</p>
+<p>For a chart fetched directly from a Helm repository rather than Git, <code>source.chart</code> identifies the chart and <code>targetRevision</code> identifies its chart version. <code>source.path</code> is not used for that source form.</p>
+<div class="reality"><h3>Three details the Application decides for Helm</h3><ul><li><strong>Values from another repository.</strong> <code>valueFiles</code> paths are relative to the chart. To keep values in a different repo than the chart (common with a chart from a Helm repository), use <code>spec.sources</code> (multiple sources, Argo CD 2.6+) and point at the other repo with a <code>$ref</code> prefix, for example <code>$values/envs/values-production.yaml</code>.</li><li><strong>Release name.</strong> <code>.Release.Name</code> defaults to the Application name (<code>web</code> here). Override it with <code>source.helm.releaseName</code>. Changing it later can rename every resource whose name the chart builds from the release name.</li><li><strong>Namespace.</strong> Argo CD renders with the destination namespace, so <code>.Release.Namespace</code> is <code>production</code> here.</li></ul></div>
+
+<h2 id="sequence">5. The complete sequence</h2>
+<p>Follow the change from Git to its observed outcome. Select <strong>Run it</strong> to reveal the moments in order.</p>
+<div class="runstrip" data-waves='[["1 · Git: tag 1.5.0 is merged"],["2 · Helm: render the 1.5.0 manifest"],["3 · Argo CD: desired 1.5.0, live 1.4.2 = OutOfSync"],["4 · Sync: API server accepts the Deployment change"],["5A · Kubernetes: controllers reconcile the rollout","5B · Argo CD: update sync and health observations"],["6 · Outcome: rollout becomes ready or stalls"]]'></div>
+<aside class="note"><strong>Read moment 5 carefully.</strong> "Together" means independent activity, not a guaranteed order. Argo CD can report <code>Synced</code> while rollout health is still <code>Progressing</code>. A later failure can make health <code>Degraded</code> without changing the desired Git revision.</aside>
+<div class="table-wrap"><table>
+<thead><tr><th>Moment</th><th>What changes</th><th>What has not been proved yet</th></tr></thead>
+<tbody>
+<tr><td>Git merge</td><td>The source now requests <code>1.5.0</code>.</td><td>Nothing has changed in the cluster.</td></tr>
+<tr><td>Helm rendering</td><td>The manifest now contains image <code>1.5.0</code>.</td><td>No API operation has happened.</td></tr>
+<tr><td>Comparison</td><td>Argo CD sees desired <code>1.5.0</code> and live <code>1.4.2</code>.</td><td>The new version has not been applied.</td></tr>
+<tr><td>Sync</td><td>The API server accepts the updated Deployment.</td><td>New Pods are not necessarily running or ready.</td></tr>
+<tr><td>Reconciliation</td><td>Controllers create and schedule replacement Pods.</td><td>The rollout can still stall or fail.</td></tr>
+</tbody></table></div>
+
+<h3>Step 1: you change Git</h3>
+<p>You might change:</p>
+<pre><code>image:
+  tag: "1.4.2"</code></pre>
+<p>to:</p>
+<pre><code>image:
+  tag: "1.5.0"</code></pre>
+<p>and commit that change. Changing the values file does not itself build a new container image. Building and publishing the image is normally a separate CI step.</p>
+
+<h3>Step 2: Argo CD resolves the source</h3>
+<p>Argo CD determines which Git revision the Application currently targets and obtains the chart and values. Its <strong>repository server</strong> generates Kubernetes manifests from the repository, revision, path and template-specific settings.</p><p><strong>When does Argo CD notice the commit?</strong> By default it polls Git about every 3 minutes (<code>timeout.reconciliation</code>: 120s plus up to 60s jitter). A Git webhook makes it near-instant. A branch such as <code>main</code> is resolved to a specific commit SHA; the Application records that SHA as the synced revision.</p>
+
+<h3>Step 3: Helm renders the manifests</h3>
+<p>With Argo CD's <strong>built-in Helm support</strong>, Helm renders the chart with <code>helm template</code>.</p>
+<div class="reality"><h3>helm install vs helm template</h3><p><code>helm install</code> puts a chart into the cluster and Helm owns its release life cycle. <code>helm template</code> only prints the YAML; another tool applies it.</p><p>Argo CD's built-in flow uses Helm to render charts, while <strong>Argo CD manages the application life cycle</strong>. Do not assume <code>helm list</code> or <code>helm rollback</code> will manage an Application deployed through this flow. Roll back by reverting the Git change (or with Argo CD's own history/rollback, which is not available while automated sync is on).</p></div>
+<div class="reality"><h3>What changes because Helm only renders</h3><ul><li><strong>Hooks are translated, not run by Helm.</strong> <code>pre-install</code>/<code>pre-upgrade</code> become Argo CD <code>PreSync</code>; <code>post-install</code>/<code>post-upgrade</code> become <code>PostSync</code>; <code>hook-weight</code> becomes a sync wave. Argo CD cannot tell install from upgrade, so pre-install and pre-upgrade hooks run on every sync. Rollback and test hooks are ignored. If the chart defines any Argo CD hooks, all Helm hooks are ignored.</li><li><strong><code>lookup</code> returns nothing.</strong> Rendering does not read the live cluster, so a template that uses <code>lookup</code> (for example, "reuse the existing secret") gets an empty result. Every refresh then sees a new value and the app can stay <code>OutOfSync</code>.</li><li><strong>Chart dependencies.</strong> If <code>Chart.yaml</code> lists dependencies, the repository server fetches them before rendering. Private dependency repositories must be registered in Argo CD.</li></ul></div>
+
+<h3>Step 4: Argo CD compares desired and live state</h3>
+<p>Argo CD's application controller compares:</p>
+<ul>
+<li><strong>Desired state</strong>: the newly rendered manifests.</li>
+<li><strong>Live state</strong>: the corresponding objects currently in the destination cluster.</li>
+</ul>
+<p>If a relevant difference exists, the Application becomes <strong><code>OutOfSync</code></strong>. If the comparison finds no relevant difference, it is <strong><code>Synced</code></strong>.</p><p>"Relevant" matters: fields set by the cluster (defaults, <code>status</code>) are not counted, and you can tell Argo CD to skip more with <code>ignoreDifferences</code>. To know which live objects belong to the Application, Argo CD marks each one with the <code>argocd.argoproj.io/tracking-id</code> annotation (the default tracking method; older setups use the <code>app.kubernetes.io/instance</code> label).</p>
+
+<h3>Step 5: a sync applies the changes</h3>
+<p>A <strong>sync</strong> reconciles the destination cluster with the desired manifests. It can be:</p>
+<ul>
+<li><strong>Manual</strong>: initiated through the UI, CLI or API.</li>
+<li><strong>Automated</strong>: performed when Argo CD detects that an automated Application is <code>OutOfSync</code>.</li>
+</ul>
+<p>The normal apply behavior uses declarative <code>kubectl apply</code>; options can change details such as server-side apply. Conceptually, Argo CD submits API operations to create or update resources as needed.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Automated policy</th><th>What it permits</th><th>What it does not mean</th></tr></thead>
+<tbody>
+<tr><td><code>prune: true</code></td><td>Automated sync can delete Application resources that are no longer present in desired configuration.</td><td>Ordinary apply does not delete every object missing from a manifest.</td></tr>
+<tr><td><code>selfHeal: true</code></td><td>Argo CD can correct live-cluster drift, such as a hand edit to an Application-managed Deployment.</td><td>It does not diagnose or repair application health.</td></tr>
+</tbody></table></div>
+<ul><li><strong>Both are off by default.</strong> With <code>automated: {}</code> alone, removed resources stay in the cluster and hand edits stay too: automated sync reacts to changes in the desired state (Git), not to live drift. Drift only shows as <code>OutOfSync</code>.</li><li><strong>No automatic retry of a failed commit.</strong> If an automated sync of a commit SHA fails, Argo CD does not try that same SHA again unless you set <code>syncPolicy.retry</code>.</li><li><strong>Self-heal and autoscalers fight.</strong> If an HPA changes <code>replicas</code> and the chart also sets <code>replicas</code>, self-heal keeps putting it back. Leave <code>replicas</code> out of the rendered Deployment when an HPA owns it, or ignore that field.</li></ul>
+
+<h3>Step 6: the Kubernetes API server processes the objects</h3>
+<p>For each resource, the destination cluster's <strong>API server</strong> processes the request, including relevant authentication, authorization, validation and admission behavior.</p>
+<p>Accepted object state is persisted in Kubernetes' backing store, normally <strong>etcd</strong>. A successful API write means the object was accepted. It does <strong>not</strong> prove that the application is running, ready or available.</p>
+
+<h3>Step 7: Kubernetes controllers reconcile</h3>
+<p>Kubernetes controllers are continuing <strong>control loops</strong> that move current cluster state toward desired state. For a Deployment, the usual chain is:</p>
+<figure class="fig fig-wide">
+<svg viewBox="0 0 720 250" role="img" aria-labelledby="controller-flow-title">
+<title id="controller-flow-title">A Deployment controller manages a ReplicaSet. The ReplicaSet maintains Pods. The scheduler assigns unscheduled Pods to nodes. On each selected node, the kubelet works with the container runtime to run containers.</title>
+<defs><marker id="controller-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="arrowhead" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+<rect class="box" x="20" y="28" width="155" height="62"/><text class="t-b" x="97" y="54" text-anchor="middle">Deployment</text><text class="t-s" x="97" y="76" text-anchor="middle">declarative updates</text>
+<rect class="box" x="280" y="28" width="155" height="62"/><text class="t-b" x="357" y="54" text-anchor="middle">ReplicaSet</text><text class="t-s" x="357" y="76" text-anchor="middle">maintains Pod count</text>
+<rect class="box-key" x="540" y="28" width="155" height="62"/><text class="t-b" x="617" y="54" text-anchor="middle">Pods</text><text class="t-s" x="617" y="76" text-anchor="middle">from the Pod template</text>
+<path class="line" d="M175 59 H276" marker-end="url(#controller-arrow)"/><path class="line" d="M435 59 H536" marker-end="url(#controller-arrow)"/>
+<rect class="box" x="410" y="154" width="130" height="62"/><text class="t-b" x="475" y="180" text-anchor="middle">Scheduler</text><text class="t-s" x="475" y="202" text-anchor="middle">selects a node</text>
+<rect class="box-goal" x="565" y="154" width="130" height="62"/><text class="t-b" x="630" y="180" text-anchor="middle">kubelet</text><text class="t-s" x="630" y="202" text-anchor="middle">+ container runtime</text>
+<path class="line" d="M617 90 V122 H475 V150" marker-end="url(#controller-arrow)"/><path class="line" d="M540 185 H561" marker-end="url(#controller-arrow)"/>
+</svg>
+<figcaption>Each component has a different job. The scheduler does not start containers. The kubelet and container runtime handle execution on the selected node.</figcaption>
+</figure>
+<ol>
+<li>The <strong>Deployment controller</strong> manages ReplicaSets.</li>
+<li>A <strong>ReplicaSet</strong> creates and maintains the desired Pods.</li>
+<li>The <strong>scheduler</strong> selects nodes for unassigned Pods.</li>
+<li>On each selected node, the <strong>kubelet</strong> works with the <strong>container runtime</strong> to run the containers described by the Pod.</li>
+</ol>
+<p>The Deployment manifest contains a <strong>Pod template</strong>; you do not separately render every ReplicaSet and Pod.</p>
+<aside class="note"><strong>Update vs rollout.</strong> Changing the image tag changes the Deployment's <code>.spec.template</code>, so it triggers a rollout. Changing only <code>.spec.replicas</code> changes desired Pod count and does not itself trigger a rollout. This chain is specific to Deployments. Services, ConfigMaps, Jobs and other kinds have different behavior.</aside>
+
+<h2 id="success">6. Synced does not necessarily mean Healthy</h2>
+<p>Argo CD reports these as separate assessments:</p>
+<ul>
+<li><strong>Sync status</strong>: do the live resource configurations agree with the desired manifests?</li>
+<li><strong>Health status</strong>: do resource-specific health checks indicate that resources are healthy?</li>
+</ul>
+<p>For example, the desired Deployment might be applied successfully, making the Application <code>Synced</code>, while its containers repeatedly fail because the configured image cannot run. The Application could then be <code>Degraded</code>.</p><p><strong>How long until <code>Degraded</code>?</strong> For a Deployment, Argo CD reports <code>Progressing</code> while the rollout is in progress. It turns <code>Degraded</code> when Kubernetes marks the rollout as failed - by default after the Deployment's <code>progressDeadlineSeconds</code> (600 s) passes with no progress. So a broken image can look "only <code>Progressing</code>" for up to 10 minutes.</p><p>Health values: <code>Healthy</code>, <code>Progressing</code>, <code>Degraded</code>, <code>Suspended</code>, <code>Missing</code>, <code>Unknown</code>. The Application shows the <strong>worst</strong> health of its directly managed resources. Sync values: <code>Synced</code>, <code>OutOfSync</code>, <code>Unknown</code>.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Success boundary</th><th>What it proves</th></tr></thead>
+<tbody>
+<tr><td><strong>Rendering succeeded</strong></td><td>Output was generated. It does not prove deployment.</td></tr>
+<tr><td><strong>The API operations succeeded</strong></td><td>Kubernetes accepted object changes. It does not prove readiness.</td></tr>
+<tr><td><strong>Reconciliation and health checks succeeded</strong></td><td>The workload reached a satisfactory observed state.</td></tr>
+</tbody></table></div>
+
+<h2>The mental model to keep</h2>
+<p>Think of four separate jobs: <strong>Helm generates the configuration; Argo CD delivers it; Kubernetes reconciles it; your container image supplies the software that runs.</strong></p>
+<div class="reality"><h3>The original sentence, rewritten</h3><p>We keep parameterized Kubernetes resource templates and environment-specific configuration in Git. Argo CD renders them into concrete manifests, applies those manifests to the destination cluster and tracks synchronization. Kubernetes controllers then continuously reconcile the cluster toward the requested state.</p></div>
+
+<h2 id="review">Review cards</h2>
+<p>Say the answer before opening each card.</p>
+<div class="cards">
+<details class="card"><summary>Does rendering a chart deploy it?</summary><p>No. Rendering evaluates templates and produces manifests. A separate apply or sync operation changes the cluster.</p></details>
+<details class="card"><summary>Does a user values file replace every chart default?</summary><p>No. Matching values override defaults, and nested mappings are merged. Unrelated defaults remain available.</p></details>
+<details class="card"><summary>Why can two charts use different value names?</summary><p>Values are chart-specific inputs. A value matters only where that chart's templates or dependencies consume it.</p></details>
+<details class="card"><summary>Does Argo CD's built-in Helm support run helm install?</summary><p>No. It uses helm template to render charts. Argo CD manages the application life cycle.</p></details>
+<details class="card"><summary>Does a successful API write prove that Pods are ready?</summary><p>No. It proves that the API operation succeeded. Controllers, scheduling, node execution and health assessment come later.</p></details>
+<details class="card"><summary>Does changing replicas trigger a Deployment rollout?</summary><p>Not by itself. A Deployment rollout is triggered by a change to .spec.template. Scaling changes desired Pod count.</p></details>
+<details class="card"><summary>What is the difference between Synced and Healthy?</summary><p>Synced compares desired and live configuration. Healthy reports resource-specific observed health.</p></details>
+<details class="card"><summary>Defaults have a list env: [A, B]. Production sets env: [C]. What is the result?</summary><p>Only [C]. Lists are replaced; only mappings merge.</p></details>
+<details class="card"><summary>Automated sync is on, selfHeal is off. Someone edits the Deployment by hand. What happens?</summary><p>The Application shows OutOfSync, but Argo CD does not revert the edit. Automated sync reacts to changes in Git, not to live drift.</p></details>
+<details class="card"><summary>What is .Release.Name for an Application named web, with no releaseName set?</summary><p>web. The release name defaults to the Application name.</p></details>
+<details class="card"><summary>A chart has a pre-upgrade hook. When does it run under Argo CD?</summary><p>As a PreSync hook on every sync. Argo CD cannot tell install from upgrade.</p></details>
+<details class="card"><summary>Does selfHeal repair a broken application?</summary><p>Not directly. It corrects live configuration drift. It is not an application-health diagnosis or repair feature.</p></details>
+</div>
+
+<div class="source"><h2>Sources</h2>
+<p>Official documentation used for the terminology and mechanics on this page.</p>
+<h3>Helm</h3>
+<ul>
+<li><a href="https://helm.sh/docs/topics/charts/">Charts</a>: chart structure, templates, default values and chart metadata.</li>
+<li><a href="https://helm.sh/docs/chart_template_guide/values_files/">Values Files</a>: user values, merging and precedence.</li>
+<li><a href="https://helm.sh/docs/helm/helm_template/"><code>helm template</code></a>: local chart rendering.</li>
+<li><a href="https://helm.sh/docs/intro/using_helm/">Using Helm</a>: installation and release life cycle.</li>
+</ul>
+<h3>Argo CD</h3>
+<ul>
+<li><a href="https://argo-cd.readthedocs.io/en/stable/user-guide/helm/">Helm support</a>: built-in rendering and values-file behavior.</li>
+<li><a href="https://argo-cd.readthedocs.io/en/stable/user-guide/application-specification/">Application specification</a>: source, destination and values-file fields.</li>
+<li><a href="https://argo-cd.readthedocs.io/en/stable/operator-manual/architecture/">Architecture</a>: repository server and application controller.</li>
+<li><a href="https://argo-cd.readthedocs.io/en/stable/user-guide/auto_sync/">Automated sync</a>: automated sync, pruning and self-healing.</li>
+<li><a href="https://argo-cd.readthedocs.io/en/stable/operator-manual/health/">Resource health</a>: health assessment.</li>
+<li><a href="https://argo-cd.readthedocs.io/en/stable/user-guide/resource_tracking/">Resource tracking</a>: tracking-id annotation.</li>
+<li><a href="https://argo-cd.readthedocs.io/en/stable/user-guide/multiple_sources/">Multiple sources</a>: values files from another repo via <code>$ref</code>.</li>
+</ul>
+<h3>Kubernetes</h3>
+<ul>
+<li><a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/">Objects in Kubernetes</a>: records of intent, <code>spec</code> and <code>status</code>.</li>
+<li><a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/object-management/">Object management</a>: declarative object configuration.</li>
+<li><a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">Deployments</a>: ReplicaSets, Pod templates and rollouts.</li>
+<li><a href="https://kubernetes.io/docs/concepts/architecture/controller/">Controllers</a>: reconciliation control loops.</li>
+<li><a href="https://kubernetes.io/docs/concepts/architecture/">Cluster architecture</a>: API server, etcd, scheduler, kubelet and container runtime.</li>
+</ul>
+</div>
+</div>
+</main>
+<script src="../assets/course.js"></script>
+</body>
+</html>
